@@ -1,1 +1,5 @@
 src\main\java\com\gooseplayer2\Library/*
+target\classes\com\gooseplayer2\Library\*
+
+src/main/java/com/gooseplayer2/Library/*
+target/classes/com/gooseplayer2/Library/*
