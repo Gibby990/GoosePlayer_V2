@@ -39,6 +39,9 @@ public class MusicPlayer extends JPanel {
     AudioInputStream audioInputStream;
     File selectedFile;
 
+    FileInputStream fis;
+    BufferedInputStream bis;
+
     Queue<File> Queue = new Queue<>();
     Iterator<File> LTTM = Queue.iterator();
 
@@ -130,8 +133,8 @@ public class MusicPlayer extends JPanel {
             if (!isPlaying && !Queue.isEmpty()) {
                 try {
                     selectedFile = Queue.dequeue();   
-                    FileInputStream fis = new FileInputStream(selectedFile);
-                    BufferedInputStream bis = new BufferedInputStream(fis);
+                    fis = new FileInputStream(selectedFile);
+                    bis = new BufferedInputStream(fis);
         
                     AdvancedPlayer player = new AdvancedPlayer(bis);
                     player.setPlayBackListener(new PlaybackListener() {
