@@ -14,6 +14,9 @@ import java.nio.file.*;
 import java.util.Iterator;
 
 import javax.sound.sampled.*;
+import javazoom.jl.player.advanced.AdvancedPlayer;
+import javazoom.jl.player.advanced.PlaybackEvent;
+import javazoom.jl.player.advanced.PlaybackListener;
 
 public class MusicPlayer extends JPanel {
     JTree fileTree;
@@ -127,13 +130,30 @@ public class MusicPlayer extends JPanel {
             if (!isPlaying && !Queue.isEmpty()) {
                 try {
                     selectedFile = Queue.dequeue();   
-                    audioInputStream = AudioSystem.getAudioInputStream(selectedFile);
-                    clip.open(audioInputStream);
-                    clip.start();
-
-                    isPlaying = true;
-                    updateStatus("PLAYING: " + selectedFile.getName());
-                } catch (IOException | UnsupportedAudioFileException | LineUnavailableException ex) {
+                    FileInputStream fis = new FileInputStream(selectedFile);
+                    BufferedInputStream bis = new BufferedInputStream(fis);
+        
+                    AdvancedPlayer player = new AdvancedPlayer(bis);
+                    player.setPlayBackListener(new PlaybackListener() {
+                        @Override
+                        public void playbackFinished(PlaybackEvent event) {
+                            isPlaying = false;
+                            updateStatus("STOPPED");
+                        }
+                    });
+        
+                    new Thread(() -> {
+                        try {
+                            isPlaying = true;
+                            updateStatus("PLAYING");
+                            updateCurrentlyPlaying(selectedFile.getName());
+                            player.play();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                            updateStatus("ERROR: Unable to play the selected file.");
+                        }
+                    }).start();
+                } catch (Exception ex) {
                     ex.printStackTrace();
                     updateStatus("ERROR: Unable to play the selected file.");
                 }
@@ -142,14 +162,22 @@ public class MusicPlayer extends JPanel {
             }
         }
     }
+    
 
 
     // Other methods
 
     private void updateStatus(String message) {
-        StatusLabel.setText("Status: " + message);
+        SwingUtilities.invokeLater(() -> {
+            StatusLabel.setText("Status: " + message);
+        });
     }
     
+    private void updateCurrentlyPlaying(String songName) {
+        SwingUtilities.invokeLater(() -> {
+            CurrentlyPlayingLabel.setText("Currently playing: " + songName);
+        });
+    }
 
     public void addFilesToTree(java.util.List<File> files) {
         for (File file : files) {
