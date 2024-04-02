@@ -45,6 +45,13 @@ public class Queue<E> implements Iterable<E> {
         rear = size - 1;
     }
 
+    public E peek() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Queue is empty");
+        }
+        return Queue[front];
+    }
+
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
