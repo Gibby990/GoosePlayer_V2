@@ -77,6 +77,7 @@ public class MusicPlayer extends JPanel {
         Play.addActionListener(new PlayListener());
 
         Pause = new JButton("Pause");
+        //Pause.addActionListener( new PauseListener()); Later
         Skip = new JButton("Skip");
         Remove = new JButton("Remove");
         Empty = new JButton("Empty");
@@ -120,8 +121,6 @@ public class MusicPlayer extends JPanel {
 
         fileTree.setTransferHandler(new DropFileHandler(this));
 
-        clip = AudioSystem.getClip();
-
     }
 
     // Action Events
@@ -130,9 +129,29 @@ public class MusicPlayer extends JPanel {
     private class PlayListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (!isPlaying && !Queue.isEmpty()) {
+            PlayAction();
+        }
+    }
+
+    /* 
+    private class PauseListener implements ActionListner {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+    */
+
+
+    // Other methods
+
+    //Play Method
+
+    public void PlayAction() {
+        if (!isPlaying) {
+            if (!Queue.isEmpty()) {
                 try {
-                    selectedFile = Queue.dequeue();   
+                    selectedFile = Queue.peek();   
                     fis = new FileInputStream(selectedFile);
                     bis = new BufferedInputStream(fis);
         
@@ -161,14 +180,14 @@ public class MusicPlayer extends JPanel {
                     updateStatus("ERROR: Unable to play the selected file.");
                 }
             } else {
-                updateStatus("Queue is empty or already playing.");
+                updateStatus("Queue is empty");
             }
+        } else {
+            updateStatus("Queue is already playing.");
         }
     }
-    
 
 
-    // Other methods
 
     private void updateStatus(String message) {
         SwingUtilities.invokeLater(() -> {
