@@ -6,6 +6,8 @@ import javax.swing.border.*;
 import com.gooseplayer2.JPanels.*;
 import com.gooseplayer2.Packages.Slugcat;
 
+import javazoom.jl.decoder.JavaLayerException;
+
 import java.awt.*;
 import java.io.IOException;
 
@@ -15,7 +17,7 @@ public class MainFrame extends JFrame {
     GridBagConstraints gbc;
     Border outline;
 
-    public MainFrame() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public MainFrame() throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException {
         super("musicPlayer");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(900, 550);

@@ -6,6 +6,8 @@ import javax.swing.border.*;
 
 import com.gooseplayer2.Packages.Slugcat;
 
+import javazoom.jl.decoder.JavaLayerException;
+
 import java.awt.*;
 import java.io.IOException;
 
@@ -14,7 +16,7 @@ public class MusicPanel extends JPanel {
     GridBagConstraints gbc;
     Border outline;
 
-    public MusicPanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public MusicPanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException {
 
         layout = new GridBagLayout();
         gbc = new GridBagConstraints();
