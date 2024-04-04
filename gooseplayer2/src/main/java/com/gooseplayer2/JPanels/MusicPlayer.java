@@ -14,6 +14,8 @@ import java.nio.file.*;
 import java.util.Iterator;
 
 import javax.sound.sampled.*;
+
+import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.advanced.AdvancedPlayer;
 import javazoom.jl.player.advanced.PlaybackEvent;
 import javazoom.jl.player.advanced.PlaybackListener;
@@ -27,8 +29,9 @@ public class MusicPlayer extends JPanel {
     GridBagConstraints gbc;
     Border outline;
 
+    int currentFrameIndex;
     String folderDestination, currentTime, endTime, currentSong, playStatus, loopStatus;
-    boolean isPlaying = false;
+    boolean isPlaying = false , isPaused = false, songLoaded = false;
 
     JButton Play, Pause, Skip, Remove, Empty;
     JRadioButton Loop;
@@ -37,6 +40,7 @@ public class MusicPlayer extends JPanel {
 
     Clip clip;
     AudioInputStream audioInputStream;
+    AdvancedPlayer player;
     File selectedFile;
 
     FileInputStream fis;
@@ -45,7 +49,7 @@ public class MusicPlayer extends JPanel {
     Queue<File> Queue = new Queue<>();
     Iterator<File> LTTM = Queue.iterator();
 
-    public MusicPlayer(int n) throws UnsupportedAudioFileException, IOException, LineUnavailableException  {
+    public MusicPlayer(int n) throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException  {
 
         //JTree Stuff
 
@@ -77,8 +81,11 @@ public class MusicPlayer extends JPanel {
         Play.addActionListener(new PlayListener());
 
         Pause = new JButton("Pause");
-        //Pause.addActionListener( new PauseListener()); Later
+        Pause.addActionListener( new PauseListener());
+
         Skip = new JButton("Skip");
+        Skip.addActionListener(new SkipListener());
+
         Remove = new JButton("Remove");
         Empty = new JButton("Empty");
         Loop = new JRadioButton("Loop");
@@ -129,64 +136,86 @@ public class MusicPlayer extends JPanel {
     private class PlayListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            PlayAction();
+            playAction();
         }
     }
 
-    /* 
-    private class PauseListener implements ActionListner {
+    private class PauseListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            if (player != null && isPlaying) {
+                player.stop();
+                isPaused = true;
+                isPlaying = false;
+                updateStatus("PAUSED");
+            }
+        }   
+    }  
+    
+    private class SkipListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (player != null) {
+                player.stop();
+            }
+            Queue.dequeue();
+            playAction();
         }
     }
-    */
-
 
     // Other methods
 
     //Play Method
 
-    public void PlayAction() {
-        if (!isPlaying) {
-            if (!Queue.isEmpty()) {
-                try {
-                    selectedFile = Queue.peek();   
-                    fis = new FileInputStream(selectedFile);
-                    bis = new BufferedInputStream(fis);
-        
-                    AdvancedPlayer player = new AdvancedPlayer(bis);
-                    player.setPlayBackListener(new PlaybackListener() {
-                        @Override
-                        public void playbackFinished(PlaybackEvent event) {
-                            isPlaying = false;
-                            updateStatus("STOPPED");
-                        }
-                    });
-        
-                    new Thread(() -> {
-                        try {
-                            isPlaying = true;
-                            updateStatus("PLAYING");
-                            updateCurrentlyPlaying(selectedFile.getName());
-                            player.play();
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                            updateStatus("ERROR: Unable to play the selected file.");
-                        }
-                    }).start();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    updateStatus("ERROR: Unable to play the selected file.");
+    public void playAction() {
+        if (!isPlaying && !Queue.isEmpty()) {
+            try {
+                if (!songLoaded) {
+                    loadSong();
                 }
-            } else {
-                updateStatus("Queue is empty");
+                // Assuming you manage currentFrameIndex to resume from the last position
+                new Thread(() -> {
+                    try {
+                        isPlaying = true;
+                        isPaused = false;
+                        updateStatus("PLAYING");
+                        updateCurrentlyPlaying(selectedFile.getName());
+                        // Start playing from the current frame index
+                        player.play(currentFrameIndex, Integer.MAX_VALUE);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        updateStatus("ERROR: Unable to play the selected file.");
+                    }
+                }).start();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                updateStatus("ERROR: Unable to play the selected file.");
             }
+        } else if (isPaused) {
+            // Resume playing if paused
+            playAction();
         } else {
-            updateStatus("Queue is already playing.");
+            updateStatus("Queue is already playing or empty.");
         }
     }
-
+    
+    private void loadSong() throws FileNotFoundException, JavaLayerException {
+        selectedFile = Queue.peek();
+        fis = new FileInputStream(selectedFile);
+        bis = new BufferedInputStream(fis);
+    
+        player = new AdvancedPlayer(bis);
+        player.setPlayBackListener(new PlaybackListener() {
+            @Override
+            public void playbackFinished(PlaybackEvent event) {
+                isPlaying = false;
+                songLoaded = false; // Ensure the song is reloaded next time
+                currentFrameIndex = 0; // Reset frame index
+                updateStatus("STOPPED");
+            }
+        });
+        songLoaded = true;
+    }
 
 
     private void updateStatus(String message) {
