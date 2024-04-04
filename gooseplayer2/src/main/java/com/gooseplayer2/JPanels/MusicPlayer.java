@@ -165,8 +165,7 @@ public class MusicPlayer extends JPanel {
 
     // Other methods
 
-    //Play Method
-
+    
     public void playAction() {
         if (!isPlaying && !Queue.isEmpty()) {
             try {
@@ -192,7 +191,6 @@ public class MusicPlayer extends JPanel {
                 updateStatus("ERROR: Unable to play the selected file.");
             }
         } else if (isPaused) {
-            // Resume playing if paused
             playAction();
         } else {
             updateStatus("Queue is already playing or empty.");
