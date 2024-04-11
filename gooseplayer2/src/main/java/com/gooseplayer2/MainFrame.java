@@ -9,6 +9,7 @@ import com.gooseplayer2.Packages.Slugcat;
 import javazoom.jl.decoder.JavaLayerException;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 
@@ -23,6 +24,13 @@ public class MainFrame extends JFrame {
         setSize(900, 550);
 
         outline = BorderFactory.createLineBorder(Color.black);
+
+        ImageIcon icon = new ImageIcon(getClass().getResource("/icons/Icon.png"));
+        Image image = icon.getImage();
+        Image scaledImage = getScaledImage(image, 512, 547);
+
+
+        setIconImage(scaledImage);
 
         mainLayout = new GridBagLayout();
         gbc = new GridBagConstraints();
@@ -45,5 +53,16 @@ public class MainFrame extends JFrame {
         Survivor.addObjects(filePanel, this, mainLayout, gbc, 2, 0, 1, 1);
 
         setVisible(true);
+    }
+
+    private Image getScaledImage(Image srcImg, int width, int height) {
+        BufferedImage resizedImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = resizedImg.createGraphics();
+
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2.drawImage(srcImg, 0, 0, width,height, null);
+        g2.dispose();
+
+        return resizedImg;
     }
 }
