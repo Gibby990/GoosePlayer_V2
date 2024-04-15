@@ -1,2 +1,4 @@
 # Ignore files in src/main/java/com/gooseplayer2/Library/
-Library/
+
+Library/*
+!Library.gitkeep #Probably important
