@@ -4,63 +4,51 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class Queue<E> implements Iterable<E> {
-    private E[] Queue;
-    private int front=0;
-    private int rear=-1;
-    private int size=0;
-
-    @SuppressWarnings("unchecked")
-    public Queue() {
-        Queue = (E[])new Object[10];
+    private Node<E> front;
+    private Node<E> rear;
+    
+    
+    @SuppressWarnings("hiding")
+    public class Node<E> {
+        private E item = null;
+        private Node<E> next = null;
     }
 
     public void enqueue (E item) {
-        if (size == Queue.length) reallocate();
-        rear = (rear + 1) % Queue.length;
-        Queue[rear] = item;
-        size++;
+        Node<E> newNode = new Node<>();
+        newNode.item = item;
+        if (rear == null) {
+            front = newNode;
+        } else {
+            rear.next = newNode;
+        }
+        rear = newNode;
     }
 
     public E dequeue() throws NoSuchElementException {
-        if (size == 0) throw new NoSuchElementException();
-        E item = Queue[front];
-        front = (front + 1) % Queue.length;
-        size--;
+        if(front == null) throw new NoSuchElementException();
+        E item = front.item;
+        front = front.next;
+        if(front == null) rear = null;
         return item;
     }
 
     public boolean isEmpty() {
-        return size == 0;
-    }
-
-    private void reallocate() {
-        @SuppressWarnings("unchecked")
-        E[] newQueue = (E[]) new Object[Queue.length * 2];
-        for (int i = 0; i < size; i++) {
-            int j = (front + i) % Queue.length;
-            newQueue[i] = Queue[j];
-        }
-        Queue = newQueue;
-        front = 0;
-        rear = size - 1;
+        return front == null;
     }
 
     public E peek() {
-        if (isEmpty()) {
-            throw new IllegalStateException("Queue is empty");
-        }
-        return Queue[front];
+        return front.item;
     }
 
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
-            private int current = front;
-            private int count = 0;
+            private Node<E> current = front;
 
             @Override
             public boolean hasNext() {
-                return count < size;
+                return current != null;
             }
 
             @Override
@@ -68,9 +56,8 @@ public class Queue<E> implements Iterable<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                E item = Queue[current];
-                current = (current + 1) % Queue.length;
-                count++;
+                E item = current.item;
+                current = current.next;
                 return item;
             }
         };
