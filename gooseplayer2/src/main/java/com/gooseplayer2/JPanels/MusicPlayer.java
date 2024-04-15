@@ -82,7 +82,7 @@ public class MusicPlayer extends JPanel {
 
         Progressbar = new JSlider(0, 0, 100, 0);
 
-        CurrentlyPlayingLabel = new JLabel("Currently playing : PLACEHOLDER"); // Ill add methods for these later
+        CurrentlyPlayingLabel = new JLabel("Currently playing : ");
         StatusLabel = new JLabel("Status: STOPPED");
 
         // Display
@@ -160,14 +160,12 @@ public class MusicPlayer extends JPanel {
                 if (!songLoaded) {
                     loadSong();
                 }
-                // Assuming you manage currentFrameIndex to resume from the last position
                 new Thread(() -> {
                     try {
                         isPlaying = true;
                         isPaused = false;
                         updateStatus("PLAYING");
                         updateCurrentlyPlaying(selectedFile.getName());
-                        // Start playing from the current frame index
                         player.play(currentFrameIndex, Integer.MAX_VALUE);
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -206,8 +204,8 @@ public class MusicPlayer extends JPanel {
             @Override
             public void playbackFinished(PlaybackEvent event) {
                 isPlaying = false;
-                songLoaded = false; // Ensure the song is reloaded next time
-                currentFrameIndex = 0; // Reset frame index
+                songLoaded = false; 
+                currentFrameIndex = 0; 
                 updateStatus("STOPPED");
             }
         });
@@ -229,19 +227,19 @@ public class MusicPlayer extends JPanel {
 
     public void addFilesToTree(java.util.List<File> files) {
         for (File file : files) {
-            Queue.enqueue(file); // Assuming enqueue method exists and adds files to the queue
+            Queue.enqueue(file); 
         }
-        refreshQueueInJTree(); // Update the JTree after adding files to the queue
+        refreshQueueInJTree(); 
     }
 
     public void refreshQueueInJTree() {
-        root.removeAllChildren(); // Clear existing nodes
-        Iterator<File> iterator = Queue.iterator();
-        while (iterator.hasNext()) {
-            File file = iterator.next();
+        root.removeAllChildren(); 
+        Iterator<File> LTTM = Queue.iterator();
+        while (LTTM.hasNext()) {
+            File file = LTTM.next();
             DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(file.getName());
             root.add(fileNode);
         }
-        ((DefaultTreeModel) fileTree.getModel()).reload(); // Refresh the tree view
+        ((DefaultTreeModel) fileTree.getModel()).reload();
     }
 }
