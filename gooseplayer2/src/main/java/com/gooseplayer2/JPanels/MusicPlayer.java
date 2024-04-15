@@ -75,7 +75,10 @@ public class MusicPlayer extends JPanel {
         Skip.addActionListener(new SkipListener());
 
         Remove = new JButton("Remove");
+
         Empty = new JButton("Empty");
+        Empty.addActionListener(new EmptyListener());
+
         Loop = new JRadioButton("Loop");
 
         outline = BorderFactory.createLineBorder(Color.black);
@@ -148,6 +151,15 @@ public class MusicPlayer extends JPanel {
             }
             Queue.dequeue();
             playAction();
+        }
+    }
+
+    private class EmptyListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Queue.empty();
+            updateStatus("Queue has been cleared");
+            refreshQueueInJTree();
         }
     }
 

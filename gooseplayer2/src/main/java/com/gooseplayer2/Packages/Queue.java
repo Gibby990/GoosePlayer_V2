@@ -7,7 +7,7 @@ public class Queue<E> implements Iterable<E> {
     private Node<E> front;
     private Node<E> rear;
     
-    
+
     @SuppressWarnings("hiding")
     public class Node<E> {
         private E item = null;
@@ -39,6 +39,11 @@ public class Queue<E> implements Iterable<E> {
 
     public E peek() {
         return front.item;
+    }
+
+    public void empty() {
+        front = null;
+        rear = null;
     }
 
     @Override
