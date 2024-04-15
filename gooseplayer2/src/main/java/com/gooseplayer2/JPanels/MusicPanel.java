@@ -3,11 +3,8 @@ package com.gooseplayer2.JPanels;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.border.*;
-
 import com.gooseplayer2.Packages.Slugcat;
-
 import javazoom.jl.decoder.JavaLayerException;
-
 import java.awt.*;
 import java.io.IOException;
 
@@ -15,6 +12,8 @@ public class MusicPanel extends JPanel {
     GridBagLayout layout;
     GridBagConstraints gbc;
     Border outline;
+    FilePanel filePanel;
+    private MusicPlayer player1, player2, player3;
 
     public MusicPanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException {
 
@@ -22,18 +21,25 @@ public class MusicPanel extends JPanel {
         gbc = new GridBagConstraints();
         setLayout(layout);
 
+        filePanel = new FilePanel();
+
         outline = BorderFactory.createLineBorder(Color.BLACK);
         Slugcat Monk = new Slugcat();
 
-        MusicPlayer player1 = new MusicPlayer(1);
+        try {
+            player1 = new MusicPlayer(1, filePanel);
+            player2 = new MusicPlayer(2, filePanel);
+            player3 = new MusicPlayer(3, filePanel);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         player1.add(new JLabel("Channel 1"));
         player1.setBorder(outline);
 
-        MusicPlayer player2 = new MusicPlayer(2);
         player2.add(new JLabel("Channel 2"));
         player2.setBorder(outline);
 
-        MusicPlayer player3 = new MusicPlayer(3);
         player3.add(new JLabel("Channel 3"));
         player3.setBorder(outline);
 
@@ -47,3 +53,4 @@ public class MusicPanel extends JPanel {
 
     }    
 }
+

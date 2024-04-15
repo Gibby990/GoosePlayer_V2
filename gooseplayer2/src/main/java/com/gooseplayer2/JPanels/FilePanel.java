@@ -1,6 +1,5 @@
 package com.gooseplayer2.JPanels;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import javax.swing.*;
@@ -17,11 +16,10 @@ public class FilePanel extends JPanel {
     GridBagLayout layout;
 
     public FilePanel() {
+
+        Path libaryPath = Paths.get(System.getProperty("user.dir"), "Library");
         DefaultMutableTreeNode top = new DefaultMutableTreeNode("Library");
-        createNodes(top, Paths.get(
-            "gooseplayer2" + File.separator + "src" + File.separator + "main" + File.separator + "java" +
-            File.separator + "com" + File.separator + "gooseplayer2" + File.separator + "Library"
-        ));
+        createNodes(top, libaryPath);
 
         fileTree = new JTree(top);
         fileTree.setToggleClickCount(1);

@@ -10,7 +10,6 @@ import com.gooseplayer2.Packages.Queue;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.nio.file.*;
 import java.util.Iterator;
 
 import javax.sound.sampled.*;
@@ -21,9 +20,11 @@ import javazoom.jl.player.advanced.PlaybackEvent;
 import javazoom.jl.player.advanced.PlaybackListener;
 
 public class MusicPlayer extends JPanel {
+
+    private static final String LIBRARY_PATH = System.getProperty("user.dir") + File.separator + "Library";
+
     JTree fileTree;
     DefaultMutableTreeNode root;
-    private File tempDirectory;
 
     GridBagLayout layout;
     GridBagConstraints gbc;
@@ -38,7 +39,6 @@ public class MusicPlayer extends JPanel {
     JSlider Progressbar;
     JLabel CurrentlyPlayingLabel, StatusLabel;
 
-    Clip clip;
     AudioInputStream audioInputStream;
     AdvancedPlayer player;
     File selectedFile;
@@ -49,29 +49,17 @@ public class MusicPlayer extends JPanel {
     Queue<File> Queue = new Queue<>();
     Iterator<File> LTTM = Queue.iterator();
 
-    public MusicPlayer(int n) throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException  {
+    public MusicPlayer(int n, JComponent FilePanel) throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException  {
 
         //JTree Stuff
-
-        String MainDir = (
-            "gooseplayer2" + File.separator + "src" + File.separator + "main" + File.separator + "java" +
-            File.separator + "com" + File.separator + "gooseplayer2" + File.separator + "Library"
-        );
         
         layout = new GridBagLayout();
         gbc = new GridBagConstraints();
-
-        tempDirectory = Paths.get(MainDir).toFile();
-        folderDestination = tempDirectory.getAbsolutePath();
-
-        DefaultMutableTreeNode top = new DefaultMutableTreeNode(folderDestination);
 
         root = new DefaultMutableTreeNode("Queue");
         fileTree = new JTree(root);
         fileTree.setBorder(outline);
         fileTree.setRootVisible(true);
-
-        createQueue(top, Paths.get(folderDestination));
 
         //Initializing everthing else
 
@@ -126,7 +114,7 @@ public class MusicPlayer extends JPanel {
         Rivulet.addObjects(StatusLabel, this, layout, gbc, 0, 1, 2, 1);
 
 
-        fileTree.setTransferHandler(new DropFileHandler(this));
+        fileTree.setTransferHandler(new DropFileHandler(this, FilePanel));
 
     }
 
@@ -197,10 +185,21 @@ public class MusicPlayer extends JPanel {
         }
     }
     
-    private void loadSong() throws FileNotFoundException, JavaLayerException {
+    private void loadSong() throws JavaLayerException, IOException {
         selectedFile = Queue.peek();
-        fis = new FileInputStream(selectedFile);
+
+        File fileInLibrary = new File(LIBRARY_PATH, selectedFile.getName());
+
+        System.out.println("Attempting to play file: " + fileInLibrary.getAbsolutePath());
+        if (!fileInLibrary.canRead()) {
+            throw new IOException("Cannot read file: " + fileInLibrary.getAbsolutePath());
+        }
+        fis = new FileInputStream(fileInLibrary);
         bis = new BufferedInputStream(fis);
+
+        if (!fileInLibrary.exists()) {
+            throw new FileNotFoundException("File not found: " + selectedFile.getAbsolutePath());
+        }
     
         player = new AdvancedPlayer(bis);
         player.setPlayBackListener(new PlaybackListener() {
@@ -230,25 +229,19 @@ public class MusicPlayer extends JPanel {
 
     public void addFilesToTree(java.util.List<File> files) {
         for (File file : files) {
-            DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(file.getName());
-            root.add(newNode);
-            Queue.enqueue(file);
+            Queue.enqueue(file); // Assuming enqueue method exists and adds files to the queue
         }
-        ((DefaultTreeModel)fileTree.getModel()).reload();
+        refreshQueueInJTree(); // Update the JTree after adding files to the queue
     }
 
-    private void createQueue(DefaultMutableTreeNode node, Path folderPath) {
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(folderPath)) {
-            for (Path entry : stream) {
-                if (Files.isRegularFile(entry)) {
-                    DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(entry.getFileName().toString());
-                    node.add(newNode);
-                    Queue.enqueue(entry.toFile());
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void refreshQueueInJTree() {
+        root.removeAllChildren(); // Clear existing nodes
+        Iterator<File> iterator = Queue.iterator();
+        while (iterator.hasNext()) {
+            File file = iterator.next();
+            DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(file.getName());
+            root.add(fileNode);
         }
-        ((DefaultTreeModel) fileTree.getModel()).reload(); // Refresh the tree
+        ((DefaultTreeModel) fileTree.getModel()).reload(); // Refresh the tree view
     }
 }
