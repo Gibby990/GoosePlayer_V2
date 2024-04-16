@@ -14,10 +14,7 @@ import java.util.Iterator;
 
 import javax.sound.sampled.*;
 
-import javazoom.jl.decoder.JavaLayerException;
-import javazoom.jl.player.advanced.AdvancedPlayer;
-import javazoom.jl.player.advanced.PlaybackEvent;
-import javazoom.jl.player.advanced.PlaybackListener;
+
 
 public class MusicPlayer extends JPanel {
 
@@ -40,7 +37,6 @@ public class MusicPlayer extends JPanel {
     JLabel CurrentlyPlayingLabel, StatusLabel;
 
     AudioInputStream audioInputStream;
-    AdvancedPlayer player;
     File selectedFile;
 
     FileInputStream fis;
@@ -49,7 +45,7 @@ public class MusicPlayer extends JPanel {
     Queue<File> Queue = new Queue<>();
     Iterator<File> LTTM = Queue.iterator();
 
-    public MusicPlayer(int n, JComponent FilePanel) throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException  {
+    public MusicPlayer(int n, JComponent FilePanel) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         //JTree Stuff
         
@@ -134,23 +130,22 @@ public class MusicPlayer extends JPanel {
     private class PauseListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (player != null && isPlaying) {
-                player.stop();
-                isPaused = true;
-                isPlaying = false;
-                updateStatus("PAUSED");
-            }
+            //if () {
+            //    isPaused = true;
+            //    isPlaying = false;
+            //    updateStatus("PAUSED");
+            //}
         }   
     }  
     
     private class SkipListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (player != null) {
-                player.stop();
-            }
-            Queue.dequeue();
-            playAction();
+            //if (player != null) {
+            //    player.stop();
+            //}
+            //Queue.dequeue();
+            //playAction();
         }
     }
 
@@ -169,7 +164,7 @@ public class MusicPlayer extends JPanel {
         if (!isPlaying && !Queue.isEmpty()) {
             try {
                 if (!songLoaded) {
-                    loadSong();
+                    //loadSong();
                 }
                 new Thread(() -> {
                     try {
@@ -178,7 +173,7 @@ public class MusicPlayer extends JPanel {
                         isPaused = false;
                         updateStatus("PLAYING");
                         updateCurrentlyPlaying(selectedFile.getName());
-                        player.play(currentFrameIndex, Integer.MAX_VALUE);
+                        //player.play(currentFrameIndex, Integer.MAX_VALUE);
                         System.out.println("Playback successful");
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -198,7 +193,7 @@ public class MusicPlayer extends JPanel {
         }
     }
     
-    private void loadSong() throws JavaLayerException, IOException {
+    private void loadSong() throws IOException {
         selectedFile = Queue.peek();
 
         File fileInLibrary = new File(LIBRARY_PATH, selectedFile.getName());
@@ -214,16 +209,16 @@ public class MusicPlayer extends JPanel {
             throw new FileNotFoundException("File not found: " + selectedFile.getAbsolutePath());
         }
     
-        player = new AdvancedPlayer(bis);
-        player.setPlayBackListener(new PlaybackListener() {
-            @Override
-            public void playbackFinished(PlaybackEvent event) {
-                isPlaying = false;
-                songLoaded = false; 
-                currentFrameIndex = 0; 
-                updateStatus("STOPPED");
-            }
-        });
+        //player = new AdvancedPlayer(bis);
+        //player.setPlayBackListener(new PlaybackListener() {
+        //    @Override
+        //    public void playbackFinished(PlaybackEvent event) {
+        //        isPlaying = false;
+        //        songLoaded = false; 
+        //        currentFrameIndex = 0; 
+        //        updateStatus("STOPPED");
+        //    }
+        //});
         songLoaded = true;
         System.out.println("Song loaded");
     }
