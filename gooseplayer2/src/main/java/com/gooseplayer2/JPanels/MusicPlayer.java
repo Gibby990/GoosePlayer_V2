@@ -164,7 +164,6 @@ public class MusicPlayer extends JPanel {
     }
 
     // Other methods
-
     
     public void playAction() {
         if (!isPlaying && !Queue.isEmpty()) {
@@ -174,22 +173,26 @@ public class MusicPlayer extends JPanel {
                 }
                 new Thread(() -> {
                     try {
+                        songLoaded = true;
                         isPlaying = true;
                         isPaused = false;
                         updateStatus("PLAYING");
                         updateCurrentlyPlaying(selectedFile.getName());
                         player.play(currentFrameIndex, Integer.MAX_VALUE);
+                        System.out.println("Playback successful");
                     } catch (Exception ex) {
                         ex.printStackTrace();
                         updateStatus("ERROR: Unable to play the selected file.");
+                        System.out.println("Playback failed in thread");
                     }
                 }).start();
             } catch (Exception ex) {
                 ex.printStackTrace();
                 updateStatus("ERROR: Unable to play the selected file.");
+                System.out.println("Playback failed");
             }
         } else if (isPaused) {
-            playAction();
+            System.out.println("Playback paused");
         } else {
             updateStatus("Queue is already playing or empty.");
         }
@@ -222,6 +225,7 @@ public class MusicPlayer extends JPanel {
             }
         });
         songLoaded = true;
+        System.out.println("Song loaded");
     }
 
 
