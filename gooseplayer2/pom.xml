@@ -13,6 +13,11 @@
             <id>central</id>
             <url>https://repo.maven.apache.org/maven2</url>
         </repository>
+
+        <repository>
+            <id>clojars</id>
+            <url>https://clojars.org/repo</url>
+        </repository>
     </repositories>
 
     <properties>
@@ -21,10 +26,11 @@
     </properties>
 
     <dependencies>
+    
         <dependency>
-            <groupId>javazoom</groupId>
-            <artifactId>jlayer</artifactId>
-            <version>1.0.1</version>
+            <groupId>net.beadsproject</groupId>
+            <artifactId>beads</artifactId>
+            <version>3.2</version>
         </dependency>
 
         <dependency>
@@ -33,11 +39,6 @@
             <version>1.9.5-1</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.googlecode.soundlibs</groupId>
-            <artifactId>tritonus-share</artifactId>
-            <version>0.3.7-2</version>
-        </dependency>
     </dependencies>
 
 </project>
