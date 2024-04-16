@@ -6,6 +6,13 @@ import javax.swing.tree.DefaultTreeModel;
 
 import com.gooseplayer2.Packages.DropFileHandler;
 import com.gooseplayer2.Packages.Slugcat;
+
+import net.beadsproject.beads.core.AudioContext;
+import net.beadsproject.beads.data.Sample;
+import net.beadsproject.beads.data.SampleManager;
+import net.beadsproject.beads.ugens.SamplePlayer;
+
+
 import com.gooseplayer2.Packages.Queue;
 import java.awt.*;
 import java.awt.event.*;
@@ -30,6 +37,7 @@ public class MusicPlayer extends JPanel {
     int currentFrameIndex;
     String folderDestination, currentTime, endTime, currentSong, playStatus, loopStatus;
     boolean isPlaying = false , isPaused = false, songLoaded = false;
+    double pausePosition = 0;
 
     JButton Play, Pause, Skip, Remove, Empty;
     JRadioButton Loop;
@@ -37,7 +45,14 @@ public class MusicPlayer extends JPanel {
     JLabel CurrentlyPlayingLabel, StatusLabel;
 
     AudioInputStream audioInputStream;
+    AudioInputStream decodedStream;
+    AudioFormat decodedFormat;
+
     File selectedFile;
+
+    AudioContext ac = new AudioContext(); // Init here because I dont trust any code below this line.
+    SamplePlayer sp;
+    Sample sample;
 
     FileInputStream fis;
     BufferedInputStream bis;
@@ -123,18 +138,16 @@ public class MusicPlayer extends JPanel {
     private class PlayListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            playAction();
+            play();
         }
     }
 
     private class PauseListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            //if () {
-            //    isPaused = true;
-            //    isPlaying = false;
-            //    updateStatus("PAUSED");
-            //}
+            if (isPlaying) {
+                pause();
+            }
         }   
     }  
     
@@ -160,11 +173,11 @@ public class MusicPlayer extends JPanel {
 
     // Other methods
     
-    public void playAction() {
+    public void play() {
         if (!isPlaying && !Queue.isEmpty()) {
             try {
                 if (!songLoaded) {
-                    //loadSong();
+                    loadSong();
                 }
                 new Thread(() -> {
                     try {
@@ -173,7 +186,11 @@ public class MusicPlayer extends JPanel {
                         isPaused = false;
                         updateStatus("PLAYING");
                         updateCurrentlyPlaying(selectedFile.getName());
-                        //player.play(currentFrameIndex, Integer.MAX_VALUE);
+                        if (sp == null) {
+                            sp = new SamplePlayer(ac, sample);
+                            ac.out.addInput(sp);
+                        }
+                        ac.start();
                         System.out.println("Playback successful");
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -187,9 +204,29 @@ public class MusicPlayer extends JPanel {
                 System.out.println("Playback failed");
             }
         } else if (isPaused) {
-            System.out.println("Playback paused");
+            resume();
         } else {
             updateStatus("Queue is already playing or empty.");
+        }
+    }
+
+    private void pause() {
+        if (sp != null) {
+            pausePosition = sp.getPosition();
+            ac.stop();
+            isPaused = true;
+            isPlaying = false;
+            updateStatus("Paused");
+        }
+    }
+
+    private void resume() {
+        if (sp != null && isPaused) {
+            ac.start();
+            sp.setPosition(pausePosition);
+            isPaused = false;
+            isPlaying = true;
+            updateStatus("Playing");
         }
     }
     
@@ -202,27 +239,22 @@ public class MusicPlayer extends JPanel {
         if (!fileInLibrary.canRead()) {
             throw new IOException("Cannot read file: " + fileInLibrary.getAbsolutePath());
         }
-        fis = new FileInputStream(fileInLibrary);
-        bis = new BufferedInputStream(fis);
-
         if (!fileInLibrary.exists()) {
             throw new FileNotFoundException("File not found: " + selectedFile.getAbsolutePath());
         }
-    
-        //player = new AdvancedPlayer(bis);
-        //player.setPlayBackListener(new PlaybackListener() {
-        //    @Override
-        //    public void playbackFinished(PlaybackEvent event) {
-        //        isPlaying = false;
-        //        songLoaded = false; 
-        //        currentFrameIndex = 0; 
-        //        updateStatus("STOPPED");
-        //    }
-        //});
+
+        try {
+            sample = SampleManager.sample(fileInLibrary.getAbsolutePath());
+            songLoaded = true;
+            System.out.println("Song loaded: " + fileInLibrary.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("ERROR: Unable to load the selected file.");
+        }
+
         songLoaded = true;
         System.out.println("Song loaded");
     }
-
 
     private void updateStatus(String message) {
         SwingUtilities.invokeLater(() -> {
