@@ -1,6 +1,8 @@
 package com.gooseplayer2.JPanels;
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -54,7 +56,6 @@ public class MusicPlayer extends JPanel {
     private Sample sample;
 
     private Queue<File> Queue = new Queue<>();
-    //private Iterator<File> LTTM = Queue.iterator();
 
     public MusicPlayer(int n, JComponent FilePanel) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
@@ -81,7 +82,7 @@ public class MusicPlayer extends JPanel {
             }
         });
 
-        // Initialize the Timer to update every second (1000 milliseconds)
+
         updateTimeTimer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -105,10 +106,19 @@ public class MusicPlayer extends JPanel {
 
         Empty = new JButton("Empty");
         Empty.addActionListener(new EmptyListener());
-
         //Loop = new JRadioButton("Loop");
 
-        Progressbar = new JSlider(0, 0, 100, 0);
+        Progressbar = new JSlider(0, 0, 100, 0);    
+        Progressbar.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if (!Progressbar.getValueIsAdjusting() && sp != null) { // Check if the user is still dragging the slider
+                    int seconds = Progressbar.getValue();
+                    seek(seconds);
+                }
+            }
+        });
+
 
         CurrentlyPlayingLabel = new JLabel("Currently playing : ");
         StatusLabel = new JLabel("Status: STOPPED");
@@ -276,6 +286,11 @@ public class MusicPlayer extends JPanel {
 
             updateTime();
 
+            SwingUtilities.invokeLater(() -> {
+                Progressbar.setMaximum(minutes * 60 + seconds);
+                Progressbar.setValue(0); // Reset the slider position when a new song is loaded
+            });
+
             pausePosition = 0;
 
         } catch (Exception e) {
@@ -285,6 +300,14 @@ public class MusicPlayer extends JPanel {
 
         songLoaded = true;
         System.out.println("Song loaded");
+    }
+
+    private void seek(int seconds) {
+        double position = seconds * sampleRate; // Calculate the frame position to seek to
+        if (position < sample.getNumFrames()) {
+            sp.setPosition(position);
+            elapsedSeconds = seconds; // Update the elapsed time to match the new position
+        }
     }
 
     private void updateStatus(String message) {
@@ -299,6 +322,7 @@ public class MusicPlayer extends JPanel {
             int currentSeconds = elapsedSeconds % 60;
             SwingUtilities.invokeLater(() -> {
                 TimeLabel.setText(String.format("Time: " + "%d:%02d / %d:%02d", currentMinutes, currentSeconds, minutes, seconds));
+                Progressbar.setValue(elapsedSeconds);
             });
         }
     }
