@@ -27,42 +27,34 @@ public class MusicPlayer extends JPanel {
 
     private static final String LIBRARY_PATH = System.getProperty("user.dir") + File.separator + "Library";
 
-    JTree fileTree;
-    DefaultMutableTreeNode root;
+    private JTree fileTree;
+    private DefaultMutableTreeNode root;
 
-    GridBagLayout layout;
-    GridBagConstraints gbc;
-    Border outline;
+    private GridBagLayout layout;
+    private GridBagConstraints gbc;
+    private Border outline;
 
-    int currentFrameIndex, minutes, seconds, elapsedSeconds;
-    String folderDestination, currentTime, endTime, currentSong, playStatus, loopStatus;
-    boolean isPlaying = false , isPaused = false, songLoaded = false;
-    double pausePosition = 0;
-    float sampleRate, Duration;
-    long sampleFrames;
+    private int minutes, seconds, elapsedSeconds;
+    private boolean isPlaying = false , isPaused = false, songLoaded = false;
+    private double pausePosition = 0;
+    private float sampleRate;
+    private long sampleFrames;
 
 
-    JButton Play, Pause, Skip, Remove, Empty;
-    JRadioButton Loop;
-    JSlider Progressbar;
-    JLabel CurrentlyPlayingLabel, StatusLabel, TimeLabel;
+    private JButton Play, Pause, Skip, Empty;
+    //private JRadioButton Loop;
+    private JSlider Progressbar;
+    private JLabel CurrentlyPlayingLabel, StatusLabel, TimeLabel;
     private Timer Timer, updateTimeTimer;
 
-    AudioInputStream audioInputStream;
-    AudioInputStream decodedStream;
-    AudioFormat decodedFormat;
+    private File selectedFile;
 
-    File selectedFile;
+    private AudioContext ac = new AudioContext(); // Init here because I dont trust any code below this line.
+    private SamplePlayer sp;
+    private Sample sample;
 
-    AudioContext ac = new AudioContext(); // Init here because I dont trust any code below this line.
-    SamplePlayer sp;
-    Sample sample;
-
-    FileInputStream fis;
-    BufferedInputStream bis;
-
-    Queue<File> Queue = new Queue<>();
-    Iterator<File> LTTM = Queue.iterator();
+    private Queue<File> Queue = new Queue<>();
+    //private Iterator<File> LTTM = Queue.iterator();
 
     public MusicPlayer(int n, JComponent FilePanel) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
@@ -109,12 +101,12 @@ public class MusicPlayer extends JPanel {
         Skip = new JButton("Skip");
         Skip.addActionListener(new SkipListener());
 
-        Remove = new JButton("Remove");
+        //Remove = new JButton("Remove");
 
         Empty = new JButton("Empty");
         Empty.addActionListener(new EmptyListener());
 
-        Loop = new JRadioButton("Loop");
+        //Loop = new JRadioButton("Loop");
 
         Progressbar = new JSlider(0, 0, 100, 0);
 
@@ -214,7 +206,7 @@ public class MusicPlayer extends JPanel {
                         updateCurrentlyPlaying(selectedFile.getName());
                         ac.start();
                         Timer.start();
-                        startUpdateTimeTimer(); // Start the timer when playback starts
+                        startUpdateTimeTimer(); 
                         System.out.println("Playback successful");
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -239,7 +231,7 @@ public class MusicPlayer extends JPanel {
             pausePosition = sp.getPosition();
             ac.stop();
             Timer.stop();
-            stopUpdateTimeTimer(); // Stop the timer when playback is paused
+            stopUpdateTimeTimer(); 
             isPaused = true;
             isPlaying = false;
             updateStatus("Paused");
