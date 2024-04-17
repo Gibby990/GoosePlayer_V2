@@ -34,15 +34,19 @@ public class MusicPlayer extends JPanel {
     GridBagConstraints gbc;
     Border outline;
 
-    int currentFrameIndex;
+    int currentFrameIndex, minutes, seconds, elapsedSeconds;
     String folderDestination, currentTime, endTime, currentSong, playStatus, loopStatus;
     boolean isPlaying = false , isPaused = false, songLoaded = false;
     double pausePosition = 0;
+    float sampleRate, Duration;
+    long sampleFrames;
+
 
     JButton Play, Pause, Skip, Remove, Empty;
     JRadioButton Loop;
     JSlider Progressbar;
-    JLabel CurrentlyPlayingLabel, StatusLabel;
+    JLabel CurrentlyPlayingLabel, StatusLabel, TimeLabel;
+    private Timer Timer, updateTimeTimer;
 
     AudioInputStream audioInputStream;
     AudioInputStream decodedStream;
@@ -72,9 +76,29 @@ public class MusicPlayer extends JPanel {
         fileTree.setBorder(outline);
         fileTree.setRootVisible(true);
 
-        //Initializing everthing else
+        //Initializing everything else
 
         Slugcat Rivulet = new Slugcat();
+        
+        outline = BorderFactory.createLineBorder(Color.black);
+
+        Timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateTime();
+            }
+        });
+
+        // Initialize the Timer to update every second (1000 milliseconds)
+        updateTimeTimer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateTime();
+                elapsedSeconds++;
+            }
+        });
+
+        //JComponents
 
         Play = new JButton("Play");
         Play.addActionListener(new PlayListener());
@@ -92,12 +116,11 @@ public class MusicPlayer extends JPanel {
 
         Loop = new JRadioButton("Loop");
 
-        outline = BorderFactory.createLineBorder(Color.black);
-
         Progressbar = new JSlider(0, 0, 100, 0);
 
         CurrentlyPlayingLabel = new JLabel("Currently playing : ");
         StatusLabel = new JLabel("Status: STOPPED");
+        TimeLabel = new JLabel("Time: 0:00 / 0:00");
 
         // Display
 
@@ -115,10 +138,10 @@ public class MusicPlayer extends JPanel {
 
         Rivulet.addObjects(Play, this, layout, gbc, 4, 0, 1, 1);
         Rivulet.addObjects(Pause, this, layout, gbc,4, 1, 1, 1);
-        Rivulet.addObjects(Skip, this, layout, gbc, 4, 2, 1, 1);
-        Rivulet.addObjects(Remove, this, layout, gbc, 4, 3, 1, 1);
-        Rivulet.addObjects(Empty, this, layout, gbc, 4, 4, 1, 1);
-        Rivulet.addObjects(Loop, this, layout, gbc,4, 5, 1, 1);
+        //Rivulet.addObjects(Skip, this, layout, gbc, 4, 2, 1, 1);
+        //Rivulet.addObjects(Remove, this, layout, gbc, 4, 3, 1, 1);
+        //Rivulet.addObjects(Empty, this, layout, gbc, 4, 4, 1, 1);
+        //Rivulet.addObjects(Loop, this, layout, gbc,4, 5, 1, 1);
 
         Rivulet.addObjects(Progressbar, this, layout, gbc, 2, 1, 2, 3);
 
@@ -126,6 +149,7 @@ public class MusicPlayer extends JPanel {
 
         Rivulet.addObjects(CurrentlyPlayingLabel, this, layout, gbc, 0, 0, 2, 1);
         Rivulet.addObjects(StatusLabel, this, layout, gbc, 0, 1, 2, 1);
+        Rivulet.addObjects(TimeLabel, this, layout, gbc, 0, 2, 2, 1);
 
 
         fileTree.setTransferHandler(new DropFileHandler(this, FilePanel));
@@ -165,9 +189,6 @@ public class MusicPlayer extends JPanel {
     private class EmptyListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Queue.empty();
-            updateStatus("Queue has been cleared");
-            refreshQueueInJTree();
         }
     }
 
@@ -179,6 +200,11 @@ public class MusicPlayer extends JPanel {
                 if (!songLoaded) {
                     loadSong();
                 }
+                if (sp == null) {
+                    sp = new SamplePlayer(ac, sample);
+                    ac.out.addInput(sp);
+                }
+
                 new Thread(() -> {
                     try {
                         songLoaded = true;
@@ -186,11 +212,9 @@ public class MusicPlayer extends JPanel {
                         isPaused = false;
                         updateStatus("PLAYING");
                         updateCurrentlyPlaying(selectedFile.getName());
-                        if (sp == null) {
-                            sp = new SamplePlayer(ac, sample);
-                            ac.out.addInput(sp);
-                        }
                         ac.start();
+                        Timer.start();
+                        startUpdateTimeTimer(); // Start the timer when playback starts
                         System.out.println("Playback successful");
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -214,6 +238,8 @@ public class MusicPlayer extends JPanel {
         if (sp != null) {
             pausePosition = sp.getPosition();
             ac.stop();
+            Timer.stop();
+            stopUpdateTimeTimer(); // Stop the timer when playback is paused
             isPaused = true;
             isPlaying = false;
             updateStatus("Paused");
@@ -247,6 +273,19 @@ public class MusicPlayer extends JPanel {
             sample = SampleManager.sample(fileInLibrary.getAbsolutePath());
             songLoaded = true;
             System.out.println("Song loaded: " + fileInLibrary.getName());
+
+
+            sampleFrames = sample.getNumFrames();
+            sampleRate = sample.getSampleRate();
+
+            float duration = sampleFrames / sampleRate;
+            minutes = (int) (duration / 60);
+            seconds = (int) (duration % 60);
+
+            updateTime();
+
+            pausePosition = 0;
+
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("ERROR: Unable to load the selected file.");
@@ -261,12 +300,32 @@ public class MusicPlayer extends JPanel {
             StatusLabel.setText("Status: " + message);
         });
     }
+
+    private void updateTime() {
+        if (sp != null && isPlaying) {
+            int currentMinutes = elapsedSeconds / 60;
+            int currentSeconds = elapsedSeconds % 60;
+            SwingUtilities.invokeLater(() -> {
+                TimeLabel.setText(String.format("Time: " + "%d:%02d / %d:%02d", currentMinutes, currentSeconds, minutes, seconds));
+            });
+        }
+    }
     
     private void updateCurrentlyPlaying(String songName) {
         SwingUtilities.invokeLater(() -> {
             CurrentlyPlayingLabel.setText("Currently playing: " + songName);
         });
     }
+
+    private void startUpdateTimeTimer() {
+        updateTimeTimer.start();
+    }
+
+    private void stopUpdateTimeTimer() {
+        updateTimeTimer.stop();
+    }
+
+
 
     public void addFilesToTree(java.util.List<File> files) {
         for (File file : files) {
