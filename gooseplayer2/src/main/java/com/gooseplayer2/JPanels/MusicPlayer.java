@@ -47,7 +47,7 @@ public class MusicPlayer extends JPanel {
     private double pausePosition = 0;
     private float sampleRate;
     private long sampleFrames;
-    private int minutes, seconds, elapsedSeconds;
+    private int minutes, seconds, elapsedSeconds, oldValue = 0;
 
     // File Management
     private File selectedFile;
@@ -108,18 +108,18 @@ public class MusicPlayer extends JPanel {
         //Loop = new JRadioButton("Loop");
 
         ProgressBar = new JSlider(0, 0, 100, 0);  
-
         ProgressBar.addChangeListener(e -> {
-            if (!ProgressBar.getValueIsAdjusting()) {
-                int newValue = ProgressBar.getValue();
-                System.out.println("Slider new value: " + newValue);
+            if (ProgressBar.getValueIsAdjusting()) {
+                oldValue = ProgressBar.getValue();
+                System.out.println("Slider new value: " + oldValue);
+                elapsedSeconds = oldValue;
+                seek(oldValue);
             }
         });
 
-
         CurrentlyPlayingLabel = new JLabel("Currently playing : ");
         StatusLabel = new JLabel("Status: STOPPED");
-        TimeLabel = new JLabel("Time: 0:00 / 0:00");
+        TimeLabel = new JLabel("0:00                                         0:00");
 
         // Display
 
@@ -143,12 +143,13 @@ public class MusicPlayer extends JPanel {
         //Rivulet.addObjects(Loop, this, layout, gbc,4, 5, 1, 1);
 
         Rivulet.addObjects(ProgressBar, this, layout, gbc, 2, 1, 2, 3);
+        Rivulet.addObjects(TimeLabel, this, layout, gbc, 2, 2, 2, 1);
+
 
         gbc.fill = GridBagConstraints.BOTH;
 
         Rivulet.addObjects(CurrentlyPlayingLabel, this, layout, gbc, 0, 0, 2, 1);
         Rivulet.addObjects(StatusLabel, this, layout, gbc, 0, 1, 2, 1);
-        Rivulet.addObjects(TimeLabel, this, layout, gbc, 0, 2, 2, 1);
 
 
         fileTree.setTransferHandler(new DropFileHandler(this, FilePanel));
@@ -218,15 +219,13 @@ public class MusicPlayer extends JPanel {
             seconds = (int) (duration % 60);
 
             updateTime();
-
-            // SwingUtilities.invokeLater(() -> {
-            //     int totalDurationInSeconds = minutes * 60 + seconds;
-            //     Progressbar.setMaximum(totalDurationInSeconds);
-            //     Progressbar.setValue(0);
-            // });
+            SwingUtilities.invokeLater(() -> {
+                int totalDuration = minutes * 60 + seconds;
+                ProgressBar.setMaximum(totalDuration);
+                ProgressBar.setValue(0);
+            });
 
             pausePosition = 0;
-
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("ERROR: Unable to load the selected file.");
@@ -297,17 +296,14 @@ public class MusicPlayer extends JPanel {
             updateStatus("Playing");
         }
     }
-
-    /* 
+    
     private void seek(int seconds) {
-        double positionInFrames = seconds * sampleRate;
-        if (positionInFrames < sample.getNumFrames()) {
-            sp.setPosition(positionInFrames);
-            elapsedSeconds = seconds; // Ensure elapsedSeconds reflects the seek position
-            updateTime(); // Update the UI to reflect the new position
+        if (sp != null) {
+            sp.setPosition(seconds * 1000); 
+            updateTime();
         }
     }
-    */
+    
 
     private void updateStatus(String message) {
         SwingUtilities.invokeLater(() -> {
@@ -323,7 +319,7 @@ public class MusicPlayer extends JPanel {
             int currentSeconds = currentPositionInSeconds % 60;
     
             SwingUtilities.invokeLater(() -> {
-                TimeLabel.setText(String.format("Time: %d:%02d / %d:%02d", currentMinutes, currentSeconds, minutes, seconds));
+                TimeLabel.setText(String.format("%d:%02d                                         %d:%02d", currentMinutes, currentSeconds, minutes, seconds));
                 ProgressBar.setValue(currentPositionInSeconds);
             });
         }
