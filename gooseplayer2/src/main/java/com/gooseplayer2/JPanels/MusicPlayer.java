@@ -6,8 +6,8 @@ import java.io.*;
 import java.util.Iterator;
 import javax.swing.*;
 import javax.swing.border.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+//import javax.swing.event.ChangeEvent;
+//import javax.swing.event.ChangeListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.sound.sampled.*;
@@ -30,7 +30,7 @@ public class MusicPlayer extends JPanel {
     private JTree fileTree;
     private DefaultMutableTreeNode root;
     private JButton Play, Pause, Skip, Empty;
-    private JSlider Progressbar;
+    private JSlider ProgressBar;
     private JLabel CurrentlyPlayingLabel, StatusLabel, TimeLabel;
     private GridBagLayout layout;
     private GridBagConstraints gbc;
@@ -82,8 +82,11 @@ public class MusicPlayer extends JPanel {
         updateTimeTimer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                updateTime();
-                elapsedSeconds++;
+                if (isPlaying) {
+                    elapsedSeconds++; // Ensure this increments by 1 every second
+                    System.out.println("Elapsed Seconds: " + elapsedSeconds);
+                    updateTime();
+                }
             }
         });
 
@@ -104,14 +107,12 @@ public class MusicPlayer extends JPanel {
         Empty.addActionListener(new EmptyListener());
         //Loop = new JRadioButton("Loop");
 
-        Progressbar = new JSlider(0, 0, 100, 0);    
-        Progressbar.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                if (!Progressbar.getValueIsAdjusting() && sp != null) { 
-                    int seconds = Progressbar.getValue();
-                    seek(seconds);
-                }
+        ProgressBar = new JSlider(0, 0, 100, 0);  
+
+        ProgressBar.addChangeListener(e -> {
+            if (!ProgressBar.getValueIsAdjusting()) {
+                int newValue = ProgressBar.getValue();
+                System.out.println("Slider new value: " + newValue);
             }
         });
 
@@ -141,7 +142,7 @@ public class MusicPlayer extends JPanel {
         //Rivulet.addObjects(Empty, this, layout, gbc, 4, 4, 1, 1);
         //Rivulet.addObjects(Loop, this, layout, gbc,4, 5, 1, 1);
 
-        Rivulet.addObjects(Progressbar, this, layout, gbc, 2, 1, 2, 3);
+        Rivulet.addObjects(ProgressBar, this, layout, gbc, 2, 1, 2, 3);
 
         gbc.fill = GridBagConstraints.BOTH;
 
@@ -218,10 +219,11 @@ public class MusicPlayer extends JPanel {
 
             updateTime();
 
-            SwingUtilities.invokeLater(() -> {
-                Progressbar.setMaximum(minutes * 60 + seconds);
-                Progressbar.setValue(0); 
-            });
+            // SwingUtilities.invokeLater(() -> {
+            //     int totalDurationInSeconds = minutes * 60 + seconds;
+            //     Progressbar.setMaximum(totalDurationInSeconds);
+            //     Progressbar.setValue(0);
+            // });
 
             pausePosition = 0;
 
@@ -296,13 +298,16 @@ public class MusicPlayer extends JPanel {
         }
     }
 
+    /* 
     private void seek(int seconds) {
-        double position = seconds * sampleRate; 
-        if (position < sample.getNumFrames()) {
-            sp.setPosition(position);
-            elapsedSeconds = seconds; 
+        double positionInFrames = seconds * sampleRate;
+        if (positionInFrames < sample.getNumFrames()) {
+            sp.setPosition(positionInFrames);
+            elapsedSeconds = seconds; // Ensure elapsedSeconds reflects the seek position
+            updateTime(); // Update the UI to reflect the new position
         }
     }
+    */
 
     private void updateStatus(String message) {
         SwingUtilities.invokeLater(() -> {
@@ -312,11 +317,14 @@ public class MusicPlayer extends JPanel {
 
     private void updateTime() {
         if (sp != null && isPlaying) {
-            int currentMinutes = elapsedSeconds / 60;
-            int currentSeconds = elapsedSeconds % 60;
+            double currentPositionInMilliseconds = sp.getPosition();
+            int currentPositionInSeconds = (int) (currentPositionInMilliseconds / 1000.0);
+            int currentMinutes = currentPositionInSeconds / 60;
+            int currentSeconds = currentPositionInSeconds % 60;
+    
             SwingUtilities.invokeLater(() -> {
                 TimeLabel.setText(String.format("Time: %d:%02d / %d:%02d", currentMinutes, currentSeconds, minutes, seconds));
-                Progressbar.setValue(elapsedSeconds);
+                ProgressBar.setValue(currentPositionInSeconds);
             });
         }
     }
@@ -354,3 +362,4 @@ public class MusicPlayer extends JPanel {
         ((DefaultTreeModel) fileTree.getModel()).reload();
     }
 }
+
