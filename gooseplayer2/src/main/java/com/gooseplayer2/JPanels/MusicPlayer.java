@@ -1,12 +1,19 @@
 package com.gooseplayer2.JPanels;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import java.util.Iterator;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.sound.sampled.*;
 
 import com.gooseplayer2.Packages.DropFileHandler;
+import com.gooseplayer2.Packages.Queue;
 import com.gooseplayer2.Packages.Slugcat;
 
 import net.beadsproject.beads.core.AudioContext;
@@ -14,47 +21,36 @@ import net.beadsproject.beads.data.Sample;
 import net.beadsproject.beads.data.SampleManager;
 import net.beadsproject.beads.ugens.SamplePlayer;
 
-
-import com.gooseplayer2.Packages.Queue;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.util.Iterator;
-
-import javax.sound.sampled.*;
-
-
-
 public class MusicPlayer extends JPanel {
 
+    // Constants
     private static final String LIBRARY_PATH = System.getProperty("user.dir") + File.separator + "Library";
 
+    // UI Components
     private JTree fileTree;
     private DefaultMutableTreeNode root;
-
+    private JButton Play, Pause, Skip, Empty;
+    private JSlider Progressbar;
+    private JLabel CurrentlyPlayingLabel, StatusLabel, TimeLabel;
     private GridBagLayout layout;
     private GridBagConstraints gbc;
     private Border outline;
 
-    private int minutes, seconds, elapsedSeconds;
-    private boolean isPlaying = false , isPaused = false, songLoaded = false;
+    // Timer
+    private Timer Timer, updateTimeTimer;
+
+    // Audio Playback
+    private AudioContext ac = new AudioContext(); // Initialize here for consistiency.
+    private SamplePlayer sp;
+    private Sample sample;
+    private boolean isPlaying = false, isPaused = false, songLoaded = false;
     private double pausePosition = 0;
     private float sampleRate;
     private long sampleFrames;
+    private int minutes, seconds, elapsedSeconds;
 
-
-    private JButton Play, Pause, Skip, Empty;
-    //private JRadioButton Loop;
-    private JSlider Progressbar;
-    private JLabel CurrentlyPlayingLabel, StatusLabel, TimeLabel;
-    private Timer Timer, updateTimeTimer;
-
+    // File Management
     private File selectedFile;
-
-    private AudioContext ac = new AudioContext(); // Init here because I dont trust any code below this line.
-    private SamplePlayer sp;
-    private Sample sample;
-
     private Queue<File> Queue = new Queue<>();
 
     public MusicPlayer(int n, JComponent FilePanel) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -112,7 +108,7 @@ public class MusicPlayer extends JPanel {
         Progressbar.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if (!Progressbar.getValueIsAdjusting() && sp != null) { // Check if the user is still dragging the slider
+                if (!Progressbar.getValueIsAdjusting() && sp != null) { 
                     int seconds = Progressbar.getValue();
                     seek(seconds);
                 }
@@ -193,9 +189,51 @@ public class MusicPlayer extends JPanel {
         public void actionPerformed(ActionEvent e) {
         }
     }
-
     // Other methods
-    
+
+    private void loadSong() throws IOException {
+        selectedFile = Queue.peek();
+
+        File fileInLibrary = new File(LIBRARY_PATH, selectedFile.getName());
+
+        System.out.println("Attempting to play file: " + fileInLibrary.getAbsolutePath());
+        if (!fileInLibrary.canRead()) {
+            throw new IOException("Cannot read file: " + fileInLibrary.getAbsolutePath());
+        }
+        if (!fileInLibrary.exists()) {
+            throw new FileNotFoundException("File not found: " + selectedFile.getAbsolutePath());
+        }
+
+        try {
+            sample = SampleManager.sample(fileInLibrary.getAbsolutePath());
+            songLoaded = true;
+            System.out.println("Song loaded: " + fileInLibrary.getName());
+
+            sampleFrames = sample.getNumFrames();
+            sampleRate = sample.getSampleRate();
+
+            float duration = sampleFrames / sampleRate;
+            minutes = (int) (duration / 60);
+            seconds = (int) (duration % 60);
+
+            updateTime();
+
+            SwingUtilities.invokeLater(() -> {
+                Progressbar.setMaximum(minutes * 60 + seconds);
+                Progressbar.setValue(0); 
+            });
+
+            pausePosition = 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("ERROR: Unable to load the selected file.");
+        }
+
+        songLoaded = true;
+        System.out.println("Song loaded");
+    }
+
     public void play() {
         if (!isPlaying && !Queue.isEmpty()) {
             try {
@@ -216,7 +254,7 @@ public class MusicPlayer extends JPanel {
                         updateCurrentlyPlaying(selectedFile.getName());
                         ac.start();
                         Timer.start();
-                        startUpdateTimeTimer(); 
+                        startUpdateTimer(); 
                         System.out.println("Playback successful");
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -241,7 +279,7 @@ public class MusicPlayer extends JPanel {
             pausePosition = sp.getPosition();
             ac.stop();
             Timer.stop();
-            stopUpdateTimeTimer(); 
+            stopUpdateTimer(); 
             isPaused = true;
             isPlaying = false;
             updateStatus("Paused");
@@ -257,56 +295,12 @@ public class MusicPlayer extends JPanel {
             updateStatus("Playing");
         }
     }
-    
-    private void loadSong() throws IOException {
-        selectedFile = Queue.peek();
-
-        File fileInLibrary = new File(LIBRARY_PATH, selectedFile.getName());
-
-        System.out.println("Attempting to play file: " + fileInLibrary.getAbsolutePath());
-        if (!fileInLibrary.canRead()) {
-            throw new IOException("Cannot read file: " + fileInLibrary.getAbsolutePath());
-        }
-        if (!fileInLibrary.exists()) {
-            throw new FileNotFoundException("File not found: " + selectedFile.getAbsolutePath());
-        }
-
-        try {
-            sample = SampleManager.sample(fileInLibrary.getAbsolutePath());
-            songLoaded = true;
-            System.out.println("Song loaded: " + fileInLibrary.getName());
-
-
-            sampleFrames = sample.getNumFrames();
-            sampleRate = sample.getSampleRate();
-
-            float duration = sampleFrames / sampleRate;
-            minutes = (int) (duration / 60);
-            seconds = (int) (duration % 60);
-
-            updateTime();
-
-            SwingUtilities.invokeLater(() -> {
-                Progressbar.setMaximum(minutes * 60 + seconds);
-                Progressbar.setValue(0); // Reset the slider position when a new song is loaded
-            });
-
-            pausePosition = 0;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("ERROR: Unable to load the selected file.");
-        }
-
-        songLoaded = true;
-        System.out.println("Song loaded");
-    }
 
     private void seek(int seconds) {
-        double position = seconds * sampleRate; // Calculate the frame position to seek to
+        double position = seconds * sampleRate; 
         if (position < sample.getNumFrames()) {
             sp.setPosition(position);
-            elapsedSeconds = seconds; // Update the elapsed time to match the new position
+            elapsedSeconds = seconds; 
         }
     }
 
@@ -321,7 +315,7 @@ public class MusicPlayer extends JPanel {
             int currentMinutes = elapsedSeconds / 60;
             int currentSeconds = elapsedSeconds % 60;
             SwingUtilities.invokeLater(() -> {
-                TimeLabel.setText(String.format("Time: " + "%d:%02d / %d:%02d", currentMinutes, currentSeconds, minutes, seconds));
+                TimeLabel.setText(String.format("Time: %d:%02d / %d:%02d", currentMinutes, currentSeconds, minutes, seconds));
                 Progressbar.setValue(elapsedSeconds);
             });
         }
@@ -333,14 +327,13 @@ public class MusicPlayer extends JPanel {
         });
     }
 
-    private void startUpdateTimeTimer() {
+    private void startUpdateTimer() {
         updateTimeTimer.start();
     }
 
-    private void stopUpdateTimeTimer() {
+    private void stopUpdateTimer() {
         updateTimeTimer.stop();
     }
-
 
 
     public void addFilesToTree(java.util.List<File> files) {
