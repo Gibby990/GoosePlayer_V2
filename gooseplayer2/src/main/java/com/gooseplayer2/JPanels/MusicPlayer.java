@@ -180,11 +180,7 @@ public class MusicPlayer extends JPanel {
     private class SkipListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            try {
-                skip();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+            skip();
         }
     }
 
@@ -302,30 +298,31 @@ public class MusicPlayer extends JPanel {
         }
     }
 
-    private void skip() throws IOException {
+    private void skip() {
         if (!Queue.isEmpty()) {
-            if (isPlaying || isPaused) {
-                ac.stop();
-                Timer.stop();
-                stopUpdateTimer();                         
+            ac.stop();
+            if (sp != null) {
+                sp.pause(true);
+                sp = null;
             }
+            Timer.stop();
+            stopUpdateTimer();
+            isPlaying = false;
+            isPaused = false;
+            
             Queue.dequeue();
             songLoaded = false;
+            
             if (!Queue.isEmpty()) {
-                if (isPlaying) {
-                    play();
-                } else if (isPaused) {
-                    loadSong();
-                }
+                play(); 
             } else {
                 resetCurrentSongData();
+                updateStatus("Queue is empty.");
             }
-            elapsedSeconds = 0;
-            updateTime();
-            refreshQueueInJTree();
         } else {
-            resetCurrentSongData();
+            updateStatus("Queue is empty.");
         }
+        refreshQueueInJTree();
     }
     
     private void seek(int seconds) {
@@ -376,12 +373,12 @@ public class MusicPlayer extends JPanel {
         elapsedSeconds = 0;
         SwingUtilities.invokeLater(() -> {
             ProgressBar.setValue(0);
-            ProgressBar.setMaximum(100); // Reset to default max value
+            ProgressBar.setMaximum(100); 
             CurrentlyPlayingLabel.setText("Currently playing: ");
             StatusLabel.setText("Status: STOPPED");
             TimeLabel.setText("0:00                                         0:00");
         });
-        updateStatus("Song data reset.");
+        updateStatus("Queue is empty");
     }
     
     private void updateCurrentlyPlaying(String songName) {
