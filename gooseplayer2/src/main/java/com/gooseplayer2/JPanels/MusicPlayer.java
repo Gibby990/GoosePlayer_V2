@@ -15,6 +15,7 @@ import javax.sound.sampled.*;
 import com.gooseplayer2.Packages.DropFileHandler;
 import com.gooseplayer2.Packages.Queue;
 import com.gooseplayer2.Packages.Slugcat;
+import com.gooseplayer2.Packages.QueuedFile;
 
 import net.beadsproject.beads.core.AudioContext;
 import net.beadsproject.beads.data.Sample;
@@ -51,7 +52,8 @@ public class MusicPlayer extends JPanel {
 
     // File Management
     private File selectedFile;
-    private Queue<File> Queue = new Queue<>();
+    private Queue<QueuedFile> Queue = new Queue<>();
+
 
     public MusicPlayer(int n, JComponent FilePanel) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
@@ -137,7 +139,7 @@ public class MusicPlayer extends JPanel {
 
         Rivulet.addObjects(Play, this, layout, gbc, 4, 0, 1, 1);
         Rivulet.addObjects(Pause, this, layout, gbc,4, 1, 1, 1);
-        //Rivulet.addObjects(Skip, this, layout, gbc, 4, 2, 1, 1);
+        Rivulet.addObjects(Skip, this, layout, gbc, 4, 2, 1, 1);
         //Rivulet.addObjects(Remove, this, layout, gbc, 4, 3, 1, 1);
         //Rivulet.addObjects(Empty, this, layout, gbc, 4, 4, 1, 1);
         //Rivulet.addObjects(Loop, this, layout, gbc,4, 5, 1, 1);
@@ -178,11 +180,11 @@ public class MusicPlayer extends JPanel {
     private class SkipListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            //if (player != null) {
-            //    player.stop();
-            //}
-            //Queue.dequeue();
-            //playAction();
+            try {
+                skip();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 
@@ -194,7 +196,10 @@ public class MusicPlayer extends JPanel {
     // Other methods
 
     private void loadSong() throws IOException {
-        selectedFile = Queue.peek();
+        QueuedFile queuedFile = Queue.peek();
+        if(queuedFile == null) return;
+
+        selectedFile = queuedFile.getFile();
 
         File fileInLibrary = new File(LIBRARY_PATH, selectedFile.getName());
 
@@ -296,6 +301,32 @@ public class MusicPlayer extends JPanel {
             updateStatus("Playing");
         }
     }
+
+    private void skip() throws IOException {
+        if (!Queue.isEmpty()) {
+            if (isPlaying || isPaused) {
+                ac.stop();
+                Timer.stop();
+                stopUpdateTimer();                         
+            }
+            Queue.dequeue();
+            songLoaded = false;
+            if (!Queue.isEmpty()) {
+                if (isPlaying) {
+                    play();
+                } else if (isPaused) {
+                    loadSong();
+                }
+            } else {
+                resetCurrentSongData();
+            }
+            elapsedSeconds = 0;
+            updateTime();
+            refreshQueueInJTree();
+        } else {
+            resetCurrentSongData();
+        }
+    }
     
     private void seek(int seconds) {
         if (sp != null) {
@@ -324,6 +355,34 @@ public class MusicPlayer extends JPanel {
             });
         }
     }
+
+    public void resetCurrentSongData() {
+        if (isPlaying || isPaused) {
+            ac.stop();
+            Timer.stop();
+            stopUpdateTimer();
+            isPlaying = false;
+            isPaused = false;
+        }
+        songLoaded = false;
+        selectedFile = null;
+        pausePosition = 0;
+        sample = null;
+        sp = null;
+        sampleFrames = 0;
+        sampleRate = 0;
+        minutes = 0;
+        seconds = 0;
+        elapsedSeconds = 0;
+        SwingUtilities.invokeLater(() -> {
+            ProgressBar.setValue(0);
+            ProgressBar.setMaximum(100); // Reset to default max value
+            CurrentlyPlayingLabel.setText("Currently playing: ");
+            StatusLabel.setText("Status: STOPPED");
+            TimeLabel.setText("0:00                                         0:00");
+        });
+        updateStatus("Song data reset.");
+    }
     
     private void updateCurrentlyPlaying(String songName) {
         SwingUtilities.invokeLater(() -> {
@@ -342,17 +401,17 @@ public class MusicPlayer extends JPanel {
 
     public void addFilesToTree(java.util.List<File> files) {
         for (File file : files) {
-            Queue.enqueue(file); 
+            Queue.enqueue(new QueuedFile(file)); 
         }
         refreshQueueInJTree(); 
     }
 
     public void refreshQueueInJTree() {
         root.removeAllChildren(); 
-        Iterator<File> LTTM = Queue.iterator();
+        Iterator<QueuedFile> LTTM = Queue.iterator();
         while (LTTM.hasNext()) {
-            File file = LTTM.next();
-            DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(file.getName());
+            QueuedFile file = LTTM.next();
+            DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(file.getFile().getName());
             root.add(fileNode);
         }
         ((DefaultTreeModel) fileTree.getModel()).reload();
