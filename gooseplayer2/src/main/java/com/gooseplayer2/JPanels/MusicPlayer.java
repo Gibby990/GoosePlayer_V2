@@ -20,7 +20,8 @@ import com.gooseplayer2.Packages.QueuedFile;
 import net.beadsproject.beads.core.AudioContext;
 import net.beadsproject.beads.data.Sample;
 import net.beadsproject.beads.data.SampleManager;
-import net.beadsproject.beads.ugens.SamplePlayer;
+import net.beadsproject.beads.ugens.*;
+
 
 public class MusicPlayer extends JPanel {
 
@@ -32,7 +33,8 @@ public class MusicPlayer extends JPanel {
     private DefaultMutableTreeNode root;
     private JButton Play, Pause, Skip, Empty;
     private JSlider ProgressBar;
-    private JLabel CurrentlyPlayingLabel, StatusLabel, TimeLabel;
+    private JLabel CurrentlyPlayingLabel, StatusLabel, TimeLabel, LoopLabel;
+    private JRadioButton Loop;
     private GridBagLayout layout;
     private GridBagConstraints gbc;
     private Border outline;
@@ -64,7 +66,6 @@ public class MusicPlayer extends JPanel {
 
         root = new DefaultMutableTreeNode("Queue");
         fileTree = new JTree(root);
-        fileTree.setBorder(outline);
         fileTree.setRootVisible(true);
 
         //Initializing everything else
@@ -72,6 +73,7 @@ public class MusicPlayer extends JPanel {
         Slugcat Rivulet = new Slugcat();
         
         outline = BorderFactory.createLineBorder(Color.black);
+        fileTree.setBorder(outline);
 
         Timer = new Timer(1000, new ActionListener() {
             @Override
@@ -85,7 +87,7 @@ public class MusicPlayer extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isPlaying) {
-                    elapsedSeconds++; // Ensure this increments by 1 every second
+                    elapsedSeconds++;
                     System.out.println("Elapsed Seconds: " + elapsedSeconds);
                     updateTime();
                 }
@@ -107,13 +109,15 @@ public class MusicPlayer extends JPanel {
 
         Empty = new JButton("Empty");
         Empty.addActionListener(new EmptyListener());
-        //Loop = new JRadioButton("Loop");
 
-        ProgressBar = new JSlider(0, 0, 100, 0);  
+        Loop = new JRadioButton("Loop");
+        Loop.addActionListener(new LoopListener());
+
+        ProgressBar = new JSlider(0, 0, 100, 0);  //TODO: find a better slider
         ProgressBar.addChangeListener(e -> {
-            if (ProgressBar.getValueIsAdjusting()) {
+            if (ProgressBar.getValueIsAdjusting()) { //TODO: Reset Timer when song ends.
                 oldValue = ProgressBar.getValue();
-                System.out.println("Slider new value: " + oldValue);
+                System.out.println("Slider new value: " + oldValue); //TODO: Pause song when slider is moving.
                 elapsedSeconds = oldValue;
                 seek(oldValue);
             }
@@ -122,6 +126,7 @@ public class MusicPlayer extends JPanel {
         CurrentlyPlayingLabel = new JLabel("Currently playing : ");
         StatusLabel = new JLabel("Status: STOPPED");
         TimeLabel = new JLabel("0:00                                         0:00");
+        LoopLabel = new JLabel("Loop: OFF");
 
         // Display
 
@@ -141,8 +146,10 @@ public class MusicPlayer extends JPanel {
         Rivulet.addObjects(Pause, this, layout, gbc,4, 1, 1, 1);
         Rivulet.addObjects(Skip, this, layout, gbc, 4, 2, 1, 1);
         //Rivulet.addObjects(Remove, this, layout, gbc, 4, 3, 1, 1);
+        // TODO: Implement Remove
         //Rivulet.addObjects(Empty, this, layout, gbc, 4, 4, 1, 1);
-        //Rivulet.addObjects(Loop, this, layout, gbc,4, 5, 1, 1);
+        //TODO: Implement Empty
+        Rivulet.addObjects(Loop, this, layout, gbc,4, 5, 1, 1);
 
         Rivulet.addObjects(ProgressBar, this, layout, gbc, 2, 1, 2, 3);
         Rivulet.addObjects(TimeLabel, this, layout, gbc, 2, 2, 2, 1);
@@ -152,6 +159,7 @@ public class MusicPlayer extends JPanel {
 
         Rivulet.addObjects(CurrentlyPlayingLabel, this, layout, gbc, 0, 0, 2, 1);
         Rivulet.addObjects(StatusLabel, this, layout, gbc, 0, 1, 2, 1);
+        Rivulet.addObjects(LoopLabel, this, layout, gbc, 0, 2, 2, 1);
 
 
         fileTree.setTransferHandler(new DropFileHandler(this, FilePanel));
@@ -159,7 +167,6 @@ public class MusicPlayer extends JPanel {
     }
 
     // Action Events
-
 
     private class PlayListener implements ActionListener {
         @Override
@@ -189,6 +196,22 @@ public class MusicPlayer extends JPanel {
         public void actionPerformed(ActionEvent e) {
         }
     }
+
+    private class LoopListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (sp!= null) {
+                if(Loop.isSelected()) {
+                    sp.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
+                    LoopLabel.setText("Loop: ON");
+                } else {
+                    sp.setLoopType(SamplePlayer.LoopType.NO_LOOP_FORWARDS);
+                    LoopLabel.setText("Loop: OFF");
+                }
+            }
+        }
+    }
+
     // Other methods
 
     private void loadSong() throws IOException {
@@ -361,7 +384,7 @@ public class MusicPlayer extends JPanel {
             isPlaying = false;
             isPaused = false;
         }
-        songLoaded = false;
+        songLoaded = false;  //Im just going to pretend this mess does not exist and is isolated to this one method alone.
         selectedFile = null;
         pausePosition = 0;
         sample = null;
@@ -399,6 +422,7 @@ public class MusicPlayer extends JPanel {
     public void addFilesToTree(java.util.List<File> files) {
         for (File file : files) {
             Queue.enqueue(new QueuedFile(file)); 
+            //TODO: Check for if file is formatted for audio.
         }
         refreshQueueInJTree(); 
     }
