@@ -8,7 +8,7 @@ import javazoom.jl.decoder.JavaLayerException;
 
 public class Main {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() -> { //TODO: add JRE to project 
             try {
                 new MainFrame();
             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException | JavaLayerException e) {
