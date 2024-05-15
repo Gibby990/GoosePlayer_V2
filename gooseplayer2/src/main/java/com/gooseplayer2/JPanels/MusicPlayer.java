@@ -50,7 +50,7 @@ public class MusicPlayer extends JPanel {
     private double pausePosition = 0;
     private float sampleRate;
     private long sampleFrames;
-    private int minutes, seconds, elapsedSeconds, oldValue = 0;
+    private int minutes, seconds, elapsedSeconds, newValue = 0;
 
     // File Management
     private File selectedFile;
@@ -116,10 +116,10 @@ public class MusicPlayer extends JPanel {
         ProgressBar = new JSlider(0, 0, 100, 0);  //TODO: find a better slider
         ProgressBar.addChangeListener(e -> {
             if (ProgressBar.getValueIsAdjusting()) { //TODO: Reset Timer when song ends.
-                oldValue = ProgressBar.getValue();
-                System.out.println("Slider new value: " + oldValue); //TODO: Pause song when slider is moving.
-                elapsedSeconds = oldValue;
-                seek(oldValue);
+                newValue = ProgressBar.getValue();
+                System.out.println("Slider new value: " + newValue); 
+                elapsedSeconds = newValue;
+                seek(newValue);
             }
         });
 
