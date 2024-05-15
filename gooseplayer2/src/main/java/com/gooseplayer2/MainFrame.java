@@ -11,6 +11,7 @@ import javazoom.jl.decoder.JavaLayerException;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -72,7 +73,25 @@ public class MainFrame extends JFrame {
                 JOptionPane.showMessageDialog(null, "Failed to load help content.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
+ 
+        JButton libraryButton = new JButton("Library");
+        libraryButton.setFocusPainted(false);
+        toolBar.add(libraryButton);
 
+        libraryButton.addActionListener(e -> {
+            try {
+                File library = new File("Library");
+                if(!library.exists()) {
+                    JOptionPane.showMessageDialog(null, "Library not found");
+                    return;
+                }
+                Desktop desktop = Desktop.getDesktop();
+                desktop.open(library);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
         mainLayout = new GridBagLayout();
         gbc = new GridBagConstraints();
