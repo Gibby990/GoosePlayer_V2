@@ -60,4 +60,11 @@ public class FilePanel extends JPanel {
             e.printStackTrace();
         }
     }
+
+    public void refreshLibrary() {
+        Path libraryPath = Paths.get(System.getProperty("user.dir"), "Library");
+        DefaultMutableTreeNode top = new DefaultMutableTreeNode("Library");
+        createNodes(top, libraryPath);
+        fileTree.setModel(new DefaultTreeModel(top));
+    }
 }

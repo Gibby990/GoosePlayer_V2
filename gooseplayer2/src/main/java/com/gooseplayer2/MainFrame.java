@@ -1,12 +1,7 @@
 package com.gooseplayer2;
 
-import javax.sound.sampled.*;
-import javax.swing.*;
-import javax.swing.border.*;
 import com.gooseplayer2.JPanels.*;
 import com.gooseplayer2.Packages.Slugcat;
-
-import javazoom.jl.decoder.JavaLayerException;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -15,14 +10,32 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.StandardWatchEventKinds;
+import java.nio.file.WatchEvent;
+import java.nio.file.WatchKey;
+import java.nio.file.WatchService;
 
+import javazoom.jl.decoder.JavaLayerException;
+
+import javax.sound.sampled.*;
+import javax.swing.*;
+import javax.swing.border.*;
 
 public class MainFrame extends JFrame {
-    GridBagLayout mainLayout;
-    GridBagConstraints gbc;
-    Border outline;
-    InputStream is;
+    private GridBagLayout mainLayout;
+    private GridBagConstraints gbc;
+    private Border outline;
     private JToolBar toolBar;
+    private FilePanel filePanel;
+    private ImageIcon icon;
+    private Image image;
+    private Image scaledImage;
+    private JButton settingsButton;
+    private Slugcat Survivor;
+    private JButton helpButton;
+    private JButton libraryButton;
 
     public MainFrame() throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException {
         super("musicPlayer");
@@ -31,16 +44,16 @@ public class MainFrame extends JFrame {
 
         outline = BorderFactory.createLineBorder(Color.black);
 
-        ImageIcon icon = new ImageIcon(getClass().getResource("/icons/Icon.png"));
-        Image image = icon.getImage();
-        Image scaledImage = getScaledImage(image, 512, 547);
+        icon = new ImageIcon(getClass().getResource("/icons/Icon.png"));
+        image = icon.getImage();
+        scaledImage = getScaledImage(image, 512, 547);
 
 
         setIconImage(scaledImage);
 
         //Toolbar
         toolBar = new JToolBar();
-        JButton settingsButton = new JButton("Settings");
+        settingsButton = new JButton("Settings");
         settingsButton.setFocusPainted(false);
         toolBar.add(settingsButton);
 
@@ -49,13 +62,12 @@ public class MainFrame extends JFrame {
 
         });
 
-        JButton helpButton = new JButton("Help");
+        helpButton = new JButton("Help");
         helpButton.setFocusPainted(false);
         toolBar.add(helpButton);
-
+        
         helpButton.addActionListener(e -> {
-            try {
-                InputStream is = getClass().getResourceAsStream("/help.txt");
+            try (InputStream is = getClass().getResourceAsStream("/help.txt")) {
                 if (is == null) {
                     JOptionPane.showMessageDialog(null, "Help file not found.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -66,15 +78,13 @@ public class MainFrame extends JFrame {
                 while ((line = reader.readLine()) != null) {
                     helpContent.append(line).append("\n");
                 }
-                reader.close();
                 JOptionPane.showMessageDialog(null, helpContent.toString(), "Help", JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
-                ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Failed to load help content.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
- 
-        JButton libraryButton = new JButton("Library");
+
+        libraryButton = new JButton("Library");
         libraryButton.setFocusPainted(false);
         toolBar.add(libraryButton);
 
@@ -88,6 +98,8 @@ public class MainFrame extends JFrame {
                 Desktop desktop = Desktop.getDesktop();
                 desktop.open(library);
 
+                Thread watcherThread = new Thread(() -> watchDirectoryPath(library.toPath()));
+        watcherThread.start();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -97,9 +109,9 @@ public class MainFrame extends JFrame {
         gbc = new GridBagConstraints();
         getContentPane().setLayout(mainLayout);
 
-        Slugcat Survivor = new Slugcat();
+        Survivor = new Slugcat();
 
-        FilePanel filePanel = new FilePanel();
+        filePanel = new FilePanel();
 
         MusicPanel musicPanel = new MusicPanel();
         musicPanel.setBorder(outline);
@@ -134,5 +146,26 @@ public class MainFrame extends JFrame {
         g2.dispose();
 
         return resizedImg;
+    }
+
+    private void watchDirectoryPath(Path path) {
+        try (WatchService service = FileSystems.getDefault().newWatchService()) {
+            path.register(service, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_DELETE);
+    
+            while (true) {
+                WatchKey key = service.take();
+                for (WatchEvent<?> event : key.pollEvents()) {
+                    WatchEvent.Kind<?> kind = event.kind();
+                    if (kind == StandardWatchEventKinds.ENTRY_CREATE || kind == StandardWatchEventKinds.ENTRY_DELETE) {
+                        SwingUtilities.invokeLater(() -> filePanel.refreshLibrary());
+                    }
+                }
+                if (!key.reset()) {
+                    break;
+                }
+            }
+        } catch (IOException | InterruptedException ex) {
+            ex.printStackTrace();
+        }
     }
 }
