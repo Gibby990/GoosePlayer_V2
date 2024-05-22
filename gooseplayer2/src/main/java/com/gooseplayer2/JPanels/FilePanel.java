@@ -14,6 +14,7 @@ public class FilePanel extends JPanel {
     JLabel label;
     GridBagConstraints gbc;
     GridBagLayout layout;
+    JScrollPane pane;
 
     public FilePanel() {
 
@@ -23,6 +24,8 @@ public class FilePanel extends JPanel {
 
         fileTree = new JTree(top);
         fileTree.setToggleClickCount(1);
+
+        pane = new JScrollPane(fileTree);
 
         label = new JLabel("Directory Tree");
         label.setHorizontalAlignment(JLabel.CENTER);
@@ -39,7 +42,7 @@ public class FilePanel extends JPanel {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0; 
         gbc.weighty = 1.0; 
-        Hunter.addObjects(fileTree, this, layout, gbc, 0, 1, 1, 1);
+        Hunter.addObjects(pane, this, layout, gbc, 0, 1, 1, 1);
 
         fileTree.setDragEnabled(true);
         fileTree.setTransferHandler(new FileTransferHandler());

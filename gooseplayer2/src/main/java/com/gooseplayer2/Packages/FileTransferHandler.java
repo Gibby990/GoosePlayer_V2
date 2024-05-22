@@ -7,6 +7,7 @@ import java.awt.datatransfer.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import com.gooseplayer2.Config;
 
 public class FileTransferHandler extends TransferHandler {
     @Override
@@ -23,11 +24,17 @@ public class FileTransferHandler extends TransferHandler {
         }
 
         List<File> fileList = new ArrayList<>();
+        
         for (TreePath path : paths) {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
-            String fileName = (String) node.getUserObject();
-            File file = new File(fileName);
+            Object userObject = node.getUserObject();
+        if (userObject instanceof File) {
+            fileList.add((File) userObject);
+        } else {
+            String fileName = userObject.toString();
+            File file = new File(Config.LIBRARY_PATH, fileName);
             fileList.add(file);
+        }
         }
 
 

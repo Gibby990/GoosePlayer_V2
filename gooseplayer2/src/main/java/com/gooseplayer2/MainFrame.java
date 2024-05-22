@@ -21,12 +21,10 @@ import javazoom.jl.decoder.JavaLayerException;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
-import javax.swing.border.*;
 
 public class MainFrame extends JFrame {
     private GridBagLayout mainLayout;
     private GridBagConstraints gbc;
-    private Border outline;
     private JToolBar toolBar;
     private FilePanel filePanel;
     private ImageIcon icon;
@@ -41,8 +39,6 @@ public class MainFrame extends JFrame {
         super("musicPlayer");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(950, 600);
-
-        outline = BorderFactory.createLineBorder(Color.black);
 
         icon = new ImageIcon(getClass().getResource("/icons/Icon.png"));
         image = icon.getImage();
@@ -114,7 +110,6 @@ public class MainFrame extends JFrame {
         filePanel = new FilePanel();
 
         MusicPanel musicPanel = new MusicPanel();
-        musicPanel.setBorder(outline);
 
         //Toolbar
         gbc.gridx = 0;

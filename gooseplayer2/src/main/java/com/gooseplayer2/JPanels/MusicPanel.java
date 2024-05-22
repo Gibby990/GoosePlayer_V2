@@ -34,13 +34,8 @@ public class MusicPanel extends JPanel {
             e.printStackTrace();
         }
 
-        player1.add(new JLabel("Channel 1"));
         player1.setBorder(outline);
-
-        player2.add(new JLabel("Channel 2"));
         player2.setBorder(outline);
-
-        player3.add(new JLabel("Channel 3"));
         player3.setBorder(outline);
 
         gbc.fill = GridBagConstraints.BOTH;

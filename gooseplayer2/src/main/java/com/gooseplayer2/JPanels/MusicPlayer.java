@@ -29,11 +29,11 @@ public class MusicPlayer extends JPanel {
     private static final String LIBRARY_PATH = System.getProperty("user.dir") + File.separator + "Library";
 
     // UI Components
-    private JTree fileTree;
+    private JTree queueTree;
     private DefaultMutableTreeNode root;
     private JButton Play, Pause, Skip, Empty;
     private JSlider ProgressBar;
-    private JLabel CurrentlyPlayingLabel, StatusLabel, TimeLabel, LoopLabel;
+    private JLabel TimeLabel, ChannelLabel;
     private JRadioButton Loop;
     private GridBagLayout layout;
     private GridBagConstraints gbc;
@@ -65,15 +65,17 @@ public class MusicPlayer extends JPanel {
         gbc = new GridBagConstraints();
 
         root = new DefaultMutableTreeNode("Queue");
-        fileTree = new JTree(root);
-        fileTree.setRootVisible(true);
+        queueTree = new JTree(root);
+        queueTree.setRootVisible(true);
+
+        JScrollPane queueTreePane = new JScrollPane(queueTree);
 
         //Initializing everything else
 
         Slugcat Rivulet = new Slugcat();
         
         outline = BorderFactory.createLineBorder(Color.black);
-        fileTree.setBorder(outline);
+        queueTree.setBorder(outline);
 
         Timer = new Timer(1000, new ActionListener() {
             @Override
@@ -93,6 +95,9 @@ public class MusicPlayer extends JPanel {
                 }
             }
         });
+
+        //TODO: Implement instance AudioIO for each AudioContext isntead of using default
+        // This might be causing all the issues of clipping when skipping songs or playing 2 players at once.
 
         //JComponents
 
@@ -123,10 +128,8 @@ public class MusicPlayer extends JPanel {
             }
         });
 
-        CurrentlyPlayingLabel = new JLabel("Currently playing : ");
-        StatusLabel = new JLabel("Status: STOPPED");
-        TimeLabel = new JLabel("0:00                                         0:00");
-        LoopLabel = new JLabel("Loop: OFF");
+        TimeLabel = new JLabel("0:00 / 0:00");
+        ChannelLabel = new JLabel("Channel " + n);
 
         // Display
 
@@ -136,11 +139,9 @@ public class MusicPlayer extends JPanel {
         gbc.gridwidth = 6;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.BOTH;
-
-        Rivulet.addObjects(fileTree, this, layout, gbc, 5, 0, 1,6);
-
         gbc.fill = GridBagConstraints.NONE;
+
+        // JButtons
 
         Rivulet.addObjects(Play, this, layout, gbc, 4, 0, 1, 1);
         Rivulet.addObjects(Pause, this, layout, gbc,4, 1, 1, 1);
@@ -151,18 +152,29 @@ public class MusicPlayer extends JPanel {
         //TODO: Implement Empty
         Rivulet.addObjects(Loop, this, layout, gbc,4, 5, 1, 1);
 
-        Rivulet.addObjects(ProgressBar, this, layout, gbc, 2, 1, 2, 3);
-        Rivulet.addObjects(TimeLabel, this, layout, gbc, 2, 2, 2, 1);
+        // ProgressBar
 
+        gbc.fill = GridBagConstraints.CENTER;
+
+        Rivulet.addObjects(ChannelLabel, this, layout, gbc, 0, 0, 4, 1);
+
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        gbc.insets = new Insets(0, 25, 0, 0);
+        Rivulet.addObjects(ProgressBar, this, layout, gbc, 0, 1, 4, 4);
+
+        Rivulet.addObjects(TimeLabel, this, layout, gbc, 2, 2, 2, 1);
+        gbc.insets = new Insets(0, 0, 0, 0);
+
+
+        // queueTree
 
         gbc.fill = GridBagConstraints.BOTH;
 
-        Rivulet.addObjects(CurrentlyPlayingLabel, this, layout, gbc, 0, 0, 2, 1);
-        Rivulet.addObjects(StatusLabel, this, layout, gbc, 0, 1, 2, 1);
-        Rivulet.addObjects(LoopLabel, this, layout, gbc, 0, 2, 2, 1);
+        Rivulet.addObjects(queueTreePane, this, layout, gbc, 5, 0, 1,6);
 
 
-        fileTree.setTransferHandler(new DropFileHandler(this, FilePanel));
+        queueTree.setTransferHandler(new DropFileHandler(this, FilePanel));
 
     }
 
@@ -203,10 +215,8 @@ public class MusicPlayer extends JPanel {
             if (sp!= null) {
                 if(Loop.isSelected()) {
                     sp.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
-                    LoopLabel.setText("Loop: ON");
                 } else {
                     sp.setLoopType(SamplePlayer.LoopType.NO_LOOP_FORWARDS);
-                    LoopLabel.setText("Loop: OFF");
                 }
             }
         }
@@ -275,27 +285,21 @@ public class MusicPlayer extends JPanel {
                         songLoaded = true;
                         isPlaying = true;
                         isPaused = false;
-                        updateStatus("PLAYING");
-                        updateCurrentlyPlaying(selectedFile.getName());
                         ac.start();
                         Timer.start();
                         startUpdateTimer(); 
                         System.out.println("Playback successful");
                     } catch (Exception ex) {
                         ex.printStackTrace();
-                        updateStatus("ERROR: Unable to play the selected file.");
                         System.out.println("Playback failed in thread");
                     }
                 }).start();
             } catch (Exception ex) {
                 ex.printStackTrace();
-                updateStatus("ERROR: Unable to play the selected file.");
                 System.out.println("Playback failed");
             }
         } else if (isPaused) {
             resume();
-        } else {
-            updateStatus("Queue is already playing or empty.");
         }
     }
 
@@ -307,7 +311,6 @@ public class MusicPlayer extends JPanel {
             stopUpdateTimer(); 
             isPaused = true;
             isPlaying = false;
-            updateStatus("Paused");
         }
     }
 
@@ -317,7 +320,6 @@ public class MusicPlayer extends JPanel {
             sp.setPosition(pausePosition);
             isPaused = false;
             isPlaying = true;
-            updateStatus("Playing");
         }
     }
 
@@ -340,10 +342,8 @@ public class MusicPlayer extends JPanel {
                 play(); 
             } else {
                 resetCurrentSongData();
-                updateStatus("Queue is empty.");
             }
         } else {
-            updateStatus("Queue is empty.");
         }
         refreshQueueInJTree();
     }
@@ -356,11 +356,7 @@ public class MusicPlayer extends JPanel {
     }
     
 
-    private void updateStatus(String message) {
-        SwingUtilities.invokeLater(() -> {
-            StatusLabel.setText("Status: " + message);
-        });
-    }
+
 
     private void updateTime() {
         if (sp != null && isPlaying) {
@@ -369,8 +365,8 @@ public class MusicPlayer extends JPanel {
             int currentMinutes = currentPositionInSeconds / 60;
             int currentSeconds = currentPositionInSeconds % 60;
     
-            SwingUtilities.invokeLater(() -> {
-                TimeLabel.setText(String.format("%d:%02d                                         %d:%02d", currentMinutes, currentSeconds, minutes, seconds));
+            SwingUtilities.invokeLater(() -> { 
+                TimeLabel.setText(String.format("%d:%02d / %d:%02d", currentMinutes, currentSeconds, minutes, seconds));
                 ProgressBar.setValue(currentPositionInSeconds);
             });
         }
@@ -397,18 +393,10 @@ public class MusicPlayer extends JPanel {
         SwingUtilities.invokeLater(() -> {
             ProgressBar.setValue(0);
             ProgressBar.setMaximum(100); 
-            CurrentlyPlayingLabel.setText("Currently playing: ");
-            StatusLabel.setText("Status: STOPPED");
-            TimeLabel.setText("0:00                                         0:00");
+            TimeLabel.setText("0:00 / 0:00");
         });
-        updateStatus("Queue is empty");
     }
     
-    private void updateCurrentlyPlaying(String songName) {
-        SwingUtilities.invokeLater(() -> {
-            CurrentlyPlayingLabel.setText("Currently playing: " + songName);
-        });
-    }
 
     private void startUpdateTimer() {
         updateTimeTimer.start();
@@ -435,7 +423,7 @@ public class MusicPlayer extends JPanel {
             DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(file.getFile().getName());
             root.add(fileNode);
         }
-        ((DefaultTreeModel) fileTree.getModel()).reload();
+        ((DefaultTreeModel) queueTree.getModel()).reload();
     }
 }
 
