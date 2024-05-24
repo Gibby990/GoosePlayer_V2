@@ -325,26 +325,30 @@ public class MusicPlayer extends JPanel {
 
     private void skip() {
         if (!Queue.isEmpty()) {
-            ac.stop();
-            if (sp != null) {
-                sp.pause(true);
-                sp = null;
-            }
-            Timer.stop();
-            stopUpdateTimer();
-            isPlaying = false;
-            isPaused = false;
-            
-            Queue.dequeue();
-            songLoaded = false;
-            
-            if (!Queue.isEmpty()) {
-                play(); 
+            if (Loop.isSelected()) {
+                seek(0);
+                play();
             } else {
-                resetCurrentSongData();
+                ac.stop();
+                if (sp != null) {
+                    sp.pause(true);
+                    sp = null;
+                }
+                Timer.stop();
+                stopUpdateTimer();
+                isPlaying = false;
+                isPaused = false;
+                
+                Queue.dequeue();
+                songLoaded = false;
+                
+                if (!Queue.isEmpty()) {
+                    play(); 
+                } else {
+                    resetCurrentSongData();
+                }
             }
-        } else {
-        }
+        } 
         refreshQueueInJTree();
     }
     
