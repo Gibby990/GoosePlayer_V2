@@ -18,6 +18,7 @@ import com.gooseplayer2.Packages.Slugcat;
 import com.gooseplayer2.Packages.QueuedFile;
 
 import net.beadsproject.beads.core.AudioContext;
+import net.beadsproject.beads.core.io.JavaSoundAudioIO;
 import net.beadsproject.beads.data.Sample;
 import net.beadsproject.beads.data.SampleManager;
 import net.beadsproject.beads.ugens.*;
@@ -43,9 +44,10 @@ public class MusicPlayer extends JPanel {
     private Timer Timer, updateTimeTimer;
 
     // Audio Playback
-    private AudioContext ac = new AudioContext(); // Initialize here for consistiency.
+    private AudioContext ac;
     private SamplePlayer sp;
     private Sample sample;
+    private JavaSoundAudioIO audioIO;
     private boolean isPlaying = false, isPaused = false, songLoaded = false;
     private double pausePosition = 0;
     private float sampleRate;
@@ -55,6 +57,7 @@ public class MusicPlayer extends JPanel {
     // File Management
     private File selectedFile;
     private Queue<QueuedFile> Queue = new Queue<>();
+    private QueuedFile queuedFile;
 
 
     public MusicPlayer(int n, JComponent FilePanel) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -70,12 +73,12 @@ public class MusicPlayer extends JPanel {
 
         JScrollPane queueTreePane = new JScrollPane(queueTree);
 
-        //Initializing everything else
+        //Audio Initialization and Configuration
 
-        Slugcat Rivulet = new Slugcat();
-        
-        outline = BorderFactory.createLineBorder(Color.black);
-        queueTree.setBorder(outline);
+        audioIO = new JavaSoundAudioIO();
+        ac = new AudioContext(audioIO);
+
+        //Timer
 
         Timer = new Timer(1000, new ActionListener() {
             @Override
@@ -95,6 +98,13 @@ public class MusicPlayer extends JPanel {
                 }
             }
         });
+
+        //GUI
+
+        Slugcat Rivulet = new Slugcat();
+        
+        outline = BorderFactory.createLineBorder(Color.black);
+        queueTree.setBorder(outline);
 
         //TODO: Implement instance AudioIO for each AudioContext isntead of using default
         // This might be causing all the issues of clipping when skipping songs or playing 2 players at once.
@@ -225,7 +235,7 @@ public class MusicPlayer extends JPanel {
     // Other methods
 
     private void loadSong() throws IOException {
-        QueuedFile queuedFile = Queue.peek();
+        queuedFile = Queue.peek();
         if(queuedFile == null) return;
 
         selectedFile = queuedFile.getFile();
@@ -278,6 +288,7 @@ public class MusicPlayer extends JPanel {
                 if (sp == null) {
                     sp = new SamplePlayer(ac, sample);
                     ac.out.addInput(sp);
+                    sp.setEnvelopeType(SamplePlayer.EnvelopeType.FINE);
                 }
 
                 new Thread(() -> {
@@ -322,7 +333,6 @@ public class MusicPlayer extends JPanel {
             isPlaying = true;
         }
     }
-
     private void skip() {
         if (!Queue.isEmpty()) {
             if (Loop.isSelected()) {
@@ -348,10 +358,9 @@ public class MusicPlayer extends JPanel {
                     resetCurrentSongData();
                 }
             }
-        } 
+        }
         refreshQueueInJTree();
     }
-    
     private void seek(int seconds) {
         if (sp != null) {
             sp.setPosition(seconds * 1000); 
@@ -373,6 +382,10 @@ public class MusicPlayer extends JPanel {
                 TimeLabel.setText(String.format("%d:%02d / %d:%02d", currentMinutes, currentSeconds, minutes, seconds));
                 ProgressBar.setValue(currentPositionInSeconds);
             });
+
+            if (currentPositionInSeconds >= ProgressBar.getMaximum()) {
+                skip(); 
+            }
         }
     }
 
