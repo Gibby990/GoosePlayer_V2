@@ -24,6 +24,7 @@ import net.beadsproject.beads.data.SampleManager;
 import net.beadsproject.beads.ugens.*;
 
 
+
 public class MusicPlayer extends JPanel {
 
     // Constants
@@ -59,8 +60,10 @@ public class MusicPlayer extends JPanel {
     private Queue<QueuedFile> Queue = new Queue<>();
     private QueuedFile queuedFile;
 
+    //TODO: Fix clipping issue when you skip to another song
+    //TODO: Fix the issue of playing 2 players makes one skip songs.
 
-    public MusicPlayer(int n, JComponent FilePanel) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    protected MusicPlayer(int n, JComponent FilePanel) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         //JTree Stuff
         
@@ -79,7 +82,7 @@ public class MusicPlayer extends JPanel {
         ac = new AudioContext(audioIO);
 
         //Timer
-
+        
         Timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -98,6 +101,7 @@ public class MusicPlayer extends JPanel {
                 }
             }
         });
+        
 
         //GUI
 
@@ -105,9 +109,6 @@ public class MusicPlayer extends JPanel {
         
         outline = BorderFactory.createLineBorder(Color.black);
         queueTree.setBorder(outline);
-
-        //TODO: Implement instance AudioIO for each AudioContext isntead of using default
-        // This might be causing all the issues of clipping when skipping songs or playing 2 players at once.
 
         //JComponents
 
@@ -130,7 +131,7 @@ public class MusicPlayer extends JPanel {
 
         ProgressBar = new JSlider(0, 0, 100, 0);  //TODO: find a better slider
         ProgressBar.addChangeListener(e -> {
-            if (ProgressBar.getValueIsAdjusting()) { //TODO: Reset Timer when song ends.
+            if (ProgressBar.getValueIsAdjusting()) { 
                 newValue = ProgressBar.getValue();
                 System.out.println("Slider new value: " + newValue); 
                 elapsedSeconds = newValue;
@@ -234,7 +235,7 @@ public class MusicPlayer extends JPanel {
 
     // Other methods
 
-    private void loadSong() throws IOException {
+    private void loadSong() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         queuedFile = Queue.peek();
         if(queuedFile == null) return;
 
@@ -314,8 +315,8 @@ public class MusicPlayer extends JPanel {
         }
     }
 
-    private void pause() {
-        if (sp != null) {
+    private void pause() { // What might cause the static can be solved by pre-loading, if you skip with loop the song plays from the begginning just fine
+        if (sp != null && isPlaying) {
             pausePosition = sp.getPosition();
             ac.stop();
             Timer.stop();
@@ -334,6 +335,7 @@ public class MusicPlayer extends JPanel {
         }
     }
     private void skip() {
+        elapsedSeconds = 0;
         if (!Queue.isEmpty()) {
             if (Loop.isSelected()) {
                 seek(0);
@@ -369,7 +371,13 @@ public class MusicPlayer extends JPanel {
     }
     
 
-
+    public void adjustBufferSize(AudioContext ac, int newSize) {
+        if (ac.getBufferSize() != newSize) {
+            ac.stop();
+            //ac.setBufferSize(newSize);
+            ac.start();
+        }
+    }
 
     private void updateTime() {
         if (sp != null && isPlaying) {
@@ -414,7 +422,6 @@ public class MusicPlayer extends JPanel {
         });
     }
     
-
     private void startUpdateTimer() {
         updateTimeTimer.start();
     }
@@ -422,7 +429,6 @@ public class MusicPlayer extends JPanel {
     private void stopUpdateTimer() {
         updateTimeTimer.stop();
     }
-
 
     public void addFilesToTree(java.util.List<File> files) {
         for (File file : files) {

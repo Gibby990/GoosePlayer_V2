@@ -9,10 +9,10 @@ import java.awt.*;
 import java.io.IOException;
 
 public class MusicPanel extends JPanel {
-    GridBagLayout layout;
-    GridBagConstraints gbc;
-    Border outline;
-    FilePanel filePanel;
+    private GridBagLayout layout;
+    private GridBagConstraints gbc;
+    private Border outline;
+    private FilePanel filePanel;
     private MusicPlayer player1, player2, player3; // TODO: Implement channel swapping (either or function)
 
     public MusicPanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException {
