@@ -46,6 +46,29 @@ public class Queue<E> implements Iterable<E> {
         rear = null;
     }
 
+    public boolean remove(E item) {
+        if (front == null ) return false;
+        if (front.item.equals(item)) return false;
+    
+        Node<E> current = front;
+        while (current.next != null) {
+            if (current.next.item.equals(item)) {
+                current.next = current.next.next;
+                if (current.next == null) {
+                    rear = current; 
+                }
+                return true; 
+            }
+            current = current.next;
+        }
+    
+        return false; 
+    }
+    
+    public int size() {
+        return size();
+    }
+    
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
