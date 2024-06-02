@@ -33,7 +33,7 @@ public class MusicPlayer extends JPanel {
     // UI Components
     private JTree queueTree;
     private DefaultMutableTreeNode root;
-    private JButton Play, Pause, Skip, Empty;
+    private JButton Play, Pause, Remove, Skip, Empty;
     private JSlider ProgressBar;
     private JLabel TimeLabel, ChannelLabel;
     private JRadioButton Loop;
@@ -62,6 +62,7 @@ public class MusicPlayer extends JPanel {
 
     //TODO: Fix clipping issue when you skip to another song
     //TODO: Fix the issue of playing 2 players makes one skip songs.
+    //TODO: Fix recursion so you can add files within a folder 
 
     protected MusicPlayer(int n, JComponent FilePanel) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
@@ -121,7 +122,8 @@ public class MusicPlayer extends JPanel {
         Skip = new JButton("Skip");
         Skip.addActionListener(new SkipListener());
 
-        //Remove = new JButton("Remove");
+        Remove = new JButton("Remove");
+        Remove.addActionListener(new RemoveListener());
 
         Empty = new JButton("Empty");
         Empty.addActionListener(new EmptyListener());
@@ -157,7 +159,7 @@ public class MusicPlayer extends JPanel {
         Rivulet.addObjects(Play, this, layout, gbc, 4, 0, 1, 1);
         Rivulet.addObjects(Pause, this, layout, gbc,4, 1, 1, 1);
         Rivulet.addObjects(Skip, this, layout, gbc, 4, 2, 1, 1);
-        //Rivulet.addObjects(Remove, this, layout, gbc, 4, 3, 1, 1);
+        Rivulet.addObjects(Remove, this, layout, gbc, 4, 3, 1, 1);
         // TODO: Implement Remove
         //Rivulet.addObjects(Empty, this, layout, gbc, 4, 4, 1, 1);
         //TODO: Implement Empty
@@ -211,6 +213,13 @@ public class MusicPlayer extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             skip();
+        }
+    }
+
+    private class RemoveListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            remove();
         }
     }
 
@@ -334,8 +343,9 @@ public class MusicPlayer extends JPanel {
             isPlaying = true;
         }
     }
+
     private void skip() {
-        elapsedSeconds = 0;
+        //elapsedSeconds = 0;
         if (!Queue.isEmpty()) {
             if (Loop.isSelected()) {
                 seek(0);
@@ -363,6 +373,29 @@ public class MusicPlayer extends JPanel {
         }
         refreshQueueInJTree();
     }
+    
+    private void remove() {
+        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) queueTree.getLastSelectedPathComponent();
+        if (selectedNode != null && selectedNode != root) {
+            QueuedFile topQueuedFile = Queue.peek();
+            if (topQueuedFile != null && selectedNode.getUserObject().toString().equals(topQueuedFile.getFile().getName())) {
+                System.out.println("Skipping removal of the first node in the queue.");
+            } else {
+                Iterator<QueuedFile> fivePebbles = Queue.iterator();
+                while (fivePebbles.hasNext()) {
+                    QueuedFile file = fivePebbles.next();
+                    if (file.getFile().getName().equals(selectedNode.getUserObject().toString())) {
+                        Queue.remove(file);
+                        break;
+                    }
+                }
+            }
+        }
+        refreshQueueInJTree();
+    }
+
+    // Other methods
+
     private void seek(int seconds) {
         if (sp != null) {
             sp.setPosition(seconds * 1000); 
