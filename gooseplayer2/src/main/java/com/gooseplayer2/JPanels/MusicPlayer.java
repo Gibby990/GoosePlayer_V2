@@ -160,7 +160,6 @@ public class MusicPlayer extends JPanel {
         Rivulet.addObjects(Pause, this, layout, gbc,4, 1, 1, 1);
         Rivulet.addObjects(Skip, this, layout, gbc, 4, 2, 1, 1);
         Rivulet.addObjects(Remove, this, layout, gbc, 4, 3, 1, 1);
-        // TODO: Implement Remove
         //Rivulet.addObjects(Empty, this, layout, gbc, 4, 4, 1, 1);
         //TODO: Implement Empty
         Rivulet.addObjects(Loop, this, layout, gbc,4, 5, 1, 1);
@@ -176,7 +175,7 @@ public class MusicPlayer extends JPanel {
         gbc.insets = new Insets(0, 25, 0, 0);
         Rivulet.addObjects(ProgressBar, this, layout, gbc, 0, 1, 4, 4);
 
-        Rivulet.addObjects(TimeLabel, this, layout, gbc, 2, 2, 2, 1);
+        Rivulet.addObjects(TimeLabel, this, layout, gbc, 2, 3, 2, 1);
         gbc.insets = new Insets(0, 0, 0, 0);
 
 
@@ -373,7 +372,7 @@ public class MusicPlayer extends JPanel {
         }
         refreshQueueInJTree();
     }
-    
+
     private void remove() {
         DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) queueTree.getLastSelectedPathComponent();
         if (selectedNode != null && selectedNode != root) {
