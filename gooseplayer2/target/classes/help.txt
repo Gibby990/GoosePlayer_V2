@@ -23,7 +23,12 @@ Will automatically queue from the next queued file
 - Skip
 Skips to the next song in the queue
 
+- Remove 
+Removes the selected song from the queue
+Cannot remove the first song in the queue
+
 - Loop
 Loops the song when it ends for as long as it is toggled
+
 
 
