@@ -63,7 +63,7 @@ public class MusicPlayer extends JPanel {
     //TODO: Fix clipping issue when you skip to another song
     //TODO: Fix the issue of playing 2 players makes one skip songs.
 
-    protected MusicPlayer(int n, JComponent FilePanel) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public MusicPlayer(int n, JComponent FilePanel) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         //JTree Stuff
         
@@ -130,6 +130,7 @@ public class MusicPlayer extends JPanel {
         Loop = new JRadioButton("Loop");
         Loop.addActionListener(new LoopListener());
 
+        
         ProgressBar = new JSlider(0, 0, 100, 0);  //TODO: find a better slider
         ProgressBar.addChangeListener(e -> {
             if (ProgressBar.getValueIsAdjusting()) { 
@@ -140,6 +141,7 @@ public class MusicPlayer extends JPanel {
             }
         });
 
+        
         TimeLabel = new JLabel("0:00 / 0:00");
         ChannelLabel = new JLabel("Channel " + n);
 
@@ -244,47 +246,48 @@ public class MusicPlayer extends JPanel {
 
     private void loadSong() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         queuedFile = Queue.peek();
-        if(queuedFile == null) return;
-
+        if (queuedFile == null) return;
+    
         selectedFile = queuedFile.getFile();
-
         File fileInLibrary = new File(LIBRARY_PATH, selectedFile.getName());
-
-        System.out.println("Attempting to play file: " + fileInLibrary.getAbsolutePath());
+    
+        if (!fileInLibrary.exists()) {
+            throw new FileNotFoundException("File not found: " + fileInLibrary.getAbsolutePath());
+        }
         if (!fileInLibrary.canRead()) {
             throw new IOException("Cannot read file: " + fileInLibrary.getAbsolutePath());
         }
-        if (!fileInLibrary.exists()) {
-            throw new FileNotFoundException("File not found: " + selectedFile.getAbsolutePath());
-        }
-
+    
         try {
             sample = SampleManager.sample(fileInLibrary.getAbsolutePath());
-            songLoaded = true;
-            System.out.println("Song loaded: " + fileInLibrary.getName());
-
+            if (sample == null) {
+                throw new IOException("Failed to load sample from file: " + fileInLibrary.getAbsolutePath());
+            }
+    
             sampleFrames = sample.getNumFrames();
             sampleRate = sample.getSampleRate();
-
+            if (sampleRate == 0) {
+                throw new IllegalArgumentException("Sample rate is zero for file: " + fileInLibrary.getAbsolutePath());
+            }
+    
             float duration = sampleFrames / sampleRate;
             minutes = (int) (duration / 60);
             seconds = (int) (duration % 60);
-
+    
             updateTime();
             SwingUtilities.invokeLater(() -> {
                 int totalDuration = minutes * 60 + seconds;
                 ProgressBar.setMaximum(totalDuration);
                 ProgressBar.setValue(0);
             });
-
-            pausePosition = 0;
-        } catch (Exception e) {
+    
+            songLoaded = true;
+            System.out.println("Song loaded: " + fileInLibrary.getName());
+        } catch (IOException | IllegalArgumentException e) {
+            System.err.println("ERROR: Unable to load the selected file: " + fileInLibrary.getAbsolutePath());
             e.printStackTrace();
-            System.err.println("ERROR: Unable to load the selected file.");
+            songLoaded = false;
         }
-
-        songLoaded = true;
-        System.out.println("Song loaded");
     }
 
     public void play() {
@@ -298,36 +301,27 @@ public class MusicPlayer extends JPanel {
                     ac.out.addInput(sp);
                     sp.setEnvelopeType(SamplePlayer.EnvelopeType.FINE);
                 }
-
-                new Thread(() -> {
-                    try {
-                        songLoaded = true;
-                        isPlaying = true;
-                        isPaused = false;
-                        ac.start();
-                        Timer.start();
-                        startUpdateTimer(); 
-                        System.out.println("Playback successful");
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                        System.out.println("Playback failed in thread");
-                    }
-                }).start();
+                ac.start();
+                Timer.start();
+                startUpdateTimer();
+                isPlaying = true;
+                isPaused = false;
+                SwingUtilities.invokeLater(() -> System.out.println("Playback started"));
             } catch (Exception ex) {
                 ex.printStackTrace();
-                System.out.println("Playback failed");
+                SwingUtilities.invokeLater(() -> System.out.println("Playback failed"));
             }
         } else if (isPaused) {
             resume();
         }
     }
 
-    private void pause() { // What might cause the static can be solved by pre-loading, if you skip with loop the song plays from the begginning just fine
+    private void pause() {
         if (sp != null && isPlaying) {
             pausePosition = sp.getPosition();
             ac.stop();
             Timer.stop();
-            stopUpdateTimer(); 
+            updateTimeTimer.stop();
             isPaused = true;
             isPlaying = false;
         }
