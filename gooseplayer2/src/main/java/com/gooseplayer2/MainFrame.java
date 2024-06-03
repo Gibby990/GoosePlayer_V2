@@ -11,11 +11,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.FileSystems;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardWatchEventKinds;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
+import java.nio.file.attribute.BasicFileAttributes;
 
 import javazoom.jl.decoder.JavaLayerException;
 
@@ -145,15 +149,19 @@ public class MainFrame extends JFrame {
 
     private void watchDirectoryPath(Path path) {
         try (WatchService service = FileSystems.getDefault().newWatchService()) {
-            path.register(service, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_DELETE);
-    
+            registerDirectoryAndSubdirectories(path, service);
             while (true) {
                 WatchKey key = service.take();
                 for (WatchEvent<?> event : key.pollEvents()) {
                     WatchEvent.Kind<?> kind = event.kind();
-                    if (kind == StandardWatchEventKinds.ENTRY_CREATE || kind == StandardWatchEventKinds.ENTRY_DELETE) {
-                        SwingUtilities.invokeLater(() -> filePanel.refreshLibrary());
+                    Path eventPath = (Path) event.context();
+                    Path fullPath = ((Path) key.watchable()).resolve(eventPath);
+                    if (kind == StandardWatchEventKinds.ENTRY_CREATE) {
+                        if (Files.isDirectory(fullPath)) {
+                            registerDirectoryAndSubdirectories(fullPath, service);
+                        }
                     }
+                    SwingUtilities.invokeLater(() -> filePanel.refreshLibrary());
                 }
                 if (!key.reset()) {
                     break;
@@ -162,5 +170,15 @@ public class MainFrame extends JFrame {
         } catch (IOException | InterruptedException ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void registerDirectoryAndSubdirectories(Path start, WatchService service) throws IOException {
+        Files.walkFileTree(start, new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                dir.register(service, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_DELETE, StandardWatchEventKinds.ENTRY_MODIFY);
+                return FileVisitResult.CONTINUE;
+            }
+        });
     }
 }

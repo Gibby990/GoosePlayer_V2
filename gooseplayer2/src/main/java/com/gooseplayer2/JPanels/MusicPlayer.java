@@ -62,7 +62,6 @@ public class MusicPlayer extends JPanel {
 
     //TODO: Fix clipping issue when you skip to another song
     //TODO: Fix the issue of playing 2 players makes one skip songs.
-    //TODO: Fix recursion so you can add files within a folder 
 
     protected MusicPlayer(int n, JComponent FilePanel) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
@@ -464,10 +463,35 @@ public class MusicPlayer extends JPanel {
 
     public void addFilesToTree(java.util.List<File> files) {
         for (File file : files) {
-            Queue.enqueue(new QueuedFile(file)); 
-            //TODO: Check for if file is formatted for audio.
+            if (file.isDirectory()) {
+                addFilesFromDirectory(file);
+            } else {
+                if (isAudioFile(file)) {
+                    Queue.enqueue(new QueuedFile(file));
+                }
+            }
         }
-        refreshQueueInJTree(); 
+        refreshQueueInJTree();
+    }
+
+    private void addFilesFromDirectory(File directory) {
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    addFilesFromDirectory(file);
+                } else {
+                    if (isAudioFile(file)) {
+                        Queue.enqueue(new QueuedFile(file));
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean isAudioFile(File file) {
+        String fileName = file.getName().toLowerCase();
+        return fileName.endsWith(".mp3") || fileName.endsWith(".wav") || fileName.endsWith(".flac");
     }
 
     public void refreshQueueInJTree() {
