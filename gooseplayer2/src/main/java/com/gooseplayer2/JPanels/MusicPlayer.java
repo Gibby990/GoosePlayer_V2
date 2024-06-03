@@ -5,7 +5,6 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.Iterator;
 import javax.swing.*;
-import javax.swing.border.*;
 //import javax.swing.event.ChangeEvent;
 //import javax.swing.event.ChangeListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -39,7 +38,6 @@ public class MusicPlayer extends JPanel {
     private JRadioButton Loop;
     private GridBagLayout layout;
     private GridBagConstraints gbc;
-    private Border outline;
 
     // Timer
     private Timer Timer, updateTimeTimer;
@@ -60,8 +58,8 @@ public class MusicPlayer extends JPanel {
     private Queue<QueuedFile> Queue = new Queue<>();
     private QueuedFile queuedFile;
 
-    //TODO: Fix clipping issue when you skip to another song
     //TODO: Fix the issue of playing 2 players makes one skip songs.
+    //TODO: Implement volume slider
 
     public MusicPlayer(int n, JComponent FilePanel) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
@@ -106,9 +104,6 @@ public class MusicPlayer extends JPanel {
         //GUI
 
         Slugcat Rivulet = new Slugcat();
-        
-        outline = BorderFactory.createLineBorder(Color.black);
-        //queueTree.setBorder(outline);
 
         //JComponents
 
@@ -311,7 +306,7 @@ public class MusicPlayer extends JPanel {
                 ex.printStackTrace();
                 SwingUtilities.invokeLater(() -> System.out.println("Playback failed"));
             }
-        } else if (isPaused) {
+        } else if (isPaused) {    
             resume();
         }
     }
@@ -337,33 +332,31 @@ public class MusicPlayer extends JPanel {
     }
 
     private void skip() {
-        //elapsedSeconds = 0;
-        if (!Queue.isEmpty()) {
-            if (Loop.isSelected()) {
-                seek(0);
-                play();
-            } else {
-                ac.stop();
+        try {
+            if (!Queue.isEmpty()) {
                 if (sp != null) {
                     sp.pause(true);
+                    ac.out.removeAllConnections(sp);
+                    sp.kill();
                     sp = null;
                 }
+                ac.stop();
                 Timer.stop();
                 stopUpdateTimer();
                 isPlaying = false;
                 isPaused = false;
-                
+    
                 Queue.dequeue();
                 songLoaded = false;
-                
-                if (!Queue.isEmpty()) {
-                    play(); 
-                } else {
-                    resetCurrentSongData();
-                }
+    
+                resetCurrentSongData();
+                refreshQueueInJTree();
+                System.out.println("Track skipped. Queue updated.");
             }
+        } catch (Exception e) {
+            System.err.println("Error during skipping track: " + e.getMessage());
+            resetCurrentSongData();
         }
-        refreshQueueInJTree();
     }
 
     private void remove() {
