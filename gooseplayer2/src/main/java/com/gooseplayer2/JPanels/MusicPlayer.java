@@ -108,7 +108,7 @@ public class MusicPlayer extends JPanel {
         Slugcat Rivulet = new Slugcat();
         
         outline = BorderFactory.createLineBorder(Color.black);
-        queueTree.setBorder(outline);
+        //queueTree.setBorder(outline);
 
         //JComponents
 
