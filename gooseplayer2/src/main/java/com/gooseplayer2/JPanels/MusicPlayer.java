@@ -333,25 +333,33 @@ public class MusicPlayer extends JPanel {
 
     private void skip() {
         try {
-            if (!Queue.isEmpty()) {
-                if (sp != null) {
-                    sp.pause(true);
-                    ac.out.removeAllConnections(sp);
-                    sp.kill();
-                    sp = null;
+            if (Loop.isSelected()) {
+                seek(0);
+            } else {
+                if (!Queue.isEmpty()) {
+                    if (sp != null) {
+                        sp.pause(true);
+                        ac.out.removeAllConnections(sp);
+                        sp.kill();
+                        sp = null;
+                    }
+                    ac.stop();
+                    Timer.stop();
+                    stopUpdateTimer();
+                    isPlaying = false;
+                    isPaused = false;
+                    
+                    resetCurrentSongData();
+                    
+                    Queue.dequeue();
+                    songLoaded = false;
+
+                    play();
+                    
+        
+                    refreshQueueInJTree();
+                    System.out.println("Track skipped. Queue updated.");
                 }
-                ac.stop();
-                Timer.stop();
-                stopUpdateTimer();
-                isPlaying = false;
-                isPaused = false;
-    
-                Queue.dequeue();
-                songLoaded = false;
-    
-                resetCurrentSongData();
-                refreshQueueInJTree();
-                System.out.println("Track skipped. Queue updated.");
             }
         } catch (Exception e) {
             System.err.println("Error during skipping track: " + e.getMessage());
