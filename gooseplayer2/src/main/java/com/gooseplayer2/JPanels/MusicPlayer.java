@@ -26,9 +26,6 @@ import net.beadsproject.beads.ugens.*;
 
 public class MusicPlayer extends JPanel {
 
-    // Constants
-    private static final String LIBRARY_PATH = System.getProperty("user.dir") + File.separator + "Library";
-
     // UI Components
     private JButton Empty, Pause, Play, Remove, Skip;
     private GridBagConstraints gbc;
@@ -251,25 +248,24 @@ public class MusicPlayer extends JPanel {
         if (queuedFile == null) return;
     
         selectedFile = queuedFile.getFile();
-        File fileInLibrary = new File(LIBRARY_PATH, selectedFile.getName());
     
-        if (!fileInLibrary.exists()) {
-            throw new FileNotFoundException("File not found: " + fileInLibrary.getAbsolutePath());
+        if (!selectedFile.exists()) {
+            throw new FileNotFoundException("File not found: " + selectedFile.getAbsolutePath());
         }
-        if (!fileInLibrary.canRead()) {
-            throw new IOException("Cannot read file: " + fileInLibrary.getAbsolutePath());
+        if (!selectedFile.canRead()) {
+            throw new IOException("Cannot read file: " + selectedFile.getAbsolutePath());
         }
-    
+
         try {
-            sample = SampleManager.sample(fileInLibrary.getAbsolutePath());
+            sample = SampleManager.sample(selectedFile.getAbsolutePath());
             if (sample == null) {
-                throw new IOException("Failed to load sample from file: " + fileInLibrary.getAbsolutePath());
+                throw new IOException("Failed to load sample from file: " + selectedFile.getAbsolutePath());
             }
     
             sampleFrames = sample.getNumFrames();
             sampleRate = sample.getSampleRate();
             if (sampleRate == 0) {
-                throw new IllegalArgumentException("Sample rate is zero for file: " + fileInLibrary.getAbsolutePath());
+                throw new IllegalArgumentException("Sample rate is zero for file: " + selectedFile.getAbsolutePath());
             }
     
             float duration = sampleFrames / sampleRate;
@@ -284,9 +280,9 @@ public class MusicPlayer extends JPanel {
             });
     
             songLoaded = true;
-            System.out.println("Song loaded: " + fileInLibrary.getName());
+            System.out.println("Song loaded: " + selectedFile.getName());
         } catch (IOException | IllegalArgumentException e) {
-            System.err.println("ERROR: Unable to load the selected file: " + fileInLibrary.getAbsolutePath());
+            System.err.println("ERROR: Unable to load the selected file: " + selectedFile.getAbsolutePath());
             e.printStackTrace();
             songLoaded = false;
         }
