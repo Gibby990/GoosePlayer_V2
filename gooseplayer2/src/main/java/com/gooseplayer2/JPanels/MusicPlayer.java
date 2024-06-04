@@ -37,7 +37,7 @@ public class MusicPlayer extends JPanel {
     private DefaultMutableTreeNode root;
 
     // Timer
-    private Timer Timer, updateTimeTimer;
+    private Timer updateTimeTimer;
 
     // Audio Playback
     private AudioContext ac;
@@ -78,21 +78,14 @@ public class MusicPlayer extends JPanel {
         ac = new AudioContext(audioIO);
 
         //Timer
-        
-        Timer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateTime();
-            }
-        });
 
         updateTimeTimer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isPlaying) {
-                    elapsedSeconds++;
+                    elapsedSeconds++;  // Increment the elapsed time
                     System.out.println("Elapsed Seconds: " + elapsedSeconds);
-                    updateTime();
+                    updateTime();  // Update the UI and check for track end
                 }
             }
         });
@@ -295,16 +288,14 @@ public class MusicPlayer extends JPanel {
         if (!isPlaying && !Queue.isEmpty()) {
             try {
                 if (!songLoaded) {
-                    loadSong();
+                    loadSong();  // Load the song if not already loaded
                 }
                 if (sp == null) {
-                    sp = new SamplePlayer(ac, sample);
-                    ac.out.addInput(sp);
-                    sp.setEnvelopeType(SamplePlayer.EnvelopeType.FINE);
+                    sp = new SamplePlayer(ac, sample);  // Initialize the SamplePlayer with the loaded sample
+                    ac.out.addInput(sp);  // Add the SamplePlayer to the audio context output
                 }
-                ac.start();
-                Timer.start();
-                startUpdateTimer();
+                ac.start();  // Start the audio context
+                updateTimeTimer.start();  // Start the timer to update UI and handle time-related logic
                 isPlaying = true;
                 isPaused = false;
                 SwingUtilities.invokeLater(() -> System.out.println("Playback started"));
@@ -312,18 +303,17 @@ public class MusicPlayer extends JPanel {
                 ex.printStackTrace();
                 SwingUtilities.invokeLater(() -> System.out.println("Playback failed"));
             }
-        } else if (isPaused) {    
-            resume();
+        } else if (isPaused) {
+            resume();  // If the player is paused, resume playback
         }
     }
 
     private void pause() {
-        System.out.println("Pause pressed at player " + n);
         if (sp != null && isPlaying) {
-            pausePosition = sp.getPosition();
-            ac.stop();
-            Timer.stop();
-            updateTimeTimer.stop();
+            System.out.println("Pause pressed at player " + n);
+            pausePosition = sp.getPosition();  // Save the current position to resume later
+            ac.stop();  // Stop the audio context to pause playback
+            updateTimeTimer.stop();  // Stop the timer since we're no longer playing
             isPaused = true;
             isPlaying = false;
         }
@@ -331,8 +321,9 @@ public class MusicPlayer extends JPanel {
 
     private void resume() {
         if (sp != null && isPaused) {
-            ac.start();
-            sp.setPosition(pausePosition);
+            ac.start();  // Start the audio context again
+            sp.setPosition(pausePosition);  // Resume from the paused position
+            updateTimeTimer.start();  // Ensure the timer is running
             isPaused = false;
             isPlaying = true;
         }
@@ -454,35 +445,27 @@ public class MusicPlayer extends JPanel {
 
     public void resetCurrentSongData() {
         if (isPlaying || isPaused) {
-            ac.stop();
-            Timer.stop();
-            stopUpdateTimer();
+            ac.stop();  // Stop the audio context
+            updateTimeTimer.stop();  // Stop the timer
             isPlaying = false;
             isPaused = false;
         }
-        songLoaded = false;  //Im just going to pretend this mess does not exist and is isolated to this one method alone.
-        selectedFile = null;
-        pausePosition = 0;
-        sample = null;
-        sp = null;
-        sampleFrames = 0;
-        sampleRate = 0;
-        minutes = 0;
-        seconds = 0;
-        elapsedSeconds = 0;
+        songLoaded = false;  // Mark the song as not loaded
+        selectedFile = null;  // Clear the selected file
+        pausePosition = 0;  // Reset the pause position
+        sample = null;  // Clear the sample
+        sp = null;  // Clear the SamplePlayer
+        sampleFrames = 0;  // Reset sample frames
+        sampleRate = 0;  // Reset sample rate
+        minutes = 0;  // Reset minutes
+        seconds = 0;  // Reset seconds
+        elapsedSeconds = 0;  // Reset elapsed seconds
+    
         SwingUtilities.invokeLater(() -> {
             ProgressBar.setValue(0);
-            ProgressBar.setMaximum(100); 
-            TimeLabel.setText("0:00 / 0:00");
+            ProgressBar.setMaximum(100);  // Reset the progress bar
+            TimeLabel.setText("0:00 / 0:00");  // Reset the time label
         });
-    }
-    
-    private void startUpdateTimer() {
-        updateTimeTimer.start();
-    }
-
-    private void stopUpdateTimer() {
-        updateTimeTimer.stop();
     }
 
     public void addFilesToTree(java.util.List<File> files) {
