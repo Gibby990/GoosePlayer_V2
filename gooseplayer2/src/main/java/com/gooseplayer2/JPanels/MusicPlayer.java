@@ -44,7 +44,7 @@ public class MusicPlayer extends JPanel {
     private boolean isPaused = false, isPlaying = false, songLoaded = false;
     private double pausePosition = 0;
     private float sampleRate, volume;
-    private int elapsedSeconds, minutes, newValue = 0, seconds;
+    private int elapsedSeconds, minutes, newValue = 0, seconds, n;
     private JavaSoundAudioIO audioIO;
     private long sampleFrames;
     private Sample sample;
@@ -69,6 +69,8 @@ public class MusicPlayer extends JPanel {
         queueTree.setRootVisible(true);
 
         JScrollPane queueTreePane = new JScrollPane(queueTree);
+
+        this.n = n;
 
         //Audio Initialization and Configuration
 
@@ -244,6 +246,7 @@ public class MusicPlayer extends JPanel {
     // Other methods
 
     private void loadSong() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        System.out.println("loadSong ran in player" + n);
         queuedFile = Queue.peek();
         if (queuedFile == null) return;
     
@@ -315,6 +318,7 @@ public class MusicPlayer extends JPanel {
     }
 
     private void pause() {
+        System.out.println("Pause pressed at player " + n);
         if (sp != null && isPlaying) {
             pausePosition = sp.getPosition();
             ac.stop();
@@ -395,6 +399,7 @@ public class MusicPlayer extends JPanel {
     // Other methods
 
     private void seek(int seconds) {
+        System.out.println("Seek method fired at Player " + n);
         if (sp != null) {
             sp.setPosition(seconds * 1000); 
             updateTime();
@@ -417,14 +422,19 @@ public class MusicPlayer extends JPanel {
             int currentMinutes = currentPositionInSeconds / 60;
             int currentSeconds = currentPositionInSeconds % 60;
     
+            System.out.println("Instance " + n + " - updateTime() called. Current position: " + currentPositionInSeconds + " seconds.");
+    
             SwingUtilities.invokeLater(() -> { 
                 TimeLabel.setText(String.format("%d:%02d / %d:%02d", currentMinutes, currentSeconds, minutes, seconds));
                 ProgressBar.setValue(currentPositionInSeconds);
             });
-
+    
             if (currentPositionInSeconds >= ProgressBar.getMaximum()) {
+                System.out.println("Instance " + n + " - End of track reached. Skipping to next.");
                 skip(); 
             }
+        } else {
+            System.out.println("Instance " + n + " - updateTime() called but player is null or not playing.");
         }
     }
     
@@ -492,6 +502,17 @@ public class MusicPlayer extends JPanel {
         if (sp != null) {
             ac.out.setGain(volume);
         }
+    }
+
+    public void setPosition(double position) {
+        System.out.println("Setting position to: " + position + " in instance " + n);
+        sp.setPosition(position);
+    }
+    
+    public double getPosition() {
+        double position = sp.getPosition();
+        System.out.println("Retrieved position: " + position + " from instance " + n);
+        return position;
     }
 
     private void addFilesFromDirectory(File directory) {
