@@ -33,8 +33,8 @@ public class MusicPlayer extends JPanel {
     private JTree queueTree;
     private DefaultMutableTreeNode root;
     private JButton Play, Pause, Remove, Skip, Empty;
-    private JSlider ProgressBar;
-    private JLabel TimeLabel, ChannelLabel;
+    private JSlider ProgressBar, VolumeSlider;
+    private JLabel TimeLabel, ChannelLabel, VolumeLabel;
     private JRadioButton Loop;
     private GridBagLayout layout;
     private GridBagConstraints gbc;
@@ -49,7 +49,7 @@ public class MusicPlayer extends JPanel {
     private JavaSoundAudioIO audioIO;
     private boolean isPlaying = false, isPaused = false, songLoaded = false;
     private double pausePosition = 0;
-    private float sampleRate;
+    private float sampleRate, volume;
     private long sampleFrames;
     private int minutes, seconds, elapsedSeconds, newValue = 0;
 
@@ -59,7 +59,6 @@ public class MusicPlayer extends JPanel {
     private QueuedFile queuedFile;
 
     //TODO: Fix the issue of playing 2 players makes one skip songs.
-    //TODO: Implement volume slider
 
     public MusicPlayer(int n, JComponent FilePanel) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
@@ -98,8 +97,7 @@ public class MusicPlayer extends JPanel {
                 }
             }
         });
-        
-
+                
         //GUI
 
         Slugcat Rivulet = new Slugcat();
@@ -135,9 +133,17 @@ public class MusicPlayer extends JPanel {
             }
         });
 
-        
-        TimeLabel = new JLabel("0:00 / 0:00");
         ChannelLabel = new JLabel("Channel " + n);
+        TimeLabel = new JLabel("0:00 / 0:00");   
+        VolumeLabel = new JLabel("Volume");
+
+        VolumeSlider = new JSlider(0, 100, 100);
+        VolumeSlider.addChangeListener(e -> {
+            if (!VolumeSlider.getValueIsAdjusting()) {
+                volume = VolumeSlider.getValue() / 100.0f; // Convert to a scale of 0.0 to 1.0
+                setVolume(volume);
+            }
+        });
 
         // Display
 
@@ -168,18 +174,19 @@ public class MusicPlayer extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         gbc.insets = new Insets(0, 25, 0, 0);
-        Rivulet.addObjects(ProgressBar, this, layout, gbc, 0, 1, 4, 4);
 
-        Rivulet.addObjects(TimeLabel, this, layout, gbc, 2, 3, 2, 1);
+        Rivulet.addObjects(ProgressBar, this, layout, gbc, 0, 0, 4, 4);
+        Rivulet.addObjects(TimeLabel, this, layout, gbc, 0, 2, 2, 1);
+        Rivulet.addObjects(VolumeLabel, this, layout, gbc, 0, 4, 2, 1);
+        Rivulet.addObjects(VolumeSlider, this, layout, gbc, 0, 5, 1, 1);
+        
         gbc.insets = new Insets(0, 0, 0, 0);
-
 
         // queueTree
 
         gbc.fill = GridBagConstraints.BOTH;
 
         Rivulet.addObjects(queueTreePane, this, layout, gbc, 5, 0, 1,6);
-
 
         queueTree.setTransferHandler(new DropFileHandler(this, FilePanel));
 
@@ -468,6 +475,12 @@ public class MusicPlayer extends JPanel {
             }
         }
         refreshQueueInJTree();
+    }
+
+    private void setVolume(float volume) {
+        if (sp != null) {
+            ac.out.setGain(volume);
+        }
     }
 
     private void addFilesFromDirectory(File directory) {
