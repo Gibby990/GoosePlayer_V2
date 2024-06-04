@@ -30,28 +30,28 @@ public class MusicPlayer extends JPanel {
     private static final String LIBRARY_PATH = System.getProperty("user.dir") + File.separator + "Library";
 
     // UI Components
+    private JButton Empty, Pause, Play, Remove, Skip;
+    private GridBagConstraints gbc;
+    private GridBagLayout layout;
+    private JLabel ChannelLabel, TimeLabel, VolumeLabel;
+    private JRadioButton Loop;
+    private JSlider ProgressBar, VolumeSlider;
     private JTree queueTree;
     private DefaultMutableTreeNode root;
-    private JButton Play, Pause, Remove, Skip, Empty;
-    private JSlider ProgressBar, VolumeSlider;
-    private JLabel TimeLabel, ChannelLabel, VolumeLabel;
-    private JRadioButton Loop;
-    private GridBagLayout layout;
-    private GridBagConstraints gbc;
 
     // Timer
     private Timer Timer, updateTimeTimer;
 
     // Audio Playback
     private AudioContext ac;
-    private SamplePlayer sp;
-    private Sample sample;
-    private JavaSoundAudioIO audioIO;
-    private boolean isPlaying = false, isPaused = false, songLoaded = false;
+    private boolean isPaused = false, isPlaying = false, songLoaded = false;
     private double pausePosition = 0;
     private float sampleRate, volume;
+    private int elapsedSeconds, minutes, newValue = 0, seconds;
+    private JavaSoundAudioIO audioIO;
     private long sampleFrames;
-    private int minutes, seconds, elapsedSeconds, newValue = 0;
+    private Sample sample;
+    private SamplePlayer sp;
 
     // File Management
     private File selectedFile;
@@ -140,7 +140,7 @@ public class MusicPlayer extends JPanel {
         VolumeSlider = new JSlider(0, 100, 100);
         VolumeSlider.addChangeListener(e -> {
             if (!VolumeSlider.getValueIsAdjusting()) {
-                volume = VolumeSlider.getValue() / 100.0f; // Convert to a scale of 0.0 to 1.0
+                volume = VolumeSlider.getValue() / 100.0f; 
                 setVolume(volume);
             }
         });
