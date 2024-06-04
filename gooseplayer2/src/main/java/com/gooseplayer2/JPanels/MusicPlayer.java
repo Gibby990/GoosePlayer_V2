@@ -88,7 +88,6 @@ public class MusicPlayer extends JPanel {
             }
         });
 
-
         updateTimeTimer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -344,21 +343,22 @@ public class MusicPlayer extends JPanel {
                         sp = null;
                     }
                     ac.stop();
-                    Timer.stop();
-                    stopUpdateTimer();
-                    isPlaying = false;
-                    isPaused = false;
                     
                     resetCurrentSongData();
                     
                     Queue.dequeue();
                     songLoaded = false;
 
-                    play();
-                    
-        
+                    new Timer(500, new ActionListener() {
+                        public void actionPerformed(ActionEvent evt) {
+                            play();
+                            ((Timer)evt.getSource()).stop(); 
+                        }
+                    }).start();
+
                     refreshQueueInJTree();
                     System.out.println("Track skipped. Queue updated.");
+                    
                 }
             }
         } catch (Exception e) {
@@ -367,6 +367,7 @@ public class MusicPlayer extends JPanel {
         }
     }
 
+    
     private void remove() {
         DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) queueTree.getLastSelectedPathComponent();
         if (selectedNode != null && selectedNode != root) {
