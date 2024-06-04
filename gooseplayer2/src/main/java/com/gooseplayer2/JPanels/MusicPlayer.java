@@ -135,13 +135,14 @@ public class MusicPlayer extends JPanel {
 
         ChannelLabel = new JLabel("Channel " + n);
         TimeLabel = new JLabel("0:00 / 0:00");   
-        VolumeLabel = new JLabel("Volume");
+        VolumeLabel = new JLabel("Volume (100)");
 
         VolumeSlider = new JSlider(0, 100, 100);
         VolumeSlider.addChangeListener(e -> {
             if (!VolumeSlider.getValueIsAdjusting()) {
                 volume = VolumeSlider.getValue() / 100.0f; 
                 setVolume(volume);
+                updateCurrentVolume(volume);
             }
         });
 
@@ -428,6 +429,20 @@ public class MusicPlayer extends JPanel {
             if (currentPositionInSeconds >= ProgressBar.getMaximum()) {
                 skip(); 
             }
+        }
+    }
+    
+    private void updateCurrentVolume(float currentVolume) {
+        if (currentVolume == 1.0) {
+            SwingUtilities.invokeLater(() -> {
+                VolumeLabel.setText("Volume (" + Math.round(currentVolume * 100) + ")");
+            });
+        } else if (currentVolume < 0.1) {
+            VolumeLabel.setText("Volume (" + Math.round(currentVolume * 100) + ")    ");
+        } else {
+            SwingUtilities.invokeLater(() -> {
+                VolumeLabel.setText("Volume (" + Math.round(currentVolume * 100) + ")  ");
+            });
         }
     }
 
