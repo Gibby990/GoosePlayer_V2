@@ -4,6 +4,8 @@ import com.gooseplayer2.JPanels.*;
 import com.gooseplayer2.Packages.Slugcat;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -44,6 +46,8 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(950, 600);
 
+        Config.applySettings();
+
         icon = new ImageIcon(getClass().getResource("/icons/Icon.png"));
         image = icon.getImage();
         scaledImage = getScaledImage(image, 512, 547);
@@ -57,8 +61,11 @@ public class MainFrame extends JFrame {
         settingsButton.setFocusPainted(false);
         toolBar.add(settingsButton);
 
-        settingsButton.addActionListener(e -> {
-            // TODO: Add settings
+        settingsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openSettingsDialog();
+            }
 
         });
 
@@ -133,6 +140,7 @@ public class MainFrame extends JFrame {
         gbc.weightx = 1.0;
         Survivor.addObjects(filePanel, this, mainLayout, gbc, 2, 1, 1, 1);
 
+
         setVisible(true);
     }
 
@@ -180,5 +188,15 @@ public class MainFrame extends JFrame {
                 return FileVisitResult.CONTINUE;
             }
         });
+    }
+
+    private void openSettingsDialog() {
+        try {
+            Config configDialog = new Config(this);
+            configDialog.setVisible(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error opening settings: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

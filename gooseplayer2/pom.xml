@@ -40,6 +40,12 @@
             <version>1.9.5.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.formdev</groupId>
+            <artifactId>flatlaf-intellij-themes</artifactId>
+            <version>3.5.1</version>
+        </dependency>
+
     </dependencies>
 
 </project>
