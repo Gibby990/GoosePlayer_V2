@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> { //TODO: Make Project run off of the JRE
             try {
-                new MainFrame();
+                new MainFrame(); //TODO: Create an Exe to the Jar
             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException | JavaLayerException e) {
                 e.printStackTrace();
             }
