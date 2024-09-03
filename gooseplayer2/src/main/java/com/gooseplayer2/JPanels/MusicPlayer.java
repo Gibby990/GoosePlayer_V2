@@ -17,6 +17,7 @@ import com.gooseplayer2.Packages.Slugcat;
 import com.gooseplayer2.Packages.QueuedFile;
 
 import net.beadsproject.beads.core.AudioContext;
+import net.beadsproject.beads.core.UGen;
 import net.beadsproject.beads.core.io.JavaSoundAudioIO;
 import net.beadsproject.beads.data.Sample;
 import net.beadsproject.beads.data.SampleManager;
@@ -46,6 +47,7 @@ public class MusicPlayer extends JPanel {
     private float sampleRate, volume;
     private int elapsedSeconds, minutes, newValue = 0, seconds, n;
     private JavaSoundAudioIO audioIO;
+    private UGen gain;
     private long sampleFrames;
     private Sample sample;
     private SamplePlayer sp;
@@ -76,6 +78,9 @@ public class MusicPlayer extends JPanel {
 
         audioIO = new JavaSoundAudioIO();
         ac = new AudioContext(audioIO);
+
+        gain = new Gain(ac, 1, 1);
+        ac.out.addInput(gain);
 
         // High-pass filter
         BiquadFilter highPass = new BiquadFilter(ac, 1, BiquadFilter.HP);
