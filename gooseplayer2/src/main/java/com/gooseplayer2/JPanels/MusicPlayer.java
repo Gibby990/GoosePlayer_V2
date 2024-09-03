@@ -268,19 +268,16 @@ public class MusicPlayer extends JPanel {
     // Other methods
 
     private void loadSong() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        System.out.println("loadSong ran in player" + n);
+        System.out.println("loadSong ran in player " + n);
         queuedFile = Queue.peek();
         if (queuedFile == null) return;
     
         selectedFile = queuedFile.getFile();
     
-        if (!selectedFile.exists()) {
-            throw new FileNotFoundException("File not found: " + selectedFile.getAbsolutePath());
+        if (!selectedFile.exists() || !selectedFile.canRead()) {
+            throw new IOException("File not found or cannot be read: " + selectedFile.getAbsolutePath());
         }
-        if (!selectedFile.canRead()) {
-            throw new IOException("Cannot read file: " + selectedFile.getAbsolutePath());
-        }
-
+    
         try {
             sample = SampleManager.sample(selectedFile.getAbsolutePath());
             if (sample == null) {
@@ -306,10 +303,15 @@ public class MusicPlayer extends JPanel {
     
             songLoaded = true;
             System.out.println("Song loaded: " + selectedFile.getName());
-        } catch (IOException | IllegalArgumentException e) {
+    
+            sp = new SamplePlayer(ac, sample);
+            ac.out.addInput(sp);
+
+        } catch (Exception e) {
             System.err.println("ERROR: Unable to load the selected file: " + selectedFile.getAbsolutePath());
             e.printStackTrace();
             songLoaded = false;
+            throw e; // Re-throw the exception to be handled by the caller
         }
     }
 
@@ -317,14 +319,13 @@ public class MusicPlayer extends JPanel {
         if (!isPlaying && !Queue.isEmpty()) {
             try {
                 if (!songLoaded) {
-                    loadSong();  // Load the song if not already loaded
+                    loadSong();
                 }
-                if (sp == null) {
-                    sp = new SamplePlayer(ac, sample);  // Initialize the SamplePlayer with the loaded sample
-                    ac.out.addInput(sp);  // Add the SamplePlayer to the audio context output
+                if (!ac.isRunning()) {
+                    ac.start();
                 }
-                ac.start();  // Start the audio context
-                updateTimeTimer.start();  // Start the timer to update UI and handle time-related logic
+                sp.start();
+                updateTimeTimer.start();
                 isPlaying = true;
                 isPaused = false;
                 SwingUtilities.invokeLater(() -> System.out.println("Playback started"));
@@ -333,16 +334,16 @@ public class MusicPlayer extends JPanel {
                 SwingUtilities.invokeLater(() -> System.out.println("Playback failed"));
             }
         } else if (isPaused) {
-            resume();  // If the player is paused, resume playback
+            resume();
         }
     }
 
     private void pause() {
         if (sp != null && isPlaying) {
             System.out.println("Pause pressed at player " + n);
-            pausePosition = sp.getPosition();  // Save the current position to resume later
-            ac.stop();  // Stop the audio context to pause playback
-            updateTimeTimer.stop();  // Stop the timer since we're no longer playing
+            pausePosition = sp.getPosition();  
+            sp.pause(true);
+            updateTimeTimer.stop(); 
             isPaused = true;
             isPlaying = false;
         }
@@ -350,7 +351,7 @@ public class MusicPlayer extends JPanel {
 
     private void resume() {
         if (sp != null && isPaused) {
-            ac.start();  // Start the audio context again
+            sp.start();  // Start the audio context again
             sp.setPosition(pausePosition);  // Resume from the paused position
             updateTimeTimer.start();  // Ensure the timer is running
             isPaused = false;
