@@ -6,7 +6,7 @@
 
     <groupId>com.gooseplayer2</groupId>
     <artifactId>gooseplayer2</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <repositories>
         <repository>
@@ -18,11 +18,14 @@
             <id>clojars</id>
             <url>https://clojars.org/repo</url>
         </repository>
+
     </repositories>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>
         <maven.compiler.target>22</maven.compiler.target>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
