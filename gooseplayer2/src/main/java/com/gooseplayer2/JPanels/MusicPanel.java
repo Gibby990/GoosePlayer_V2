@@ -13,7 +13,7 @@ public class MusicPanel extends JPanel {
     private GridBagConstraints gbc;
     private Border outline;
     private FilePanel filePanel;
-    private MusicPlayer player1, player2, player3; // TODO: Implement channel swapping (either or function)
+    private MusicPlayer player1, player2, player3; // TODO: Add Fading
 
     public MusicPanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException {
 

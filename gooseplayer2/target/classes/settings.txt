@@ -1,2 +1,2 @@
-#Thu Aug 29 16:44:43 CDT 2024
-theme=Arc Dark Orange
+#Tue Sep 03 16:18:25 CDT 2024
+theme=Dark Purple
