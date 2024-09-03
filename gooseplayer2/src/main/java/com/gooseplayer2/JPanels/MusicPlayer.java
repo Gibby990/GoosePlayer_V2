@@ -46,6 +46,9 @@ public class MusicPlayer extends JPanel {
     private double pausePosition = 0;
     private float sampleRate, volume;
     private int elapsedSeconds, minutes, newValue = 0, seconds, n;
+    private BiquadFilter highPass, lowPass;
+    private Compressor limiter;
+    private Compressor compressor;
     private JavaSoundAudioIO audioIO;
     private UGen gain;
     private long sampleFrames;
@@ -55,13 +58,12 @@ public class MusicPlayer extends JPanel {
     // File Management
     private File selectedFile;
     private Queue<QueuedFile> Queue = new Queue<>();
-    private QueuedFile queuedFile;
+    private QueuedFile queuedFile; //TODO: Add Pre-Loading
 
-    //TODO: Fix the issue of playing 2 players makes one skip songs.
 
     public MusicPlayer(int n, JComponent FilePanel) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
-        //JTree Stuff
+        //JTree Stuff 
         
         layout = new GridBagLayout();
         gbc = new GridBagConstraints();
@@ -83,20 +85,20 @@ public class MusicPlayer extends JPanel {
         ac.out.addInput(gain);
 
         // High-pass filter
-        BiquadFilter highPass = new BiquadFilter(ac, 1, BiquadFilter.HP);
+        highPass = new BiquadFilter(ac, 1, BiquadFilter.HP);
         highPass.setFrequency(20); // Adjust as needed
 
         // Low-pass filter
-        BiquadFilter lowPass = new BiquadFilter(ac, 1, BiquadFilter.LP);
+        lowPass = new BiquadFilter(ac, 1, BiquadFilter.LP);
         lowPass.setFrequency(20000);
 
         // Compressor
-        Compressor compressor = new Compressor(ac, 1);
+        compressor = new Compressor(ac, 1);
         compressor.setThreshold(0.7f);
         compressor.setRatio(2f);
 
         // Limiter
-        Compressor limiter = new Compressor(ac, 1);
+        limiter = new Compressor(ac, 1);
         limiter.setThreshold(0.95f);
         limiter.setRatio(20f);
 
@@ -144,7 +146,7 @@ public class MusicPlayer extends JPanel {
         Loop.addActionListener(new LoopListener());
 
         
-        ProgressBar = new JSlider(0, 0, 100, 0);  //TODO: find a better slider
+        ProgressBar = new JSlider(0, 0, 100, 0); 
         ProgressBar.addChangeListener(e -> {
             if (ProgressBar.getValueIsAdjusting()) { 
                 newValue = ProgressBar.getValue();
@@ -183,8 +185,6 @@ public class MusicPlayer extends JPanel {
         Rivulet.addObjects(Pause, this, layout, gbc,4, 1, 1, 1);
         Rivulet.addObjects(Skip, this, layout, gbc, 4, 2, 1, 1);
         Rivulet.addObjects(Remove, this, layout, gbc, 4, 3, 1, 1);
-        //Rivulet.addObjects(Empty, this, layout, gbc, 4, 4, 1, 1);
-        //TODO: Implement Empty
         Rivulet.addObjects(Loop, this, layout, gbc,4, 5, 1, 1);
 
         // ProgressBar
@@ -351,9 +351,9 @@ public class MusicPlayer extends JPanel {
 
     private void resume() {
         if (sp != null && isPaused) {
-            sp.start();  // Start the audio context again
-            sp.setPosition(pausePosition);  // Resume from the paused position
-            updateTimeTimer.start();  // Ensure the timer is running
+            sp.start();  
+            sp.setPosition(pausePosition); 
+            updateTimeTimer.start();  
             isPaused = false;
             isPlaying = true;
         }
@@ -431,7 +431,6 @@ public class MusicPlayer extends JPanel {
     public void adjustBufferSize(AudioContext ac, int newSize) {
         if (ac.getBufferSize() != newSize) {
             ac.stop();
-            //ac.setBufferSize(newSize);
             ac.start();
         }
     }
@@ -474,7 +473,7 @@ public class MusicPlayer extends JPanel {
     }
 
     public void resetCurrentSongData() {
-        if (isPlaying || isPaused) {
+        if (isPlaying || isPaused) { //For me to keep track of
             ac.stop();  // Stop the audio context
             updateTimeTimer.stop();  // Stop the timer
             isPlaying = false;
