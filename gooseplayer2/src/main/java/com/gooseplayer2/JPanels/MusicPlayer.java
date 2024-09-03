@@ -77,6 +77,30 @@ public class MusicPlayer extends JPanel {
         audioIO = new JavaSoundAudioIO();
         ac = new AudioContext(audioIO);
 
+        // High-pass filter
+        BiquadFilter highPass = new BiquadFilter(ac, 1, BiquadFilter.HP);
+        highPass.setFrequency(20); // Adjust as needed
+
+        // Low-pass filter
+        BiquadFilter lowPass = new BiquadFilter(ac, 1, BiquadFilter.LP);
+        lowPass.setFrequency(20000);
+
+        // Compressor
+        Compressor compressor = new Compressor(ac, 1);
+        compressor.setThreshold(0.7f);
+        compressor.setRatio(2f);
+
+        // Limiter
+        Compressor limiter = new Compressor(ac, 1);
+        limiter.setThreshold(0.95f);
+        limiter.setRatio(20f);
+
+        // Chain setup
+        ac.out.addInput(limiter);
+        limiter.addInput(compressor);
+        compressor.addInput(lowPass);
+        lowPass.addInput(highPass);
+
         //Timer
 
         updateTimeTimer = new Timer(1000, new ActionListener() {
