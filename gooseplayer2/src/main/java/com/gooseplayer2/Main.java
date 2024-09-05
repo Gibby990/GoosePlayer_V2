@@ -6,6 +6,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.SwingUtilities;
 import javazoom.jl.decoder.JavaLayerException;
 
+
 public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> { //TODO: Make Project run off of the JRE
