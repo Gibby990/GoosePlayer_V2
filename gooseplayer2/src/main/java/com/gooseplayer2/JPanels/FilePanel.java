@@ -1,27 +1,32 @@
 package com.gooseplayer2.JPanels;
 
-import java.io.IOException;
-import java.nio.file.*;
 import javax.swing.*;
-import javax.swing.tree.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import java.awt.*;
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import com.gooseplayer2.Config;
 import com.gooseplayer2.Packages.FileTransferHandler;
 import com.gooseplayer2.Packages.Slugcat;
-import com.gooseplayer2.Config;
-import java.awt.*;
-
 
 public class FilePanel extends JPanel {
+    private JLabel label;
     private JTree fileTree;
-    JLabel label;
-    GridBagConstraints gbc;
-    GridBagLayout layout;
-    JScrollPane pane;
+    private JScrollPane pane;
+    private GridBagLayout layout;
+    private GridBagConstraints gbc;
+    private Path libraryPath = Paths.get(Config.LIBRARY_PATH);
 
     public FilePanel() {
 
-        Path libaryPath = Paths.get(Config.LIBRARY_PATH);
+        libraryPath = Paths.get(Config.LIBRARY_PATH);
         DefaultMutableTreeNode top = new DefaultMutableTreeNode("Library");
-        createNodes(top, libaryPath);
+        createNodes(top, libraryPath);
 
         fileTree = new JTree(top);
         fileTree.setToggleClickCount(1);
@@ -66,7 +71,6 @@ public class FilePanel extends JPanel {
     }
 
     public void refreshLibrary() {
-        Path libraryPath = Paths.get(System.getProperty("user.dir"), "Library");
         DefaultMutableTreeNode top = new DefaultMutableTreeNode("Library");
         createNodes(top, libraryPath);
         fileTree.setModel(new DefaultTreeModel(top));
