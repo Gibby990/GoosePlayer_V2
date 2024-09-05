@@ -1,2 +1,2 @@
-#Thu Sep 05 10:45:56 CDT 2024
-theme=Arc
+#Thu Sep 05 15:23:23 CDT 2024
+theme=Arc Dark
