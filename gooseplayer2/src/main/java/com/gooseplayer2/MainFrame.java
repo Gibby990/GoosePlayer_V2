@@ -24,23 +24,28 @@ import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.nio.file.attribute.BasicFileAttributes;
 
+import javax.sound.sampled.*;
 import javazoom.jl.decoder.JavaLayerException;
 
-import javax.sound.sampled.*;
 import javax.swing.*;
 
 public class MainFrame extends JFrame {
+    private JToolBar toolBar;
+    private JButton settingsButton;
+    private JButton helpButton;
+    private JButton libraryButton;
+    
     private GridBagLayout mainLayout;
     private GridBagConstraints gbc;
-    private JToolBar toolBar;
+    
     private FilePanel filePanel;
+    
     private ImageIcon icon;
     private Image image;
     private Image scaledImage;
-    private JButton settingsButton;
+    
+    private Desktop desktop;
     private Slugcat Survivor;
-    private JButton helpButton;
-    private JButton libraryButton;
 
     public MainFrame() throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException {
         super("musicPlayer");
@@ -59,7 +64,6 @@ public class MainFrame extends JFrame {
                 System.err.println("Icon not found.");
             }
         }
-
 
         setIconImage(scaledImage);
 
@@ -105,18 +109,23 @@ public class MainFrame extends JFrame {
 
         libraryButton.addActionListener(e -> {
             try {
-                File library = new File("Library");
-                if(!library.exists()) {
-                    JOptionPane.showMessageDialog(null, "Library not found");
+                File library = new File(Config.LIBRARY_PATH);
+                if (!library.exists()) {
+                    JOptionPane.showMessageDialog(this, "Library folder not found at: " + Config.LIBRARY_PATH, "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                Desktop desktop = Desktop.getDesktop();
+                if (!library.isDirectory()) {
+                    JOptionPane.showMessageDialog(this, "Library path is not a directory: " + Config.LIBRARY_PATH, "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                desktop = Desktop.getDesktop();
                 desktop.open(library);
 
                 Thread watcherThread = new Thread(() -> watchDirectoryPath(library.toPath()));
-        watcherThread.start();
+                watcherThread.start();
             } catch (Exception ex) {
                 ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error opening library: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -130,14 +139,13 @@ public class MainFrame extends JFrame {
 
         MusicPanel musicPanel = new MusicPanel();
 
-        //Toolbar
+        //GUI
+
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         Survivor.addObjects(toolBar, this, mainLayout, gbc, 0, 0, GridBagConstraints.REMAINDER, 1);
-
-        //Everything else
         
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weighty = 1.0;
