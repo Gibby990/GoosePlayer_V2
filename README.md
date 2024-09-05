@@ -8,6 +8,3 @@ I call this version 2 because I did most of the structure without Maven and when
 I could not add Maven functionality so this is a new Maven project with the old code.
 
 Please do not let this version reflect the final product or what the final product will look like.
-Java is a pain and implementing many things at once without major bugs is neigh impossible.
-I will add more features later on and make it not look like a program from the early 2000's.
-
