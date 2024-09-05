@@ -26,17 +26,17 @@ public class FileTransferHandler extends TransferHandler {
         List<File> fileList = new ArrayList<>();
         
         for (TreePath path : paths) {
-            DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
-            Object userObject = node.getUserObject();
-        if (userObject instanceof File) {
-            fileList.add((File) userObject);
-        } else {
-            String fileName = userObject.toString();
-            File file = new File(Config.LIBRARY_PATH, fileName);
+            StringBuilder fullPath = new StringBuilder(Config.LIBRARY_PATH);
+            Object[] pathComponents = path.getPath();
+            
+            for (int i = 1; i < pathComponents.length; i++) {
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode) pathComponents[i];
+                fullPath.append(File.separator).append(node.getUserObject().toString());
+            }
+            
+            File file = new File(fullPath.toString());
             fileList.add(file);
         }
-        }
-
 
         return new FileTransferable(fileList);
     }
