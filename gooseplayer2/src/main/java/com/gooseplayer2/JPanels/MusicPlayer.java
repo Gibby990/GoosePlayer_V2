@@ -8,6 +8,7 @@ import javax.swing.*;
 //import javax.swing.event.ChangeEvent;
 //import javax.swing.event.ChangeListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.sound.sampled.*;
 
@@ -308,9 +309,6 @@ public class MusicPlayer extends JPanel {
             sp.setKillOnEnd(false);
             ac.out.addInput(sp);
 
-            if (!ac.isRunning()) {
-                ac.start();
-            }
 
         } catch (Exception e) {
             System.err.println("ERROR: Unable to load the selected file: " + selectedFile.getAbsolutePath());
@@ -330,7 +328,6 @@ public class MusicPlayer extends JPanel {
                     ac.start();
                 }
                 
-                // Add a retry mechanism
                 int retries = 3;
                 while (retries > 0) {
                     try {
@@ -387,14 +384,9 @@ public class MusicPlayer extends JPanel {
             if (Queue.size() > 1) {
                 transitionToNextTrack();
             } else {
-                resetCurrentSongData();
-                isPlaying = false;
-                updateTimeTimer.stop();
-                SwingUtilities.invokeLater(() -> {
-                    TimeLabel.setText("0:00 / 0:00");
-                    ProgressBar.setValue(0);
-                });
-                System.out.println("Skipped, but no next track available. Playback stopped.");
+                stopPlayback();
+                Queue.dequeue();
+                refreshQueueInJTree();
             }
         } else {
             seek(0);
@@ -576,6 +568,21 @@ public class MusicPlayer extends JPanel {
             refreshQueueInJTree();
         }
     }
+
+    private void stopPlayback() {
+        if (sp != null) {
+            sp.pause(true);
+            ac.out.removeAllConnections(sp);
+        }
+        resetCurrentSongData();
+        isPlaying = false;
+        updateTimeTimer.stop();
+        SwingUtilities.invokeLater(() -> {
+            TimeLabel.setText("0:00 / 0:00");
+            ProgressBar.setValue(0);
+        });
+        System.out.println("Playback stopped. Queue is now empty.");
+    }
     
     private void updateCurrentVolume(float currentVolume) {
         if (currentVolume == 1.0) {
@@ -676,12 +683,28 @@ public class MusicPlayer extends JPanel {
     public void refreshQueueInJTree() {
         root.removeAllChildren(); 
         Iterator<QueuedFile> LTTM = Queue.iterator();
+        boolean isFirst = true;
         while (LTTM.hasNext()) {
             QueuedFile file = LTTM.next();
             DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(file.getFile().getName());
             root.add(fileNode);
+            
+            if (isFirst) {
+                queueTree.setCellRenderer(new DefaultTreeCellRenderer() {
+                    @Override
+                    public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
+                        JLabel label = (JLabel) super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
+                        if (value.toString().equals(file.getFile().getName())) {
+                            label.setFont(label.getFont().deriveFont(Font.BOLD));
+                        } else {
+                            label.setFont(label.getFont().deriveFont(Font.PLAIN));
+                        }
+                        return label;
+                    }
+                });
+                isFirst = false;
+            }
         }
         ((DefaultTreeModel) queueTree.getModel()).reload();
     }
 }
-
