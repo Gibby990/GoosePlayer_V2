@@ -497,19 +497,6 @@ public class MusicPlayer extends JPanel {
         });
     }
 
-    public void addFilesToTree(java.util.List<File> files) {
-        for (File file : files) {
-            if (file.isDirectory()) {
-                addFilesFromDirectory(file);
-            } else {
-                if (isAudioFile(file)) {
-                    Queue.enqueue(new QueuedFile(file));
-                }
-            }
-        }
-        refreshQueueInJTree();
-    }
-
     private void setVolume(float volume) {
         if (sp != null) {
             ac.out.setGain(volume);
@@ -527,12 +514,25 @@ public class MusicPlayer extends JPanel {
         return position;
     }
 
+    public void addFilesToTree(java.util.List<File> files) {
+        for (File file : files) {
+            if (file.isDirectory()) {
+                addFilesFromDirectory(file);
+            } else {
+                if (isAudioFile(file)) {
+                    Queue.enqueue(new QueuedFile(file));
+                }
+            }
+        }
+        refreshQueueInJTree();
+    }
+
     private void addFilesFromDirectory(File directory) {
         File[] files = directory.listFiles();
         if (files != null) {
             for (File file : files) {
                 if (file.isDirectory()) {
-                    addFilesFromDirectory(file);
+                    addFilesFromDirectory(file); 
                 } else {
                     if (isAudioFile(file)) {
                         Queue.enqueue(new QueuedFile(file));
