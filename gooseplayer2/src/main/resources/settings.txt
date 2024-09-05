@@ -1,2 +1,2 @@
-#Thu Sep 05 15:57:03 CDT 2024
-theme=Arc Dark Orange
+#Thu Sep 05 17:41:44 CDT 2024
+theme=Nord

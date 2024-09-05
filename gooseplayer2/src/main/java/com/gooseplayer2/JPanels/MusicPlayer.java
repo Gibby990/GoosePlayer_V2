@@ -384,7 +384,18 @@ public class MusicPlayer extends JPanel {
 
     private void skip() {
         if (!Loop.isSelected()) {
-            transitionToNextTrack();
+            if (Queue.size() > 1) {
+                transitionToNextTrack();
+            } else {
+                resetCurrentSongData();
+                isPlaying = false;
+                updateTimeTimer.stop();
+                SwingUtilities.invokeLater(() -> {
+                    TimeLabel.setText("0:00 / 0:00");
+                    ProgressBar.setValue(0);
+                });
+                System.out.println("Skipped, but no next track available. Playback stopped.");
+            }
         } else {
             seek(0);
         }
@@ -539,10 +550,30 @@ public class MusicPlayer extends JPanel {
     
             if (currentPositionInSeconds >= ProgressBar.getMaximum()) {
                 System.out.println("Instance " + n + " - End of track reached. Transitioning to next.");
-                transitionToNextTrack();
+                handleEndOfPlayback();
             }
         } else {
             System.out.println("Instance " + n + " - updateTime() called but player is null or not playing.");
+        }
+    }
+
+    private void handleEndOfPlayback() {
+        if (Queue.size() > 1) {
+            System.out.println("Instance " + n + " - Transitioning to next track.");
+            transitionToNextTrack();
+        } else {
+            System.out.println("Instance " + n + " - No more tracks in queue. Stopping playback.");
+            resetCurrentSongData();
+            isPlaying = false;
+            updateTimeTimer.stop();
+            SwingUtilities.invokeLater(() -> {
+                TimeLabel.setText("0:00 / 0:00");
+                ProgressBar.setValue(0);
+            });
+            if (!Queue.isEmpty()) {
+                Queue.dequeue(); // Remove the last played song from the queue
+            }
+            refreshQueueInJTree();
         }
     }
     
