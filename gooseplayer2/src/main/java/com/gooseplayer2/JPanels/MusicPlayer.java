@@ -52,13 +52,13 @@ public class MusicPlayer extends JPanel {
     private JavaSoundAudioIO audioIO;
     private UGen gain;
     private long sampleFrames;
-    private Sample sample;
-    private SamplePlayer sp;
+    private Sample sample, nextSample;
+    private SamplePlayer sp, nextSp;
 
     // File Management
     private File selectedFile;
     private Queue<QueuedFile> Queue = new Queue<>();
-    private QueuedFile queuedFile; //TODO: Add Pre-Loading
+    private QueuedFile queuedFile; 
 
 
     public MusicPlayer(int n, JComponent FilePanel) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -114,9 +114,9 @@ public class MusicPlayer extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isPlaying) {
-                    elapsedSeconds++;  // Increment the elapsed time
+                    elapsedSeconds++; 
                     System.out.println("Elapsed Seconds: " + elapsedSeconds);
-                    updateTime();  // Update the UI and check for track end
+                    updateTime(); 
                 }
             }
         });
@@ -305,13 +305,18 @@ public class MusicPlayer extends JPanel {
             System.out.println("Song loaded: " + selectedFile.getName());
     
             sp = new SamplePlayer(ac, sample);
+            sp.setKillOnEnd(false);
             ac.out.addInput(sp);
+
+            if (!ac.isRunning()) {
+                ac.start();
+            }
 
         } catch (Exception e) {
             System.err.println("ERROR: Unable to load the selected file: " + selectedFile.getAbsolutePath());
             e.printStackTrace();
             songLoaded = false;
-            throw e; // Re-throw the exception to be handled by the caller
+            throw e; 
         }
     }
 
@@ -324,14 +329,32 @@ public class MusicPlayer extends JPanel {
                 if (!ac.isRunning()) {
                     ac.start();
                 }
-                sp.start();
+                
+                // Add a retry mechanism
+                int retries = 3;
+                while (retries > 0) {
+                    try {
+                        sp.start();
+                        break;
+                    } catch (NullPointerException e) {
+                        System.err.println("Error starting playback. Retrying... (" + retries + " attempts left)");
+                        retries--;
+                        if (retries == 0) {
+                            throw e;
+                        }
+                        Thread.sleep(1000); 
+                    }
+                }
+
                 updateTimeTimer.start();
                 isPlaying = true;
                 isPaused = false;
                 SwingUtilities.invokeLater(() -> System.out.println("Playback started"));
+                preloadNextSong();
             } catch (Exception ex) {
                 ex.printStackTrace();
                 SwingUtilities.invokeLater(() -> System.out.println("Playback failed"));
+                resetCurrentSongData();
             }
         } else if (isPaused) {
             resume();
@@ -360,39 +383,10 @@ public class MusicPlayer extends JPanel {
     }
 
     private void skip() {
-        try {
-            if (Loop.isSelected()) {
-                seek(0);
-            } else {
-                if (!Queue.isEmpty()) {
-                    if (sp != null) {
-                        sp.pause(true);
-                        ac.out.removeAllConnections(sp);
-                        sp.kill();
-                        sp = null;
-                    }
-                    ac.stop();
-                    
-                    resetCurrentSongData();
-                    
-                    Queue.dequeue();
-                    songLoaded = false;
-
-                    new Timer(500, new ActionListener() {
-                        public void actionPerformed(ActionEvent evt) {
-                            play();
-                            ((Timer)evt.getSource()).stop(); 
-                        }
-                    }).start();
-
-                    refreshQueueInJTree();
-                    System.out.println("Track skipped. Queue updated.");
-                    
-                }
-            }
-        } catch (Exception e) {
-            System.err.println("Error during skipping track: " + e.getMessage());
-            resetCurrentSongData();
+        if (!Loop.isSelected()) {
+            transitionToNextTrack();
+        } else {
+            seek(0);
         }
     }
 
@@ -418,6 +412,100 @@ public class MusicPlayer extends JPanel {
     }
 
     // Other methods
+
+    private void preloadNextSong() {
+        if (Queue.size() > 1) {
+            new Thread(() -> {
+                try {
+                    QueuedFile nextFile = Queue.get(1);
+                    nextSample = SampleManager.sample(nextFile.getFile().getAbsolutePath());
+                    nextSp = new SamplePlayer(ac, nextSample);
+                    nextSp.setKillOnEnd(false);
+                    if (Loop.isSelected()) {
+                        nextSp.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
+                    } else {
+                        nextSp.setLoopType(SamplePlayer.LoopType.NO_LOOP_FORWARDS);
+                    }
+                    
+                    if (!ac.isRunning()) {
+                        ac.start();
+                    }
+                    
+                    System.out.println("Next song preloaded: " + nextFile.getFile().getName());
+                } catch (Exception e) {
+                    System.err.println("Error preloading next song: " + e.getMessage());
+                    e.printStackTrace();
+                    nextSample = null;
+                    nextSp = null;
+                }
+            }).start();
+        } else {
+            nextSample = null;
+            nextSp = null;
+        }
+    }
+
+    private void transitionToNextTrack() {
+        if (Loop.isSelected()) {
+            seek(0);
+            return;
+        }
+
+        if (Queue.isEmpty()) {
+            resetCurrentSongData();
+            isPlaying = false;
+            updateTimeTimer.stop();
+            System.out.println("Playback finished. No more tracks in queue.");
+            return;
+        }
+
+        try {
+            if (sp != null) {
+                ac.out.removeAllConnections(sp);
+                sp.kill();
+            }
+
+            Queue.dequeue();
+
+            if (nextSp != null) {
+                sp = nextSp;
+                sample = nextSample;
+                songLoaded = true;
+                ac.out.addInput(sp);
+                updateSongInfo();
+                sp.start();
+                preloadNextSong();
+            } else {
+                resetCurrentSongData();
+                songLoaded = false;
+                loadSong();
+                play();
+            }
+
+            refreshQueueInJTree();
+            System.out.println("Transitioned to next track. Queue updated.");
+        } catch (Exception e) {
+            System.err.println("Error during track transition: " + e.getMessage());
+            e.printStackTrace();
+            resetCurrentSongData();
+        }
+    }
+
+    private void updateSongInfo() {
+        if (sample != null) {
+            sampleFrames = sample.getNumFrames();
+            sampleRate = sample.getSampleRate();
+            float duration = sampleFrames / sampleRate;
+            minutes = (int) (duration / 60);
+            seconds = (int) (duration % 60);
+            updateTime();
+            SwingUtilities.invokeLater(() -> {
+                int totalDuration = minutes * 60 + seconds;
+                ProgressBar.setMaximum(totalDuration);
+                ProgressBar.setValue(0);
+            });
+        }
+    }
 
     private void seek(int seconds) {
         System.out.println("Seek method fired at Player " + n);
@@ -450,8 +538,8 @@ public class MusicPlayer extends JPanel {
             });
     
             if (currentPositionInSeconds >= ProgressBar.getMaximum()) {
-                System.out.println("Instance " + n + " - End of track reached. Skipping to next.");
-                skip(); 
+                System.out.println("Instance " + n + " - End of track reached. Transitioning to next.");
+                transitionToNextTrack();
             }
         } else {
             System.out.println("Instance " + n + " - updateTime() called but player is null or not playing.");
@@ -515,6 +603,7 @@ public class MusicPlayer extends JPanel {
     }
 
     public void addFilesToTree(java.util.List<File> files) {
+        boolean wasEmpty = Queue.isEmpty();
         for (File file : files) {
             if (file.isDirectory()) {
                 addFilesFromDirectory(file);
@@ -525,6 +614,12 @@ public class MusicPlayer extends JPanel {
             }
         }
         refreshQueueInJTree();
+        
+        if (wasEmpty && !Queue.isEmpty() && !isPlaying) {
+            SwingUtilities.invokeLater(this::play);
+        } else if (isPlaying) {
+            preloadNextSong();
+        }
     }
 
     private void addFilesFromDirectory(File directory) {
