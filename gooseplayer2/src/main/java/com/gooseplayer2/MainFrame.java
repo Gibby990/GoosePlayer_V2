@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.FileSystems;
@@ -48,9 +49,16 @@ public class MainFrame extends JFrame {
 
         Config.applySettings();
 
-        icon = new ImageIcon(getClass().getResource("/icons/Icon.png"));
-        image = icon.getImage();
-        scaledImage = getScaledImage(image, 512, 547);
+        try (InputStream iconStream = getClass().getResourceAsStream("/icons/Icon.png")) {
+            if (iconStream != null) {
+                icon = new ImageIcon(ImageIO.read(iconStream));
+                image = icon.getImage();
+                scaledImage = getScaledImage(image, 512, 547);
+                setIconImage(scaledImage);
+            } else {
+                System.err.println("Icon not found.");
+            }
+        }
 
 
         setIconImage(scaledImage);

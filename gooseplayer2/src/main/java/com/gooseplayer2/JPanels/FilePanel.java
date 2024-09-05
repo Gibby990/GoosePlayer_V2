@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.tree.*;
 import com.gooseplayer2.Packages.FileTransferHandler;
 import com.gooseplayer2.Packages.Slugcat;
+import com.gooseplayer2.Config;
 import java.awt.*;
 
 
@@ -18,7 +19,7 @@ public class FilePanel extends JPanel {
 
     public FilePanel() {
 
-        Path libaryPath = Paths.get(System.getProperty("user.dir"), "Library");
+        Path libaryPath = Paths.get(Config.LIBRARY_PATH);
         DefaultMutableTreeNode top = new DefaultMutableTreeNode("Library");
         createNodes(top, libaryPath);
 

@@ -1,0 +1,34 @@
+GoosePlayer Help Documentation
+-------------------------------------------------------
+
+- The Directory tree 
+Used for storing any files you would like to play 
+Located in GoosePlayer2/Library
+
+- Queueing a file
+Drag and drop files from the Library into your preferred music channel
+
+- Queue
+Dispays the current queue of files for thier respective music channel 
+
+
+
+Commands
+--------------------------------
+
+- Play/Pause
+Plays or pauses the current song
+Will automatically queue from the next queued file
+
+- Skip
+Skips to the next song in the queue
+
+- Remove 
+Removes the selected song from the queue
+Cannot remove the first song in the queue
+
+- Loop
+Loops the song when it ends for as long as it is toggled
+
+
+

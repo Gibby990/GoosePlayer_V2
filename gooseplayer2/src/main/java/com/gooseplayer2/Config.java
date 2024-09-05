@@ -14,9 +14,10 @@ import javax.swing.*;
 import com.gooseplayer2.Packages.Slugcat;
 
 public class Config extends JDialog {
-    public static final String LIBRARY_PATH = System.getProperty("user.dir") + File.separator + "Library";
+    public static final String LIBRARY_PATH = System.getProperty("user.dir") + File.separator + "gooseplayer2" + File.separator + "src" +  File.separator + "Library";
     public static final String SETTINGS_FILE_PATH = System.getProperty("user.dir") + File.separator + "gooseplayer2" + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "settings.txt";
-    public static final String PROPERTIES_FILE_PATH = System.getProperty("user.dir") + File.separator + "gooseplayer2" + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "properties";
+    public static final String RESOURCES_FILE_PATH = System.getProperty("user.dir")+ File.separator + "gooseplayer2" + File.separator + "src" + File.separator + "main" + File.separator + "resources";
+
     private GridBagConstraints gbc;
     private GridBagLayout layout;
     private Properties p;
