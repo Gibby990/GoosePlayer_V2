@@ -2,6 +2,7 @@ package com.gooseplayer2.Packages;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.lang.IndexOutOfBoundsException;
 
 public class Queue<E> implements Iterable<E> {
     private Node<E> front;
@@ -66,7 +67,28 @@ public class Queue<E> implements Iterable<E> {
     }
     
     public int size() {
-        return size();
+        int count = 0;
+        Node<E> current = front;
+        while (current != null) {
+            count++;
+            current = current.next;
+        }
+        return count;
+    }
+    
+    public E get(int index) {
+        if (index < 0 || isEmpty()) {
+            throw new IndexOutOfBoundsException("Index: " + index);
+        }
+        
+        Node<E> current = front;
+        for (int i = 0; i < index; i++) {
+            if (current.next == null) {
+                throw new IndexOutOfBoundsException("Index: " + index);
+            }
+            current = current.next;
+        }
+        return current.item;
     }
     
     @Override
