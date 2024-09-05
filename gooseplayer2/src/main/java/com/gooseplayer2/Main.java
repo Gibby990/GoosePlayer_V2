@@ -9,9 +9,9 @@ import javazoom.jl.decoder.JavaLayerException;
 
 public class Main {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> { //TODO: Make Project run off of the JRE
+        SwingUtilities.invokeLater(() -> { 
             try {
-                new MainFrame(); //TODO: Create an Exe to the Jar
+                new MainFrame(); 
             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException | JavaLayerException e) {
                 e.printStackTrace();
             }
