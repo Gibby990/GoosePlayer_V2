@@ -1,2 +1,2 @@
-#Thu Sep 05 17:41:44 CDT 2024
-theme=Nord
+#Fri Sep 06 09:33:52 CDT 2024
+theme=Light Flat
