@@ -654,7 +654,11 @@ public class MusicPlayer extends JPanel {
         refreshQueueInJTree();
         
         if (wasEmpty && !Queue.isEmpty() && !isPlaying) {
-            SwingUtilities.invokeLater(this::play);
+            try {
+                loadSong();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else if (isPlaying) {
             preloadNextSong();
         }
