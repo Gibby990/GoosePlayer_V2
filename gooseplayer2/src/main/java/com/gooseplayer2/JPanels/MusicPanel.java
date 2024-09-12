@@ -6,6 +6,7 @@ import javax.swing.border.*;
 import com.gooseplayer2.Packages.Slugcat;
 import javazoom.jl.decoder.JavaLayerException;
 import java.awt.*;
+import java.awt.event.*;
 import java.io.IOException;
 
 public class MusicPanel extends JPanel {
@@ -46,6 +47,48 @@ public class MusicPanel extends JPanel {
         Monk.addObjects(player2, this, layout, gbc, 0, 1, 1, 1);
         Monk.addObjects(player3, this, layout, gbc, 0, 2, 1, 1);
 
+        // Add global key listener
+        addGlobalKeyListener();
     }    
+
+    private void addGlobalKeyListener() {
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent e) {
+                if (e.getID() == KeyEvent.KEY_PRESSED) {
+                    handleKeyPress(e);
+                    return true; // Consume the event
+                }
+                return false; // Allow the event to be dispatched to other listeners
+            }
+        });
+    }
+
+    private void handleKeyPress(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+        System.out.println(keyCode);
+        boolean ctrlDown = e.isControlDown();
+        boolean shiftDown = e.isShiftDown();
+
+        if (ctrlDown && shiftDown) {
+            switch (keyCode) {
+                case KeyEvent.VK_P: // Case for 1 instance is weird but Ill add more I promise
+                    System.out.println("All Players Play");
+                    startAllPlayers();
+                    break;
+            }
+        }
+    }
+    /* 
+     * Ctrl = 17
+     * Shift = 16
+     * P = 80
+     */
+
+    private void startAllPlayers() {
+        player1.play();
+        player2.play();
+        player3.play();
+    }
 }
 
