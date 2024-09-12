@@ -59,7 +59,7 @@ public class MusicPanel extends JPanel {
                     handleKeyPress(e);
                     return true; // Consume the event
                 }
-                return false; // Allow the event to be dispatched to other listeners
+                return false; 
             }
         });
     }
@@ -72,18 +72,36 @@ public class MusicPanel extends JPanel {
 
         if (ctrlDown && shiftDown) {
             switch (keyCode) {
-                case KeyEvent.VK_P: 
-                    System.out.println("All Players Play");
+                case KeyEvent.VK_P:
                     startAllPlayers();
                     break;
                 case KeyEvent.VK_S:
-                    System.out.println("All Players Pause");
                     pauseAllPlayers();
+                    break;
+                case KeyEvent.VK_1:
+                case KeyEvent.VK_2:
+                case KeyEvent.VK_3:
+                    muteSelectedPlayer(keyCode - KeyEvent.VK_0); 
                     break;
             }
         }
     }
 
+    private void muteSelectedPlayer(int playerNumber) {
+        MusicPlayer player = getPlayerByNumber(playerNumber);
+        if (player != null) {
+            // Mute Command
+        }
+    }
+
+    private MusicPlayer getPlayerByNumber(int number) {
+        switch (number) {
+            case 1: return player1;
+            case 2: return player2;
+            case 3: return player3;
+            default: return null;
+        }
+    }
 
     private void startAllPlayers() {
         player1.play();
