@@ -6,7 +6,7 @@
 
     <groupId>com.gooseplayer2</groupId>
     <artifactId>gooseplayer2</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
 
     <repositories>
         <repository>
@@ -64,6 +64,7 @@
                 <includes>
                     <include>**/*.txt</include>
                     <include>**/*.png</include>
+                    <include>**/*.ico</include>
                 </includes>
             </resource>
         </resources>
@@ -89,6 +90,50 @@
                         <goals>
                             <goal>single</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <version>2.1.2</version>
+                <executions>
+                    <execution>
+                        <id>l4j-clui</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <jar>${project.build.directory}/${project.artifactId}-${project.version}-jar-with-dependencies.jar</jar>
+                            <outfile>${project.build.directory}/GoosePlayer2.exe</outfile>
+                            <downloadUrl>https://adoptium.net/</downloadUrl>
+                            <classPath>
+                                <mainClass>com.gooseplayer2.Main</mainClass>
+                                <preCp>anything</preCp>
+                            </classPath>
+                            <icon>${project.basedir}/src/main/resources/icons/Icon.ico</icon>
+                            <jre>
+                                <path>../jre</path>
+                                <bundledJre64Bit>true</bundledJre64Bit>
+                                <bundledJreAsFallback>false</bundledJreAsFallback>
+                                <minVersion>17</minVersion>
+                                <runtimeBits>64</runtimeBits>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>1.1.0.0</fileVersion>
+                                <txtFileVersion>${project.version}</txtFileVersion>
+                                <fileDescription>${project.name}</fileDescription>
+                                <copyright>2024 GoosePlayer2</copyright>
+                                <productVersion>1.1.0.0</productVersion>
+                                <txtProductVersion>1.1.0.0</txtProductVersion>
+                                <productName>${project.name}</productName>
+                                <companyName>GoosePlayer2</companyName>
+                                <internalName>gooseplayer2</internalName>
+                                <originalFilename>GoosePlayer2.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
