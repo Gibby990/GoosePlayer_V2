@@ -358,7 +358,7 @@ public class MusicPlayer extends JPanel {
         }
     }
 
-    private void pause() {
+    public void pause() {
         if (sp != null && isPlaying) {
             System.out.println("Pause pressed at player " + n);
             pausePosition = sp.getPosition();  

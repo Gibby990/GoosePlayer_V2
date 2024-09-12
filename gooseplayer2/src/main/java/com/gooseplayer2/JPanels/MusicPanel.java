@@ -72,23 +72,29 @@ public class MusicPanel extends JPanel {
 
         if (ctrlDown && shiftDown) {
             switch (keyCode) {
-                case KeyEvent.VK_P: // Case for 1 instance is weird but Ill add more I promise
+                case KeyEvent.VK_P: 
                     System.out.println("All Players Play");
                     startAllPlayers();
+                    break;
+                case KeyEvent.VK_S:
+                    System.out.println("All Players Pause");
+                    pauseAllPlayers();
                     break;
             }
         }
     }
-    /* 
-     * Ctrl = 17
-     * Shift = 16
-     * P = 80
-     */
+
 
     private void startAllPlayers() {
         player1.play();
         player2.play();
         player3.play();
+    }
+
+    private void pauseAllPlayers() {
+        player1.pause();
+        player2.pause();
+        player3.pause();
     }
 }
 
