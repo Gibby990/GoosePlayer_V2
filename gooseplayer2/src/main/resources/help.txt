@@ -17,11 +17,16 @@ Commands
 --------------------------------
 
 Instance Commands
-Ctrl + Shift + (1-3) + P         Play
-Ctrl + Shift + (1-3) + S         Pause
-Ctrl + Shift + (1-3) + M         Mute
+Ctrl + Shift + (1-3)             Mutes selected music channel
 
 Global Commands
 Ctrl + Shift + P                 Plays all songs in the queue
 Ctrl + Shift + S                 Pauses all songs in the queue
+
+
+
+Side Notes
+--------------------------------
+- Remove will only work on a song if it is not the first in the queue.
+- Muting/Unmuting will only work if there is an active queue for the channel.
 
