@@ -115,7 +115,7 @@
                             </classPath>
                             <icon>${project.basedir}/src/main/resources/icons/Icon.ico</icon>
                             <jre>
-                                <path>../jre</path>
+                                <path>./jre</path>
                                 <bundledJre64Bit>true</bundledJre64Bit>
                                 <bundledJreAsFallback>false</bundledJreAsFallback>
                                 <minVersion>17</minVersion>

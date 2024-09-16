@@ -1,5 +1,6 @@
 com\gooseplayer2\Config.class
 com\gooseplayer2\JPanels\FilePanel.class
+com\gooseplayer2\JPanels\MusicPanel$1.class
 com\gooseplayer2\JPanels\MusicPlayer$1.class
 com\gooseplayer2\Packages\Queue$Node.class
 com\gooseplayer2\Packages\Queue.class
