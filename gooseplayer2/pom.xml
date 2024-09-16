@@ -114,6 +114,10 @@
                                 <preCp>anything</preCp>
                             </classPath>
                             <icon>${project.basedir}/src/main/resources/icons/Icon.ico</icon>
+                            <jre>
+                                <minVersion>17</minVersion>
+                                <jdkPreference>preferJre</jdkPreference>
+                            </jre>
                             <versionInfo>
                                 <fileVersion>1.1.0.0</fileVersion>
                                 <txtFileVersion>${project.version}</txtFileVersion>
