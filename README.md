@@ -10,3 +10,5 @@ packages because java does not have good audio handling implementation.
 I could not add Maven functionality to the old project 
 so this is a new Maven project with the old code.
 
+Make sure to install Java first
+https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
