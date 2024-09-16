@@ -45,7 +45,7 @@ public class MusicPlayer extends JPanel {
     private AudioContext ac;
     private boolean isPaused = false, isPlaying = false, songLoaded = false;
     private double pausePosition = 0;
-    private float sampleRate, volume;
+    private float sampleRate, volume, lastVolume = 1.0f; // Store the last volume before muting
     private int elapsedSeconds, minutes, newValue = 0, seconds, n;
     private BiquadFilter highPass, lowPass;
     private Compressor limiter;
@@ -710,5 +710,23 @@ public class MusicPlayer extends JPanel {
             }
         }
         ((DefaultTreeModel) queueTree.getModel()).reload();
+    }
+
+    public void mute() {
+        if (sp != null) {
+            lastVolume = ac.out.getGain();
+            ac.out.setGain(0);
+            updateCurrentVolume(0);
+            SwingUtilities.invokeLater(() -> VolumeSlider.setValue(0));
+
+        }
+    }
+
+    public void unmute() {
+        if (sp != null) {
+            ac.out.setGain(lastVolume);
+            updateCurrentVolume(lastVolume);
+            SwingUtilities.invokeLater(() -> VolumeSlider.setValue((int)(lastVolume * 100)));
+        }
     }
 }

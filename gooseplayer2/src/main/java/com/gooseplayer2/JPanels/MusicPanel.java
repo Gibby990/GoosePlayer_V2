@@ -15,6 +15,7 @@ public class MusicPanel extends JPanel {
     private Border outline;
     private FilePanel filePanel;
     private MusicPlayer player1, player2, player3;
+    private boolean[] playerMuted = new boolean[3]; // Track mute state for each player
 
     public MusicPanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException {
 
@@ -90,7 +91,15 @@ public class MusicPanel extends JPanel {
     private void muteSelectedPlayer(int playerNumber) {
         MusicPlayer player = getPlayerByNumber(playerNumber);
         if (player != null) {
-            // Mute Command
+            int index = playerNumber - 1; // Convert to 0-based index
+            playerMuted[index] = !playerMuted[index]; // Toggle mute state
+            if (playerMuted[index]) {
+                player.mute();
+                System.out.println("Player " + playerNumber + " muted");
+            } else {
+                player.unmute();
+                System.out.println("Player " + playerNumber + " unmuted");
+            }
         }
     }
 
