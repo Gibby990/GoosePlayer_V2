@@ -380,16 +380,50 @@ public class MusicPlayer extends JPanel {
     }
 
     private void skip() {
-        if (!Loop.isSelected()) {
-            if (Queue.size() > 1) {
-                transitionToNextTrack();
-            } else {
-                stopPlayback();
-                Queue.dequeue();
-                refreshQueueInJTree();
+        if (Loop.isSelected()) {
+            seek(0);
+            return;
+        }
+
+        stopCurrentPlayback();
+
+        if (Queue.size() > 1) {
+            Queue.dequeue();
+            refreshQueueInJTree();
+            try {
+                loadSong();
+                play();
+            } catch (Exception e) {
+                System.err.println("Error loading next song: " + e.getMessage());
+                e.printStackTrace();
+                handleSkipFailure();
             }
         } else {
-            seek(0);
+            Queue.dequeue();
+            refreshQueueInJTree();
+            resetCurrentSongData();
+            System.out.println("No more tracks in queue.");
+        }
+    }
+
+    private void stopCurrentPlayback() {
+        if (sp != null) {
+            sp.pause(true);
+            ac.out.removeAllConnections(sp);
+        }
+        isPlaying = false;
+        updateTimeTimer.stop();
+    }
+
+    private void handleSkipFailure() {
+        resetCurrentSongData();
+        if (!Queue.isEmpty()) {
+            Queue.dequeue();
+        }
+        refreshQueueInJTree();
+        System.out.println("Failed to load next track. Skipping to the next one if available.");
+        if (!Queue.isEmpty()) {
+            skip();
         }
     }
 
@@ -563,26 +597,12 @@ public class MusicPlayer extends JPanel {
                 ProgressBar.setValue(0);
             });
             if (!Queue.isEmpty()) {
-                Queue.dequeue(); // Remove the last played song from the queue
+                Queue.dequeue(); 
             }
             refreshQueueInJTree();
         }
     }
 
-    private void stopPlayback() {
-        if (sp != null) {
-            sp.pause(true);
-            ac.out.removeAllConnections(sp);
-        }
-        resetCurrentSongData();
-        isPlaying = false;
-        updateTimeTimer.stop();
-        SwingUtilities.invokeLater(() -> {
-            TimeLabel.setText("0:00 / 0:00");
-            ProgressBar.setValue(0);
-        });
-        System.out.println("Playback stopped. Queue is now empty.");
-    }
     
     private void updateCurrentVolume(float currentVolume) {
         if (currentVolume == 1.0) {
