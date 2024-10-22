@@ -29,7 +29,7 @@ import net.beadsproject.beads.ugens.*;
 public class MusicPlayer extends JPanel {
 
     // UI Components
-    private JButton Empty, Pause, Play, Remove, Skip;
+    private JButton Pause, Play, Remove, Skip;
     private GridBagConstraints gbc;
     private GridBagLayout layout;
     private JLabel ChannelLabel, TimeLabel, VolumeLabel;
@@ -45,7 +45,7 @@ public class MusicPlayer extends JPanel {
     private AudioContext ac;
     private boolean isPaused = false, isPlaying = false, songLoaded = false;
     private double pausePosition = 0;
-    private float sampleRate, volume, lastVolume = 1.0f; // Store the last volume before muting
+    private float sampleRate, volume, lastVolume = 1.0f; 
     private int elapsedSeconds, minutes, newValue = 0, seconds, n;
     private BiquadFilter highPass, lowPass;
     private Compressor limiter;
@@ -87,7 +87,7 @@ public class MusicPlayer extends JPanel {
 
         // High-pass filter
         highPass = new BiquadFilter(ac, 1, BiquadFilter.HP);
-        highPass.setFrequency(20); // Adjust as needed
+        highPass.setFrequency(20); 
 
         // Low-pass filter
         lowPass = new BiquadFilter(ac, 1, BiquadFilter.LP);
@@ -140,13 +140,9 @@ public class MusicPlayer extends JPanel {
         Remove = new JButton("Remove");
         Remove.addActionListener(new RemoveListener());
 
-        Empty = new JButton("Empty");
-        Empty.addActionListener(new EmptyListener());
-
         Loop = new JRadioButton("Loop");
         Loop.addActionListener(new LoopListener());
 
-        
         ProgressBar = new JSlider(0, 0, 100, 0); 
         ProgressBar.addChangeListener(e -> {
             if (ProgressBar.getValueIsAdjusting()) { 
@@ -244,12 +240,6 @@ public class MusicPlayer extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             remove();
-        }
-    }
-
-    private class EmptyListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
         }
     }
 
@@ -551,14 +541,6 @@ public class MusicPlayer extends JPanel {
             updateTime();
         }
     }
-    
-
-    public void adjustBufferSize(AudioContext ac, int newSize) {
-        if (ac.getBufferSize() != newSize) {
-            ac.stop();
-            ac.start();
-        }
-    }
 
     private void updateTime() {
         if (sp != null && isPlaying) {
@@ -620,7 +602,10 @@ public class MusicPlayer extends JPanel {
 
     public void resetCurrentSongData() {
         if (isPlaying || isPaused) { //For me to keep track of
-            ac.stop();  // Stop the audio context
+            if (sp != null) {
+                sp.pause(true);
+                ac.out.removeAllConnections(sp);
+            }
             updateTimeTimer.stop();  // Stop the timer
             isPlaying = false;
             isPaused = false;
@@ -647,17 +632,6 @@ public class MusicPlayer extends JPanel {
         if (sp != null) {
             ac.out.setGain(volume);
         }
-    }
-
-    public void setPosition(double position) {
-        System.out.println("Setting position to: " + position + " in instance " + n);
-        sp.setPosition(position);
-    }
-    
-    public double getPosition() {
-        double position = sp.getPosition();
-        System.out.println("Retrieved position: " + position + " from instance " + n);
-        return position;
     }
 
     public void addFilesToTree(java.util.List<File> files) {
