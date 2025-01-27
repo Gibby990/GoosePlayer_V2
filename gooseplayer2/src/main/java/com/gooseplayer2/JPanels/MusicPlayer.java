@@ -370,6 +370,7 @@ public class MusicPlayer extends JPanel {
     }
 
     private void skip() {
+        if(songLoaded == false) return;
         if (Loop.isSelected()) {
             seek(0);
             return;
