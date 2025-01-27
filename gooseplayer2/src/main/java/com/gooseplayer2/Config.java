@@ -24,7 +24,6 @@ public class Config extends JDialog {
     private FileReader reader;
     private Slugcat Artificer;
 
-    //Values
     private String currentTheme;
 
     @SuppressWarnings("rawtypes")
@@ -113,53 +112,9 @@ public class Config extends JDialog {
                 UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
                 Properties p = new Properties();
                 p.load(new FileReader(SETTINGS_FILE_PATH));
-                String theme = p.getProperty("theme", "");
+
+                applyTheme(p.getProperty("theme", ""));
                 
-                switch (theme) {
-                    case "Light Flat":
-                        FlatLightFlatIJTheme.setup();
-                        break;
-                    case "Solarized Light":
-                        FlatSolarizedLightIJTheme.setup();
-                        break;
-                    case "Arc" :
-                        FlatArcIJTheme.setup();
-                        break;
-                    case "Dark Flat":
-                        FlatDarkFlatIJTheme.setup();
-                        break;
-                    case "Arc Dark": 
-                        FlatArcDarkIJTheme.setup();
-                        break;
-                    case "Arc Dark Orange":
-                        FlatArcDarkOrangeIJTheme.setup();
-                        break;
-                    case "Hiberbee Dark":
-                        FlatHiberbeeDarkIJTheme.setup();
-                        break;
-                    case "Dark Purple":
-                        FlatDarkPurpleIJTheme.setup();
-                        break;
-                    case "Nord":
-                        FlatNordIJTheme.setup();
-                        break;
-                    default:
-                        FlatLightFlatIJTheme.setup();
-                        break;
-                }
-                /*
-                 * Themes to Keep
-                 * Light Flat
-                 * SolarizedLight
-                 * Ark 
-                 * 
-                 * Dark Flat
-                 * Ark Dark
-                 * Ark Dark Orange
-                 * HiberbeeDark
-                 * Dark Purple
-                 * Nord
-                 */
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -168,5 +123,40 @@ public class Config extends JDialog {
                 SwingUtilities.updateComponentTreeUI(window);
             }
         });
+    }
+
+    public static void applyTheme(String theme) {
+        switch (theme) {
+            case "Light Flat":
+                FlatLightFlatIJTheme.setup();
+                break;
+            case "Solarized Light":
+                FlatSolarizedLightIJTheme.setup();
+                break;
+            case "Arc" :
+                FlatArcIJTheme.setup();
+                break;
+            case "Dark Flat":
+                FlatDarkFlatIJTheme.setup();
+                break;
+            case "Arc Dark": 
+                FlatArcDarkIJTheme.setup();
+                break;
+            case "Arc Dark Orange":
+                FlatArcDarkOrangeIJTheme.setup();
+                break;
+            case "Hiberbee Dark":
+                FlatHiberbeeDarkIJTheme.setup();
+                break;
+            case "Dark Purple":
+                FlatDarkPurpleIJTheme.setup();
+                break;
+            case "Nord":
+                FlatNordIJTheme.setup();
+                break;
+            default:
+                FlatLightFlatIJTheme.setup();
+                break;
+        }
     }
 }
