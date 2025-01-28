@@ -24,12 +24,12 @@ public class Config extends JDialog {
     private FileReader reader;
     private Slugcat Artificer;
 
-    private String currentTheme;
+    private String currentTheme, currentStyle;
 
     @SuppressWarnings("rawtypes")
-    private JComboBox ThemeBox;
+    private JComboBox ThemeBox, StyleBox;
     private JSeparator Seperator;
-    private JLabel ThemeLabel;
+    private JLabel ThemeLabel, StyleLabel, RestartWarning;
     
     public Config(JFrame parent) throws IOException {
         super(parent, "Settings", true);
@@ -49,9 +49,11 @@ public class Config extends JDialog {
         p.load(reader);
 
         currentTheme = p.getProperty("theme");
+        currentStyle = p.getProperty("style");
 
         //Theme List
         String[] themeList = {"Light Flat", "Solarized Light", "Arc", "Dark Flat", "Arc Dark", "Arc Dark Orange", "Hiberbee Dark", "Dark Purple", "Nord"};
+        String[] styleList = {"Monochannel", "Multichannel"};
 
         ThemeBox = new JComboBox<>(themeList);
         ThemeBox.setSelectedItem(currentTheme);
@@ -73,7 +75,26 @@ public class Config extends JDialog {
         });
         ThemeLabel = new JLabel("Theme: ");
 
+        StyleBox = new JComboBox<>(styleList);
+        StyleBox.setSelectedItem(currentStyle);
+        StyleBox.addActionListener(new ActionListener() {
+            @SuppressWarnings("rawtypes")
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try (FileWriter writer = new FileWriter(SETTINGS_FILE_PATH)) {
+                    JComboBox cb = (JComboBox)e.getSource();
+                    String selectedStyle = (String)cb.getSelectedItem();
+                    p.setProperty("style", selectedStyle);
+                    p.store(writer, null);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+        StyleLabel = new JLabel("Style: ");
 
+        RestartWarning = new JLabel("<html>" + "<B>" + "WARNING:" + "</B>" + "   Changes will not apply until restart" + "</html>");
+        
         //Layout
 
         setLayout(layout);
@@ -84,17 +105,22 @@ public class Config extends JDialog {
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        Artificer.addObjects(ThemeBox, this, layout, gbc, 1, 0, 1, 1);
         Artificer.addObjects(ThemeLabel, this, layout, gbc, 0, 0, 1, 1);
+        Artificer.addObjects(ThemeBox, this, layout, gbc, 1, 0, 1, 1);
 
         Artificer.addObjects(Seperator, this, layout, gbc, 0, 1, 2, 1);
+
+        Artificer.addObjects(RestartWarning, this, layout, gbc, 0, 2, 2, 1);
+
+        Artificer.addObjects(StyleLabel, this, layout, gbc, 0, 3, 1, 1);
+        Artificer.addObjects(StyleBox, this , layout, gbc, 1, 3, 1, 1);
 
         JButton saveButton = new JButton("Save");
         saveButton.addActionListener(e -> {
             saveSettings();
             dispose();
         });
-        Artificer.addObjects(saveButton, this, layout, gbc, 0, 2, 2, 1);
+        Artificer.addObjects(saveButton, this, layout, gbc, 0, 4, 2, 1);
     }
 
     private void saveSettings() {
@@ -114,7 +140,7 @@ public class Config extends JDialog {
                 p.load(new FileReader(SETTINGS_FILE_PATH));
 
                 applyTheme(p.getProperty("theme", ""));
-                
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
