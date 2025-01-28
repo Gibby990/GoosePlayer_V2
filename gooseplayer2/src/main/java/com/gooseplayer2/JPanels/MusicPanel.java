@@ -22,7 +22,7 @@ public class MusicPanel extends JPanel {
     private Properties p;
     private FileReader reader;
     private MultiPlayer player1, player2, player3;
-    private boolean[] playerMuted = new boolean[3]; // Track mute state for each player
+    private boolean[] playerMuted = new boolean[3]; 
 
     public MusicPanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException {
 
@@ -78,7 +78,6 @@ public class MusicPanel extends JPanel {
 
         }
 
-        // Add global key listener
         addGlobalKeyListener();
     }    
 
@@ -88,7 +87,7 @@ public class MusicPanel extends JPanel {
             public boolean dispatchKeyEvent(KeyEvent e) {
                 if (e.getID() == KeyEvent.KEY_PRESSED) {
                     handleKeyPress(e);
-                    return true; // Consume the event
+                    return true; 
                 }
                 return false; 
             }
@@ -121,8 +120,8 @@ public class MusicPanel extends JPanel {
     private void muteSelectedPlayer(int playerNumber) {
         MultiPlayer player = getPlayerByNumber(playerNumber);
         if (player != null) {
-            int index = playerNumber - 1; // Convert to 0-based index
-            playerMuted[index] = !playerMuted[index]; // Toggle mute state
+            int index = playerNumber - 1; 
+            playerMuted[index] = !playerMuted[index];
             if (playerMuted[index]) {
                 player.mute();
                 System.out.println("Player " + playerNumber + " muted");
