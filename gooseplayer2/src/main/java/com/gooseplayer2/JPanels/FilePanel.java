@@ -20,7 +20,7 @@ public class FilePanel extends JPanel {
     private JScrollPane pane;
     private GridBagLayout layout;
     private GridBagConstraints gbc;
-    private Path libraryPath = Paths.get(Config.LIBRARY_PATH);
+    private Path libraryPath;
 
     public FilePanel() {
 

@@ -3,17 +3,24 @@ package com.gooseplayer2.JPanels;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.border.*;
-import com.gooseplayer2.Packages.Slugcat;
 import javazoom.jl.decoder.JavaLayerException;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.Properties;
+
+import com.gooseplayer2.Packages.Slugcat;
+import com.gooseplayer2.Config;
 
 public class MusicPanel extends JPanel {
     private GridBagLayout layout;
     private GridBagConstraints gbc;
     private Border outline;
+    private String loadedStyle;
     private FilePanel filePanel;
+    private Properties p;
+    private FileReader reader;
     private MultiPlayer player1, player2, player3;
     private boolean[] playerMuted = new boolean[3]; // Track mute state for each player
 
@@ -28,25 +35,48 @@ public class MusicPanel extends JPanel {
         outline = BorderFactory.createLineBorder(Color.BLACK);
         Slugcat Monk = new Slugcat();
 
-        try {
-            player1 = new MultiPlayer(1, filePanel);
-            player2 = new MultiPlayer(2, filePanel);
-            player3 = new MultiPlayer(3, filePanel);
-        } catch (Exception e) {
-            e.printStackTrace();
+        reader = new FileReader(Config.SETTINGS_FILE_PATH);
+        p = new Properties();
+        p.load(reader);
+
+        loadedStyle = p.getProperty("style");
+
+        if (loadedStyle.equals("Multichannel")) {
+            try {
+                player1 = new MultiPlayer(1, filePanel);
+                player2 = new MultiPlayer(2, filePanel);
+                player3 = new MultiPlayer(3, filePanel);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            player1.setBorder(outline);
+            player2.setBorder(outline);
+            player3.setBorder(outline);
+
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.weightx = 1.0; 
+            gbc.weighty = 1.0;
+
+            Monk.addObjects(player1, this, layout, gbc, 0, 0, 1, 1);
+            Monk.addObjects(player2, this, layout, gbc, 0, 1, 1, 1);
+            Monk.addObjects(player3, this, layout, gbc, 0, 2, 1, 1);
+        } else { // Go to Monochannel by default
+            try {
+                player1 = new MultiPlayer(1, filePanel);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            player1.setBorder(outline);
+
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.weightx = 1.0; 
+            gbc.weighty = 1.0;
+
+            Monk.addObjects(player1, this, layout, gbc, 0, 0, 1, 1);
+
         }
-
-        player1.setBorder(outline);
-        player2.setBorder(outline);
-        player3.setBorder(outline);
-
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1.0; 
-        gbc.weighty = 1.0;
-
-        Monk.addObjects(player1, this, layout, gbc, 0, 0, 1, 1);
-        Monk.addObjects(player2, this, layout, gbc, 0, 1, 1, 1);
-        Monk.addObjects(player3, this, layout, gbc, 0, 2, 1, 1);
 
         // Add global key listener
         addGlobalKeyListener();
