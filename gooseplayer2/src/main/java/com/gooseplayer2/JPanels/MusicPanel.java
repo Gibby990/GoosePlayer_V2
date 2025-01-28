@@ -14,7 +14,7 @@ public class MusicPanel extends JPanel {
     private GridBagConstraints gbc;
     private Border outline;
     private FilePanel filePanel;
-    private MusicPlayer player1, player2, player3;
+    private MultiPlayer player1, player2, player3;
     private boolean[] playerMuted = new boolean[3]; // Track mute state for each player
 
     public MusicPanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException {
@@ -29,9 +29,9 @@ public class MusicPanel extends JPanel {
         Slugcat Monk = new Slugcat();
 
         try {
-            player1 = new MusicPlayer(1, filePanel);
-            player2 = new MusicPlayer(2, filePanel);
-            player3 = new MusicPlayer(3, filePanel);
+            player1 = new MultiPlayer(1, filePanel);
+            player2 = new MultiPlayer(2, filePanel);
+            player3 = new MultiPlayer(3, filePanel);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -89,7 +89,7 @@ public class MusicPanel extends JPanel {
     }
 
     private void muteSelectedPlayer(int playerNumber) {
-        MusicPlayer player = getPlayerByNumber(playerNumber);
+        MultiPlayer player = getPlayerByNumber(playerNumber);
         if (player != null) {
             int index = playerNumber - 1; // Convert to 0-based index
             playerMuted[index] = !playerMuted[index]; // Toggle mute state
@@ -103,7 +103,7 @@ public class MusicPanel extends JPanel {
         }
     }
 
-    private MusicPlayer getPlayerByNumber(int number) {
+    private MultiPlayer getPlayerByNumber(int number) {
         switch (number) {
             case 1: return player1;
             case 2: return player2;

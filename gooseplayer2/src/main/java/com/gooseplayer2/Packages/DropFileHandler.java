@@ -8,10 +8,10 @@ import java.util.List;
 import com.gooseplayer2.JPanels.*;
 
 public class DropFileHandler extends TransferHandler {
-    MusicPlayer player;
+    MultiPlayer player;
     JComponent filePanel;
 
-    public DropFileHandler(MusicPlayer player, JComponent filePanel) {
+    public DropFileHandler(MultiPlayer player, JComponent filePanel) {
         this.player = player;
         this.filePanel = filePanel;
     }

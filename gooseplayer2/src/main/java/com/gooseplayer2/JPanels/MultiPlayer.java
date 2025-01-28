@@ -26,7 +26,7 @@ import net.beadsproject.beads.ugens.*;
 
 
 
-public class MusicPlayer extends JPanel {
+public class MultiPlayer extends JPanel {
 
     // UI Components
     private JButton Pause, Play, Remove, Skip;
@@ -62,7 +62,7 @@ public class MusicPlayer extends JPanel {
     private QueuedFile queuedFile; 
 
 
-    public MusicPlayer(int n, JComponent FilePanel) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public MultiPlayer(int n, JComponent FilePanel) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         //JTree Stuff 
         
