@@ -26,6 +26,7 @@ public class Config extends JDialog {
 
     private String currentTheme, currentStyle;
 
+    private JButton saveButton;
     @SuppressWarnings("rawtypes")
     private JComboBox ThemeBox, StyleBox;
     private JSeparator Seperator;
@@ -94,6 +95,12 @@ public class Config extends JDialog {
         StyleLabel = new JLabel("Style: ");
 
         RestartWarning = new JLabel("<html>" + "<B>" + "WARNING:" + "</B>" + "   Changes will not apply until restart" + "</html>");
+
+        saveButton = new JButton("Save");
+        saveButton.addActionListener(e -> {
+            saveSettings();
+            dispose();
+        });
         
         //Layout
 
@@ -115,11 +122,6 @@ public class Config extends JDialog {
         Artificer.addObjects(StyleLabel, this, layout, gbc, 0, 3, 1, 1);
         Artificer.addObjects(StyleBox, this , layout, gbc, 1, 3, 1, 1);
 
-        JButton saveButton = new JButton("Save");
-        saveButton.addActionListener(e -> {
-            saveSettings();
-            dispose();
-        });
         Artificer.addObjects(saveButton, this, layout, gbc, 0, 4, 2, 1);
     }
 
