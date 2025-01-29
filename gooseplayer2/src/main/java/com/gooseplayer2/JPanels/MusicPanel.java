@@ -18,10 +18,11 @@ public class MusicPanel extends JPanel {
     private GridBagConstraints gbc;
     private Border outline;
     private String loadedStyle;
+    private boolean isMultichannel;
     private FilePanel filePanel;
     private Properties p;
     private FileReader reader;
-    private MultiPlayer player1, player2, player3;
+    private MusicPlayer player1, player2, player3;
     private boolean[] playerMuted = new boolean[3]; 
 
     public MusicPanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException {
@@ -40,12 +41,13 @@ public class MusicPanel extends JPanel {
         p.load(reader);
 
         loadedStyle = p.getProperty("style");
+        if (loadedStyle.equals("Multichannel")) isMultichannel = true;
 
-        if (loadedStyle.equals("Multichannel")) {
+        if (isMultichannel) {
             try {
-                player1 = new MultiPlayer(1, filePanel);
-                player2 = new MultiPlayer(2, filePanel);
-                player3 = new MultiPlayer(3, filePanel);
+                player1 = new MusicPlayer(filePanel, true);
+                player2 = new MusicPlayer(filePanel, true);
+                player3 = new MusicPlayer(filePanel, true);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -63,7 +65,7 @@ public class MusicPanel extends JPanel {
             Monk.addObjects(player3, this, layout, gbc, 0, 2, 1, 1);
         } else { // Go to Monochannel by default
             try {
-                player1 = new MultiPlayer(1, filePanel);
+                player1 = new MusicPlayer(filePanel, false);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -118,7 +120,7 @@ public class MusicPanel extends JPanel {
     }
 
     private void muteSelectedPlayer(int playerNumber) {
-        MultiPlayer player = getPlayerByNumber(playerNumber);
+        MusicPlayer player = getPlayerByNumber(playerNumber);
         if (player != null) {
             int index = playerNumber - 1; 
             playerMuted[index] = !playerMuted[index];
@@ -132,7 +134,7 @@ public class MusicPanel extends JPanel {
         }
     }
 
-    private MultiPlayer getPlayerByNumber(int number) {
+    private MusicPlayer getPlayerByNumber(int number) {
         switch (number) {
             case 1: return player1;
             case 2: return player2;

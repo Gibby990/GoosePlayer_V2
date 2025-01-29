@@ -26,7 +26,7 @@ import net.beadsproject.beads.ugens.*;
 
 
 
-public class MultiPlayer extends JPanel {
+public class MusicPlayer extends JPanel {
 
     // UI Components
     private JButton Pause, Play, Remove, Skip;
@@ -61,8 +61,7 @@ public class MultiPlayer extends JPanel {
     private Queue<QueuedFile> Queue = new Queue<>();
     private QueuedFile queuedFile; 
 
-
-    public MultiPlayer(int n, JComponent FilePanel) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public MusicPlayer(JComponent FilePanel, boolean isMultichannel) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         //JTree Stuff 
         
@@ -74,8 +73,6 @@ public class MultiPlayer extends JPanel {
         queueTree.setRootVisible(true);
 
         JScrollPane queueTreePane = new JScrollPane(queueTree);
-
-        this.n = n;
 
         //Audio Initialization and Configuration
 
@@ -170,42 +167,46 @@ public class MultiPlayer extends JPanel {
 
         setLayout(layout);
 
-        gbc.gridheight = 3;
-        gbc.gridwidth = 6;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.NONE;
+        if (isMultichannel) {
+            gbc.gridheight = 3;
+            gbc.gridwidth = 6;
+            gbc.weightx = 1.0;
+            gbc.weighty = 1.0;
+            gbc.fill = GridBagConstraints.NONE;
 
-        // JButtons
+            // JButtons
 
-        Rivulet.addObjects(Play, this, layout, gbc, 4, 0, 1, 1);
-        Rivulet.addObjects(Pause, this, layout, gbc,4, 1, 1, 1);
-        Rivulet.addObjects(Skip, this, layout, gbc, 4, 2, 1, 1);
-        Rivulet.addObjects(Remove, this, layout, gbc, 4, 3, 1, 1);
-        Rivulet.addObjects(Loop, this, layout, gbc,4, 5, 1, 1);
+            Rivulet.addObjects(Play, this, layout, gbc, 4, 0, 1, 1);
+            Rivulet.addObjects(Pause, this, layout, gbc,4, 1, 1, 1);
+            Rivulet.addObjects(Skip, this, layout, gbc, 4, 2, 1, 1);
+            Rivulet.addObjects(Remove, this, layout, gbc, 4, 3, 1, 1);
+            Rivulet.addObjects(Loop, this, layout, gbc,4, 5, 1, 1);
 
-        // ProgressBar
+            // ProgressBar
 
-        gbc.fill = GridBagConstraints.CENTER;
+            gbc.fill = GridBagConstraints.CENTER;
 
-        Rivulet.addObjects(ChannelLabel, this, layout, gbc, 0, 0, 4, 1);
+            Rivulet.addObjects(ChannelLabel, this, layout, gbc, 0, 0, 4, 1);
 
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        gbc.insets = new Insets(0, 25, 0, 0);
+            gbc.insets = new Insets(0, 25, 0, 0);
 
-        Rivulet.addObjects(ProgressBar, this, layout, gbc, 0, 0, 4, 4);
-        Rivulet.addObjects(TimeLabel, this, layout, gbc, 0, 2, 2, 1);
-        Rivulet.addObjects(VolumeLabel, this, layout, gbc, 0, 4, 2, 1);
-        Rivulet.addObjects(VolumeSlider, this, layout, gbc, 0, 5, 1, 1);
+            Rivulet.addObjects(ProgressBar, this, layout, gbc, 0, 0, 4, 4);
+            Rivulet.addObjects(TimeLabel, this, layout, gbc, 0, 2, 2, 1);
+            Rivulet.addObjects(VolumeLabel, this, layout, gbc, 0, 4, 2, 1);
+            Rivulet.addObjects(VolumeSlider, this, layout, gbc, 0, 5, 1, 1);
         
-        gbc.insets = new Insets(0, 0, 0, 0);
+            gbc.insets = new Insets(0, 0, 0, 0);
 
-        // queueTree
+            // queueTree
 
-        gbc.fill = GridBagConstraints.BOTH;
+            gbc.fill = GridBagConstraints.BOTH;
 
-        Rivulet.addObjects(queueTreePane, this, layout, gbc, 5, 0, 1,6);
+            Rivulet.addObjects(queueTreePane, this, layout, gbc, 5, 0, 1,6);
+        } else {
+            
+        }
 
         queueTree.setTransferHandler(new DropFileHandler(this, FilePanel));
 
@@ -724,4 +725,8 @@ public class MultiPlayer extends JPanel {
             SwingUtilities.invokeLater(() -> VolumeSlider.setValue((int)(lastVolume * 100)));
         }
     }
+
+    /* 
+     * EVERYTHING BELOW IS FOR SINGLE PLAYER ONLY
+     */
 }
