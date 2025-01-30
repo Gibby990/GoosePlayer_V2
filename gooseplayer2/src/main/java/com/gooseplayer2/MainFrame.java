@@ -48,7 +48,7 @@ public class MainFrame extends JFrame {
     private Slugcat Survivor;
 
     public MainFrame() throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException {
-        super("musicPlayer");
+        super("Music Player");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(950, 600);
 
