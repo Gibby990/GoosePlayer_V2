@@ -58,7 +58,7 @@ public class MainFrame extends JFrame {
             if (iconStream != null) {
                 icon = new ImageIcon(ImageIO.read(iconStream));
                 image = icon.getImage();
-                scaledImage = getScaledImage(image, 512, 547);
+                scaledImage = getScaledImage(image, 512, 512);
                 setIconImage(scaledImage);
             } else {
                 System.err.println("Icon not found.");

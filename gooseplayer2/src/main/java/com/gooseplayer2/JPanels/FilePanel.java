@@ -42,7 +42,7 @@ public class FilePanel extends JPanel {
 
         setLayout(layout);
 
-        Hunter.setFill("HORIZONTAL");
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         Hunter.addObjects(label, this, layout, gbc, 0, 0, 1, 1);
        
         gbc.fill = GridBagConstraints.BOTH;

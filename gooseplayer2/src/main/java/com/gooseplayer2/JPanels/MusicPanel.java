@@ -17,7 +17,7 @@ public class MusicPanel extends JPanel {
     private GridBagLayout layout;
     private GridBagConstraints gbc;
     private Border outline;
-    private String loadedStyle;
+    private String loadedStyle, monoChannelName, multiChannel1Name, multiChannel2Name, multiChannel3Name;
     private boolean isMultichannel;
     private FilePanel filePanel;
     private Properties p;
@@ -36,6 +36,8 @@ public class MusicPanel extends JPanel {
         outline = BorderFactory.createLineBorder(Color.BLACK);
         Slugcat Monk = new Slugcat();
 
+        // Importing Settings
+
         reader = new FileReader(Config.SETTINGS_FILE_PATH);
         p = new Properties();
         p.load(reader);
@@ -43,11 +45,18 @@ public class MusicPanel extends JPanel {
         loadedStyle = p.getProperty("style");
         if (loadedStyle.equals("Multichannel")) isMultichannel = true;
 
+        monoChannelName = p.getProperty("monochannelname");
+        multiChannel1Name = p.getProperty("multichannel1name");
+        multiChannel2Name = p.getProperty("multichannel2name");
+        multiChannel3Name = p.getProperty("multichannel3name");
+
+        //Determine Style
+
         if (isMultichannel) {
             try {
-                player1 = new MusicPlayer(filePanel, true);
-                player2 = new MusicPlayer(filePanel, true);
-                player3 = new MusicPlayer(filePanel, true);
+                player1 = new MusicPlayer(filePanel, true, multiChannel1Name);
+                player2 = new MusicPlayer(filePanel, true, multiChannel2Name);
+                player3 = new MusicPlayer(filePanel, true, multiChannel3Name);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -63,9 +72,10 @@ public class MusicPanel extends JPanel {
             Monk.addObjects(player1, this, layout, gbc, 0, 0, 1, 1);
             Monk.addObjects(player2, this, layout, gbc, 0, 1, 1, 1);
             Monk.addObjects(player3, this, layout, gbc, 0, 2, 1, 1);
+
         } else { // Go to Monochannel by default
             try {
-                player1 = new MusicPlayer(filePanel, false);
+                player1 = new MusicPlayer(filePanel, false, monoChannelName);
             } catch (Exception e) {
                 e.printStackTrace();
             }

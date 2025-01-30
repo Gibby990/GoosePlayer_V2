@@ -24,7 +24,9 @@ import net.beadsproject.beads.data.Sample;
 import net.beadsproject.beads.data.SampleManager;
 import net.beadsproject.beads.ugens.*;
 
-
+//TODO: Remove the "Remove" implementation, it sucks
+//TODO: Implement timestamp function
+//TODO: Design monochannel layout
 
 public class MusicPlayer extends JPanel {
 
@@ -61,7 +63,7 @@ public class MusicPlayer extends JPanel {
     private Queue<QueuedFile> Queue = new Queue<>();
     private QueuedFile queuedFile; 
 
-    public MusicPlayer(JComponent FilePanel, boolean isMultichannel) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public MusicPlayer(JComponent FilePanel, boolean isMultichannel, String channelName) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         //JTree Stuff 
         
@@ -150,7 +152,7 @@ public class MusicPlayer extends JPanel {
             }
         });
 
-        ChannelLabel = new JLabel("Channel " + n);
+        ChannelLabel = new JLabel(channelName);
         TimeLabel = new JLabel("0:00 / 0:00");   
         VolumeLabel = new JLabel("Volume (100)");
 
@@ -205,7 +207,7 @@ public class MusicPlayer extends JPanel {
 
             Rivulet.addObjects(queueTreePane, this, layout, gbc, 5, 0, 1,6);
         } else {
-            
+
         }
 
         queueTree.setTransferHandler(new DropFileHandler(this, FilePanel));
@@ -299,7 +301,6 @@ public class MusicPlayer extends JPanel {
             sp = new SamplePlayer(ac, sample);
             sp.setKillOnEnd(false);
             ac.out.addInput(sp);
-
 
         } catch (Exception e) {
             System.err.println("ERROR: Unable to load the selected file: " + selectedFile.getAbsolutePath());

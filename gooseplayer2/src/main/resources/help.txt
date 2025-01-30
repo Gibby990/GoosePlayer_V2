@@ -11,8 +11,6 @@ Drag and drop files from the Library into your preferred music channel
 - Queue
 Dispays the current queue of files for thier respective music channel 
 
-
-
 Commands
 --------------------------------
 
@@ -23,10 +21,7 @@ Global Commands
 Ctrl + Shift + P                 Plays all songs in the queue
 Ctrl + Shift + S                 Pauses all songs in the queue
 
-
-
 Side Notes
 --------------------------------
-- Remove will only work on a song if it is not the first in the queue.
 - Muting/Unmuting will only work if there is an active queue for the channel.
 
