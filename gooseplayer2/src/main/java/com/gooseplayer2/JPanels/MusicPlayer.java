@@ -5,8 +5,6 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.Iterator;
 import javax.swing.*;
-//import javax.swing.event.ChangeEvent;
-//import javax.swing.event.ChangeListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
@@ -24,9 +22,7 @@ import net.beadsproject.beads.data.Sample;
 import net.beadsproject.beads.data.SampleManager;
 import net.beadsproject.beads.ugens.*;
 
-//TODO: Remove the "Remove" implementation, it sucks
 //TODO: Implement timestamp function
-//TODO: Design monochannel layout
 
 public class MusicPlayer extends JPanel {
 
@@ -120,8 +116,6 @@ public class MusicPlayer extends JPanel {
                 }
             }
         });
-                
-        //GUI
 
         Slugcat Rivulet = new Slugcat();
 
