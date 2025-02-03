@@ -1,7 +1,7 @@
-#Thu Jan 30 13:46:44 CST 2025
+#Mon Feb 03 13:51:19 CST 2025
 multichannel3name=Channel 3
 monochannelname=Music Channel
 multichannel1name=Channel 1
 multichannel2name=Channel 2
-theme=Hiberbee Dark
-style=Multichannel
+theme=Nord
+style=Monochannel

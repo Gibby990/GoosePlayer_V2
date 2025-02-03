@@ -184,7 +184,7 @@ public class MusicPlayer extends JPanel {
             Rivulet.addObjects(Remove, this, layout, gbc, 4, 3, 1, 1);
             Rivulet.addObjects(Loop, this, layout, gbc,4, 5, 1, 1);
 
-            // ProgressBar
+            // Head
 
             gbc.fill = GridBagConstraints.CENTER;
 
@@ -201,12 +201,48 @@ public class MusicPlayer extends JPanel {
         
             gbc.insets = new Insets(0, 0, 0, 0);
 
-            // queueTree
+            // Queue
 
             gbc.fill = GridBagConstraints.BOTH;
 
             Rivulet.addObjects(queueTreePane, this, layout, gbc, 5, 0, 1,6);
         } else {
+
+            gbc.gridheight = 3;
+            gbc.gridwidth = 6;
+            gbc.weightx = 1.0;
+            gbc.weighty = 1.0;
+
+            // Title
+
+            gbc.fill = GridBagConstraints.CENTER;
+
+            Rivulet.addObjects(ChannelLabel, this, layout, gbc, 0, 0, 4, 1);
+
+            // Bars
+
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+
+            Rivulet.addObjects(ProgressBar, this, layout, gbc, 0, 1, 3, 1);
+            Rivulet.addObjects(TimeLabel, this, layout, gbc, 3, 1, 1, 1);
+            Rivulet.addObjects(VolumeLabel, this, layout, gbc, 0, 2, 1, 1);
+            Rivulet.addObjects(VolumeSlider, this, layout, gbc, 1, 2, 2, 1);
+
+            // JButtons
+
+            gbc.fill = GridBagConstraints.NONE;
+
+            Rivulet.addObjects(Play, this, layout, gbc, 0, 3, 1, 1);
+            Rivulet.addObjects(Pause, this, layout, gbc,1, 3, 1, 1);
+            Rivulet.addObjects(Skip, this, layout, gbc, 2, 3, 1, 1);
+            Rivulet.addObjects(Remove, this, layout, gbc, 3, 3, 1, 1);
+            Rivulet.addObjects(Loop, this, layout, gbc,4, 3, 1, 1);
+
+            // Queue 
+
+            gbc.fill = GridBagConstraints.BOTH;
+
+            Rivulet.addObjects(queueTreePane, this, layout, gbc, 0, 4, 5, 1);
 
         }
 
