@@ -174,9 +174,16 @@ public class MusicPlayer extends JPanel {
             gbc.gridwidth = 6;
             gbc.weightx = 1.0;
             gbc.weighty = 1.0;
-            gbc.fill = GridBagConstraints.NONE;
+
+            // Title
+
+            gbc.fill = GridBagConstraints.CENTER;
+
+            Rivulet.addObjects(ChannelLabel, this, layout, gbc, 0, 0, 4, 1);
 
             // JButtons
+
+            gbc.fill = GridBagConstraints.NONE;
 
             Rivulet.addObjects(Play, this, layout, gbc, 4, 0, 1, 1);
             Rivulet.addObjects(Pause, this, layout, gbc,4, 1, 1, 1);
@@ -184,11 +191,7 @@ public class MusicPlayer extends JPanel {
             Rivulet.addObjects(Remove, this, layout, gbc, 4, 3, 1, 1);
             Rivulet.addObjects(Loop, this, layout, gbc,4, 5, 1, 1);
 
-            // Head
-
-            gbc.fill = GridBagConstraints.CENTER;
-
-            Rivulet.addObjects(ChannelLabel, this, layout, gbc, 0, 0, 4, 1);
+            // Bars
 
             gbc.fill = GridBagConstraints.HORIZONTAL;
 
@@ -223,10 +226,14 @@ public class MusicPlayer extends JPanel {
 
             gbc.fill = GridBagConstraints.HORIZONTAL;
 
+            gbc.insets = new Insets(0, 20, 0, 0);
+
             Rivulet.addObjects(ProgressBar, this, layout, gbc, 0, 1, 3, 1);
             Rivulet.addObjects(TimeLabel, this, layout, gbc, 3, 1, 1, 1);
             Rivulet.addObjects(VolumeLabel, this, layout, gbc, 0, 2, 1, 1);
             Rivulet.addObjects(VolumeSlider, this, layout, gbc, 1, 2, 2, 1);
+
+            gbc.insets = new Insets(0, 0, 0, 0);
 
             // JButtons
 
@@ -645,25 +652,25 @@ public class MusicPlayer extends JPanel {
                 sp.pause(true);
                 ac.out.removeAllConnections(sp);
             }
-            updateTimeTimer.stop();  // Stop the timer
+            updateTimeTimer.stop(); 
             isPlaying = false;
             isPaused = false;
         }
-        songLoaded = false;  // Mark the song as not loaded
-        selectedFile = null;  // Clear the selected file
-        pausePosition = 0;  // Reset the pause position
-        sample = null;  // Clear the sample
-        sp = null;  // Clear the SamplePlayer
-        sampleFrames = 0;  // Reset sample frames
-        sampleRate = 0;  // Reset sample rate
-        minutes = 0;  // Reset minutes
-        seconds = 0;  // Reset seconds
-        elapsedSeconds = 0;  // Reset elapsed seconds
+        songLoaded = false; 
+        selectedFile = null; 
+        pausePosition = 0;  
+        sample = null;  
+        sp = null;  
+        sampleFrames = 0;  
+        sampleRate = 0; 
+        minutes = 0; 
+        seconds = 0; 
+        elapsedSeconds = 0;  
     
         SwingUtilities.invokeLater(() -> {
             ProgressBar.setValue(0);
-            ProgressBar.setMaximum(100);  // Reset the progress bar
-            TimeLabel.setText("0:00 / 0:00");  // Reset the time label
+            ProgressBar.setMaximum(100);  
+            TimeLabel.setText("0:00 / 0:00");
         });
     }
 
