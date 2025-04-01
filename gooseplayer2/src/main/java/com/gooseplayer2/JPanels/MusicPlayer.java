@@ -44,7 +44,7 @@ public class MusicPlayer extends JPanel {
     private boolean isPaused = false, isPlaying = false, songLoaded = false;
     private double pausePosition = 0;
     private float sampleRate, volume, lastVolume = 1.0f; 
-    private int elapsedSeconds, minutes, newValue = 0, seconds, n;
+    private int minutes, newValue = 0, seconds, n;
     private BiquadFilter highPass, lowPass;
     private Compressor limiter;
     private Compressor compressor;
@@ -110,8 +110,6 @@ public class MusicPlayer extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isPlaying) {
-                    elapsedSeconds++; 
-                    System.out.println("Elapsed Seconds: " + elapsedSeconds);
                     updateTime(); 
                 }
             }
@@ -141,7 +139,6 @@ public class MusicPlayer extends JPanel {
             if (ProgressBar.getValueIsAdjusting()) { 
                 newValue = ProgressBar.getValue();
                 System.out.println("Slider new value: " + newValue); 
-                elapsedSeconds = newValue;
                 seek(newValue);
             }
         });
@@ -659,7 +656,6 @@ public class MusicPlayer extends JPanel {
         sampleRate = 0; 
         minutes = 0; 
         seconds = 0; 
-        elapsedSeconds = 0;  
     
         SwingUtilities.invokeLater(() -> {
             ProgressBar.setValue(0);
