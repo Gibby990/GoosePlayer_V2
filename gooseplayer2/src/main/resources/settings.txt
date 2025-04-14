@@ -1,7 +1,7 @@
-#Tue Mar 11 14:11:32 CDT 2025
+#Tue Apr 08 14:00:02 CDT 2025
 multichannel3name=Channel 3
 monochannelname=Music Channel
 multichannel1name=Channel 1
 multichannel2name=Channel 2
 theme=Nord
-style=Multichannel
+style=Monochannel

@@ -22,7 +22,6 @@ import net.beadsproject.beads.data.Sample;
 import net.beadsproject.beads.data.SampleManager;
 import net.beadsproject.beads.ugens.*;
 
-//TODO: Implement timestamp function
 
 public class MusicPlayer extends JPanel {
 
@@ -759,8 +758,4 @@ public class MusicPlayer extends JPanel {
             SwingUtilities.invokeLater(() -> VolumeSlider.setValue((int)(lastVolume * 100)));
         }
     }
-
-    /* 
-     * EVERYTHING BELOW IS FOR SINGLE PLAYER ONLY
-     */
 }
