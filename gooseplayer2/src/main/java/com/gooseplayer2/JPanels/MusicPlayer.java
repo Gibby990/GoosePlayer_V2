@@ -209,7 +209,6 @@ public class MusicPlayer extends JPanel {
             gbc.insets = new Insets(0, 20, 0, 0); 
             Rivulet.addObjects(ProgressBar, this, layout, gbc, 0, 1, 4, 1);
             Rivulet.addObjects(TimeLabel, this, layout, gbc, 4, 1, 1, 1);
-            //Rivulet.addObjects(VolumeLabel, this, layout, gbc, 2, 2, 1, 1); // Keep commented line
             Rivulet.addObjects(VolumeSlider, this, layout, gbc, 0, 2, 2, 1);
 
             gbc.insets = new Insets(0, 0, 0, 0);
