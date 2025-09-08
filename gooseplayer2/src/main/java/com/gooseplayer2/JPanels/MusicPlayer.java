@@ -16,7 +16,6 @@ import com.gooseplayer2.Packages.Slugcat;
 import com.gooseplayer2.Packages.QueuedFile;
 
 import net.beadsproject.beads.core.AudioContext;
-import net.beadsproject.beads.core.UGen;
 import net.beadsproject.beads.core.io.JavaSoundAudioIO;
 import net.beadsproject.beads.data.Sample;
 import net.beadsproject.beads.data.SampleManager;
@@ -26,7 +25,7 @@ import net.beadsproject.beads.ugens.*;
 public class MusicPlayer extends JPanel {
 
     // UI Components
-    private JButton Pause, Play, Remove, Skip;
+    private JButton Pause, Play, Remove, Skip, Clear;
     private GridBagConstraints gbc;
     private GridBagLayout layout;
     private JLabel ChannelLabel, TimeLabel, VolumeLabel;
@@ -41,14 +40,12 @@ public class MusicPlayer extends JPanel {
     // Audio Playback
     private AudioContext ac;
     private boolean isPaused = false, isPlaying = false, songLoaded = false;
+    private boolean isSeeking = false, wasPlayingBeforeSeek = false;
+    private boolean shouldRestorePausePosition = false;
     private double pausePosition = 0;
     private float sampleRate, volume, lastVolume = 1.0f; 
-    private int minutes, newValue = 0, seconds, n;
-    private BiquadFilter highPass, lowPass;
-    private Compressor limiter;
-    private Compressor compressor;
+    private int minutes, seconds;
     private JavaSoundAudioIO audioIO;
-    private UGen gain;
     private long sampleFrames;
     private Sample sample, nextSample;
     private SamplePlayer sp, nextSp;
@@ -75,33 +72,6 @@ public class MusicPlayer extends JPanel {
 
         audioIO = new JavaSoundAudioIO();
         ac = new AudioContext(audioIO);
-
-        gain = new Gain(ac, 1, 1);
-        ac.out.addInput(gain);
-
-        // High-pass filter
-        highPass = new BiquadFilter(ac, 1, BiquadFilter.HP);
-        highPass.setFrequency(20); 
-
-        // Low-pass filter
-        lowPass = new BiquadFilter(ac, 1, BiquadFilter.LP);
-        lowPass.setFrequency(20000);
-
-        // Compressor
-        compressor = new Compressor(ac, 1);
-        compressor.setThreshold(0.7f);
-        compressor.setRatio(2f);
-
-        // Limiter
-        limiter = new Compressor(ac, 1);
-        limiter.setThreshold(0.95f);
-        limiter.setRatio(20f);
-
-        // Chain setup
-        ac.out.addInput(limiter);
-        limiter.addInput(compressor);
-        compressor.addInput(lowPass);
-        lowPass.addInput(highPass);
 
         //Timer
 
@@ -130,15 +100,37 @@ public class MusicPlayer extends JPanel {
         Remove = new JButton("Remove");
         Remove.addActionListener(new RemoveListener());
 
+        Clear = new JButton("Clear");
+        Clear.addActionListener(new ClearListener());
+
         Loop = new JRadioButton("Loop");
         Loop.addActionListener(new LoopListener());
 
         ProgressBar = new JSlider(0, 0, 100, 0); 
         ProgressBar.addChangeListener(e -> {
-            if (ProgressBar.getValueIsAdjusting()) { 
-                newValue = ProgressBar.getValue();
-                System.out.println("Slider new value: " + newValue); 
-                seek(newValue);
+            boolean adjusting = ProgressBar.getValueIsAdjusting();
+            int value = ProgressBar.getValue();
+            if (adjusting) {
+                if (!isSeeking) {
+                    wasPlayingBeforeSeek = isPlaying;
+                    if (isPlaying) {
+                        pause();
+                    }
+                    isSeeking = true;
+                }
+                int previewMinutes = value / 60;
+                int previewSeconds = value % 60;
+                SwingUtilities.invokeLater(() -> {
+                    TimeLabel.setText(String.format("%d:%02d / %d:%02d", previewMinutes, previewSeconds, minutes, seconds));
+                });
+            } else if (isSeeking) {
+                seek(value);
+                if (wasPlayingBeforeSeek) {
+                    shouldRestorePausePosition = false;
+                    resume();
+                }
+                isSeeking = false;
+                wasPlayingBeforeSeek = false;
             }
         });
 
@@ -212,34 +204,34 @@ public class MusicPlayer extends JPanel {
 
             Rivulet.addObjects(ChannelLabel, this, layout, gbc, 0, 0, 4, 1);
 
-            // Bars
-
             gbc.fill = GridBagConstraints.HORIZONTAL;
 
-            gbc.insets = new Insets(0, 20, 0, 0);
-
-            Rivulet.addObjects(ProgressBar, this, layout, gbc, 0, 1, 3, 1);
-            Rivulet.addObjects(TimeLabel, this, layout, gbc, 3, 1, 1, 1);
-            Rivulet.addObjects(VolumeLabel, this, layout, gbc, 0, 2, 1, 1);
-            Rivulet.addObjects(VolumeSlider, this, layout, gbc, 1, 2, 2, 1);
+            gbc.insets = new Insets(0, 20, 0, 0); 
+            Rivulet.addObjects(ProgressBar, this, layout, gbc, 0, 1, 4, 1);
+            Rivulet.addObjects(TimeLabel, this, layout, gbc, 4, 1, 1, 1);
+            //Rivulet.addObjects(VolumeLabel, this, layout, gbc, 2, 2, 1, 1); // Keep commented line
+            Rivulet.addObjects(VolumeSlider, this, layout, gbc, 0, 2, 2, 1);
 
             gbc.insets = new Insets(0, 0, 0, 0);
-
-            // JButtons
 
             gbc.fill = GridBagConstraints.NONE;
 
             Rivulet.addObjects(Play, this, layout, gbc, 0, 3, 1, 1);
-            Rivulet.addObjects(Pause, this, layout, gbc,1, 3, 1, 1);
+            Rivulet.addObjects(Pause, this, layout, gbc, 1, 3, 1, 1);
+            
+            gbc.insets = new Insets(0, 100, 0, 0);
             Rivulet.addObjects(Skip, this, layout, gbc, 2, 3, 1, 1);
+            
+            gbc.insets = new Insets(0, 0, 0, 0);
             Rivulet.addObjects(Remove, this, layout, gbc, 3, 3, 1, 1);
-            Rivulet.addObjects(Loop, this, layout, gbc,4, 3, 1, 1);
+            Rivulet.addObjects(Clear, this, layout, gbc, 4, 3, 1, 1);
+            Rivulet.addObjects(Loop, this, layout, gbc, 5, 3, 1, 1);
 
             // Queue 
 
             gbc.fill = GridBagConstraints.BOTH;
 
-            Rivulet.addObjects(queueTreePane, this, layout, gbc, 0, 4, 5, 1);
+            Rivulet.addObjects(queueTreePane, this, layout, gbc, 0, 4, 6, 1);
 
         }
 
@@ -279,6 +271,13 @@ public class MusicPlayer extends JPanel {
         }
     }
 
+    private class ClearListener implements ActionListener {
+        @Override 
+        public void actionPerformed(ActionEvent e) {
+            clear();
+        }
+    }
+
     private class LoopListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -295,7 +294,7 @@ public class MusicPlayer extends JPanel {
     // Other methods
 
     private void loadSong() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        System.out.println("loadSong ran in player " + n);
+        System.out.println("loadSong ran");
         queuedFile = Queue.peek();
         if (queuedFile == null) return;
     
@@ -321,11 +320,11 @@ public class MusicPlayer extends JPanel {
             minutes = (int) (duration / 60);
             seconds = (int) (duration % 60);
     
-            updateTime();
             SwingUtilities.invokeLater(() -> {
                 int totalDuration = minutes * 60 + seconds;
                 ProgressBar.setMaximum(totalDuration);
                 ProgressBar.setValue(0);
+                TimeLabel.setText(String.format("0:00 / %d:%02d", minutes, seconds));
             });
     
             songLoaded = true;
@@ -333,7 +332,7 @@ public class MusicPlayer extends JPanel {
     
             sp = new SamplePlayer(ac, sample);
             sp.setKillOnEnd(false);
-            ac.out.addInput(sp);
+            sp.pause(true); 
 
         } catch (Exception e) {
             System.err.println("ERROR: Unable to load the selected file: " + selectedFile.getAbsolutePath());
@@ -351,6 +350,11 @@ public class MusicPlayer extends JPanel {
                 }
                 if (!ac.isRunning()) {
                     ac.start();
+                }
+                
+                if (sp != null) {
+                    ac.out.removeAllConnections(sp);
+                    ac.out.addInput(sp);
                 }
                 
                 int retries = 3;
@@ -385,22 +389,26 @@ public class MusicPlayer extends JPanel {
 
     public void pause() {
         if (sp != null && isPlaying) {
-            System.out.println("Pause pressed at player " + n);
+            System.out.println("Pause pressed");
             pausePosition = sp.getPosition();  
             sp.pause(true);
             updateTimeTimer.stop(); 
             isPaused = true;
             isPlaying = false;
+            shouldRestorePausePosition = true;
         }
     }
 
     private void resume() {
         if (sp != null && isPaused) {
             sp.start();  
-            sp.setPosition(pausePosition); 
+            if (shouldRestorePausePosition) {
+                sp.setPosition(pausePosition);
+            }
             updateTimeTimer.start();  
             isPaused = false;
             isPlaying = true;
+            shouldRestorePausePosition = false;
         }
     }
 
@@ -430,6 +438,17 @@ public class MusicPlayer extends JPanel {
             resetCurrentSongData();
             System.out.println("No more tracks in queue.");
         }
+    }
+
+    private void clear() {
+        stopCurrentPlayback();
+
+        Queue.empty();
+
+        resetCurrentSongData();
+        refreshQueueInJTree();
+        
+        System.out.println("Queue cleared");
     }
 
     private void stopCurrentPlayback() {
@@ -571,7 +590,7 @@ public class MusicPlayer extends JPanel {
     }
 
     private void seek(int seconds) {
-        System.out.println("Seek method fired at Player " + n);
+        System.out.println("Seek method fired");
         if (sp != null) {
             sp.setPosition(seconds * 1000); 
             updateTime();
@@ -585,7 +604,7 @@ public class MusicPlayer extends JPanel {
             int currentMinutes = currentPositionInSeconds / 60;
             int currentSeconds = currentPositionInSeconds % 60;
     
-            System.out.println("Instance " + n + " - updateTime() called. Current position: " + currentPositionInSeconds + " seconds.");
+            System.out.println("updateTime() called. Current position: " + currentPositionInSeconds + " seconds.");
     
             SwingUtilities.invokeLater(() -> { 
                 TimeLabel.setText(String.format("%d:%02d / %d:%02d", currentMinutes, currentSeconds, minutes, seconds));
@@ -593,20 +612,20 @@ public class MusicPlayer extends JPanel {
             });
     
             if (currentPositionInSeconds >= ProgressBar.getMaximum()) {
-                System.out.println("Instance " + n + " - End of track reached. Transitioning to next.");
+                System.out.println("End of track reached. Transitioning to next.");
                 handleEndOfPlayback();
             }
         } else {
-            System.out.println("Instance " + n + " - updateTime() called but player is null or not playing.");
+            System.out.println("updateTime() called but player is null or not playing.");
         }
     }
 
     private void handleEndOfPlayback() {
         if (Queue.size() > 1) {
-            System.out.println("Instance " + n + " - Transitioning to next track.");
+            System.out.println("Transitioning to next track.");
             transitionToNextTrack();
         } else {
-            System.out.println("Instance " + n + " - No more tracks in queue. Stopping playback.");
+            System.out.println("No more tracks in queue. Stopping playback.");
             resetCurrentSongData();
             isPlaying = false;
             updateTimeTimer.stop();
@@ -660,6 +679,7 @@ public class MusicPlayer extends JPanel {
             ProgressBar.setValue(0);
             ProgressBar.setMaximum(100);  
             TimeLabel.setText("0:00 / 0:00");
+            VolumeLabel.setText("Volume (100)");
         });
     }
 
