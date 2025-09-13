@@ -25,7 +25,7 @@ import net.beadsproject.beads.ugens.*;
 public class MusicPlayer extends JPanel {
 
     // UI Components
-    private JButton Pause, Play, Remove, Skip, Clear;
+    private JButton PlayPause, Remove, Skip, Clear;
     private GridBagConstraints gbc;
     private GridBagLayout layout;
     private JLabel ChannelLabel, TimeLabel, VolumeLabel;
@@ -88,11 +88,8 @@ public class MusicPlayer extends JPanel {
 
         //JComponents
 
-        Play = new JButton("Play");
-        Play.addActionListener(new PlayListener());
-
-        Pause = new JButton("Pause");
-        Pause.addActionListener( new PauseListener());
+        PlayPause = new JButton("Play");
+        PlayPause.addActionListener(new PlayPauseListener());
 
         Skip = new JButton("Skip");
         Skip.addActionListener(new SkipListener());
@@ -167,11 +164,10 @@ public class MusicPlayer extends JPanel {
 
             gbc.fill = GridBagConstraints.NONE;
 
-            Rivulet.addObjects(Play, this, layout, gbc, 4, 0, 1, 1);
-            Rivulet.addObjects(Pause, this, layout, gbc,4, 1, 1, 1);
-            Rivulet.addObjects(Skip, this, layout, gbc, 4, 2, 1, 1);
-            Rivulet.addObjects(Remove, this, layout, gbc, 4, 3, 1, 1);
-            Rivulet.addObjects(Loop, this, layout, gbc,4, 5, 1, 1);
+            Rivulet.addObjects(PlayPause, this, layout, gbc, 4, 0, 1, 1);
+            Rivulet.addObjects(Skip, this, layout, gbc, 4, 1, 1, 1);
+            Rivulet.addObjects(Remove, this, layout, gbc, 4, 2, 1, 1);
+            Rivulet.addObjects(Loop, this, layout, gbc,4, 4, 1, 1);
 
             // Bars
 
@@ -180,9 +176,9 @@ public class MusicPlayer extends JPanel {
             gbc.insets = new Insets(0, 25, 0, 0);
 
             Rivulet.addObjects(ProgressBar, this, layout, gbc, 0, 0, 4, 4);
-            Rivulet.addObjects(TimeLabel, this, layout, gbc, 0, 2, 2, 1);
-            Rivulet.addObjects(VolumeLabel, this, layout, gbc, 0, 4, 2, 1);
-            Rivulet.addObjects(VolumeSlider, this, layout, gbc, 0, 5, 1, 1);
+            Rivulet.addObjects(TimeLabel, this, layout, gbc, 0, 1, 2, 1);
+            Rivulet.addObjects(VolumeLabel, this, layout, gbc, 0, 3, 2, 1);
+            Rivulet.addObjects(VolumeSlider, this, layout, gbc, 0, 4, 1, 1);
         
             gbc.insets = new Insets(0, 0, 0, 0);
 
@@ -211,13 +207,12 @@ public class MusicPlayer extends JPanel {
             Rivulet.addObjects(TimeLabel, this, layout, gbc, 4, 1, 1, 1);
             Rivulet.addObjects(VolumeSlider, this, layout, gbc, 0, 2, 2, 1);
 
-            gbc.insets = new Insets(0, 0, 0, 0);
 
-            gbc.fill = GridBagConstraints.NONE;
-
-            Rivulet.addObjects(Play, this, layout, gbc, 0, 3, 1, 1);
-            Rivulet.addObjects(Pause, this, layout, gbc, 1, 3, 1, 1);
+            Rivulet.addObjects(PlayPause, this, layout, gbc, 0, 3, 2, 1);
             
+            gbc.fill = GridBagConstraints.NONE;
+            gbc.weightx = 0.0;
+
             gbc.insets = new Insets(0, 100, 0, 0);
             Rivulet.addObjects(Skip, this, layout, gbc, 2, 3, 1, 1);
             
@@ -240,20 +235,15 @@ public class MusicPlayer extends JPanel {
 
     // Action Events
 
-    private class PlayListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            play();
-        }
-    }
-
-    private class PauseListener implements ActionListener {
+    private class PlayPauseListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (isPlaying) {
                 pause();
+            } else {
+                play();
             }
-        }   
+        }
     }  
     
     private class SkipListener implements ActionListener {
@@ -374,6 +364,7 @@ public class MusicPlayer extends JPanel {
                 updateTimeTimer.start();
                 isPlaying = true;
                 isPaused = false;
+                updatePlayPauseButtonLabel();
                 SwingUtilities.invokeLater(() -> System.out.println("Playback started"));
                 preloadNextSong();
             } catch (Exception ex) {
@@ -395,6 +386,7 @@ public class MusicPlayer extends JPanel {
             isPaused = true;
             isPlaying = false;
             shouldRestorePausePosition = true;
+            updatePlayPauseButtonLabel();
         }
     }
 
@@ -408,6 +400,7 @@ public class MusicPlayer extends JPanel {
             isPaused = false;
             isPlaying = true;
             shouldRestorePausePosition = false;
+            updatePlayPauseButtonLabel();
         }
     }
 
@@ -457,6 +450,7 @@ public class MusicPlayer extends JPanel {
         }
         isPlaying = false;
         updateTimeTimer.stop();
+        updatePlayPauseButtonLabel();
     }
 
     private void handleSkipFailure() {
@@ -680,6 +674,7 @@ public class MusicPlayer extends JPanel {
             TimeLabel.setText("0:00 / 0:00");
             VolumeLabel.setText("Volume (100)");
         });
+        updatePlayPauseButtonLabel();
     }
 
     private void setVolume(float volume) {
@@ -776,5 +771,13 @@ public class MusicPlayer extends JPanel {
             updateCurrentVolume(lastVolume);
             SwingUtilities.invokeLater(() -> VolumeSlider.setValue((int)(lastVolume * 100)));
         }
+    }
+
+    private void updatePlayPauseButtonLabel() {
+        SwingUtilities.invokeLater(() -> {
+            if (PlayPause != null) {
+                PlayPause.setText(isPlaying ? "Pause" : "Play");
+            }
+        });
     }
 }
