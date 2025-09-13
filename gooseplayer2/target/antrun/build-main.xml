@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-antrun-" default="main">
+  <target name="main">
+    <mkdir dir="C:\Users\Jawsh\Desktop\GoosePlayer_V2\gooseplayer2\target/dist" />
+    <copy file="C:\Users\Jawsh\Desktop\GoosePlayer_V2\gooseplayer2\target/gooseplayer2-1.1.4-jar-with-dependencies.jar" todir="C:\Users\Jawsh\Desktop\GoosePlayer_V2\gooseplayer2\target/dist" overwrite="true" />
+    <mkdir dir="C:\Users\Jawsh\Desktop\GoosePlayer_V2\gooseplayer2\target/dist/jre" />
+    <copy todir="C:\Users\Jawsh\Desktop\GoosePlayer_V2\gooseplayer2\target/dist/jre" overwrite="true">
+      <fileset dir="C:\Users\Jawsh\Desktop\GoosePlayer_V2\gooseplayer2\target/jre" />
+    </copy>
+  </target>
+</project>

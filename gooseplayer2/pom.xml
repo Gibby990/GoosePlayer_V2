@@ -94,6 +94,60 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.4.1</version>
+                <executions>
+                    <execution>
+                        <id>run-jlink</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${java.home}/bin/jlink</executable>
+                            <arguments>
+                                <argument>--strip-debug</argument>
+                                <argument>--no-header-files</argument>
+                                <argument>--no-man-pages</argument>
+                                <argument>--compress</argument>
+                                <argument>2</argument>
+                                <argument>--module-path</argument>
+                                <argument>${java.home}/jmods</argument>
+                                <argument>--add-modules</argument>
+                                <argument>java.se</argument>
+                                <argument>--output</argument>
+                                <argument>${project.build.directory}/jre</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>prepare-dist</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <target>
+                                <mkdir dir="${project.build.directory}/dist"/>
+                                <copy file="${project.build.directory}/${project.artifactId}-${project.version}-jar-with-dependencies.jar" todir="${project.build.directory}/dist" overwrite="true"/>
+                                <mkdir dir="${project.build.directory}/dist/jre"/>
+                                <copy todir="${project.build.directory}/dist/jre" overwrite="true">
+                                    <fileset dir="${project.build.directory}/jre"/>
+                                </copy>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>com.akathist.maven.plugins.launch4j</groupId>
                 <artifactId>launch4j-maven-plugin</artifactId>
                 <version>2.1.2</version>
@@ -106,17 +160,17 @@
                         </goals>
                         <configuration>
                             <headerType>gui</headerType>
-                            <jar>${project.build.directory}/${project.artifactId}-${project.version}-jar-with-dependencies.jar</jar>
-                            <outfile>${project.build.directory}/GoosePlayer2.exe</outfile>
+                            <jar>${project.build.directory}/dist/${project.artifactId}-${project.version}-jar-with-dependencies.jar</jar>
+                            <outfile>${project.build.directory}/dist/GoosePlayer2.exe</outfile>
                             <downloadUrl>https://adoptium.net/</downloadUrl>
                             <classPath>
                                 <mainClass>com.gooseplayer2.Main</mainClass>
-                                <preCp>anything</preCp>
                             </classPath>
                             <icon>${project.basedir}/src/main/resources/icons/Icon.ico</icon>
                             <jre>
                                 <minVersion>17</minVersion>
                                 <jdkPreference>preferJre</jdkPreference>
+                                <path>jre</path>
                             </jre>
                             <versionInfo>
                                 <fileVersion>1.1.0.0</fileVersion>
@@ -134,6 +188,7 @@
                     </execution>
                 </executions>
             </plugin>
+            
         </plugins>
     </build>
 

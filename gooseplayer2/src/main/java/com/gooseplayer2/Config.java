@@ -5,8 +5,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.FileOutputStream;
 import java.awt.*;
 import java.util.Properties;
+import java.util.Objects;
 import com.formdev.flatlaf.intellijthemes.*;
 
 import javax.swing.*;
@@ -15,14 +18,14 @@ import com.gooseplayer2.Packages.Slugcat;
 
 public class Config extends JDialog {
     public static final String LIBRARY_PATH = System.getProperty("user.dir") + File.separator + "gooseplayer2" + File.separator + "src" +  File.separator + "Library";
-    public static final String SETTINGS_FILE_PATH = System.getProperty("user.dir") + File.separator + "gooseplayer2" + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "settings.txt";
+    public static final String SETTINGS_FILE_PATH = initSettingsPath();
     public static final String RESOURCES_FILE_PATH = System.getProperty("user.dir")+ File.separator + "gooseplayer2" + File.separator + "src" + File.separator + "main" + File.separator + "resources";
 
     private GridBagConstraints gbc;
     private GridBagLayout layout;
     private Properties p;
     private FileReader reader;
-    private Slugcat Artificer;
+    private Slugcat Artificer; 
 
     private String currentTheme, currentStyle, currentMonoChannelName, currentMultiChannel1Name, currentMultiChannel2Name, currentMultiChannel3Name;
 
@@ -81,7 +84,7 @@ public class Config extends JDialog {
         });
         ThemeLabel = new JLabel("Theme: ");
 
-        RestartWarning = new JLabel("<html>" + "<B>" + "WARNING:" + "</B>" + "   Changes will not apply until restart" + "</html>");
+        RestartWarning = new JLabel("<html>" + "<B>" + "WARNING: Changes below will restart program" + "</B>" + "</html>");
 
         StyleBox = new JComboBox<>(styleList);
         StyleBox.setSelectedItem(currentStyle);
@@ -120,8 +123,11 @@ public class Config extends JDialog {
 
         saveButton = new JButton("Save"); //Only works for Themes
         saveButton.addActionListener(e -> {
-            saveSettings();
+            boolean restartNeeded = saveSettings();
             dispose();
+            if (restartNeeded) {
+                restartApplication();
+            }
         });
         
         //Layout
@@ -162,19 +168,33 @@ public class Config extends JDialog {
         Artificer.addObjects(saveButton, this, layout, gbc, 0, 9, 2, 1);
     }
 
-    private void saveSettings() {
+    private boolean saveSettings() {
+        boolean restartRequired = false;
         try (FileWriter writer = new FileWriter(SETTINGS_FILE_PATH)) {
 
+            // Detect changes that require restart (non-theme settings)
+            boolean styleChanged = !Objects.equals(currentStyle, p.getProperty("style"));
+            boolean monoChanged = !Objects.equals(currentMonoChannelName, MonoChannelField.getText());
+            boolean multi1Changed = !Objects.equals(currentMultiChannel1Name, MultiChannel1Field.getText());
+            boolean multi2Changed = !Objects.equals(currentMultiChannel2Name, MultiChannel2Field.getText());
+            boolean multi3Changed = !Objects.equals(currentMultiChannel3Name, MultiChannel3Field.getText());
+
+            // Persist updates
             p.setProperty("monochannelname", MonoChannelField.getText());
             p.setProperty("multichannel1name", MultiChannel1Field.getText());
             p.setProperty("multichannel2name", MultiChannel2Field.getText());
             p.setProperty("multichannel3name", MultiChannel3Field.getText());
 
             p.store(writer, null);
+
+            // Apply theme immediately; other changes may need restart
             applySettings();
+
+            restartRequired = styleChanged || monoChanged || multi1Changed || multi2Changed || multi3Changed;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return restartRequired;
     }
 
     public static void applySettings() {
@@ -229,5 +249,65 @@ public class Config extends JDialog {
                 FlatLightFlatIJTheme.setup();
                 break;
         }
+    }
+
+    private static String initSettingsPath() {
+        String appData = System.getenv("APPDATA");
+        String targetPath;
+        if (appData != null && !appData.isEmpty()) {
+            targetPath = appData + File.separator + "GoosePlayer2" + File.separator + "settings.txt";
+        } else {
+            targetPath = System.getProperty("user.dir") + File.separator + "settings.txt";
+        }
+
+        File settingsFile = new File(targetPath);
+        File parentDir = settingsFile.getParentFile();
+        if (parentDir != null && !parentDir.exists()) {
+            parentDir.mkdirs();
+        }
+
+        if (!settingsFile.exists()) {
+            try (InputStream in = Config.class.getResourceAsStream("/settings.txt")) {
+                if (in != null) {
+                    try (FileOutputStream out = new FileOutputStream(settingsFile)) {
+                        byte[] buffer = new byte[8192];
+                        int read;
+                        while ((read = in.read(buffer)) != -1) {
+                            out.write(buffer, 0, read);
+                        }
+                    }
+                } else {
+                    settingsFile.createNewFile();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return settingsFile.getAbsolutePath();
+    }
+
+    private static void restartApplication() {
+        try {
+            String javaBinBase = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
+            String javaBin = javaBinBase;
+            if (System.getProperty("os.name").toLowerCase().contains("win")) {
+                File javaExe = new File(javaBinBase + ".exe");
+                if (javaExe.exists()) {
+                    javaBin = javaExe.getAbsolutePath();
+                }
+            }
+
+            String classPath = System.getProperty("java.class.path");
+            String mainClass = "com.gooseplayer2.Main";
+
+            ProcessBuilder builder = new ProcessBuilder(javaBin, "-cp", classPath, mainClass);
+            builder.directory(new File(System.getProperty("user.dir")));
+            builder.start();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return;
+        }
+        System.exit(0);
     }
 }
