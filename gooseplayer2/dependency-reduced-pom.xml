@@ -39,6 +39,24 @@
         </executions>
       </plugin>
       <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>prepare-dist-dir</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <mkdir />
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <version>3.4.1</version>
@@ -62,7 +80,7 @@
                 <argument>--add-modules</argument>
                 <argument>java.se</argument>
                 <argument>--output</argument>
-                <argument>${project.build.directory}/jre</argument>
+                <argument>${project.build.directory}/dist/jre</argument>
               </arguments>
             </configuration>
           </execution>
@@ -82,7 +100,6 @@
               <target>
                 <mkdir />
                 <copy />
-                <mkdir />
                 <copy>
                   <fileset />
                 </copy>

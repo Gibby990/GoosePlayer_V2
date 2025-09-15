@@ -21,6 +21,11 @@ import net.beadsproject.beads.data.Sample;
 import net.beadsproject.beads.data.SampleManager;
 import net.beadsproject.beads.ugens.*;
 
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.tag.Tag;
+import org.jaudiotagger.tag.images.Artwork;
+
 
 public class MusicPlayer extends JPanel {
 
@@ -29,6 +34,7 @@ public class MusicPlayer extends JPanel {
     private GridBagConstraints gbc;
     private GridBagLayout layout;
     private JLabel ChannelLabel, TimeLabel, VolumeLabel;
+    private JLabel AlbumArtLabel;
     private JRadioButton Loop;
     private JSlider ProgressBar, VolumeSlider;
     private JTree queueTree;
@@ -134,6 +140,11 @@ public class MusicPlayer extends JPanel {
         ChannelLabel = new JLabel(channelName);
         TimeLabel = new JLabel("0:00 / 0:00");   
         VolumeLabel = new JLabel("Volume (100)");
+        AlbumArtLabel = new JLabel();
+        AlbumArtLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        AlbumArtLabel.setVerticalAlignment(SwingConstants.CENTER);
+        AlbumArtLabel.setPreferredSize(new Dimension(128, 128));
+        setDefaultAlbumArt();
 
         VolumeSlider = new JSlider(0, 100, 100);
         VolumeSlider.addChangeListener(e -> {
@@ -188,45 +199,48 @@ public class MusicPlayer extends JPanel {
 
             Rivulet.addObjects(queueTreePane, this, layout, gbc, 5, 0, 1,6);
         } else {
-
             gbc.gridheight = 3;
             gbc.gridwidth = 6;
             gbc.weightx = 1.0;
             gbc.weighty = 1.0;
 
             // Title
-
             gbc.fill = GridBagConstraints.CENTER;
-
             Rivulet.addObjects(ChannelLabel, this, layout, gbc, 0, 0, 4, 1);
 
+            // Progress and Time
             gbc.fill = GridBagConstraints.HORIZONTAL;
-
             gbc.insets = new Insets(0, 20, 0, 0); 
             Rivulet.addObjects(ProgressBar, this, layout, gbc, 0, 1, 4, 1);
             Rivulet.addObjects(TimeLabel, this, layout, gbc, 4, 1, 1, 1);
+
+            // Volume Control
             Rivulet.addObjects(VolumeSlider, this, layout, gbc, 0, 2, 2, 1);
 
-
-            Rivulet.addObjects(PlayPause, this, layout, gbc, 0, 3, 2, 1);
-            
+            // Album Art
             gbc.fill = GridBagConstraints.NONE;
-            gbc.weightx = 0.0;
+            Rivulet.addObjects(AlbumArtLabel, this, layout, gbc, 5, 0, 1, 3);
 
-            gbc.insets = new Insets(0, 100, 0, 0);
-            Rivulet.addObjects(Skip, this, layout, gbc, 2, 3, 1, 1);
+            // Control Buttons
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            gbc.anchor = GridBagConstraints.WEST;
+            gbc.weightx = 1.0;
+            gbc.insets = new Insets(0, 20, 0, 5);
+            Rivulet.addObjects(PlayPause, this, layout, gbc, 0, 3, 1, 1);
             
-            gbc.insets = new Insets(0, 0, 0, 0);
+            gbc.anchor = GridBagConstraints.EAST;
+            Rivulet.addObjects(Skip, this, layout, gbc, 1, 3, 1, 1);
+
+            gbc.fill = GridBagConstraints.NONE;
+            gbc.anchor = GridBagConstraints.CENTER;
             Rivulet.addObjects(Remove, this, layout, gbc, 3, 3, 1, 1);
             Rivulet.addObjects(Clear, this, layout, gbc, 4, 3, 1, 1);
             Rivulet.addObjects(Loop, this, layout, gbc, 5, 3, 1, 1);
 
-            // Queue 
-
+            // Queue
             gbc.fill = GridBagConstraints.BOTH;
-
+            gbc.insets = new Insets(0, 0, 0, 0);
             Rivulet.addObjects(queueTreePane, this, layout, gbc, 0, 4, 6, 1);
-
         }
 
         queueTree.setTransferHandler(new DropFileHandler(this, FilePanel));
@@ -322,6 +336,8 @@ public class MusicPlayer extends JPanel {
             sp = new SamplePlayer(ac, sample);
             sp.setKillOnEnd(false);
             sp.pause(true); 
+
+            updateAlbumArt(selectedFile);
 
         } catch (Exception e) {
             System.err.println("ERROR: Unable to load the selected file: " + selectedFile.getAbsolutePath());
@@ -548,6 +564,13 @@ public class MusicPlayer extends JPanel {
                 songLoaded = true;
                 ac.out.addInput(sp);
                 updateSongInfo();
+                if (!Queue.isEmpty()) {
+                    QueuedFile currentFile = Queue.peek();
+                    if (currentFile != null) {
+                        selectedFile = currentFile.getFile();
+                        updateAlbumArt(selectedFile);
+                    }
+                }
                 sp.start();
                 preloadNextSong();
             } else {
@@ -673,8 +696,52 @@ public class MusicPlayer extends JPanel {
             ProgressBar.setMaximum(100);  
             TimeLabel.setText("0:00 / 0:00");
             VolumeLabel.setText("Volume (100)");
+            if (AlbumArtLabel != null) {
+                setDefaultAlbumArt();
+            }
         });
         updatePlayPauseButtonLabel();
+    }
+
+    private void updateAlbumArt(File audioFile) {
+        if (audioFile == null) {
+            return;
+        }
+        new Thread(() -> {
+            try {
+                AudioFile af = AudioFileIO.read(audioFile);
+                Tag tag = af.getTag();
+                if (tag != null) {
+                    Artwork artwork = tag.getFirstArtwork();
+                    if (artwork != null) {
+                        byte[] imageData = artwork.getBinaryData();
+                        if (imageData != null && imageData.length > 0) {
+                            ImageIcon icon = new ImageIcon(imageData);
+                            Image scaled = icon.getImage().getScaledInstance(128, 128, Image.SCALE_SMOOTH);
+                            SwingUtilities.invokeLater(() -> AlbumArtLabel.setIcon(new ImageIcon(scaled)));
+                            return;
+                        }
+                    }
+                }
+            } catch (Exception ignored) {
+            }
+            SwingUtilities.invokeLater(this::setDefaultAlbumArt);
+        }).start();
+    }
+
+    private void setDefaultAlbumArt() {
+        try {
+            java.net.URL url = getClass().getResource("/icons/albumMissing.png");
+            if (url != null) {
+                ImageIcon icon = new ImageIcon(url);
+                Image scaled = icon.getImage().getScaledInstance(128, 128, Image.SCALE_SMOOTH);
+                AlbumArtLabel.setIcon(new ImageIcon(scaled));
+            } else {
+                AlbumArtLabel.setIcon(null);
+            }
+        } catch (Exception e) {
+            AlbumArtLabel.setIcon(null);
+        }
     }
 
     private void setVolume(float volume) {

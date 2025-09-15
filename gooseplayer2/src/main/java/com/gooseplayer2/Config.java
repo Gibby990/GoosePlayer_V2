@@ -17,7 +17,7 @@ import javax.swing.*;
 import com.gooseplayer2.Packages.Slugcat;
 
 public class Config extends JDialog {
-    public static final String LIBRARY_PATH = System.getProperty("user.dir") + File.separator + "gooseplayer2" + File.separator + "src" +  File.separator + "Library";
+    public static final String LIBRARY_PATH = initLibraryPath();
     public static final String SETTINGS_FILE_PATH = initSettingsPath();
     public static final String RESOURCES_FILE_PATH = System.getProperty("user.dir")+ File.separator + "gooseplayer2" + File.separator + "src" + File.separator + "main" + File.separator + "resources";
 
@@ -166,6 +166,36 @@ public class Config extends JDialog {
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
         Artificer.addObjects(saveButton, this, layout, gbc, 0, 9, 2, 1);
+    }
+
+    private static String initLibraryPath() {
+        String cwdLibrary = System.getProperty("user.dir") + File.separator + "Library";
+        File cwdDir = new File(cwdLibrary);
+        if (cwdDir.exists() && cwdDir.isDirectory()) {
+            return cwdDir.getAbsolutePath();
+        }
+
+        String devPath = System.getProperty("user.dir") + File.separator + "gooseplayer2" + File.separator + "src" + File.separator + "Library";
+        File devDir = new File(devPath);
+        if (devDir.exists() && devDir.isDirectory()) {
+            return devDir.getAbsolutePath();
+        }
+
+        try {
+            File codeSource = new File(Config.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+            File jarDir = codeSource.getParentFile();
+            if (jarDir != null) {
+                File libDir = new File(jarDir, "Library");
+                if (libDir.exists() && libDir.isDirectory()) {
+                    return libDir.getAbsolutePath();
+                }
+            }
+        } catch (Exception ignored) {}
+
+        if (!cwdDir.exists()) {
+            cwdDir.mkdirs();
+        }
+        return cwdDir.getAbsolutePath();
     }
 
     private boolean saveSettings() {

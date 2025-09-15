@@ -61,6 +61,11 @@
             <version>3.5.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>net.jthink</groupId>
+            <artifactId>jaudiotagger</artifactId>
+            <version>3.0.1</version>
+        </dependency>
         
 
     </dependencies>
@@ -101,6 +106,25 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>prepare-dist-dir</id>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <target>
+                                <mkdir dir="${project.build.directory}/dist"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.4.1</version>
@@ -124,7 +148,7 @@
                                 <argument>--add-modules</argument>
                                 <argument>java.se</argument>
                                 <argument>--output</argument>
-                                <argument>${project.build.directory}/jre</argument>
+                                <argument>${project.build.directory}/dist/jre</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -142,9 +166,8 @@
                             <target>
                                 <mkdir dir="${project.build.directory}/dist"/>
                                 <copy file="${project.build.directory}/${project.artifactId}-${project.version}-jar-with-dependencies.jar" todir="${project.build.directory}/dist" overwrite="true"/>
-                                <mkdir dir="${project.build.directory}/dist/jre"/>
-                                <copy todir="${project.build.directory}/dist/jre" overwrite="true">
-                                    <fileset dir="${project.build.directory}/jre"/>
+                                <copy todir="${project.build.directory}/dist/Library" overwrite="true">
+                                    <fileset dir="${project.basedir}/src/Library" erroronmissingdir="false"/>
                                 </copy>
                             </target>
                         </configuration>
