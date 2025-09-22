@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class QueuedFileTest {
 
     @Test
+    // Verifies that getFile returns the correct File object and that toString returns the file name
     void getFileAndToString() {
         File f = new File("song.mp3");
         QueuedFile qf = new QueuedFile(f);
@@ -16,6 +17,7 @@ public class QueuedFileTest {
     }
 
     @Test
+    // Verifies that each QueuedFile instance has a unique ID
     void idIsUnique() throws Exception {
         QueuedFile a = new QueuedFile(new File("a.mp3"));
         QueuedFile b = new QueuedFile(new File("b.mp3"));
