@@ -6,6 +6,7 @@ com\gooseplayer2\JPanels\MusicPlayer$1.class
 com\gooseplayer2\Packages\Queue$Node.class
 com\gooseplayer2\JPanels\MusicPlayer$ClearListener.class
 com\gooseplayer2\Packages\Queue.class
+com\gooseplayer2\JPanels\MusicPlayer$ShuffleListener.class
 com\gooseplayer2\Packages\DropFileHandler.class
 com\gooseplayer2\Packages\FileTransferHandler.class
 com\gooseplayer2\JPanels\MusicPanel.class
