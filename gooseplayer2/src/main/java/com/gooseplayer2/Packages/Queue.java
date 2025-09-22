@@ -1,12 +1,15 @@
 package com.gooseplayer2.Packages;
 
 import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.lang.IndexOutOfBoundsException;
 
 public class Queue<E> implements Iterable<E> {
     private Node<E> front;
     private Node<E> rear;
+    private ArrayList<E> history = new ArrayList<>();
     
 
     @SuppressWarnings("hiding")
@@ -31,6 +34,7 @@ public class Queue<E> implements Iterable<E> {
         E item = front.item;
         front = front.next;
         if(front == null) rear = null;
+        history.add(item);
         return item;
     }
 
@@ -39,12 +43,26 @@ public class Queue<E> implements Iterable<E> {
     }
 
     public E peek() {
-        return front.item;
+        return (front == null) ? null : front.item;
     }
 
     public void empty() {
         front = null;
         rear = null;
+    }
+
+    public java.util.List<E> getHistory() {
+        return new ArrayList<>(history);
+    }
+
+    public void clearHistory() {
+        history.clear();
+    }
+
+    public boolean removeHistoryAt(int index) {
+        if (index < 0 || index >= history.size()) return false;
+        history.remove(index);
+        return true;
     }
 
     public boolean remove(E item) {
@@ -74,6 +92,26 @@ public class Queue<E> implements Iterable<E> {
             current = current.next;
         }
         return count;
+    }
+    
+    // Does not apply to the current song
+    public void shuffle() {
+        if (front == null || front.next == null) return;
+        E first = front.item;
+        ArrayList<E> rest = new ArrayList<>();
+        Node<E> current = front.next;
+        while (current != null) {
+            rest.add(current.item);
+            current = current.next;
+        }
+        if (rest.size() <= 1) return;
+        Collections.shuffle(rest);
+        front = null;
+        rear = null;
+        enqueue(first);
+        for (E item : rest) {
+            enqueue(item);
+        }
     }
     
     public E get(int index) {
