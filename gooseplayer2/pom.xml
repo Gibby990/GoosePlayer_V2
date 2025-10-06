@@ -98,7 +98,26 @@
             <scope>test</scope>
         </dependency>
         <!-- AssertJ-Swing Core might not keep -->
+           <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.27.4</version>
+            <scope>test</scope>
+        </dependency>
 
+        <dependency>
+            <groupId>tokyo.northside</groupId>
+            <artifactId>assertj-swing</artifactId>
+            <version>4.0.0-beta-3</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>tokyo.northside</groupId>
+            <artifactId>assertj-swing-junit-jupiter</artifactId>
+            <version>4.0.0-beta-3</version>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.awaitility</groupId>
