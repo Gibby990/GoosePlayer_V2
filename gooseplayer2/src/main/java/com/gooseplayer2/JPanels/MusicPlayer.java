@@ -798,6 +798,45 @@ public class MusicPlayer extends JPanel {
         updatePlayPauseButtonLabel();
     }
 
+    // Persistence helpers
+    public java.util.List<File> getQueueFiles() {
+        java.util.List<File> files = new java.util.ArrayList<>();
+        java.util.Iterator<QueuedFile> iterator = Queue.iterator();
+        while (iterator.hasNext()) {
+            QueuedFile qf = iterator.next();
+            if (qf != null && qf.getFile() != null) {
+                files.add(qf.getFile());
+            }
+        }
+        return files;
+    }
+
+    public void setQueueFromFiles(java.util.List<File> files) {
+        stopCurrentPlayback();
+        Queue.empty();
+        Queue.clearHistory();
+        if (files != null) {
+            for (File f : files) {
+                if (f != null && f.exists() && isAudioFile(f)) {
+                    Queue.enqueue(new QueuedFile(f));
+                }
+            }
+        }
+        refreshQueueInJTree();
+        songLoaded = false;
+        if (!Queue.isEmpty()) {
+            try {
+                loadSong();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public String getChannelName() {
+        return (ChannelLabel != null) ? ChannelLabel.getText() : "";
+    }
+
     private void updateAlbumArt(File audioFile) {
         if (audioFile == null) {
             return;

@@ -158,6 +158,15 @@ public class MainFrame extends JFrame {
 
 
         setVisible(true);
+
+        SwingUtilities.invokeLater(() -> restoreQueuesIfPresent(musicPanel));
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                saveQueues(musicPanel);
+            }
+        });
     }
 
     private Image getScaledImage(Image srcImg, int width, int height) {
@@ -213,6 +222,55 @@ public class MainFrame extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error opening settings: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private File getQueuesDir() {
+        File settings = new File(Config.SETTINGS_FILE_PATH);
+        File dir = new File(settings.getParentFile(), "queues");
+        if (!dir.exists()) dir.mkdirs();
+        return dir;
+    }
+
+    private void saveQueues(MusicPanel musicPanel) {
+        try {
+            File dir = getQueuesDir();
+            int idx = 1;
+            for (com.gooseplayer2.JPanels.MusicPlayer player : musicPanel.getPlayers()) {
+                java.util.List<java.io.File> files = player.getQueueFiles();
+                File out = new File(dir, "player" + idx + ".txt");
+                try (java.io.PrintWriter pw = new java.io.PrintWriter(out, java.nio.charset.StandardCharsets.UTF_8.name())) {
+                    for (java.io.File f : files) {
+                        pw.println(f.getAbsolutePath());
+                    }
+                }
+                idx++;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void restoreQueuesIfPresent(MusicPanel musicPanel) {
+        try {
+            File dir = getQueuesDir();
+            int idx = 1;
+            for (com.gooseplayer2.JPanels.MusicPlayer player : musicPanel.getPlayers()) {
+                File in = new File(dir, "player" + idx + ".txt");
+                if (in.exists()) {
+                    java.util.List<java.io.File> files = new java.util.ArrayList<>();
+                    java.util.List<String> lines = java.nio.file.Files.readAllLines(in.toPath(), java.nio.charset.StandardCharsets.UTF_8);
+                    for (String line : lines) {
+                        if (line != null && !line.trim().isEmpty()) {
+                            files.add(new java.io.File(line.trim()));
+                        }
+                    }
+                    player.setQueueFromFiles(files);
+                }
+                idx++;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }

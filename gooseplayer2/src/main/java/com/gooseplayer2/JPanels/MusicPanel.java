@@ -164,5 +164,13 @@ public class MusicPanel extends JPanel {
         player2.pause();
         player3.pause();
     }
+
+    public java.util.List<MusicPlayer> getPlayers() {
+        java.util.List<MusicPlayer> players = new java.util.ArrayList<>();
+        if (player1 != null) players.add(player1);
+        if (player2 != null) players.add(player2);
+        if (player3 != null) players.add(player3);
+        return players;
+    }
 }
 
