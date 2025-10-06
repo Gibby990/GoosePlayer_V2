@@ -1,0 +1,29 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+gooseplayer2,com.gooseplayer2.Packages,Queue.new Iterator() {...},4,32,1,3,1,7,1,4,0,3
+gooseplayer2,com.gooseplayer2.Packages,DropFileHandler,42,9,6,0,14,4,5,1,2,1
+gooseplayer2,com.gooseplayer2.Packages,Slugcat,0,30,0,0,0,10,0,2,0,2
+gooseplayer2,com.gooseplayer2.Packages,FileTransferHandler,83,0,8,0,17,0,8,0,4,0
+gooseplayer2,com.gooseplayer2.Packages,Queue,146,123,29,15,37,31,22,14,5,9
+gooseplayer2,com.gooseplayer2.Packages,Queue.Node,0,12,0,0,0,3,0,1,0,1
+gooseplayer2,com.gooseplayer2.Packages,QueuedFile,0,23,0,0,0,7,0,4,0,4
+gooseplayer2,com.gooseplayer2.Packages,FileTransferHandler.FileTransferable,29,0,2,0,8,0,5,0,4,0
+gooseplayer2,com.gooseplayer2.JPanels,MusicPlayer.new ActionListener() {...},8,6,2,0,3,1,2,1,1,1
+gooseplayer2,com.gooseplayer2.JPanels,MusicPlayer.new DefaultTreeCellRenderer() {...},0,44,1,3,0,6,1,3,0,2
+gooseplayer2,com.gooseplayer2.JPanels,MusicPlayer.ShuffleListener,4,6,0,0,2,1,1,1,1,1
+gooseplayer2,com.gooseplayer2.JPanels,MusicPlayer.SkipListener,4,6,0,0,2,1,1,1,1,1
+gooseplayer2,com.gooseplayer2.JPanels,MusicPlayer.ClearListener,4,6,0,0,2,1,1,1,1,1
+gooseplayer2,com.gooseplayer2.JPanels,MusicPlayer.PlayPauseListener,4,14,1,1,1,4,1,2,0,2
+gooseplayer2,com.gooseplayer2.JPanels,MusicPlayer.RemoveListener,4,6,0,0,2,1,1,1,1,1
+gooseplayer2,com.gooseplayer2.JPanels,MusicPlayer,1744,807,200,24,438,160,149,14,39,12
+gooseplayer2,com.gooseplayer2.JPanels,MusicPanel.new KeyEventDispatcher() {...},18,0,2,0,5,0,3,0,2,0
+gooseplayer2,com.gooseplayer2.JPanels,FilePanel,181,0,6,0,39,0,6,0,3,0
+gooseplayer2,com.gooseplayer2.JPanels,MusicPanel,379,0,28,0,86,0,24,0,8,0
+gooseplayer2,com.gooseplayer2.JPanels,MusicPlayer.LoopListener,21,6,4,0,5,1,3,1,1,1
+gooseplayer2,com.gooseplayer2,MainFrame,619,0,36,0,146,0,31,0,13,0
+gooseplayer2,com.gooseplayer2,Config,970,0,68,0,182,0,48,0,10,0
+gooseplayer2,com.gooseplayer2,MainFrame.new WindowAdapter() {...},15,0,0,0,3,0,2,0,2,0
+gooseplayer2,com.gooseplayer2,MainFrame.new ActionListener() {...},10,0,0,0,3,0,2,0,2,0
+gooseplayer2,com.gooseplayer2,MainFrame.new SimpleFileVisitor() {...},30,0,0,0,3,0,2,0,2,0
+gooseplayer2,com.gooseplayer2,Config.new ActionListener() {...},42,0,0,0,12,0,2,0,2,0
+gooseplayer2,com.gooseplayer2,Config.new ActionListener() {...},37,0,0,0,10,0,2,0,2,0
+gooseplayer2,com.gooseplayer2,Main,15,0,0,0,8,0,3,0,3,0

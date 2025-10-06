@@ -31,7 +31,11 @@ import org.jaudiotagger.tag.images.Artwork;
 public class MusicPlayer extends JPanel {
 
 	// UI Components
-	private JButton PlayPause, Remove, Skip, Clear, Shuffle;
+	public JButton PlayPause;
+    private JButton Remove;
+    private JButton Skip;
+    private JButton Clear;
+    private JButton Shuffle;
     private GridBagConstraints gbc;
     private GridBagLayout layout;
     private JLabel ChannelLabel, TimeLabel, VolumeLabel;
@@ -258,7 +262,7 @@ public class MusicPlayer extends JPanel {
 
     // Action Events
 
-    private class PlayPauseListener implements ActionListener {
+    public class PlayPauseListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (isPlaying) {
@@ -311,8 +315,8 @@ public class MusicPlayer extends JPanel {
     }
 
     // Other methods
-
-    private void loadSong() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+    //changed to public for testing
+    public void loadSong() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         System.out.println("loadSong ran");
         queuedFile = Queue.peek();
         if (queuedFile == null) return;
@@ -923,7 +927,8 @@ public class MusicPlayer extends JPanel {
         }
     }
 
-    private boolean isAudioFile(File file) {
+    //changed to public for testing
+    public boolean isAudioFile(File file) {
         String fileName = file.getName().toLowerCase();
         return fileName.endsWith(".mp3") || fileName.endsWith(".wav") || fileName.endsWith(".flac");
     }
@@ -993,7 +998,7 @@ public class MusicPlayer extends JPanel {
         }
     }
 
-    private void updatePlayPauseButtonLabel() {
+    public void updatePlayPauseButtonLabel() {
         SwingUtilities.invokeLater(() -> {
             if (PlayPause != null) {
                 PlayPause.setText(isPlaying ? "Pause" : "Play");

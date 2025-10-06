@@ -285,7 +285,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
-                    <argLine>-Djava.awt.headless=true</argLine> 
+                    <!--argLine>-Djava.awt.headless=false</argLine> override-->
                 </configuration>
             </plugin>
             <plugin>

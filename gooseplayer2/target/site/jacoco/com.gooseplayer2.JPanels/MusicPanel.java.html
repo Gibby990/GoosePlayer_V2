@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MusicPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gooseplayer2</a> &gt; <a href="index.source.html" class="el_package">com.gooseplayer2.JPanels</a> &gt; <span class="el_source">MusicPanel.java</span></div><h1>MusicPanel.java</h1><pre class="source lang-java linenums">package com.gooseplayer2.JPanels;
+
+import javax.sound.sampled.*;
+import javax.swing.*;
+import javax.swing.border.*;
+import javazoom.jl.decoder.JavaLayerException;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
+
+import com.gooseplayer2.Packages.Slugcat;
+import com.gooseplayer2.Config;
+
+public class MusicPanel extends JPanel {
+    private GridBagLayout layout;
+    private GridBagConstraints gbc;
+    private Border outline;
+    private String loadedStyle, monoChannelName, multiChannel1Name, multiChannel2Name, multiChannel3Name;
+    private boolean isMultichannel;
+    private FilePanel filePanel;
+    private Properties p;
+    private FileReader reader;
+    private MusicPlayer player1, player2, player3;
+<span class="nc" id="L26">    private boolean[] playerMuted = new boolean[3]; </span>
+
+<span class="nc" id="L28">    public MusicPanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException {</span>
+
+<span class="nc" id="L30">        layout = new GridBagLayout();</span>
+<span class="nc" id="L31">        gbc = new GridBagConstraints();</span>
+<span class="nc" id="L32">        setLayout(layout);</span>
+
+<span class="nc" id="L34">        filePanel = new FilePanel();</span>
+
+<span class="nc" id="L36">        outline = BorderFactory.createLineBorder(Color.BLACK);</span>
+<span class="nc" id="L37">        Slugcat Monk = new Slugcat();</span>
+
+        // Importing Settings
+
+<span class="nc" id="L41">        reader = new FileReader(Config.SETTINGS_FILE_PATH);</span>
+<span class="nc" id="L42">        p = new Properties();</span>
+<span class="nc" id="L43">        p.load(reader);</span>
+
+<span class="nc" id="L45">        loadedStyle = p.getProperty(&quot;style&quot;);</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        if (loadedStyle.equals(&quot;Multichannel&quot;)) isMultichannel = true;</span>
+
+<span class="nc" id="L48">        monoChannelName = p.getProperty(&quot;monochannelname&quot;);</span>
+<span class="nc" id="L49">        multiChannel1Name = p.getProperty(&quot;multichannel1name&quot;);</span>
+<span class="nc" id="L50">        multiChannel2Name = p.getProperty(&quot;multichannel2name&quot;);</span>
+<span class="nc" id="L51">        multiChannel3Name = p.getProperty(&quot;multichannel3name&quot;);</span>
+
+        //Determine Style
+
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if (isMultichannel) {</span>
+            try {
+<span class="nc" id="L57">                player1 = new MusicPlayer(filePanel, true, multiChannel1Name);</span>
+<span class="nc" id="L58">                player2 = new MusicPlayer(filePanel, true, multiChannel2Name);</span>
+<span class="nc" id="L59">                player3 = new MusicPlayer(filePanel, true, multiChannel3Name);</span>
+<span class="nc" id="L60">            } catch (Exception e) {</span>
+<span class="nc" id="L61">                e.printStackTrace();</span>
+<span class="nc" id="L62">            }</span>
+
+<span class="nc" id="L64">            player1.setBorder(outline);</span>
+<span class="nc" id="L65">            player2.setBorder(outline);</span>
+<span class="nc" id="L66">            player3.setBorder(outline);</span>
+
+<span class="nc" id="L68">            gbc.fill = GridBagConstraints.BOTH;</span>
+<span class="nc" id="L69">            gbc.weightx = 1.0; </span>
+<span class="nc" id="L70">            gbc.weighty = 1.0;</span>
+
+<span class="nc" id="L72">            Monk.addObjects(player1, this, layout, gbc, 0, 0, 1, 1);</span>
+<span class="nc" id="L73">            Monk.addObjects(player2, this, layout, gbc, 0, 1, 1, 1);</span>
+<span class="nc" id="L74">            Monk.addObjects(player3, this, layout, gbc, 0, 2, 1, 1);</span>
+
+        } else { // Go to Monochannel by default
+            try {
+<span class="nc" id="L78">                player1 = new MusicPlayer(filePanel, false, monoChannelName);</span>
+<span class="nc" id="L79">            } catch (Exception e) {</span>
+<span class="nc" id="L80">                e.printStackTrace();</span>
+<span class="nc" id="L81">            }</span>
+
+<span class="nc" id="L83">            player1.setBorder(outline);</span>
+
+<span class="nc" id="L85">            gbc.fill = GridBagConstraints.BOTH;</span>
+<span class="nc" id="L86">            gbc.weightx = 1.0; </span>
+<span class="nc" id="L87">            gbc.weighty = 1.0;</span>
+
+<span class="nc" id="L89">            Monk.addObjects(player1, this, layout, gbc, 0, 0, 1, 1);</span>
+
+        }
+
+<span class="nc" id="L93">        addGlobalKeyListener();</span>
+<span class="nc" id="L94">    }    </span>
+
+    private void addGlobalKeyListener() {
+<span class="nc" id="L97">        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {</span>
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent e) {
+<span class="nc bnc" id="L100" title="All 2 branches missed.">                if (e.getID() == KeyEvent.KEY_PRESSED) {</span>
+<span class="nc" id="L101">                    handleKeyPress(e);</span>
+<span class="nc" id="L102">                    return true; </span>
+                }
+<span class="nc" id="L104">                return false; </span>
+            }
+        });
+<span class="nc" id="L107">    }</span>
+
+    private void handleKeyPress(KeyEvent e) {
+<span class="nc" id="L110">        int keyCode = e.getKeyCode();</span>
+<span class="nc" id="L111">        System.out.println(keyCode);</span>
+<span class="nc" id="L112">        boolean ctrlDown = e.isControlDown();</span>
+<span class="nc" id="L113">        boolean shiftDown = e.isShiftDown();</span>
+
+<span class="nc bnc" id="L115" title="All 4 branches missed.">        if (ctrlDown &amp;&amp; shiftDown) {</span>
+<span class="nc bnc" id="L116" title="All 4 branches missed.">            switch (keyCode) {</span>
+                case KeyEvent.VK_P:
+<span class="nc" id="L118">                    startAllPlayers();</span>
+<span class="nc" id="L119">                    break;</span>
+                case KeyEvent.VK_S:
+<span class="nc" id="L121">                    pauseAllPlayers();</span>
+<span class="nc" id="L122">                    break;</span>
+                case KeyEvent.VK_1:
+                case KeyEvent.VK_2:
+                case KeyEvent.VK_3:
+<span class="nc" id="L126">                    muteSelectedPlayer(keyCode - KeyEvent.VK_0); </span>
+                    break;
+            }
+        }
+<span class="nc" id="L130">    }</span>
+
+    private void muteSelectedPlayer(int playerNumber) {
+<span class="nc" id="L133">        MusicPlayer player = getPlayerByNumber(playerNumber);</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        if (player != null) {</span>
+<span class="nc" id="L135">            int index = playerNumber - 1; </span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">            playerMuted[index] = !playerMuted[index];</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">            if (playerMuted[index]) {</span>
+<span class="nc" id="L138">                player.mute();</span>
+<span class="nc" id="L139">                System.out.println(&quot;Player &quot; + playerNumber + &quot; muted&quot;);</span>
+            } else {
+<span class="nc" id="L141">                player.unmute();</span>
+<span class="nc" id="L142">                System.out.println(&quot;Player &quot; + playerNumber + &quot; unmuted&quot;);</span>
+            }
+        }
+<span class="nc" id="L145">    }</span>
+
+    private MusicPlayer getPlayerByNumber(int number) {
+<span class="nc bnc" id="L148" title="All 4 branches missed.">        switch (number) {</span>
+<span class="nc" id="L149">            case 1: return player1;</span>
+<span class="nc" id="L150">            case 2: return player2;</span>
+<span class="nc" id="L151">            case 3: return player3;</span>
+<span class="nc" id="L152">            default: return null;</span>
+        }
+    }
+
+    private void startAllPlayers() {
+<span class="nc" id="L157">        player1.play();</span>
+<span class="nc" id="L158">        player2.play();</span>
+<span class="nc" id="L159">        player3.play();</span>
+<span class="nc" id="L160">    }</span>
+
+    private void pauseAllPlayers() {
+<span class="nc" id="L163">        player1.pause();</span>
+<span class="nc" id="L164">        player2.pause();</span>
+<span class="nc" id="L165">        player3.pause();</span>
+<span class="nc" id="L166">    }</span>
+
+    public java.util.List&lt;MusicPlayer&gt; getPlayers() {
+<span class="nc" id="L169">        java.util.List&lt;MusicPlayer&gt; players = new java.util.ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">        if (player1 != null) players.add(player1);</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">        if (player2 != null) players.add(player2);</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">        if (player3 != null) players.add(player3);</span>
+<span class="nc" id="L173">        return players;</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
