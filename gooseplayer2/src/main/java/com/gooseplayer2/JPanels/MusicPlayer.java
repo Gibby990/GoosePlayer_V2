@@ -79,6 +79,24 @@ public class MusicPlayer extends JPanel {
 
         JScrollPane queueTreePane = new JScrollPane(queueTree);
 
+		queueTree.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(e)) {
+					TreePath path = queueTree.getPathForLocation(e.getX(), e.getY());
+					if (path == null) return;
+					Object last = path.getLastPathComponent();
+					if (!(last instanceof DefaultMutableTreeNode)) return;
+					DefaultMutableTreeNode clicked = (DefaultMutableTreeNode) last;
+					if (clicked == root) return;
+					int renderedIndex = root.getIndex(clicked);
+					if (renderedIndex >= 0) {
+						recenterQueueAtRenderedIndex(renderedIndex);
+					}
+				}
+			}
+		});
+
         //Audio Initialization and Configuration
 
         audioIO = new JavaSoundAudioIO();
@@ -979,6 +997,52 @@ public class MusicPlayer extends JPanel {
         ((DefaultTreeModel) queueTree.getModel()).reload();
         queueTree.expandPath(new TreePath(root.getPath()));
     }
+
+
+	private void recenterQueueAtRenderedIndex(int renderedIndex) {
+		java.util.List<QueuedFile> combined = new java.util.ArrayList<>();
+		combined.addAll(Queue.getHistory());
+		java.util.Iterator<QueuedFile> it = Queue.iterator();
+		while (it.hasNext()) combined.add(it.next());
+
+		if (renderedIndex < 0 || renderedIndex >= combined.size()) return;
+
+		stopCurrentPlayback();
+
+		Queue.empty();
+		Queue.clearHistory();
+		for (QueuedFile qf : combined) {
+			if (qf != null && qf.getFile() != null && qf.getFile().exists()) {
+				Queue.enqueue(qf);
+			}
+		}
+		for (int i = 0; i < renderedIndex; i++) {
+			try {
+				Queue.dequeue(); 
+			} catch (Exception ignored) {
+				break;
+			}
+		}
+
+		refreshQueueInJTree();
+
+		int historyCount = Queue.getHistory().size();
+		try {
+			DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode) root.getChildAt(historyCount);
+			TreePath rootPath = new TreePath(root.getPath());
+			TreePath currentPath = rootPath.pathByAddingChild(currentNode);
+			queueTree.setSelectionPath(currentPath);
+			queueTree.scrollPathToVisible(currentPath);
+		} catch (Exception ignored) {}
+
+		songLoaded = false;
+		try {
+			loadSong();
+			play();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 
     public void mute() {
         if (sp != null) {
