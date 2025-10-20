@@ -40,7 +40,7 @@ public class Config extends JDialog {
     
     public Config(JFrame parent) throws IOException {
         super(parent, "Settings", true);
-        setSize(300, 300);
+        setSize(500, 300);
         setLocationRelativeTo(parent);
 
         layout = new GridBagLayout();
