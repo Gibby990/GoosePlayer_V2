@@ -20,7 +20,7 @@ gooseplayer2,com.gooseplayer2.JPanels,FilePanel,181,0,6,0,39,0,6,0,3,0
 gooseplayer2,com.gooseplayer2.JPanels,MusicPanel,379,0,28,0,86,0,24,0,8,0
 gooseplayer2,com.gooseplayer2.JPanels,MusicPlayer.LoopListener,21,6,4,0,5,1,3,1,1,1
 gooseplayer2,com.gooseplayer2,MainFrame,619,0,36,0,146,0,31,0,13,0
-gooseplayer2,com.gooseplayer2,Config,970,0,68,0,182,0,48,0,10,0
+gooseplayer2,com.gooseplayer2,Config,1216,0,90,0,229,0,62,0,13,0
 gooseplayer2,com.gooseplayer2,MainFrame.new WindowAdapter() {...},15,0,0,0,3,0,2,0,2,0
 gooseplayer2,com.gooseplayer2,MainFrame.new ActionListener() {...},10,0,0,0,3,0,2,0,2,0
 gooseplayer2,com.gooseplayer2,MainFrame.new SimpleFileVisitor() {...},30,0,0,0,3,0,2,0,2,0
