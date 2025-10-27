@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FilePanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gooseplayer2</a> &gt; <a href="index.source.html" class="el_package">com.gooseplayer2.JPanels</a> &gt; <span class="el_source">FilePanel.java</span></div><h1>FilePanel.java</h1><pre class="source lang-java linenums">package com.gooseplayer2.JPanels;
+
+import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import java.awt.*;
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import com.gooseplayer2.Config;
+import com.gooseplayer2.Packages.FileTransferHandler;
+import com.gooseplayer2.Packages.Slugcat;
+
+public class FilePanel extends JPanel {
+    private JLabel label;
+    public JTree fileTree; //testing purposes
+    private JScrollPane pane;
+    private GridBagLayout layout;
+    private GridBagConstraints gbc;
+    private Path libraryPath;
+
+<span class="fc" id="L25">    public FilePanel() {</span>
+
+<span class="fc" id="L27">        libraryPath = Paths.get(Config.LIBRARY_PATH);</span>
+<span class="fc" id="L28">        DefaultMutableTreeNode top = new DefaultMutableTreeNode(&quot;Library&quot;);</span>
+<span class="fc" id="L29">        createNodes(top, libraryPath);</span>
+
+<span class="fc" id="L31">        fileTree = new JTree(top);</span>
+<span class="fc" id="L32">        fileTree.setToggleClickCount(1);</span>
+<span class="fc" id="L33">        fileTree.setName(&quot;libraryTree&quot;);//For testing purposes</span>
+
+<span class="fc" id="L35">        pane = new JScrollPane(fileTree);</span>
+
+<span class="fc" id="L37">        label = new JLabel(&quot;Directory Tree&quot;);</span>
+<span class="fc" id="L38">        label.setHorizontalAlignment(JLabel.CENTER);</span>
+
+<span class="fc" id="L40">        layout = new GridBagLayout();</span>
+<span class="fc" id="L41">        gbc = new GridBagConstraints();</span>
+<span class="fc" id="L42">        Slugcat Hunter = new Slugcat();</span>
+
+<span class="fc" id="L44">        setLayout(layout);</span>
+
+<span class="fc" id="L46">        gbc.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="fc" id="L47">        Hunter.addObjects(label, this, layout, gbc, 0, 0, 1, 1);</span>
+       
+<span class="fc" id="L49">        gbc.fill = GridBagConstraints.BOTH;</span>
+<span class="fc" id="L50">        gbc.weightx = 1.0; </span>
+<span class="fc" id="L51">        gbc.weighty = 1.0; </span>
+<span class="fc" id="L52">        Hunter.addObjects(pane, this, layout, gbc, 0, 1, 1, 1);</span>
+
+<span class="fc" id="L54">        fileTree.setDragEnabled(true);</span>
+<span class="fc" id="L55">        fileTree.setTransferHandler(new FileTransferHandler());</span>
+
+<span class="fc" id="L57">        setVisible(true);</span>
+<span class="fc" id="L58">    }</span>
+
+    private void createNodes(DefaultMutableTreeNode node, Path folderPath) {
+<span class="fc" id="L61">        try (DirectoryStream&lt;Path&gt; stream = Files.newDirectoryStream(folderPath)) {</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            for (Path entry : stream) {</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">                if (!entry.getFileName().toString().equals(&quot;.gitkeep&quot;)) {</span>
+<span class="fc" id="L64">                    DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(entry.getFileName().toString());</span>
+<span class="fc" id="L65">                    node.add(newNode);</span>
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">                    if (Files.isDirectory(entry)) {</span>
+<span class="nc" id="L67">                        createNodes(newNode, entry);</span>
+                    }
+                }
+<span class="fc" id="L70">            }</span>
+<span class="nc" id="L71">        } catch (IOException e) {</span>
+<span class="nc" id="L72">            e.printStackTrace();</span>
+<span class="fc" id="L73">        }</span>
+<span class="fc" id="L74">    }</span>
+
+    public void refreshLibrary() {
+<span class="nc" id="L77">        DefaultMutableTreeNode top = new DefaultMutableTreeNode(&quot;Library&quot;);</span>
+<span class="nc" id="L78">        createNodes(top, libraryPath);</span>
+<span class="nc" id="L79">        fileTree.setModel(new DefaultTreeModel(top));</span>
+<span class="nc" id="L80">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

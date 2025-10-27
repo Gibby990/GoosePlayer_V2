@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MainFrame.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gooseplayer2</a> &gt; <a href="index.source.html" class="el_package">com.gooseplayer2</a> &gt; <span class="el_source">MainFrame.java</span></div><h1>MainFrame.java</h1><pre class="source lang-java linenums">package com.gooseplayer2;
+
+import com.gooseplayer2.JPanels.*;
+import com.gooseplayer2.Packages.Slugcat;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.FileSystems;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardWatchEventKinds;
+import java.nio.file.WatchEvent;
+import java.nio.file.WatchKey;
+import java.nio.file.WatchService;
+import java.nio.file.attribute.BasicFileAttributes;
+
+import javax.sound.sampled.*;
+import javazoom.jl.decoder.JavaLayerException;
+
+import javax.swing.*;
+
+public class MainFrame extends JFrame {
+    private JToolBar toolBar;
+    private JButton settingsButton;
+    private JButton helpButton;
+    private JButton libraryButton;
+    
+    private GridBagLayout mainLayout;
+    private GridBagConstraints gbc;
+    
+    private FilePanel filePanel;
+    
+    private ImageIcon icon;
+    private Image image;
+    private Image scaledImage;
+    
+    private Desktop desktop;
+    private Slugcat Survivor;
+
+    public MainFrame() throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException {
+<span class="fc" id="L51">        super(&quot;Music Player&quot;);</span>
+<span class="fc" id="L52">        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span>
+<span class="fc" id="L53">        setSize(950, 600);</span>
+
+<span class="fc" id="L55">        Config.applySettings();</span>
+
+<span class="fc" id="L57">        try (InputStream iconStream = getClass().getResourceAsStream(&quot;/icons/Icon.png&quot;)) {</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">            if (iconStream != null) {</span>
+<span class="fc" id="L59">                icon = new ImageIcon(ImageIO.read(iconStream));</span>
+<span class="fc" id="L60">                image = icon.getImage();</span>
+<span class="fc" id="L61">                scaledImage = getScaledImage(image, 512, 512);</span>
+<span class="fc" id="L62">                setIconImage(scaledImage);</span>
+            } else {
+<span class="nc" id="L64">                System.err.println(&quot;Icon not found.&quot;);</span>
+            }
+        }
+
+<span class="fc" id="L68">        setIconImage(scaledImage);</span>
+
+        //Toolbar
+<span class="fc" id="L71">        toolBar = new JToolBar();</span>
+<span class="fc" id="L72">        settingsButton = new JButton(&quot;Settings&quot;);</span>
+<span class="fc" id="L73">        settingsButton.setFocusPainted(false);</span>
+<span class="fc" id="L74">        toolBar.add(settingsButton);</span>
+
+<span class="fc" id="L76">        settingsButton.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L79">                openSettingsDialog();</span>
+<span class="nc" id="L80">            }</span>
+
+        });
+
+<span class="fc" id="L84">        helpButton = new JButton(&quot;Help&quot;);</span>
+<span class="fc" id="L85">        helpButton.setFocusPainted(false);</span>
+<span class="fc" id="L86">        toolBar.add(helpButton);</span>
+        
+<span class="fc" id="L88">        helpButton.addActionListener(e -&gt; {</span>
+<span class="nc" id="L89">            try (InputStream is = getClass().getResourceAsStream(&quot;/help.txt&quot;)) {</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">                if (is == null) {</span>
+<span class="nc" id="L91">                    JOptionPane.showMessageDialog(null, &quot;Help file not found.&quot;, &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L92">                    return;</span>
+                }
+<span class="nc" id="L94">                BufferedReader reader = new BufferedReader(new InputStreamReader(is));</span>
+<span class="nc" id="L95">                StringBuilder helpContent = new StringBuilder();</span>
+                String line;
+<span class="nc bnc" id="L97" title="All 2 branches missed.">                while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L98">                    helpContent.append(line).append(&quot;\n&quot;);</span>
+                }
+<span class="nc" id="L100">                JOptionPane.showMessageDialog(null, helpContent.toString(), &quot;Help&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">            } catch (IOException ex) {</span>
+<span class="nc" id="L102">                JOptionPane.showMessageDialog(null, &quot;Failed to load help content.&quot;, &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L103">            }</span>
+<span class="nc" id="L104">        });</span>
+
+<span class="fc" id="L106">        libraryButton = new JButton(&quot;Library&quot;);</span>
+<span class="fc" id="L107">        libraryButton.setFocusPainted(false);</span>
+<span class="fc" id="L108">        toolBar.add(libraryButton);</span>
+
+<span class="fc" id="L110">        libraryButton.addActionListener(e -&gt; {</span>
+            try {
+<span class="nc" id="L112">                File library = new File(Config.LIBRARY_PATH);</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">                if (!library.exists()) {</span>
+<span class="nc" id="L114">                    JOptionPane.showMessageDialog(this, &quot;Library folder not found at: &quot; + Config.LIBRARY_PATH, &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L115">                    return;</span>
+                }
+<span class="nc bnc" id="L117" title="All 2 branches missed.">                if (!library.isDirectory()) {</span>
+<span class="nc" id="L118">                    JOptionPane.showMessageDialog(this, &quot;Library path is not a directory: &quot; + Config.LIBRARY_PATH, &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L119">                    return;</span>
+                }
+<span class="nc" id="L121">                desktop = Desktop.getDesktop();</span>
+<span class="nc" id="L122">                desktop.open(library);</span>
+
+<span class="nc" id="L124">                Thread watcherThread = new Thread(() -&gt; watchDirectoryPath(library.toPath()));</span>
+<span class="nc" id="L125">                watcherThread.start();</span>
+<span class="nc" id="L126">            } catch (Exception ex) {</span>
+<span class="nc" id="L127">                ex.printStackTrace();</span>
+<span class="nc" id="L128">                JOptionPane.showMessageDialog(this, &quot;Error opening library: &quot; + ex.getMessage(), &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L129">            }</span>
+<span class="nc" id="L130">        });</span>
+
+<span class="fc" id="L132">        mainLayout = new GridBagLayout();</span>
+<span class="fc" id="L133">        gbc = new GridBagConstraints();</span>
+<span class="fc" id="L134">        getContentPane().setLayout(mainLayout);</span>
+
+<span class="fc" id="L136">        Survivor = new Slugcat();</span>
+
+<span class="fc" id="L138">        filePanel = new FilePanel();</span>
+
+<span class="fc" id="L140">        MusicPanel musicPanel = new MusicPanel();</span>
+
+        //GUI
+
+<span class="fc" id="L144">        gbc.gridx = 0;</span>
+<span class="fc" id="L145">        gbc.gridy = 0;</span>
+<span class="fc" id="L146">        gbc.gridwidth = GridBagConstraints.REMAINDER;</span>
+<span class="fc" id="L147">        gbc.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="fc" id="L148">        Survivor.addObjects(toolBar, this, mainLayout, gbc, 0, 0, GridBagConstraints.REMAINDER, 1);</span>
+        
+<span class="fc" id="L150">        gbc.fill = GridBagConstraints.BOTH;</span>
+<span class="fc" id="L151">        gbc.weighty = 1.0;</span>
+<span class="fc" id="L152">        gbc.weightx = 2.0;</span>
+
+<span class="fc" id="L154">        Survivor.addObjects(musicPanel, this, mainLayout, gbc, 0, 1, 2, 1);</span>
+
+<span class="fc" id="L156">        gbc.weightx = 1.0;</span>
+<span class="fc" id="L157">        Survivor.addObjects(filePanel, this, mainLayout, gbc, 2, 1, 1, 1);</span>
+
+
+<span class="fc" id="L160">        setVisible(true);</span>
+
+<span class="fc" id="L162">        SwingUtilities.invokeLater(() -&gt; restoreQueuesIfPresent(musicPanel));</span>
+
+<span class="fc" id="L164">        addWindowListener(new java.awt.event.WindowAdapter() {</span>
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+<span class="nc" id="L167">                saveQueues(musicPanel);</span>
+<span class="nc" id="L168">            }</span>
+        });
+<span class="fc" id="L170">    }</span>
+
+    private Image getScaledImage(Image srcImg, int width, int height) {
+<span class="fc" id="L173">        BufferedImage resizedImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);</span>
+<span class="fc" id="L174">        Graphics2D g2 = resizedImg.createGraphics();</span>
+
+<span class="fc" id="L176">        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);</span>
+<span class="fc" id="L177">        g2.drawImage(srcImg, 0, 0, width,height, null);</span>
+<span class="fc" id="L178">        g2.dispose();</span>
+
+<span class="fc" id="L180">        return resizedImg;</span>
+    }
+
+    private void watchDirectoryPath(Path path) {
+<span class="nc" id="L184">        try (WatchService service = FileSystems.getDefault().newWatchService()) {</span>
+<span class="nc" id="L185">            registerDirectoryAndSubdirectories(path, service);</span>
+            while (true) {
+<span class="nc" id="L187">                WatchKey key = service.take();</span>
+<span class="nc bnc" id="L188" title="All 2 branches missed.">                for (WatchEvent&lt;?&gt; event : key.pollEvents()) {</span>
+<span class="nc" id="L189">                    WatchEvent.Kind&lt;?&gt; kind = event.kind();</span>
+<span class="nc" id="L190">                    Path eventPath = (Path) event.context();</span>
+<span class="nc" id="L191">                    Path fullPath = ((Path) key.watchable()).resolve(eventPath);</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">                    if (kind == StandardWatchEventKinds.ENTRY_CREATE) {</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">                        if (Files.isDirectory(fullPath)) {</span>
+<span class="nc" id="L194">                            registerDirectoryAndSubdirectories(fullPath, service);</span>
+                        }
+                    }
+<span class="nc" id="L197">                    SwingUtilities.invokeLater(() -&gt; filePanel.refreshLibrary());</span>
+<span class="nc" id="L198">                }</span>
+<span class="nc bnc" id="L199" title="All 2 branches missed.">                if (!key.reset()) {</span>
+<span class="nc" id="L200">                    break;</span>
+                }
+<span class="nc" id="L202">            }</span>
+<span class="nc" id="L203">        } catch (IOException | InterruptedException ex) {</span>
+<span class="nc" id="L204">            ex.printStackTrace();</span>
+<span class="nc" id="L205">        }</span>
+<span class="nc" id="L206">    }</span>
+
+    private void registerDirectoryAndSubdirectories(Path start, WatchService service) throws IOException {
+<span class="nc" id="L209">        Files.walkFileTree(start, new SimpleFileVisitor&lt;Path&gt;() {</span>
+            @Override
+            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+<span class="nc" id="L212">                dir.register(service, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_DELETE, StandardWatchEventKinds.ENTRY_MODIFY);</span>
+<span class="nc" id="L213">                return FileVisitResult.CONTINUE;</span>
+            }
+        });
+<span class="nc" id="L216">    }</span>
+
+    private void openSettingsDialog() {
+        try {
+<span class="nc" id="L220">            Config configDialog = new Config(this);</span>
+<span class="nc" id="L221">            configDialog.setVisible(true);</span>
+<span class="nc" id="L222">        } catch (IOException e) {</span>
+<span class="nc" id="L223">            e.printStackTrace();</span>
+<span class="nc" id="L224">            JOptionPane.showMessageDialog(this, &quot;Error opening settings: &quot; + e.getMessage(), &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L225">        }</span>
+<span class="nc" id="L226">    }</span>
+
+    private File getQueuesDir() {
+<span class="fc" id="L229">        File settings = new File(Config.SETTINGS_FILE_PATH);</span>
+<span class="fc" id="L230">        File dir = new File(settings.getParentFile(), &quot;queues&quot;);</span>
+<span class="pc bpc" id="L231" title="1 of 2 branches missed.">        if (!dir.exists()) dir.mkdirs();</span>
+<span class="fc" id="L232">        return dir;</span>
+    }
+
+    private void saveQueues(MusicPanel musicPanel) {
+        try {
+<span class="nc" id="L237">            File dir = getQueuesDir();</span>
+<span class="nc" id="L238">            int idx = 1;</span>
+<span class="nc bnc" id="L239" title="All 2 branches missed.">            for (com.gooseplayer2.JPanels.MusicPlayer player : musicPanel.getPlayers()) {</span>
+<span class="nc" id="L240">                java.util.List&lt;java.io.File&gt; files = player.getQueueFiles();</span>
+<span class="nc" id="L241">                File out = new File(dir, &quot;player&quot; + idx + &quot;.txt&quot;);</span>
+<span class="nc" id="L242">                try (java.io.PrintWriter pw = new java.io.PrintWriter(out, java.nio.charset.StandardCharsets.UTF_8.name())) {</span>
+<span class="nc bnc" id="L243" title="All 2 branches missed.">                    for (java.io.File f : files) {</span>
+<span class="nc" id="L244">                        pw.println(f.getAbsolutePath());</span>
+<span class="nc" id="L245">                    }</span>
+                }
+<span class="nc" id="L247">                idx++;</span>
+<span class="nc" id="L248">            }</span>
+<span class="nc" id="L249">        } catch (Exception ex) {</span>
+<span class="nc" id="L250">            ex.printStackTrace();</span>
+<span class="nc" id="L251">        }</span>
+<span class="nc" id="L252">    }</span>
+
+    private void restoreQueuesIfPresent(MusicPanel musicPanel) {
+        try {
+<span class="fc" id="L256">            File dir = getQueuesDir();</span>
+<span class="fc" id="L257">            int idx = 1;</span>
+<span class="fc bfc" id="L258" title="All 2 branches covered.">            for (com.gooseplayer2.JPanels.MusicPlayer player : musicPanel.getPlayers()) {</span>
+<span class="fc" id="L259">                File in = new File(dir, &quot;player&quot; + idx + &quot;.txt&quot;);</span>
+<span class="pc bpc" id="L260" title="1 of 2 branches missed.">                if (in.exists()) {</span>
+<span class="fc" id="L261">                    java.util.List&lt;java.io.File&gt; files = new java.util.ArrayList&lt;&gt;();</span>
+<span class="fc" id="L262">                    java.util.List&lt;String&gt; lines = java.nio.file.Files.readAllLines(in.toPath(), java.nio.charset.StandardCharsets.UTF_8);</span>
+<span class="pc bpc" id="L263" title="1 of 2 branches missed.">                    for (String line : lines) {</span>
+<span class="nc bnc" id="L264" title="All 4 branches missed.">                        if (line != null &amp;&amp; !line.trim().isEmpty()) {</span>
+<span class="nc" id="L265">                            files.add(new java.io.File(line.trim()));</span>
+                        }
+<span class="nc" id="L267">                    }</span>
+<span class="fc" id="L268">                    player.setQueueFromFiles(files);</span>
+                }
+<span class="fc" id="L270">                idx++;</span>
+<span class="fc" id="L271">            }</span>
+<span class="nc" id="L272">        } catch (Exception ex) {</span>
+<span class="nc" id="L273">            ex.printStackTrace();</span>
+<span class="fc" id="L274">        }</span>
+<span class="fc" id="L275">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

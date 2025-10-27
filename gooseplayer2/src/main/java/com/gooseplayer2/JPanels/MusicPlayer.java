@@ -42,7 +42,7 @@ public class MusicPlayer extends JPanel {
 	private JLabel AlbumArtLabel;
 	private JRadioButton LoopSong, LoopPlaylist;
     private JSlider ProgressBar, VolumeSlider;
-	private JTree queueTree;
+	public JTree queueTree;
 	private DefaultMutableTreeNode root;
 
     // Timer
@@ -76,6 +76,7 @@ public class MusicPlayer extends JPanel {
 		root = new DefaultMutableTreeNode("Queue");
 		queueTree = new JTree(root);
         queueTree.setRootVisible(true);
+        queueTree.setName("queueTree");//For testing purposes
 
         JScrollPane queueTreePane = new JScrollPane(queueTree);
 
@@ -950,6 +951,12 @@ public class MusicPlayer extends JPanel {
         String fileName = file.getName().toLowerCase();
         return fileName.endsWith(".mp3") || fileName.endsWith(".wav") || fileName.endsWith(".flac");
     }
+
+    public void stopAudio() {
+    if (ac != null && ac.isRunning()) {
+        ac.stop();
+    }
+}
 
 	private String getDisplayName(File file) {
 		String name = file.getName();

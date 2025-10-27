@@ -16,7 +16,7 @@ import com.gooseplayer2.Packages.Slugcat;
 
 public class FilePanel extends JPanel {
     private JLabel label;
-    private JTree fileTree;
+    public JTree fileTree; //testing purposes
     private JScrollPane pane;
     private GridBagLayout layout;
     private GridBagConstraints gbc;
@@ -30,6 +30,7 @@ public class FilePanel extends JPanel {
 
         fileTree = new JTree(top);
         fileTree.setToggleClickCount(1);
+        fileTree.setName("libraryTree");//For testing purposes
 
         pane = new JScrollPane(fileTree);
 

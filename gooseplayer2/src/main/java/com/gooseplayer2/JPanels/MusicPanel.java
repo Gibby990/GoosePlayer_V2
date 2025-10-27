@@ -32,6 +32,7 @@ public class MusicPanel extends JPanel {
         setLayout(layout);
 
         filePanel = new FilePanel();
+        this.setName("musicPanel");  // to identify in tests
 
         outline = BorderFactory.createLineBorder(Color.BLACK);
         Slugcat Monk = new Slugcat();

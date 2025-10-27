@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Queue.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gooseplayer2</a> &gt; <a href="index.source.html" class="el_package">com.gooseplayer2.Packages</a> &gt; <span class="el_source">Queue.java</span></div><h1>Queue.java</h1><pre class="source lang-java linenums">package com.gooseplayer2.Packages;
+
+import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.NoSuchElementException;
+import java.lang.IndexOutOfBoundsException;
+
+<span class="fc" id="L9">public class Queue&lt;E&gt; implements Iterable&lt;E&gt; {</span>
+    private Node&lt;E&gt; front;
+    private Node&lt;E&gt; rear;
+<span class="fc" id="L12">    private ArrayList&lt;E&gt; history = new ArrayList&lt;&gt;();</span>
+    
+
+    @SuppressWarnings(&quot;hiding&quot;)
+<span class="fc" id="L16">    public class Node&lt;E&gt; {</span>
+<span class="fc" id="L17">        private E item = null;</span>
+<span class="fc" id="L18">        private Node&lt;E&gt; next = null;</span>
+    }
+
+    public void enqueue (E item) {
+<span class="fc" id="L22">        Node&lt;E&gt; newNode = new Node&lt;&gt;();</span>
+<span class="fc" id="L23">        newNode.item = item;</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        if (rear == null) {</span>
+<span class="fc" id="L25">            front = newNode;</span>
+        } else {
+<span class="fc" id="L27">            rear.next = newNode;</span>
+        }
+<span class="fc" id="L29">        rear = newNode;</span>
+<span class="fc" id="L30">    }</span>
+
+    public E dequeue() throws NoSuchElementException {
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">        if(front == null) throw new NoSuchElementException();</span>
+<span class="fc" id="L34">        E item = front.item;</span>
+<span class="fc" id="L35">        front = front.next;</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        if(front == null) rear = null;</span>
+<span class="fc" id="L37">        history.add(item);</span>
+<span class="fc" id="L38">        return item;</span>
+    }
+
+    public boolean isEmpty() {
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        return front == null;</span>
+    }
+
+    public E peek() {
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">        return (front == null) ? null : front.item;</span>
+    }
+
+    public void empty() {
+<span class="fc" id="L50">        front = null;</span>
+<span class="fc" id="L51">        rear = null;</span>
+<span class="fc" id="L52">    }</span>
+
+    public java.util.List&lt;E&gt; getHistory() {
+<span class="fc" id="L55">        return new ArrayList&lt;&gt;(history);</span>
+    }
+
+    public void clearHistory() {
+<span class="fc" id="L59">        history.clear();</span>
+<span class="fc" id="L60">    }</span>
+
+    public boolean removeHistoryAt(int index) {
+<span class="pc bpc" id="L63" title="2 of 4 branches missed.">        if (index &lt; 0 || index &gt;= history.size()) return false;</span>
+<span class="fc" id="L64">        history.remove(index);</span>
+<span class="fc" id="L65">        return true;</span>
+    }
+
+    public boolean remove(E item) {
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if (front == null ) return false;</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (front.item.equals(item)) return false;</span>
+    
+<span class="nc" id="L72">        Node&lt;E&gt; current = front;</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        while (current.next != null) {</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">            if (current.next.item.equals(item)) {</span>
+<span class="nc" id="L75">                current.next = current.next.next;</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">                if (current.next == null) {</span>
+<span class="nc" id="L77">                    rear = current; </span>
+                }
+<span class="nc" id="L79">                return true; </span>
+            }
+<span class="nc" id="L81">            current = current.next;</span>
+        }
+    
+<span class="nc" id="L84">        return false; </span>
+    }
+    
+    public int size() {
+<span class="fc" id="L88">        int count = 0;</span>
+<span class="fc" id="L89">        Node&lt;E&gt; current = front;</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        while (current != null) {</span>
+<span class="fc" id="L91">            count++;</span>
+<span class="fc" id="L92">            current = current.next;</span>
+        }
+<span class="fc" id="L94">        return count;</span>
+    }
+    
+    // Does not apply to the current song
+    public void shuffle() {
+<span class="pc bpc" id="L99" title="2 of 4 branches missed.">        if (front == null || front.next == null) return;</span>
+<span class="fc" id="L100">        E first = front.item;</span>
+<span class="fc" id="L101">        ArrayList&lt;E&gt; rest = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L102">        Node&lt;E&gt; current = front.next;</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        while (current != null) {</span>
+<span class="fc" id="L104">            rest.add(current.item);</span>
+<span class="fc" id="L105">            current = current.next;</span>
+        }
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">        if (rest.size() &lt;= 1) return;</span>
+<span class="nc" id="L108">        Collections.shuffle(rest);</span>
+<span class="nc" id="L109">        front = null;</span>
+<span class="nc" id="L110">        rear = null;</span>
+<span class="nc" id="L111">        enqueue(first);</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        for (E item : rest) {</span>
+<span class="nc" id="L113">            enqueue(item);</span>
+<span class="nc" id="L114">        }</span>
+<span class="nc" id="L115">    }</span>
+    
+    public E get(int index) {
+<span class="pc bpc" id="L118" title="1 of 4 branches missed.">        if (index &lt; 0 || isEmpty()) {</span>
+<span class="fc" id="L119">            throw new IndexOutOfBoundsException(&quot;Index: &quot; + index);</span>
+        }
+        
+<span class="fc" id="L122">        Node&lt;E&gt; current = front;</span>
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">        for (int i = 0; i &lt; index; i++) {</span>
+<span class="pc bpc" id="L124" title="1 of 2 branches missed.">            if (current.next == null) {</span>
+<span class="fc" id="L125">                throw new IndexOutOfBoundsException(&quot;Index: &quot; + index);</span>
+            }
+<span class="nc" id="L127">            current = current.next;</span>
+        }
+<span class="nc" id="L129">        return current.item;</span>
+    }
+    
+    @Override
+    public Iterator&lt;E&gt; iterator() {
+<span class="fc" id="L134">        return new Iterator&lt;E&gt;() {</span>
+<span class="fc" id="L135">            private Node&lt;E&gt; current = front;</span>
+
+            @Override
+            public boolean hasNext() {
+<span class="fc bfc" id="L139" title="All 2 branches covered.">                return current != null;</span>
+            }
+
+            @Override
+            public E next() {
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">                if (!hasNext()) {</span>
+<span class="nc" id="L145">                    throw new NoSuchElementException();</span>
+                }
+<span class="fc" id="L147">                E item = current.item;</span>
+<span class="fc" id="L148">                current = current.next;</span>
+<span class="fc" id="L149">                return item;</span>
+            }
+        };
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
