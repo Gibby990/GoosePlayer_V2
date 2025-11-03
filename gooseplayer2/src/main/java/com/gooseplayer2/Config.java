@@ -71,7 +71,7 @@ public class Config extends JDialog {
 
         //Theme List
         String[] themeList = {"Light Flat", "Solarized Light", "Arc", "Dark Flat", "Arc Dark", "Arc Dark Orange", "Hiberbee Dark", "Dark Purple", "Nord"};
-        String[] styleList = {"Monochannel", "Multichannel"};
+        String[] styleList = {"Monochannel", "Multichannel", "Radio"};
 
         ThemeBox = new JComboBox<>(themeList);
         ThemeBox.setSelectedItem(currentTheme);

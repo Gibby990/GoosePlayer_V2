@@ -18,12 +18,14 @@ public class MusicPanel extends JPanel {
     private GridBagConstraints gbc;
     private Border outline;
     private String loadedStyle, monoChannelName, multiChannel1Name, multiChannel2Name, multiChannel3Name;
-    private boolean isMultichannel;
     private FilePanel filePanel;
     private Properties p;
     private FileReader reader;
     private MusicPlayer player1, player2, player3;
     private boolean[] playerMuted = new boolean[3]; 
+    private Mode mode;
+
+    private enum Mode { MONO, MULTI, RADIO }
 
     public MusicPanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException {
 
@@ -44,51 +46,53 @@ public class MusicPanel extends JPanel {
         p.load(reader);
 
         loadedStyle = p.getProperty("style");
-        if (loadedStyle.equals("Multichannel")) isMultichannel = true;
 
         monoChannelName = p.getProperty("monochannelname");
         multiChannel1Name = p.getProperty("multichannel1name");
         multiChannel2Name = p.getProperty("multichannel2name");
         multiChannel3Name = p.getProperty("multichannel3name");
 
-        //Determine Style
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0; 
+        gbc.weighty = 1.0;
 
-        if (isMultichannel) {
-            try {
-                player1 = new MusicPlayer(filePanel, true, multiChannel1Name);
-                player2 = new MusicPlayer(filePanel, true, multiChannel2Name);
-                player3 = new MusicPlayer(filePanel, true, multiChannel3Name);
-            } catch (Exception e) {
-                e.printStackTrace();
+        mode = determineMode(loadedStyle);
+
+        switch (mode) {
+            case RADIO: {
+                RadioPlayer radioPlayer = new RadioPlayer();
+                radioPlayer.setBorder(outline);
+                Monk.addObjects(radioPlayer, this, layout, gbc, 0, 0, 1, 1);
+                break;
             }
+            case MULTI: {
+                try {
+                    player1 = new MusicPlayer(filePanel, true, multiChannel1Name);
+                    player2 = new MusicPlayer(filePanel, true, multiChannel2Name);
+                    player3 = new MusicPlayer(filePanel, true, multiChannel3Name);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                player1.setBorder(outline);
+                player2.setBorder(outline);
+                player3.setBorder(outline);
 
-            player1.setBorder(outline);
-            player2.setBorder(outline);
-            player3.setBorder(outline);
-
-            gbc.fill = GridBagConstraints.BOTH;
-            gbc.weightx = 1.0; 
-            gbc.weighty = 1.0;
-
-            Monk.addObjects(player1, this, layout, gbc, 0, 0, 1, 1);
-            Monk.addObjects(player2, this, layout, gbc, 0, 1, 1, 1);
-            Monk.addObjects(player3, this, layout, gbc, 0, 2, 1, 1);
-
-        } else { // Go to Monochannel by default
-            try {
-                player1 = new MusicPlayer(filePanel, false, monoChannelName);
-            } catch (Exception e) {
-                e.printStackTrace();
+                Monk.addObjects(player1, this, layout, gbc, 0, 0, 1, 1);
+                Monk.addObjects(player2, this, layout, gbc, 0, 1, 1, 1);
+                Monk.addObjects(player3, this, layout, gbc, 0, 2, 1, 1);
+                break;
             }
-
-            player1.setBorder(outline);
-
-            gbc.fill = GridBagConstraints.BOTH;
-            gbc.weightx = 1.0; 
-            gbc.weighty = 1.0;
-
-            Monk.addObjects(player1, this, layout, gbc, 0, 0, 1, 1);
-
+            case MONO:
+            default: {
+                try {
+                    player1 = new MusicPlayer(filePanel, false, monoChannelName);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                player1.setBorder(outline);
+                Monk.addObjects(player1, this, layout, gbc, 0, 0, 1, 1);
+                break;
+            }
         }
 
         addGlobalKeyListener();
@@ -155,15 +159,15 @@ public class MusicPanel extends JPanel {
     }
 
     private void startAllPlayers() {
-        player1.play();
-        player2.play();
-        player3.play();
+        for (MusicPlayer p : getPlayers()) {
+            p.play();
+        }
     }
 
     private void pauseAllPlayers() {
-        player1.pause();
-        player2.pause();
-        player3.pause();
+        for (MusicPlayer p : getPlayers()) {
+            p.pause();
+        }
     }
 
     public java.util.List<MusicPlayer> getPlayers() {
@@ -172,6 +176,25 @@ public class MusicPanel extends JPanel {
         if (player2 != null) players.add(player2);
         if (player3 != null) players.add(player3);
         return players;
+    }
+
+    private Mode determineMode(String rawStyle) {
+        if (rawStyle == null) {
+            return Mode.MONO;
+        }
+        String style = rawStyle.trim().toLowerCase();
+        if (style.equals("radio")) {
+            return Mode.RADIO;
+        }
+        if (style.equals("multi") || style.equals("multichannel") || style.equals("multi-channel") ||
+            style.equals("multi_channel") || style.equals("channels") || style.equals("channel")) {
+            return Mode.MULTI;
+        }
+        return Mode.MONO;
+    }
+
+    public boolean isRadioMode() {
+        return mode == Mode.RADIO;
     }
 }
 

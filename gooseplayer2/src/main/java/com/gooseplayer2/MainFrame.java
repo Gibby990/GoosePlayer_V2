@@ -121,8 +121,10 @@ public class MainFrame extends JFrame {
                 desktop = Desktop.getDesktop();
                 desktop.open(library);
 
-                Thread watcherThread = new Thread(() -> watchDirectoryPath(library.toPath()));
-                watcherThread.start();
+                if (filePanel != null) {
+                    Thread watcherThread = new Thread(() -> watchDirectoryPath(library.toPath()));
+                    watcherThread.start();
+                }
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Error opening library: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -135,9 +137,12 @@ public class MainFrame extends JFrame {
 
         Survivor = new Slugcat();
 
-        filePanel = new FilePanel();
-
         MusicPanel musicPanel = new MusicPanel();
+        if (!musicPanel.isRadioMode()) {
+            filePanel = new FilePanel();
+        } else {
+            filePanel = null;
+        }
 
         //GUI
 
@@ -149,12 +154,16 @@ public class MainFrame extends JFrame {
         
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weighty = 1.0;
-        gbc.weightx = 2.0;
+        if (filePanel == null) {
+            gbc.weightx = 1.0;
+            Survivor.addObjects(musicPanel, this, mainLayout, gbc, 0, 1, GridBagConstraints.REMAINDER, 1);
+        } else {
+            gbc.weightx = 2.0;
+            Survivor.addObjects(musicPanel, this, mainLayout, gbc, 0, 1, 2, 1);
 
-        Survivor.addObjects(musicPanel, this, mainLayout, gbc, 0, 1, 2, 1);
-
-        gbc.weightx = 1.0;
-        Survivor.addObjects(filePanel, this, mainLayout, gbc, 2, 1, 1, 1);
+            gbc.weightx = 1.0;
+            Survivor.addObjects(filePanel, this, mainLayout, gbc, 2, 1, 1, 1);
+        }
 
 
         setVisible(true);
@@ -194,7 +203,7 @@ public class MainFrame extends JFrame {
                             registerDirectoryAndSubdirectories(fullPath, service);
                         }
                     }
-                    SwingUtilities.invokeLater(() -> filePanel.refreshLibrary());
+                    SwingUtilities.invokeLater(() -> { if (filePanel != null) filePanel.refreshLibrary(); });
                 }
                 if (!key.reset()) {
                     break;
