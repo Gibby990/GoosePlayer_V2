@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RadioPlayer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gooseplayer2</a> &gt; <a href="index.source.html" class="el_package">com.gooseplayer2.JPanels</a> &gt; <span class="el_source">RadioPlayer.java</span></div><h1>RadioPlayer.java</h1><pre class="source lang-java linenums">package com.gooseplayer2.JPanels;
+
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.Proxy;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.LinkedBlockingQueue;
+
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
+import com.gooseplayer2.Packages.Slugcat;
+
+import net.beadsproject.beads.core.AudioContext;
+import net.beadsproject.beads.core.UGen;
+import net.beadsproject.beads.core.io.JavaSoundAudioIO;
+import net.beadsproject.beads.ugens.Gain;
+
+import javazoom.spi.mpeg.sampled.file.MpegAudioFileReader;
+
+public class RadioPlayer extends JPanel {
+
+    private GridBagConstraints gbc;
+    private GridBagLayout layout;
+    private JLabel channelLabel, timeLabel, albumArtLabel, urlLabel;
+    private JSlider progressBar, volumeSlider;
+    private JButton playPauseButton, enterButton;
+    private JTextField urlField;
+
+    private JavaSoundAudioIO audioIO;
+    private AudioContext audioContext;
+    private Gain streamGain;
+    private StreamingUGen streamingUGen;
+    private Thread decoderThread;
+<span class="nc" id="L56">    private volatile boolean isPlaying = false;</span>
+<span class="nc" id="L57">    private volatile boolean isPaused = false;</span>
+<span class="nc" id="L58">    private volatile boolean stopRequested = false;</span>
+<span class="nc" id="L59">    private String currentUrl = &quot;&quot;;</span>
+
+<span class="nc" id="L61">    public RadioPlayer() {</span>
+<span class="nc" id="L62">        layout = new GridBagLayout();</span>
+<span class="nc" id="L63">        gbc = new GridBagConstraints();</span>
+<span class="nc" id="L64">        setLayout(layout);</span>
+
+<span class="nc" id="L66">        Slugcat helper = new Slugcat();</span>
+
+<span class="nc" id="L68">        playPauseButton = new JButton(&quot;Play&quot;);</span>
+<span class="nc" id="L69">        playPauseButton.addActionListener(e -&gt; {</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">            if (!isPlaying) {</span>
+<span class="nc" id="L71">                String url = getStreamUrl();</span>
+<span class="nc bnc" id="L72" title="All 4 branches missed.">                if (url == null || url.isBlank()) return;</span>
+<span class="nc" id="L73">                startStream(url);</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">            } else if (!isPaused) {</span>
+<span class="nc" id="L75">                pauseStream();</span>
+            } else {
+<span class="nc" id="L77">                resumeStream();</span>
+            }
+<span class="nc" id="L79">        });</span>
+
+<span class="nc" id="L81">        enterButton = new JButton(&quot;Enter&quot;);</span>
+<span class="nc" id="L82">        enterButton.addActionListener(e -&gt; {</span>
+<span class="nc" id="L83">            String url = getStreamUrl();</span>
+<span class="nc bnc" id="L84" title="All 4 branches missed.">            if (url == null || url.isBlank()) return;</span>
+<span class="nc" id="L85">            startStream(url);</span>
+<span class="nc" id="L86">        });</span>
+
+<span class="nc" id="L88">        progressBar = new JSlider(0, 0, 100, 0);</span>
+<span class="nc" id="L89">        progressBar.setEnabled(false);</span>
+
+<span class="nc" id="L91">        timeLabel = new JLabel(&quot;0:00 / 0:00&quot;);</span>
+<span class="nc" id="L92">        channelLabel = new JLabel(&quot;Radio&quot;);</span>
+
+<span class="nc" id="L94">        volumeSlider = new JSlider(0, 100, 100);</span>
+<span class="nc" id="L95">        volumeSlider.addChangeListener(e -&gt; {</span>
+<span class="nc bnc" id="L96" title="All 4 branches missed.">            if (streamGain != null &amp;&amp; !volumeSlider.getValueIsAdjusting()) {</span>
+<span class="nc" id="L97">                float vol = volumeSlider.getValue() / 100.0f;</span>
+<span class="nc" id="L98">                streamGain.setGain(vol);</span>
+            }
+<span class="nc" id="L100">        });</span>
+
+<span class="nc" id="L102">        albumArtLabel = new JLabel();</span>
+<span class="nc" id="L103">        albumArtLabel.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="nc" id="L104">        albumArtLabel.setVerticalAlignment(SwingConstants.CENTER);</span>
+<span class="nc" id="L105">        albumArtLabel.setPreferredSize(new Dimension(128, 128));</span>
+<span class="nc" id="L106">        setDefaultAlbumArt();</span>
+
+<span class="nc" id="L108">        urlLabel = new JLabel(&quot;Stream URL:&quot;);</span>
+<span class="nc" id="L109">        urlLabel.setFont(urlLabel.getFont().deriveFont(Font.PLAIN, 25f));</span>
+<span class="nc" id="L110">        urlField = new JTextField();</span>
+<span class="nc" id="L111">        urlField.setToolTipText(&quot;Enter AzuraCast stream URL&quot;);</span>
+
+<span class="nc" id="L113">        audioIO = new JavaSoundAudioIO();</span>
+<span class="nc" id="L114">        audioContext = new AudioContext(audioIO);</span>
+
+<span class="nc" id="L116">        gbc.gridheight = 3;</span>
+<span class="nc" id="L117">        gbc.gridwidth = 6;</span>
+<span class="nc" id="L118">        gbc.weightx = 1.0;</span>
+<span class="nc" id="L119">        gbc.weighty = 1.0;</span>
+
+<span class="nc" id="L121">        gbc.fill = GridBagConstraints.CENTER;</span>
+<span class="nc" id="L122">        helper.addObjects(channelLabel, this, layout, gbc, 0, 0, 4, 1);</span>
+
+<span class="nc" id="L124">        gbc.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L125">        gbc.insets = new Insets(0, 20, 0, 0);</span>
+<span class="nc" id="L126">        helper.addObjects(progressBar, this, layout, gbc, 0, 1, 4, 1);</span>
+<span class="nc" id="L127">        helper.addObjects(timeLabel, this, layout, gbc, 4, 1, 1, 1);</span>
+
+<span class="nc" id="L129">        helper.addObjects(volumeSlider, this, layout, gbc, 0, 2, 2, 1);</span>
+
+<span class="nc" id="L131">        gbc.fill = GridBagConstraints.NONE;</span>
+<span class="nc" id="L132">        helper.addObjects(albumArtLabel, this, layout, gbc, 5, 0, 1, 3);</span>
+
+<span class="nc" id="L134">        gbc.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L135">        gbc.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L136">        gbc.weightx = 1.0;</span>
+<span class="nc" id="L137">        gbc.insets = new Insets(0, 20, 0, 5);</span>
+<span class="nc" id="L138">        helper.addObjects(playPauseButton, this, layout, gbc, 0, 3, 1, 1);</span>
+
+<span class="nc" id="L140">        JPanel urlPanel = new JPanel(new GridLayout(1, 3));</span>
+<span class="nc" id="L141">        urlPanel.add(urlLabel);</span>
+<span class="nc" id="L142">        urlPanel.add(urlField);</span>
+<span class="nc" id="L143">        urlPanel.add(enterButton);</span>
+
+<span class="nc" id="L145">        gbc.fill = GridBagConstraints.BOTH;</span>
+<span class="nc" id="L146">        gbc.insets = new Insets(0, 0, 0, 0);</span>
+<span class="nc" id="L147">        helper.addObjects(urlPanel, this, layout, gbc, 1, 4, 6, 1);</span>
+<span class="nc" id="L148">    }</span>
+
+    public String getStreamUrl() {
+<span class="nc bnc" id="L151" title="All 2 branches missed.">        return urlField != null ? urlField.getText() : &quot;&quot;;</span>
+    }
+
+    public void setStreamUrl(String url) {
+<span class="nc bnc" id="L155" title="All 2 branches missed.">        if (urlField != null) {</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">            urlField.setText(url != null ? url : &quot;&quot;);</span>
+        }
+<span class="nc" id="L158">    }</span>
+
+    private void setDefaultAlbumArt() {
+        try {
+<span class="nc" id="L162">            URL url = getClass().getResource(&quot;/icons/albumMissing.png&quot;);</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">            if (url != null) {</span>
+<span class="nc" id="L164">                ImageIcon icon = new ImageIcon(url);</span>
+<span class="nc" id="L165">                Image scaled = icon.getImage().getScaledInstance(128, 128, Image.SCALE_SMOOTH);</span>
+<span class="nc" id="L166">                albumArtLabel.setIcon(new ImageIcon(scaled));</span>
+<span class="nc" id="L167">            } else {</span>
+<span class="nc" id="L168">                albumArtLabel.setIcon(null);</span>
+            }
+<span class="nc" id="L170">        } catch (Exception e) {</span>
+<span class="nc" id="L171">            albumArtLabel.setIcon(null);</span>
+<span class="nc" id="L172">        }</span>
+<span class="nc" id="L173">    }</span>
+
+    private void startStream(String urlString) {
+        try {
+<span class="nc" id="L177">            stopStream();</span>
+<span class="nc" id="L178">            currentUrl = urlString;</span>
+
+<span class="nc bnc" id="L180" title="All 2 branches missed.">            if (streamingUGen == null) {</span>
+<span class="nc" id="L181">                streamingUGen = new StreamingUGen(audioContext, 2);</span>
+            } else {
+<span class="nc" id="L183">                streamingUGen.clear();</span>
+            }
+
+<span class="nc" id="L186">            streamGain = new Gain(audioContext, 2, volumeSlider.getValue() / 100.0f);</span>
+<span class="nc" id="L187">            streamGain.addInput(streamingUGen);</span>
+
+<span class="nc" id="L189">            audioContext.out.removeAllConnections(streamGain);</span>
+<span class="nc" id="L190">            audioContext.out.addInput(streamGain);</span>
+<span class="nc bnc" id="L191" title="All 2 branches missed.">            if (!audioContext.isRunning()) {</span>
+<span class="nc" id="L192">                audioContext.start();</span>
+            }
+
+<span class="nc" id="L195">            stopRequested = false;</span>
+<span class="nc" id="L196">            isPaused = false;</span>
+
+<span class="nc" id="L198">            decoderThread = new Thread(() -&gt; decodeLoop(currentUrl, streamingUGen));</span>
+<span class="nc" id="L199">            decoderThread.setName(&quot;RadioStreamDecoder&quot;);</span>
+<span class="nc" id="L200">            decoderThread.setDaemon(true);</span>
+<span class="nc" id="L201">            decoderThread.start();</span>
+
+<span class="nc" id="L203">            isPlaying = true;</span>
+<span class="nc" id="L204">            updatePlayPauseLabel();</span>
+<span class="nc" id="L205">        } catch (Exception ex) {</span>
+<span class="nc" id="L206">            ex.printStackTrace();</span>
+<span class="nc" id="L207">            stopStream();</span>
+<span class="nc" id="L208">        }</span>
+<span class="nc" id="L209">    }</span>
+
+    private void pauseStream() {
+<span class="nc" id="L212">        isPaused = true;</span>
+<span class="nc" id="L213">        updatePlayPauseLabel();</span>
+<span class="nc" id="L214">    }</span>
+
+    private void resumeStream() {
+<span class="nc" id="L217">        isPaused = false;</span>
+<span class="nc" id="L218">        updatePlayPauseLabel();</span>
+<span class="nc" id="L219">    }</span>
+
+    private void stopStream() {
+<span class="nc" id="L222">        stopRequested = true;</span>
+<span class="nc" id="L223">        isPaused = false;</span>
+<span class="nc bnc" id="L224" title="All 2 branches missed.">        if (decoderThread != null) {</span>
+            try {
+<span class="nc" id="L226">                decoderThread.interrupt();</span>
+<span class="nc" id="L227">            } catch (Exception ignored) {}</span>
+<span class="nc" id="L228">            decoderThread = null;</span>
+        }
+<span class="nc bnc" id="L230" title="All 2 branches missed.">        if (streamingUGen != null) {</span>
+<span class="nc" id="L231">            streamingUGen.clear();</span>
+        }
+        try {
+<span class="nc bnc" id="L234" title="All 2 branches missed.">            if (streamGain != null) {</span>
+<span class="nc" id="L235">                audioContext.out.removeAllConnections(streamGain);</span>
+            }
+<span class="nc" id="L237">        } catch (Exception ignored) {}</span>
+<span class="nc" id="L238">        isPlaying = false;</span>
+<span class="nc" id="L239">        updatePlayPauseLabel();</span>
+<span class="nc" id="L240">    }</span>
+
+    private void updatePlayPauseLabel() {
+<span class="nc" id="L243">        SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="nc bnc" id="L244" title="All 2 branches missed.">            if (playPauseButton != null) {</span>
+<span class="nc bnc" id="L245" title="All 4 branches missed.">                playPauseButton.setText(!isPlaying ? &quot;Play&quot; : (isPaused ? &quot;Play&quot; : &quot;Pause&quot;));</span>
+            }
+<span class="nc" id="L247">        });</span>
+<span class="nc" id="L248">    }</span>
+
+    private void decodeLoop(String urlString, StreamingUGen sink) {
+<span class="nc" id="L251">        AudioInputStream stream = null;</span>
+        try {
+<span class="nc" id="L253">            String resolved = resolveStreamUrl(urlString);</span>
+<span class="nc" id="L254">            URL url = new URL(resolved);</span>
+
+<span class="nc" id="L256">            URLConnection conn = openConnectionWithHeaders(url);</span>
+<span class="nc" id="L257">            String contentType = conn.getContentType();</span>
+<span class="nc bnc" id="L258" title="All 2 branches missed.">            if (contentType != null) {</span>
+<span class="nc" id="L259">                String ct = contentType.toLowerCase();</span>
+<span class="nc bnc" id="L260" title="All 6 branches missed.">                if (ct.contains(&quot;aac&quot;) || ct.contains(&quot;aacp&quot;) || ct.contains(&quot;x-aac&quot;)) {</span>
+<span class="nc" id="L261">                    throw new javax.sound.sampled.UnsupportedAudioFileException(</span>
+                            &quot;AAC/AACP stream not supported. Use an MP3 mount.&quot;);
+                }
+<span class="nc bnc" id="L264" title="All 6 branches missed.">                if (ct.contains(&quot;application/vnd.apple.mpegurl&quot;) || ct.contains(&quot;vnd.apple.mpegurl&quot;) || ct.contains(&quot;mpegurl&quot;)</span>
+<span class="nc bnc" id="L265" title="All 2 branches missed.">                        || ct.contains(&quot;hls&quot;)) {</span>
+<span class="nc" id="L266">                    throw new javax.sound.sampled.UnsupportedAudioFileException(</span>
+                            &quot;HLS playlist not supported. Use a direct MP3 stream URL.&quot;);
+                }
+            }
+
+<span class="nc" id="L271">            InputStream raw = conn.getInputStream();</span>
+<span class="nc" id="L272">            BufferedInputStream buffered = new BufferedInputStream(raw, 64 * 1024);</span>
+
+<span class="nc bnc" id="L274" title="All 2 branches missed.">            if (!looksLikeMp3(buffered)) {</span>
+<span class="nc" id="L275">                throw new javax.sound.sampled.UnsupportedAudioFileException(</span>
+                        &quot;Incoming stream does not look like MP3 data (might be AAC/HLS/HTML).&quot;);
+            }
+
+            try {
+<span class="nc" id="L280">                stream = AudioSystem.getAudioInputStream(buffered);</span>
+<span class="nc" id="L281">            } catch (Exception primaryFail) {</span>
+                try {
+<span class="nc" id="L283">                    MpegAudioFileReader reader = new MpegAudioFileReader();</span>
+<span class="nc" id="L284">                    stream = reader.getAudioInputStream(buffered);</span>
+<span class="nc" id="L285">                } catch (Exception fallbackFail) {</span>
+<span class="nc" id="L286">                    primaryFail.addSuppressed(fallbackFail);</span>
+<span class="nc" id="L287">                    throw primaryFail;</span>
+<span class="nc" id="L288">                }</span>
+<span class="nc" id="L289">            }</span>
+
+<span class="nc" id="L291">            float targetSampleRate = audioContext.getSampleRate();</span>
+<span class="nc" id="L292">            AudioFormat targetFormat = new AudioFormat(</span>
+                    AudioFormat.Encoding.PCM_SIGNED,
+                    targetSampleRate,
+                    16,
+                    2,
+                    4,
+                    targetSampleRate,
+                    false
+            );
+
+<span class="nc bnc" id="L302" title="All 2 branches missed.">            if (!isTargetFormat(stream.getFormat(), targetFormat)) {</span>
+<span class="nc" id="L303">                stream = AudioSystem.getAudioInputStream(targetFormat, stream);</span>
+            }
+
+<span class="nc" id="L306">            byte[] byteBuf = new byte[4096];</span>
+<span class="nc bnc" id="L307" title="All 2 branches missed.">            while (!stopRequested) {</span>
+<span class="nc bnc" id="L308" title="All 2 branches missed.">                if (isPaused) {</span>
+                    try {
+<span class="nc" id="L310">                        Thread.sleep(50);</span>
+<span class="nc" id="L311">                    } catch (InterruptedException ie) {</span>
+<span class="nc" id="L312">                    }</span>
+<span class="nc" id="L313">                    continue;</span>
+                }
+<span class="nc" id="L315">                int read = stream.read(byteBuf, 0, byteBuf.length);</span>
+<span class="nc bnc" id="L316" title="All 2 branches missed.">                if (read &lt;= 0) {</span>
+                    try {
+<span class="nc" id="L318">                        Thread.sleep(20);</span>
+<span class="nc" id="L319">                    } catch (InterruptedException ie) {</span>
+<span class="nc" id="L320">                    }</span>
+<span class="nc" id="L321">                    continue;</span>
+                }
+<span class="nc" id="L323">                int frames = (read / 4);</span>
+<span class="nc bnc" id="L324" title="All 2 branches missed.">                if (frames &lt;= 0) continue;</span>
+<span class="nc" id="L325">                int bytesToConvert = frames * 4;</span>
+<span class="nc" id="L326">                float[] out = new float[frames * 2];</span>
+<span class="nc" id="L327">                int bi = 0;</span>
+<span class="nc" id="L328">                int oi = 0;</span>
+<span class="nc bnc" id="L329" title="All 2 branches missed.">                while (bi + 3 &lt; bytesToConvert) {</span>
+<span class="nc" id="L330">                    int loL = byteBuf[bi] &amp; 0xFF;</span>
+<span class="nc" id="L331">                    int hiL = byteBuf[bi + 1];</span>
+<span class="nc" id="L332">                    int valL = (hiL &lt;&lt; 8) | loL;</span>
+<span class="nc" id="L333">                    bi += 2;</span>
+<span class="nc" id="L334">                    int loR = byteBuf[bi] &amp; 0xFF;</span>
+<span class="nc" id="L335">                    int hiR = byteBuf[bi + 1];</span>
+<span class="nc" id="L336">                    int valR = (hiR &lt;&lt; 8) | loR;</span>
+<span class="nc" id="L337">                    bi += 2;</span>
+<span class="nc" id="L338">                    out[oi++] = clamp16ToFloat(valL);</span>
+<span class="nc" id="L339">                    out[oi++] = clamp16ToFloat(valR);</span>
+<span class="nc" id="L340">                }</span>
+<span class="nc" id="L341">                sink.enqueue(out);</span>
+<span class="nc" id="L342">            }</span>
+<span class="nc" id="L343">        } catch (Exception e) {</span>
+<span class="nc" id="L344">            e.printStackTrace();</span>
+        } finally {
+<span class="nc bnc" id="L346" title="All 2 branches missed.">            if (stream != null) {</span>
+                try {
+<span class="nc" id="L348">                    stream.close();</span>
+<span class="nc" id="L349">                } catch (Exception ignored) {</span>
+<span class="nc" id="L350">                }</span>
+            }
+        }
+<span class="nc" id="L353">    }</span>
+
+    private String resolveStreamUrl(String urlString) {
+        try {
+<span class="nc" id="L357">            String lower = urlString.toLowerCase();</span>
+<span class="nc bnc" id="L358" title="All 6 branches missed.">            if (lower.endsWith(&quot;.m3u&quot;) || lower.endsWith(&quot;.m3u8&quot;) || lower.endsWith(&quot;.pls&quot;)) {</span>
+<span class="nc" id="L359">                URL u = new URL(urlString);</span>
+<span class="nc" id="L360">                URLConnection conn = u.openConnection();</span>
+<span class="nc" id="L361">                conn.setRequestProperty(&quot;User-Agent&quot;, &quot;GoosePlayer2/1.0 (Java)&quot;);</span>
+<span class="nc" id="L362">                conn.setConnectTimeout(8000);</span>
+<span class="nc" id="L363">                conn.setReadTimeout(8000);</span>
+<span class="nc" id="L364">                try (BufferedReader br = new BufferedReader(</span>
+<span class="nc" id="L365">                        new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {</span>
+                    String line;
+<span class="nc bnc" id="L367" title="All 2 branches missed.">                    while ((line = br.readLine()) != null) {</span>
+<span class="nc" id="L368">                        line = line.trim();</span>
+<span class="nc bnc" id="L369" title="All 4 branches missed.">                        if (line.isEmpty() || line.startsWith(&quot;#&quot;)) continue;</span>
+<span class="nc bnc" id="L370" title="All 2 branches missed.">                        if (lower.endsWith(&quot;.pls&quot;)) {</span>
+<span class="nc" id="L371">                            int idx = line.indexOf('=');</span>
+<span class="nc bnc" id="L372" title="All 2 branches missed.">                            if (idx &gt; 0) {</span>
+<span class="nc" id="L373">                                String key = line.substring(0, idx).trim().toLowerCase();</span>
+<span class="nc" id="L374">                                String val = line.substring(idx + 1).trim();</span>
+<span class="nc bnc" id="L375" title="All 4 branches missed.">                                if (key.startsWith(&quot;file&quot;) &amp;&amp; isProbablyStreamUrl(val)) {</span>
+<span class="nc" id="L376">                                    return val;</span>
+                                }
+                            }
+<span class="nc bnc" id="L379" title="All 2 branches missed.">                        } else if (isProbablyStreamUrl(line)) {</span>
+<span class="nc" id="L380">                            return line;</span>
+                        }
+                    }
+<span class="nc" id="L383">                }</span>
+            }
+<span class="nc" id="L385">        } catch (Exception ignored) {</span>
+<span class="nc" id="L386">        }</span>
+<span class="nc" id="L387">        return urlString;</span>
+    }
+
+    private boolean isProbablyStreamUrl(String s) {
+<span class="nc" id="L391">        String sl = s.toLowerCase();</span>
+<span class="nc bnc" id="L392" title="All 4 branches missed.">        return sl.startsWith(&quot;http://&quot;) || sl.startsWith(&quot;https://&quot;);</span>
+    }
+
+    private URLConnection openConnectionWithHeaders(URL url) throws Exception {
+<span class="nc" id="L396">        URLConnection conn = url.openConnection(Proxy.NO_PROXY);</span>
+<span class="nc bnc" id="L397" title="All 2 branches missed.">        if (conn instanceof HttpURLConnection) {</span>
+<span class="nc" id="L398">            HttpURLConnection http = (HttpURLConnection) conn;</span>
+<span class="nc" id="L399">            http.setInstanceFollowRedirects(true);</span>
+        }
+<span class="nc" id="L401">        conn.setRequestProperty(&quot;User-Agent&quot;, &quot;GoosePlayer2/1.0 (Java; like Winamp)&quot;);</span>
+<span class="nc" id="L402">        conn.setRequestProperty(&quot;Accept&quot;, &quot;audio/mpeg, audio/*;q=0.5, */*;q=0.1&quot;);</span>
+<span class="nc" id="L403">        conn.setConnectTimeout(10000);</span>
+<span class="nc" id="L404">        conn.setReadTimeout(10000);</span>
+<span class="nc" id="L405">        return conn;</span>
+    }
+
+    private boolean looksLikeMp3(BufferedInputStream in) {
+        try {
+<span class="nc" id="L410">            in.mark(4096);</span>
+<span class="nc" id="L411">            byte[] buf = new byte[4096];</span>
+<span class="nc" id="L412">            int n = in.read(buf);</span>
+<span class="nc" id="L413">            in.reset();</span>
+<span class="nc bnc" id="L414" title="All 2 branches missed.">            if (n &lt;= 0) return false;</span>
+<span class="nc bnc" id="L415" title="All 8 branches missed.">            if (n &gt;= 3 &amp;&amp; buf[0] == 'I' &amp;&amp; buf[1] == 'D' &amp;&amp; buf[2] == '3') return true;</span>
+<span class="nc bnc" id="L416" title="All 2 branches missed.">            for (int i = 0; i &lt; n - 1; i++) {</span>
+<span class="nc" id="L417">                int b0 = buf[i] &amp; 0xFF;</span>
+<span class="nc" id="L418">                int b1 = buf[i + 1] &amp; 0xFF;</span>
+<span class="nc bnc" id="L419" title="All 4 branches missed.">                if (b0 == 0xFF &amp;&amp; (b1 &amp; 0xE0) == 0xE0) {</span>
+<span class="nc" id="L420">                    return true;</span>
+                }
+            }
+<span class="nc" id="L423">            return false;</span>
+<span class="nc" id="L424">        } catch (Exception e) {</span>
+<span class="nc" id="L425">            return false;</span>
+        }
+    }
+
+    private boolean isTargetFormat(AudioFormat src, AudioFormat target) {
+<span class="nc bnc" id="L430" title="All 2 branches missed.">        return src.getEncoding().equals(target.getEncoding())</span>
+<span class="nc bnc" id="L431" title="All 2 branches missed.">                &amp;&amp; Math.abs(src.getSampleRate() - target.getSampleRate()) &lt; 1.0</span>
+<span class="nc bnc" id="L432" title="All 2 branches missed.">                &amp;&amp; src.getSampleSizeInBits() == target.getSampleSizeInBits()</span>
+<span class="nc bnc" id="L433" title="All 2 branches missed.">                &amp;&amp; src.getChannels() == target.getChannels()</span>
+<span class="nc bnc" id="L434" title="All 2 branches missed.">                &amp;&amp; src.isBigEndian() == target.isBigEndian();</span>
+    }
+
+    private float clamp16ToFloat(int sample16) {
+<span class="nc" id="L438">        float f = sample16 / 32768f;</span>
+<span class="nc bnc" id="L439" title="All 2 branches missed.">        if (f &gt; 1f) f = 1f;</span>
+<span class="nc bnc" id="L440" title="All 2 branches missed.">        if (f &lt; -1f) f = -1f;</span>
+<span class="nc" id="L441">        return f;</span>
+    }
+
+    private static class StreamingUGen extends UGen {
+<span class="nc" id="L445">        private final LinkedBlockingQueue&lt;float[]&gt; queue = new LinkedBlockingQueue&lt;&gt;(64);</span>
+        private float[] current;
+<span class="nc" id="L447">        private int cursor = 0;</span>
+
+        public StreamingUGen(AudioContext ac, int outs) {
+<span class="nc" id="L450">            super(ac, outs);</span>
+<span class="nc" id="L451">        }</span>
+
+        public void enqueue(float[] chunk) {
+<span class="nc bnc" id="L454" title="All 4 branches missed.">            if (chunk == null || chunk.length == 0) return;</span>
+<span class="nc bnc" id="L455" title="All 2 branches missed.">            if (!queue.offer(chunk)) {</span>
+<span class="nc" id="L456">                queue.poll();</span>
+<span class="nc" id="L457">                queue.offer(chunk);</span>
+            }
+<span class="nc" id="L459">        }</span>
+
+        public void clear() {
+<span class="nc" id="L462">            queue.clear();</span>
+<span class="nc" id="L463">            current = null;</span>
+<span class="nc" id="L464">            cursor = 0;</span>
+<span class="nc" id="L465">        }</span>
+
+        @Override
+        public void calculateBuffer() {
+<span class="nc" id="L469">            int bufferSize = bufOut[0].length;</span>
+<span class="nc bnc" id="L470" title="All 2 branches missed.">            for (int i = 0; i &lt; bufferSize; i++) {</span>
+<span class="nc" id="L471">                float left = 0f, right = 0f;</span>
+<span class="nc bnc" id="L472" title="All 2 branches missed.">                if (ensureDataAvailable()) {</span>
+<span class="nc" id="L473">                    left = current[cursor++];</span>
+<span class="nc bnc" id="L474" title="All 2 branches missed.">                    if (cursor &lt; current.length) {</span>
+<span class="nc" id="L475">                        right = current[cursor++];</span>
+                    } else {
+<span class="nc bnc" id="L477" title="All 2 branches missed.">                        if (ensureDataAvailable()) {</span>
+<span class="nc" id="L478">                            right = current[cursor++];</span>
+<span class="nc bnc" id="L479" title="All 2 branches missed.">                            if (cursor &lt; current.length) cursor++;</span>
+                        }
+                    }
+                }
+<span class="nc" id="L483">                bufOut[0][i] = left;</span>
+<span class="nc bnc" id="L484" title="All 2 branches missed.">                if (bufOut.length &gt; 1) {</span>
+<span class="nc" id="L485">                    bufOut[1][i] = right;</span>
+                }
+            }
+<span class="nc" id="L488">        }</span>
+
+        private boolean ensureDataAvailable() {
+<span class="nc bnc" id="L491" title="All 4 branches missed.">            if (current != null &amp;&amp; cursor + 1 &lt; current.length) return true;</span>
+<span class="nc" id="L492">            current = queue.poll();</span>
+<span class="nc" id="L493">            cursor = 0;</span>
+<span class="nc bnc" id="L494" title="All 4 branches missed.">            return current != null &amp;&amp; current.length &gt;= 2;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

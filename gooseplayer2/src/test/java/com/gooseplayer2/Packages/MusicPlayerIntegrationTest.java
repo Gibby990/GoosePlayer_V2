@@ -1,15 +1,12 @@
 package com.gooseplayer2.Packages;
-
 import com.gooseplayer2.MainFrame;
 import com.gooseplayer2.JPanels.MusicPanel;
 import com.gooseplayer2.JPanels.MusicPlayer;
-
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.fixture.JButtonFixture;
 import org.assertj.swing.fixture.JTreeFixture;
 import org.assertj.swing.core.matcher.JButtonMatcher;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.assertj.swing.timing.Condition;
@@ -18,15 +15,19 @@ import org.assertj.swing.timing.Timeout;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.awt.Dimension;
 import java.util.concurrent.TimeUnit;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class MusicPlayerIntegrationTest {
 
     private FrameFixture window;
+    
+    // === Helper method for assertions with logging ===       
+    private void assertAndLog(boolean condition, String message) {
+    assertTrue(condition, message + " [FAILED]");
+    System.out.println(message + " [SUCCESS]");
+    }
 
     @BeforeEach
     void setUp() {
@@ -43,8 +44,19 @@ class MusicPlayerIntegrationTest {
         window.resizeTo(new Dimension(1200, 800));
     }
 
+
+
     @Test
     void clearQueueThenDragSongFromLibraryToQueue() throws InterruptedException {
+        // ASSERT PLAYER IS UP AND READY 
+        assertAndLog(window != null, "Player is up: FrameFixture initialized");
+        assertAndLog(window.target().isVisible(), "Player is up: Window is visible");
+        assertAndLog("Music Player".equals(window.target().getTitle()), 
+                    "Player is up: Title is 'Music Player'");
+        // Player size check
+        Dimension expected = new Dimension(1200, 800);
+        assertAndLog(expected.equals(window.target().getSize()), 
+                 "Player is up: Window size is 1200x800");
         window.requireVisible();
         window.requireTitle("Music Player");
         //time
@@ -56,18 +68,23 @@ class MusicPlayerIntegrationTest {
         clearButton.click();
         System.out.println("Clear button clicked");
 
-        // Wait for queue to be empty (only root node)
-        Pause.pause(new Condition("Queue is empty") {
+        // === ASSERT: Queue is empty ===
+        JTreeFixture queueTree = window.tree("queueTree");
+
+        Pause.pause(new Condition("Queue is cleared") {
             @Override
             public boolean test() {
-                JTreeFixture queue = window.tree("queueTree");
-                return queue.target().getRowCount() == 1;
+                return queueTree.target().getRowCount() == 1;
             }
-        }, Timeout.timeout(5, TimeUnit.SECONDS));
+        }, Timeout.timeout(3, TimeUnit.SECONDS));
+
+        assertNull(queueTree.target().getPathForRow(1), 
+            "No songs should remain in queue");
+
+        System.out.println("Queue cleared: only root node remains");
 
         // === 2. DRAG FIRST SONG FROM LIBRARY TO QUEUE ===
         JTreeFixture libraryTree = window.tree("libraryTree");
-        JTreeFixture queueTree = window.tree("queueTree");
 
         // Wait for at least one song in library
         Pause.pause(new Condition("Library has songs") {

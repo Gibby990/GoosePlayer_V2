@@ -1,3 +1,4 @@
+com\gooseplayer2\JPanels\RadioPlayer.class
 com\gooseplayer2\Config$2.class
 com\gooseplayer2\Config.class
 com\gooseplayer2\JPanels\FilePanel.class
@@ -19,6 +20,8 @@ com\gooseplayer2\MainFrame$2.class
 com\gooseplayer2\MainFrame.class
 com\gooseplayer2\Packages\FileTransferHandler$FileTransferable.class
 com\gooseplayer2\Main.class
+com\gooseplayer2\JPanels\MusicPanel$2.class
+com\gooseplayer2\JPanels\MusicPanel$Mode.class
 com\gooseplayer2\Packages\Slugcat.class
 com\gooseplayer2\Packages\QueuedFile.class
 com\gooseplayer2\JPanels\MusicPlayer$LoopListener.class
@@ -26,4 +29,5 @@ com\gooseplayer2\JPanels\MusicPlayer$2.class
 com\gooseplayer2\JPanels\MusicPlayer$RemoveListener.class
 com\gooseplayer2\JPanels\MusicPlayer$3.class
 com\gooseplayer2\JPanels\MusicPlayer$SkipListener.class
+com\gooseplayer2\JPanels\RadioPlayer$StreamingUGen.class
 com\gooseplayer2\MainFrame$1.class

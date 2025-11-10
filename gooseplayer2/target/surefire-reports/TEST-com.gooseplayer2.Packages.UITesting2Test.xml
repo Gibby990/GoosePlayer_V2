@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.gooseplayer2.Packages.UITesting2Test" time="22.515" tests="7" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.gooseplayer2.Packages.UITesting2Test" time="22.198" tests="7" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="18"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -16,7 +16,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-18\bin"/>
-    <property name="sun.java.command" value="C:\Users\Cam\AppData\Local\Temp\surefire8438632808623533329\surefirebooter-20251027040651138_3.jar C:\Users\Cam\AppData\Local\Temp\surefire8438632808623533329 2025-10-27T04-06-50_951-jvmRun1 surefire-20251027040651138_1tmp surefire_0-20251027040651138_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\Cam\AppData\Local\Temp\surefire12137484212323502472\surefirebooter-20251110091326386_3.jar C:\Users\Cam\AppData\Local\Temp\surefire12137484212323502472 2025-11-10T09-13-26_208-jvmRun1 surefire-20251110091326386_1tmp surefire_0-20251110091326386_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\target\test-classes;C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\target\classes;C:\Users\Cam\.m2\repository\net\beadsproject\beads\3.2\beads-3.2.jar;C:\Users\Cam\.m2\repository\javazoom\jlayer\1.0.1\jlayer-1.0.1.jar;C:\Users\Cam\.m2\repository\org\clojars\automata\tritonus-aos\1.0.0\tritonus-aos-1.0.0.jar;C:\Users\Cam\.m2\repository\org\clojars\automata\tritonus-share\1.0.0\tritonus-share-1.0.0.jar;C:\Users\Cam\.m2\repository\org\jaudiolibs\audioservers-javasound\2.0.0\audioservers-javasound-2.0.0.jar;C:\Users\Cam\.m2\repository\org\jaudiolibs\audioservers-api\2.0.0\audioservers-api-2.0.0.jar;C:\Users\Cam\.m2\repository\org\jaudiolibs\audioservers-jack\2.0.0\audioservers-jack-2.0.0.jar;C:\Users\Cam\.m2\repository\org\jaudiolibs\jnajack\1.4.0\jnajack-1.4.0.jar;C:\Users\Cam\.m2\repository\net\java\dev\jna\jna\5.18.1\jna-5.18.1.jar;C:\Users\Cam\.m2\repository\com\googlecode\soundlibs\mp3spi\1.9.5.4\mp3spi-1.9.5.4.jar;C:\Users\Cam\.m2\repository\com\googlecode\soundlibs\jlayer\1.0.1.4\jlayer-1.0.1.4.jar;C:\Users\Cam\.m2\repository\junit\junit\3.8.2\junit-3.8.2.jar;C:\Users\Cam\.m2\repository\org\jflac\jflac-codec\1.5.2\jflac-codec-1.5.2.jar;C:\Users\Cam\.m2\repository\com\googlecode\soundlibs\tritonus-share\0.3.7.4\tritonus-share-0.3.7.4.jar;C:\Users\Cam\.m2\repository\com\formdev\flatlaf\3.5.1\flatlaf-3.5.1.jar;C:\Users\Cam\.m2\repository\com\formdev\flatlaf-intellij-themes\3.5.1\flatlaf-intellij-themes-3.5.1.jar;C:\Users\Cam\.m2\repository\net\jthink\jaudiotagger\3.0.1\jaudiotagger-3.0.1.jar;C:\Users\Cam\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.2\junit-jupiter-5.10.2.jar;C:\Users\Cam\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.2\junit-jupiter-api-5.10.2.jar;C:\Users\Cam\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Cam\.m2\repository\org\junit\platform\junit-platform-commons\1.10.2\junit-platform-commons-1.10.2.jar;C:\Users\Cam\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Cam\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.2\junit-jupiter-params-5.10.2.jar;C:\Users\Cam\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.2\junit-jupiter-engine-5.10.2.jar;C:\Users\Cam\.m2\repository\org\junit\platform\junit-platform-engine\1.10.2\junit-platform-engine-1.10.2.jar;C:\Users\Cam\.m2\repository\org\mockito\mockito-core\5.12.0\mockito-core-5.12.0.jar;C:\Users\Cam\.m2\repository\net\bytebuddy\byte-buddy\1.14.15\byte-buddy-1.14.15.jar;C:\Users\Cam\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.15\byte-buddy-agent-1.14.15.jar;C:\Users\Cam\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\Cam\.m2\repository\org\mockito\mockito-junit-jupiter\5.12.0\mockito-junit-jupiter-5.12.0.jar;C:\Users\Cam\.m2\repository\org\mockito\mockito-inline\5.2.0\mockito-inline-5.2.0.jar;C:\Users\Cam\.m2\repository\org\assertj\assertj-core\3.27.4\assertj-core-3.27.4.jar;C:\Users\Cam\.m2\repository\tokyo\northside\assertj-swing\4.0.0-beta-3\assertj-swing-4.0.0-beta-3.jar;C:\Users\Cam\.m2\repository\tokyo\northside\fest-reflect\4.0.0-beta-3\fest-reflect-4.0.0-beta-3.jar;C:\Users\Cam\.m2\repository\org\jetbrains\annotations\23.1.0\annotations-23.1.0.jar;C:\Users\Cam\.m2\repository\tokyo\northside\assertj-swing-junit-jupiter\4.0.0-beta-3\assertj-swing-junit-jupiter-4.0.0-beta-3.jar;C:\Users\Cam\.m2\repository\tokyo\northside\assertj-swing-junit\4.0.0-beta-3\assertj-swing-junit-4.0.0-beta-3.jar;C:\Users\Cam\.m2\repository\commons-codec\commons-codec\1.17.1\commons-codec-1.17.1.jar;C:\Users\Cam\.m2\repository\commons-io\commons-io\2.19.0\commons-io-2.19.0.jar;C:\Users\Cam\.m2\repository\org\awaitility\awaitility\4.2.1\awaitility-4.2.1.jar;C:\Users\Cam\.m2\repository\org\hamcrest\hamcrest\2.1\hamcrest-2.1.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -31,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\Cam\AppData\Local\Temp\surefire8438632808623533329\surefirebooter-20251027040651138_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Cam\AppData\Local\Temp\surefire12137484212323502472\surefirebooter-20251110091326386_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="18+36-2087"/>
@@ -57,7 +57,7 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="62.0"/>
   </properties>
-  <testcase name="loopPlaylistRadioButton_toggle" classname="com.gooseplayer2.Packages.UITesting2Test" time="3.841">
+  <testcase name="loopPlaylistRadioButton_toggle" classname="com.gooseplayer2.Packages.UITesting2Test" time="3.813">
     <system-out><![CDATA[Headless mode: false
 Beads System Buffer size=5000
 Frame set visible, showing: true
@@ -68,10 +68,10 @@ FrameFixture initialized
 loadSong ran
 ]]></system-out>
     <system-err><![CDATA[java.io.IOException: File not found or cannot be read: C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\test1.mp3
-	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:346)
-	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:339)
-	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:925)
-	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:911)
+	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:345)
+	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:338)
+	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:924)
+	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:910)
 	at com.gooseplayer2.Packages.UITesting2Test.setUp(UITesting2Test.java:70)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:577)
@@ -148,7 +148,7 @@ loadSong ran
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 ]]></system-err>
   </testcase>
-  <testcase name="skipButton_clickTriggersAction" classname="com.gooseplayer2.Packages.UITesting2Test" time="3.169">
+  <testcase name="skipButton_clickTriggersAction" classname="com.gooseplayer2.Packages.UITesting2Test" time="3.07">
     <system-out><![CDATA[Headless mode: false
 Beads System Buffer size=5000
 Frame set visible, showing: true
@@ -162,10 +162,10 @@ Queue tree row count before skip: 3
 Skip button clicked via AssertJ-Swing
 ]]></system-out>
     <system-err><![CDATA[java.io.IOException: File not found or cannot be read: C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\test1.mp3
-	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:346)
-	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:339)
-	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:925)
-	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:911)
+	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:345)
+	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:338)
+	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:924)
+	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:910)
 	at com.gooseplayer2.Packages.UITesting2Test.setUp(UITesting2Test.java:70)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:577)
@@ -242,7 +242,7 @@ Skip button clicked via AssertJ-Swing
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 ]]></system-err>
   </testcase>
-  <testcase name="clearButton_clickTriggersAction" classname="com.gooseplayer2.Packages.UITesting2Test" time="3.163">
+  <testcase name="clearButton_clickTriggersAction" classname="com.gooseplayer2.Packages.UITesting2Test" time="3.132">
     <system-out><![CDATA[Headless mode: false
 Beads System Buffer size=5000
 Frame set visible, showing: true
@@ -258,10 +258,10 @@ Clear button clicked via AssertJ-Swing
 Queue tree row count after clear: 1; child count: 0
 ]]></system-out>
     <system-err><![CDATA[java.io.IOException: File not found or cannot be read: C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\test1.mp3
-	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:346)
-	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:339)
-	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:925)
-	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:911)
+	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:345)
+	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:338)
+	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:924)
+	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:910)
 	at com.gooseplayer2.Packages.UITesting2Test.setUp(UITesting2Test.java:70)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:577)
@@ -338,7 +338,7 @@ Queue tree row count after clear: 1; child count: 0
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 ]]></system-err>
   </testcase>
-  <testcase name="loopSongRadioButton_toggle" classname="com.gooseplayer2.Packages.UITesting2Test" time="3.147">
+  <testcase name="loopSongRadioButton_toggle" classname="com.gooseplayer2.Packages.UITesting2Test" time="3.117">
     <system-out><![CDATA[Headless mode: false
 Beads System Buffer size=5000
 Frame set visible, showing: true
@@ -348,7 +348,7 @@ Play button showing: true
 FrameFixture initialized
 loadSong ran
 ]]></system-out>
-    <system-err><![CDATA[Oct 27, 2025 4:07:36 AM org.assertj.swing.monitor.ProtectingTimerTask handleException
+    <system-err><![CDATA[Nov 10, 2025 9:14:11 AM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -370,10 +370,10 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
 java.io.IOException: File not found or cannot be read: C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\test1.mp3
-	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:346)
-	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:339)
-	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:925)
-	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:911)
+	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:345)
+	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:338)
+	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:924)
+	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:910)
 	at com.gooseplayer2.Packages.UITesting2Test.setUp(UITesting2Test.java:70)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:577)
@@ -450,7 +450,7 @@ java.io.IOException: File not found or cannot be read: C:\Users\Cam\Documents\Gi
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 ]]></system-err>
   </testcase>
-  <testcase name="shuffleButton_clickUpdatesText" classname="com.gooseplayer2.Packages.UITesting2Test" time="3.069">
+  <testcase name="shuffleButton_clickUpdatesText" classname="com.gooseplayer2.Packages.UITesting2Test" time="3.038">
     <system-out><![CDATA[Headless mode: false
 Beads System Buffer size=5000
 Frame set visible, showing: true
@@ -464,10 +464,10 @@ Queue shuffled
 Shuffle button clicked via AssertJ-Swing. Hooray!!!!
 ]]></system-out>
     <system-err><![CDATA[java.io.IOException: File not found or cannot be read: C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\test1.mp3
-	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:346)
-	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:339)
-	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:925)
-	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:911)
+	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:345)
+	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:338)
+	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:924)
+	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:910)
 	at com.gooseplayer2.Packages.UITesting2Test.setUp(UITesting2Test.java:70)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:577)
@@ -542,7 +542,7 @@ Shuffle button clicked via AssertJ-Swing. Hooray!!!!
 	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
-Oct 27, 2025 4:07:40 AM org.assertj.swing.monitor.ProtectingTimerTask handleException
+Nov 10, 2025 9:14:15 AM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -565,7 +565,7 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 
 ]]></system-err>
   </testcase>
-  <testcase name="removeButton_clickUpdatesText" classname="com.gooseplayer2.Packages.UITesting2Test" time="3.071">
+  <testcase name="removeButton_clickUpdatesText" classname="com.gooseplayer2.Packages.UITesting2Test" time="3.0">
     <system-out><![CDATA[Headless mode: false
 Beads System Buffer size=5000
 Frame set visible, showing: true
@@ -578,10 +578,10 @@ Found button: Remove, visible: true, showing: true, enabled: true
 Remove button clicked via AssertJ-Swing. Hooray!!!!
 ]]></system-out>
     <system-err><![CDATA[java.io.IOException: File not found or cannot be read: C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\test1.mp3
-	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:346)
-	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:339)
-	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:925)
-	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:911)
+	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:345)
+	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:338)
+	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:924)
+	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:910)
 	at com.gooseplayer2.Packages.UITesting2Test.setUp(UITesting2Test.java:70)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:577)
@@ -656,7 +656,7 @@ Remove button clicked via AssertJ-Swing. Hooray!!!!
 	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
-Oct 27, 2025 4:07:43 AM org.assertj.swing.monitor.ProtectingTimerTask handleException
+Nov 10, 2025 9:14:18 AM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -679,7 +679,7 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 
 ]]></system-err>
   </testcase>
-  <testcase name="playButton_clickUpdatesText" classname="com.gooseplayer2.Packages.UITesting2Test" time="3.027">
+  <testcase name="playButton_clickUpdatesText" classname="com.gooseplayer2.Packages.UITesting2Test" time="3.009">
     <system-out><![CDATA[Headless mode: false
 Beads System Buffer size=5000
 Frame set visible, showing: true
@@ -694,10 +694,10 @@ Playback failed
 Play button clicked via AssertJ-Swing. Hooray!!!!
 ]]></system-out>
     <system-err><![CDATA[java.io.IOException: File not found or cannot be read: C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\test1.mp3
-	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:346)
-	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:339)
-	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:925)
-	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:911)
+	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:345)
+	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:338)
+	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:924)
+	at com.gooseplayer2.JPanels.MusicPlayer.addFilesToTree(MusicPlayer.java:910)
 	at com.gooseplayer2.Packages.UITesting2Test.setUp(UITesting2Test.java:70)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:577)
@@ -772,30 +772,9 @@ Play button clicked via AssertJ-Swing. Hooray!!!!
 	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
-Oct 27, 2025 4:07:46 AM org.assertj.swing.monitor.ProtectingTimerTask handleException
-WARNING: Exception thrown by a TimerTask
-java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
-	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
-	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:297)
-	at java.base/java.lang.reflect.Field.checkCanSetAccessible(Field.java:180)
-	at java.base/java.lang.reflect.Field.setAccessible(Field.java:174)
-	at org.fest.reflect.util.Accessibles$SetAccessibleAction.run(Accessibles.java:70)
-	at org.fest.reflect.util.Accessibles$SetAccessibleAction.run(Accessibles.java:60)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:318)
-	at org.fest.reflect.util.Accessibles.setAccessible(Accessibles.java:57)
-	at org.fest.reflect.util.Accessibles.makeAccessible(Accessibles.java:46)
-	at org.fest.reflect.field.Invoker.verifyCorrectType(Invoker.java:100)
-	at org.fest.reflect.field.Invoker.createInvoker(Invoker.java:76)
-	at org.fest.reflect.field.Invoker.newInvoker(Invoker.java:70)
-	at org.fest.reflect.field.FieldType.in(FieldType.java:74)
-	at org.assertj.swing.monitor.ProtectingTimerTask.isCanceled(ProtectingTimerTask.java:54)
-	at org.assertj.swing.monitor.ProtectingTimerTask.run(ProtectingTimerTask.java:41)
-	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
-	at java.base/java.util.TimerThread.run(Timer.java:516)
-
 java.io.IOException: File not found or cannot be read: C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\test1.mp3
-	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:346)
-	at com.gooseplayer2.JPanels.MusicPlayer.play(MusicPlayer.java:393)
+	at com.gooseplayer2.JPanels.MusicPlayer.loadSong(MusicPlayer.java:345)
+	at com.gooseplayer2.JPanels.MusicPlayer.play(MusicPlayer.java:392)
 	at com.gooseplayer2.JPanels.MusicPlayer$PlayPauseListener.actionPerformed(MusicPlayer.java:290)
 	at java.desktop/javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972)
 	at java.desktop/javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2313)
@@ -832,6 +811,27 @@ java.io.IOException: File not found or cannot be read: C:\Users\Cam\Documents\Gi
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+Nov 10, 2025 9:14:21 AM org.assertj.swing.monitor.ProtectingTimerTask handleException
+WARNING: Exception thrown by a TimerTask
+java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:297)
+	at java.base/java.lang.reflect.Field.checkCanSetAccessible(Field.java:180)
+	at java.base/java.lang.reflect.Field.setAccessible(Field.java:174)
+	at org.fest.reflect.util.Accessibles$SetAccessibleAction.run(Accessibles.java:70)
+	at org.fest.reflect.util.Accessibles$SetAccessibleAction.run(Accessibles.java:60)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:318)
+	at org.fest.reflect.util.Accessibles.setAccessible(Accessibles.java:57)
+	at org.fest.reflect.util.Accessibles.makeAccessible(Accessibles.java:46)
+	at org.fest.reflect.field.Invoker.verifyCorrectType(Invoker.java:100)
+	at org.fest.reflect.field.Invoker.createInvoker(Invoker.java:76)
+	at org.fest.reflect.field.Invoker.newInvoker(Invoker.java:70)
+	at org.fest.reflect.field.FieldType.in(FieldType.java:74)
+	at org.assertj.swing.monitor.ProtectingTimerTask.isCanceled(ProtectingTimerTask.java:54)
+	at org.assertj.swing.monitor.ProtectingTimerTask.run(ProtectingTimerTask.java:41)
+	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
+	at java.base/java.util.TimerThread.run(Timer.java:516)
+
 ]]></system-err>
   </testcase>
 </testsuite>

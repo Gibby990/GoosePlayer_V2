@@ -18,160 +18,183 @@ public class MusicPanel extends JPanel {
     private GridBagConstraints gbc;
     private Border outline;
     private String loadedStyle, monoChannelName, multiChannel1Name, multiChannel2Name, multiChannel3Name;
-    private boolean isMultichannel;
     private FilePanel filePanel;
     private Properties p;
     private FileReader reader;
     private MusicPlayer player1, player2, player3;
-<span class="fc" id="L26">    private boolean[] playerMuted = new boolean[3]; </span>
+<span class="fc" id="L25">    private boolean[] playerMuted = new boolean[3]; </span>
+    private Mode mode;
 
-<span class="fc" id="L28">    public MusicPanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException {</span>
+<span class="fc" id="L28">    private enum Mode { MONO, MULTI, RADIO }</span>
 
-<span class="fc" id="L30">        layout = new GridBagLayout();</span>
-<span class="fc" id="L31">        gbc = new GridBagConstraints();</span>
-<span class="fc" id="L32">        setLayout(layout);</span>
+<span class="fc" id="L30">    public MusicPanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException {</span>
 
-<span class="fc" id="L34">        filePanel = new FilePanel();</span>
-<span class="fc" id="L35">        this.setName(&quot;musicPanel&quot;);  // to identify in tests</span>
+<span class="fc" id="L32">        layout = new GridBagLayout();</span>
+<span class="fc" id="L33">        gbc = new GridBagConstraints();</span>
+<span class="fc" id="L34">        setLayout(layout);</span>
 
-<span class="fc" id="L37">        outline = BorderFactory.createLineBorder(Color.BLACK);</span>
-<span class="fc" id="L38">        Slugcat Monk = new Slugcat();</span>
+<span class="fc" id="L36">        filePanel = new FilePanel();</span>
+<span class="fc" id="L37">        this.setName(&quot;musicPanel&quot;);  // to identify in tests</span>
+
+<span class="fc" id="L39">        outline = BorderFactory.createLineBorder(Color.BLACK);</span>
+<span class="fc" id="L40">        Slugcat Monk = new Slugcat();</span>
 
         // Importing Settings
 
-<span class="fc" id="L42">        reader = new FileReader(Config.SETTINGS_FILE_PATH);</span>
-<span class="fc" id="L43">        p = new Properties();</span>
-<span class="fc" id="L44">        p.load(reader);</span>
+<span class="fc" id="L44">        reader = new FileReader(Config.SETTINGS_FILE_PATH);</span>
+<span class="fc" id="L45">        p = new Properties();</span>
+<span class="fc" id="L46">        p.load(reader);</span>
 
-<span class="fc" id="L46">        loadedStyle = p.getProperty(&quot;style&quot;);</span>
-<span class="pc bpc" id="L47" title="1 of 2 branches missed.">        if (loadedStyle.equals(&quot;Multichannel&quot;)) isMultichannel = true;</span>
+<span class="fc" id="L48">        loadedStyle = p.getProperty(&quot;style&quot;);</span>
 
-<span class="fc" id="L49">        monoChannelName = p.getProperty(&quot;monochannelname&quot;);</span>
-<span class="fc" id="L50">        multiChannel1Name = p.getProperty(&quot;multichannel1name&quot;);</span>
-<span class="fc" id="L51">        multiChannel2Name = p.getProperty(&quot;multichannel2name&quot;);</span>
-<span class="fc" id="L52">        multiChannel3Name = p.getProperty(&quot;multichannel3name&quot;);</span>
+<span class="fc" id="L50">        monoChannelName = p.getProperty(&quot;monochannelname&quot;);</span>
+<span class="fc" id="L51">        multiChannel1Name = p.getProperty(&quot;multichannel1name&quot;);</span>
+<span class="fc" id="L52">        multiChannel2Name = p.getProperty(&quot;multichannel2name&quot;);</span>
+<span class="fc" id="L53">        multiChannel3Name = p.getProperty(&quot;multichannel3name&quot;);</span>
 
-        //Determine Style
+<span class="fc" id="L55">        gbc.fill = GridBagConstraints.BOTH;</span>
+<span class="fc" id="L56">        gbc.weightx = 1.0; </span>
+<span class="fc" id="L57">        gbc.weighty = 1.0;</span>
 
-<span class="pc bpc" id="L56" title="1 of 2 branches missed.">        if (isMultichannel) {</span>
-            try {
-<span class="nc" id="L58">                player1 = new MusicPlayer(filePanel, true, multiChannel1Name);</span>
-<span class="nc" id="L59">                player2 = new MusicPlayer(filePanel, true, multiChannel2Name);</span>
-<span class="nc" id="L60">                player3 = new MusicPlayer(filePanel, true, multiChannel3Name);</span>
-<span class="nc" id="L61">            } catch (Exception e) {</span>
-<span class="nc" id="L62">                e.printStackTrace();</span>
-<span class="nc" id="L63">            }</span>
+<span class="fc" id="L59">        mode = determineMode(loadedStyle);</span>
 
-<span class="nc" id="L65">            player1.setBorder(outline);</span>
-<span class="nc" id="L66">            player2.setBorder(outline);</span>
-<span class="nc" id="L67">            player3.setBorder(outline);</span>
+<span class="pc bpc" id="L61" title="2 of 3 branches missed.">        switch (mode) {</span>
+            case RADIO: {
+<span class="nc" id="L63">                RadioPlayer radioPlayer = new RadioPlayer();</span>
+<span class="nc" id="L64">                radioPlayer.setBorder(outline);</span>
+<span class="nc" id="L65">                Monk.addObjects(radioPlayer, this, layout, gbc, 0, 0, 1, 1);</span>
+<span class="nc" id="L66">                break;</span>
+            }
+            case MULTI: {
+                try {
+<span class="nc" id="L70">                    player1 = new MusicPlayer(filePanel, true, multiChannel1Name);</span>
+<span class="nc" id="L71">                    player2 = new MusicPlayer(filePanel, true, multiChannel2Name);</span>
+<span class="nc" id="L72">                    player3 = new MusicPlayer(filePanel, true, multiChannel3Name);</span>
+<span class="nc" id="L73">                } catch (Exception e) {</span>
+<span class="nc" id="L74">                    e.printStackTrace();</span>
+<span class="nc" id="L75">                }</span>
+<span class="nc" id="L76">                player1.setBorder(outline);</span>
+<span class="nc" id="L77">                player2.setBorder(outline);</span>
+<span class="nc" id="L78">                player3.setBorder(outline);</span>
 
-<span class="nc" id="L69">            gbc.fill = GridBagConstraints.BOTH;</span>
-<span class="nc" id="L70">            gbc.weightx = 1.0; </span>
-<span class="nc" id="L71">            gbc.weighty = 1.0;</span>
-
-<span class="nc" id="L73">            Monk.addObjects(player1, this, layout, gbc, 0, 0, 1, 1);</span>
-<span class="nc" id="L74">            Monk.addObjects(player2, this, layout, gbc, 0, 1, 1, 1);</span>
-<span class="nc" id="L75">            Monk.addObjects(player3, this, layout, gbc, 0, 2, 1, 1);</span>
-
-        } else { // Go to Monochannel by default
-            try {
-<span class="fc" id="L79">                player1 = new MusicPlayer(filePanel, false, monoChannelName);</span>
-<span class="nc" id="L80">            } catch (Exception e) {</span>
-<span class="nc" id="L81">                e.printStackTrace();</span>
-<span class="fc" id="L82">            }</span>
-
-<span class="fc" id="L84">            player1.setBorder(outline);</span>
-
-<span class="fc" id="L86">            gbc.fill = GridBagConstraints.BOTH;</span>
-<span class="fc" id="L87">            gbc.weightx = 1.0; </span>
-<span class="fc" id="L88">            gbc.weighty = 1.0;</span>
-
-<span class="fc" id="L90">            Monk.addObjects(player1, this, layout, gbc, 0, 0, 1, 1);</span>
-
+<span class="nc" id="L80">                Monk.addObjects(player1, this, layout, gbc, 0, 0, 1, 1);</span>
+<span class="nc" id="L81">                Monk.addObjects(player2, this, layout, gbc, 0, 1, 1, 1);</span>
+<span class="nc" id="L82">                Monk.addObjects(player3, this, layout, gbc, 0, 2, 1, 1);</span>
+<span class="nc" id="L83">                break;</span>
+            }
+            case MONO:
+            default: {
+                try {
+<span class="fc" id="L88">                    player1 = new MusicPlayer(filePanel, false, monoChannelName);</span>
+<span class="nc" id="L89">                } catch (Exception e) {</span>
+<span class="nc" id="L90">                    e.printStackTrace();</span>
+<span class="fc" id="L91">                }</span>
+<span class="fc" id="L92">                player1.setBorder(outline);</span>
+<span class="fc" id="L93">                Monk.addObjects(player1, this, layout, gbc, 0, 0, 1, 1);</span>
+                break;
+            }
         }
 
-<span class="fc" id="L94">        addGlobalKeyListener();</span>
-<span class="fc" id="L95">    }    </span>
+<span class="fc" id="L98">        addGlobalKeyListener();</span>
+<span class="fc" id="L99">    }    </span>
 
     private void addGlobalKeyListener() {
-<span class="fc" id="L98">        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {</span>
+<span class="fc" id="L102">        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {</span>
             @Override
             public boolean dispatchKeyEvent(KeyEvent e) {
-<span class="nc bnc" id="L101" title="All 2 branches missed.">                if (e.getID() == KeyEvent.KEY_PRESSED) {</span>
-<span class="nc" id="L102">                    handleKeyPress(e);</span>
-<span class="nc" id="L103">                    return true; </span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">                if (e.getID() == KeyEvent.KEY_PRESSED) {</span>
+<span class="nc" id="L106">                    handleKeyPress(e);</span>
+<span class="nc" id="L107">                    return true; </span>
                 }
-<span class="nc" id="L105">                return false; </span>
+<span class="nc" id="L109">                return false; </span>
             }
         });
-<span class="fc" id="L108">    }</span>
+<span class="fc" id="L112">    }</span>
 
     private void handleKeyPress(KeyEvent e) {
-<span class="nc" id="L111">        int keyCode = e.getKeyCode();</span>
-<span class="nc" id="L112">        System.out.println(keyCode);</span>
-<span class="nc" id="L113">        boolean ctrlDown = e.isControlDown();</span>
-<span class="nc" id="L114">        boolean shiftDown = e.isShiftDown();</span>
+<span class="nc" id="L115">        int keyCode = e.getKeyCode();</span>
+<span class="nc" id="L116">        System.out.println(keyCode);</span>
+<span class="nc" id="L117">        boolean ctrlDown = e.isControlDown();</span>
+<span class="nc" id="L118">        boolean shiftDown = e.isShiftDown();</span>
 
-<span class="nc bnc" id="L116" title="All 4 branches missed.">        if (ctrlDown &amp;&amp; shiftDown) {</span>
-<span class="nc bnc" id="L117" title="All 4 branches missed.">            switch (keyCode) {</span>
+<span class="nc bnc" id="L120" title="All 4 branches missed.">        if (ctrlDown &amp;&amp; shiftDown) {</span>
+<span class="nc bnc" id="L121" title="All 4 branches missed.">            switch (keyCode) {</span>
                 case KeyEvent.VK_P:
-<span class="nc" id="L119">                    startAllPlayers();</span>
-<span class="nc" id="L120">                    break;</span>
+<span class="nc" id="L123">                    startAllPlayers();</span>
+<span class="nc" id="L124">                    break;</span>
                 case KeyEvent.VK_S:
-<span class="nc" id="L122">                    pauseAllPlayers();</span>
-<span class="nc" id="L123">                    break;</span>
+<span class="nc" id="L126">                    pauseAllPlayers();</span>
+<span class="nc" id="L127">                    break;</span>
                 case KeyEvent.VK_1:
                 case KeyEvent.VK_2:
                 case KeyEvent.VK_3:
-<span class="nc" id="L127">                    muteSelectedPlayer(keyCode - KeyEvent.VK_0); </span>
+<span class="nc" id="L131">                    muteSelectedPlayer(keyCode - KeyEvent.VK_0); </span>
                     break;
             }
         }
-<span class="nc" id="L131">    }</span>
+<span class="nc" id="L135">    }</span>
 
     private void muteSelectedPlayer(int playerNumber) {
-<span class="nc" id="L134">        MusicPlayer player = getPlayerByNumber(playerNumber);</span>
-<span class="nc bnc" id="L135" title="All 2 branches missed.">        if (player != null) {</span>
-<span class="nc" id="L136">            int index = playerNumber - 1; </span>
-<span class="nc bnc" id="L137" title="All 2 branches missed.">            playerMuted[index] = !playerMuted[index];</span>
-<span class="nc bnc" id="L138" title="All 2 branches missed.">            if (playerMuted[index]) {</span>
-<span class="nc" id="L139">                player.mute();</span>
-<span class="nc" id="L140">                System.out.println(&quot;Player &quot; + playerNumber + &quot; muted&quot;);</span>
+<span class="nc" id="L138">        MusicPlayer player = getPlayerByNumber(playerNumber);</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">        if (player != null) {</span>
+<span class="nc" id="L140">            int index = playerNumber - 1; </span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">            playerMuted[index] = !playerMuted[index];</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">            if (playerMuted[index]) {</span>
+<span class="nc" id="L143">                player.mute();</span>
+<span class="nc" id="L144">                System.out.println(&quot;Player &quot; + playerNumber + &quot; muted&quot;);</span>
             } else {
-<span class="nc" id="L142">                player.unmute();</span>
-<span class="nc" id="L143">                System.out.println(&quot;Player &quot; + playerNumber + &quot; unmuted&quot;);</span>
+<span class="nc" id="L146">                player.unmute();</span>
+<span class="nc" id="L147">                System.out.println(&quot;Player &quot; + playerNumber + &quot; unmuted&quot;);</span>
             }
         }
-<span class="nc" id="L146">    }</span>
+<span class="nc" id="L150">    }</span>
 
     private MusicPlayer getPlayerByNumber(int number) {
-<span class="nc bnc" id="L149" title="All 4 branches missed.">        switch (number) {</span>
-<span class="nc" id="L150">            case 1: return player1;</span>
-<span class="nc" id="L151">            case 2: return player2;</span>
-<span class="nc" id="L152">            case 3: return player3;</span>
-<span class="nc" id="L153">            default: return null;</span>
+<span class="nc bnc" id="L153" title="All 4 branches missed.">        switch (number) {</span>
+<span class="nc" id="L154">            case 1: return player1;</span>
+<span class="nc" id="L155">            case 2: return player2;</span>
+<span class="nc" id="L156">            case 3: return player3;</span>
+<span class="nc" id="L157">            default: return null;</span>
         }
     }
 
     private void startAllPlayers() {
-<span class="nc" id="L158">        player1.play();</span>
-<span class="nc" id="L159">        player2.play();</span>
-<span class="nc" id="L160">        player3.play();</span>
-<span class="nc" id="L161">    }</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">        for (MusicPlayer p : getPlayers()) {</span>
+<span class="nc" id="L163">            p.play();</span>
+<span class="nc" id="L164">        }</span>
+<span class="nc" id="L165">    }</span>
 
     private void pauseAllPlayers() {
-<span class="nc" id="L164">        player1.pause();</span>
-<span class="nc" id="L165">        player2.pause();</span>
-<span class="nc" id="L166">        player3.pause();</span>
-<span class="nc" id="L167">    }</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        for (MusicPlayer p : getPlayers()) {</span>
+<span class="nc" id="L169">            p.pause();</span>
+<span class="nc" id="L170">        }</span>
+<span class="nc" id="L171">    }</span>
 
     public java.util.List&lt;MusicPlayer&gt; getPlayers() {
-<span class="fc" id="L170">        java.util.List&lt;MusicPlayer&gt; players = new java.util.ArrayList&lt;&gt;();</span>
-<span class="pc bpc" id="L171" title="1 of 2 branches missed.">        if (player1 != null) players.add(player1);</span>
-<span class="pc bpc" id="L172" title="1 of 2 branches missed.">        if (player2 != null) players.add(player2);</span>
-<span class="pc bpc" id="L173" title="1 of 2 branches missed.">        if (player3 != null) players.add(player3);</span>
-<span class="fc" id="L174">        return players;</span>
+<span class="fc" id="L174">        java.util.List&lt;MusicPlayer&gt; players = new java.util.ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">        if (player1 != null) players.add(player1);</span>
+<span class="pc bpc" id="L176" title="1 of 2 branches missed.">        if (player2 != null) players.add(player2);</span>
+<span class="pc bpc" id="L177" title="1 of 2 branches missed.">        if (player3 != null) players.add(player3);</span>
+<span class="fc" id="L178">        return players;</span>
+    }
+
+    private Mode determineMode(String rawStyle) {
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">        if (rawStyle == null) {</span>
+<span class="nc" id="L183">            return Mode.MONO;</span>
+        }
+<span class="fc" id="L185">        String style = rawStyle.trim().toLowerCase();</span>
+<span class="pc bpc" id="L186" title="1 of 2 branches missed.">        if (style.equals(&quot;radio&quot;)) {</span>
+<span class="nc" id="L187">            return Mode.RADIO;</span>
+        }
+<span class="pc bpc" id="L189" title="3 of 6 branches missed.">        if (style.equals(&quot;multi&quot;) || style.equals(&quot;multichannel&quot;) || style.equals(&quot;multi-channel&quot;) ||</span>
+<span class="pc bpc" id="L190" title="3 of 6 branches missed.">            style.equals(&quot;multi_channel&quot;) || style.equals(&quot;channels&quot;) || style.equals(&quot;channel&quot;)) {</span>
+<span class="nc" id="L191">            return Mode.MULTI;</span>
+        }
+<span class="fc" id="L193">        return Mode.MONO;</span>
+    }
+
+    public boolean isRadioMode() {
+<span class="pc bpc" id="L197" title="1 of 2 branches missed.">        return mode == Mode.RADIO;</span>
     }
 }
 

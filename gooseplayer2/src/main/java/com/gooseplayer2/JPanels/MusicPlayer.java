@@ -334,7 +334,6 @@ public class MusicPlayer extends JPanel {
     }
 
     // Other methods
-    //changed to public for testing
     public void loadSong() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         System.out.println("loadSong ran");
         queuedFile = Queue.peek();
@@ -508,7 +507,7 @@ public class MusicPlayer extends JPanel {
         }
     }
 
-    private void clear() {
+    public void clear() {
         stopCurrentPlayback();
 
         Queue.empty();
@@ -520,7 +519,7 @@ public class MusicPlayer extends JPanel {
         System.out.println("Queue cleared");
     }
 
-	private void shuffleQueue() {
+	public void shuffleQueue() {
 		if (Queue.size() <= 1) return;
 		Queue.shuffle();
 		refreshQueueInJTree();
