@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.gooseplayer2.Packages.MusicPlayerIntegrationTest" time="29.752" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.gooseplayer2.Packages.MethodsTest" time="6.991" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="18"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -57,58 +57,10 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="62.0"/>
   </properties>
-  <testcase name="clearQueueThenDragSongFromLibraryToQueue" classname="com.gooseplayer2.Packages.MusicPlayerIntegrationTest" time="29.747">
+  <testcase name="clickingPlayButtonCallsPlay" classname="com.gooseplayer2.Packages.MethodsTest" time="6.946">
     <system-out><![CDATA[Beads System Buffer size=5000
-Player is up: FrameFixture initialized [SUCCESS]
-Player is up: Window is visible [SUCCESS]
-Player is up: Title is 'Music Player' [SUCCESS]
-Player is up: Window size is 1200x800 [SUCCESS]
-Queue cleared
-Clear button clicked
-Queue cleared: only root node remains
-Dragging: Library/1 Believe (Janes Theme).mp3
-loadSong ran
-Sample loaded C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\Library\1 Believe (Janes Theme).mp3
-Song loaded: 1 Believe (Janes Theme).mp3
-Playback started
-Beads Output buffer size=40000
-Play button clicked
-updateTime() called. Current position: 0 seconds.
-updateTime() called. Current position: 1 seconds.
-updateTime() called. Current position: 2 seconds.
-Pause pressed
-Pause button clicked
-Playback started
-Play button clicked
-updateTime() called. Current position: 4 seconds.
-updateTime() called. Current position: 5 seconds.
-No more tracks in queue.
-Skip button clicked
-Selecting song in queue: Queue/1 Believe (Janes Theme)
-Remove button clicked
-SUCCESSFUL Test!. Window closes in 5s...
+Beads System Buffer size=5000
+Play count: 1
 ]]></system-out>
-    <system-err><![CDATA[Nov 12, 2025 3:11:19 AM org.assertj.swing.monitor.ProtectingTimerTask handleException
-WARNING: Exception thrown by a TimerTask
-java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
-	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
-	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:297)
-	at java.base/java.lang.reflect.Field.checkCanSetAccessible(Field.java:180)
-	at java.base/java.lang.reflect.Field.setAccessible(Field.java:174)
-	at org.fest.reflect.util.Accessibles$SetAccessibleAction.run(Accessibles.java:70)
-	at org.fest.reflect.util.Accessibles$SetAccessibleAction.run(Accessibles.java:60)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:318)
-	at org.fest.reflect.util.Accessibles.setAccessible(Accessibles.java:57)
-	at org.fest.reflect.util.Accessibles.makeAccessible(Accessibles.java:46)
-	at org.fest.reflect.field.Invoker.verifyCorrectType(Invoker.java:100)
-	at org.fest.reflect.field.Invoker.createInvoker(Invoker.java:76)
-	at org.fest.reflect.field.Invoker.newInvoker(Invoker.java:70)
-	at org.fest.reflect.field.FieldType.in(FieldType.java:74)
-	at org.assertj.swing.monitor.ProtectingTimerTask.isCanceled(ProtectingTimerTask.java:54)
-	at org.assertj.swing.monitor.ProtectingTimerTask.run(ProtectingTimerTask.java:41)
-	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
-	at java.base/java.util.TimerThread.run(Timer.java:516)
-
-]]></system-err>
   </testcase>
 </testsuite>

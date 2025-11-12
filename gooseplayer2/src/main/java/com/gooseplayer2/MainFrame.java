@@ -46,6 +46,8 @@ public class MainFrame extends JFrame {
     
     private Desktop desktop;
     private Slugcat Survivor;
+    //testing
+    private MusicPanel musicPanel;
 
     public MainFrame() throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException {
         super("Music Player");
@@ -137,7 +139,8 @@ public class MainFrame extends JFrame {
 
         Survivor = new Slugcat();
 
-        MusicPanel musicPanel = new MusicPanel();
+        //MusicPanel musicPanel = new MusicPanel();
+        this.musicPanel = new MusicPanel();
         if (!musicPanel.isRadioMode()) {
             filePanel = new FilePanel();
         } else {
@@ -281,5 +284,8 @@ public class MainFrame extends JFrame {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+    public MusicPanel getMusicPanel() {
+        return musicPanel;
     }
 }

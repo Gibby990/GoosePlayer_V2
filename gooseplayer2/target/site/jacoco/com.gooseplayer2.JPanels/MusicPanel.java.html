@@ -196,6 +196,108 @@ public class MusicPanel extends JPanel {
     public boolean isRadioMode() {
 <span class="pc bpc" id="L197" title="1 of 2 branches missed.">        return mode == Mode.RADIO;</span>
     }
+        // --------------------------------------------------------------------
+    // TEST-ONLY: Allows swapping a real MusicPlayer with a spy in tests
+    // --------------------------------------------------------------------
+    public void setPlayerForTest(int index, MusicPlayer player) {
+<span class="pc bpc" id="L203" title="3 of 4 branches missed.">        switch (index) {</span>
+<span class="fc" id="L204">            case 0 -&gt; player1 = player;</span>
+<span class="nc" id="L205">            case 1 -&gt; player2 = player;</span>
+<span class="nc" id="L206">            case 2 -&gt; player3 = player;</span>
+        }
+<span class="fc" id="L208">    }</span>
+    // Fingers crossed this works
+// Add this method to MusicPanel class
+    /*public void replacePlayer(int index, MusicPlayer newPlayer) {
+        MusicPlayer oldPlayer = null;
+        switch (index) {
+            case 0 -&gt; { oldPlayer = player1; player1 = newPlayer; }
+            case 1 -&gt; { oldPlayer = player2; player2 = newPlayer; }
+            case 2 -&gt; { oldPlayer = player3; player3 = newPlayer; }
+        }
+
+        if (oldPlayer != null) {
+            remove(oldPlayer);
+        }
+        if (newPlayer != null) {
+            newPlayer.setBorder(outline);
+            Slugcat Monk = new Slugcat();
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.weightx = 1.0;
+            gbc.weighty = 1.0;
+            switch (index) {
+                case 0 -&gt; Monk.addObjects(newPlayer, this, layout, gbc, 0, 0, 1, 1);
+                case 1 -&gt; Monk.addObjects(newPlayer, this, layout, gbc, 0, 1, 1, 1);
+                case 2 -&gt; Monk.addObjects(newPlayer, this, layout, gbc, 0, 2, 1, 1);
+            }
+        }
+        revalidate();
+        repaint();
+    }
+    // In MusicPanel.java
+    public void rebuildPlayerUI(int index) {
+        MusicPlayer player = switch (index) {
+            case 0 -&gt; player1;
+            case 1 -&gt; player2;
+            case 2 -&gt; player3;
+            default -&gt; null;
+        };
+
+        if (player == null) return;
+
+        // Remove old UI
+        removeAll();
+
+        // Rebuild layout
+        Slugcat Monk = new Slugcat();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+
+        switch (mode) {
+            case MULTI -&gt; {
+                if (player1 != null) Monk.addObjects(player1, this, layout, gbc, 0, 0, 1, 1);
+                if (player2 != null) Monk.addObjects(player2, this, layout, gbc, 0, 1, 1, 1);
+                if (player3 != null) Monk.addObjects(player3, this, layout, gbc, 0, 2, 1, 1);
+            }
+            case MONO -&gt; {
+                if (player1 != null) Monk.addObjects(player1, this, layout, gbc, 0, 0, 1, 1);
+            }
+        }
+
+        revalidate();
+        repaint();
+    }*/
+    // Add this method to MusicPanel
+public void rebuildPlayerUI(int index) {
+<span class="pc bpc" id="L273" title="3 of 4 branches missed.">    MusicPlayer player = switch (index) {</span>
+<span class="fc" id="L274">        case 0 -&gt; player1;</span>
+<span class="nc" id="L275">        case 1 -&gt; player2;</span>
+<span class="nc" id="L276">        case 2 -&gt; player3;</span>
+<span class="pc" id="L277">        default -&gt; null;</span>
+    };
+<span class="pc bpc" id="L279" title="1 of 2 branches missed.">    if (player == null) return;</span>
+
+    // Remove old player UI
+<span class="fc" id="L282">    removeAll();</span>
+
+    // Re-add all players
+<span class="fc" id="L285">    Slugcat Monk = new Slugcat();</span>
+<span class="fc" id="L286">    gbc.fill = GridBagConstraints.BOTH;</span>
+<span class="fc" id="L287">    gbc.weightx = 1.0;</span>
+<span class="fc" id="L288">    gbc.weighty = 1.0;</span>
+
+<span class="pc bpc" id="L290" title="1 of 2 branches missed.">    if (mode == Mode.MULTI) {</span>
+<span class="nc bnc" id="L291" title="All 2 branches missed.">        if (player1 != null) Monk.addObjects(player1, this, layout, gbc, 0, 0, 1, 1);</span>
+<span class="nc bnc" id="L292" title="All 2 branches missed.">        if (player2 != null) Monk.addObjects(player2, this, layout, gbc, 0, 1, 1, 1);</span>
+<span class="nc bnc" id="L293" title="All 2 branches missed.">        if (player3 != null) Monk.addObjects(player3, this, layout, gbc, 0, 2, 1, 1);</span>
+    } else {
+<span class="pc bpc" id="L295" title="1 of 2 branches missed.">        if (player1 != null) Monk.addObjects(player1, this, layout, gbc, 0, 0, 1, 1);</span>
+    }
+
+<span class="fc" id="L298">    revalidate();</span>
+<span class="fc" id="L299">    repaint();</span>
+<span class="fc" id="L300">}</span>
 }
 
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -28,7 +28,7 @@ import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.images.Artwork;
 
 
-public class MusicPlayer extends JPanel {
+public class MusicPlayer extends JPanel implements AudioPlayer{
 
 	// UI Components
 	public JButton PlayPause;
@@ -385,695 +385,712 @@ public class MusicPlayer extends JPanel {
 <span class="fc" id="L385">        }</span>
 <span class="fc" id="L386">    }</span>
 
+    @Override
     public void play() {
-<span class="pc bpc" id="L389" title="2 of 4 branches missed.">        if (!isPlaying &amp;&amp; !Queue.isEmpty()) {</span>
+<span class="pc bpc" id="L390" title="1 of 4 branches missed.">        if (!isPlaying &amp;&amp; !Queue.isEmpty()) {</span>
             try {
-<span class="fc bfc" id="L391" title="All 2 branches covered.">                if (!songLoaded) {</span>
-<span class="nc" id="L392">                    loadSong();</span>
+<span class="fc bfc" id="L392" title="All 2 branches covered.">                if (!songLoaded) {</span>
+<span class="nc" id="L393">                    loadSong();</span>
                 }
-<span class="fc bfc" id="L394" title="All 2 branches covered.">                if (!ac.isRunning()) {</span>
-<span class="fc" id="L395">                    ac.start();</span>
-                }
-                
-<span class="pc bpc" id="L398" title="1 of 2 branches missed.">                if (sp != null) {</span>
-<span class="fc" id="L399">                    ac.out.removeAllConnections(sp);</span>
-<span class="fc" id="L400">                    ac.out.addInput(sp);</span>
+<span class="fc bfc" id="L395" title="All 2 branches covered.">                if (!ac.isRunning()) {</span>
+<span class="fc" id="L396">                    ac.start();</span>
                 }
                 
-<span class="fc" id="L403">                int retries = 3;</span>
-<span class="pc bpc" id="L404" title="1 of 2 branches missed.">                while (retries &gt; 0) {</span>
+<span class="pc bpc" id="L399" title="1 of 2 branches missed.">                if (sp != null) {</span>
+<span class="fc" id="L400">                    ac.out.removeAllConnections(sp);</span>
+<span class="fc" id="L401">                    ac.out.addInput(sp);</span>
+                }
+                
+<span class="fc" id="L404">                int retries = 3;</span>
+<span class="pc bpc" id="L405" title="1 of 2 branches missed.">                while (retries &gt; 0) {</span>
                     try {
-<span class="fc" id="L406">                        sp.start();</span>
-<span class="fc" id="L407">                        break;</span>
-<span class="nc" id="L408">                    } catch (NullPointerException e) {</span>
-<span class="nc" id="L409">                        System.err.println(&quot;Error starting playback. Retrying... (&quot; + retries + &quot; attempts left)&quot;);</span>
-<span class="nc" id="L410">                        retries--;</span>
-<span class="nc bnc" id="L411" title="All 2 branches missed.">                        if (retries == 0) {</span>
-<span class="nc" id="L412">                            throw e;</span>
+<span class="fc" id="L407">                        sp.start();</span>
+<span class="fc" id="L408">                        break;</span>
+<span class="nc" id="L409">                    } catch (NullPointerException e) {</span>
+<span class="nc" id="L410">                        System.err.println(&quot;Error starting playback. Retrying... (&quot; + retries + &quot; attempts left)&quot;);</span>
+<span class="nc" id="L411">                        retries--;</span>
+<span class="nc bnc" id="L412" title="All 2 branches missed.">                        if (retries == 0) {</span>
+<span class="nc" id="L413">                            throw e;</span>
                         }
-<span class="nc" id="L414">                        Thread.sleep(1000); </span>
-<span class="nc" id="L415">                    }</span>
+<span class="nc" id="L415">                        Thread.sleep(1000); </span>
+<span class="nc" id="L416">                    }</span>
                 }
 
-<span class="fc" id="L418">                updateTimeTimer.start();</span>
-<span class="fc" id="L419">                isPlaying = true;</span>
-<span class="fc" id="L420">                isPaused = false;</span>
-<span class="fc" id="L421">                updatePlayPauseButtonLabel();</span>
-<span class="fc" id="L422">                SwingUtilities.invokeLater(() -&gt; System.out.println(&quot;Playback started&quot;));</span>
-<span class="fc" id="L423">                preloadNextSong();</span>
-<span class="fc" id="L424">            } catch (Exception ex) {</span>
-<span class="fc" id="L425">                ex.printStackTrace();</span>
-<span class="fc" id="L426">                SwingUtilities.invokeLater(() -&gt; System.out.println(&quot;Playback failed&quot;));</span>
-<span class="fc" id="L427">                resetCurrentSongData();</span>
-<span class="fc" id="L428">            }</span>
-<span class="nc bnc" id="L429" title="All 2 branches missed.">        } else if (isPaused) {</span>
-<span class="nc" id="L430">            resume();</span>
+<span class="fc" id="L419">                updateTimeTimer.start();</span>
+<span class="fc" id="L420">                isPlaying = true;</span>
+<span class="fc" id="L421">                isPaused = false;</span>
+<span class="fc" id="L422">                updatePlayPauseButtonLabel();</span>
+<span class="fc" id="L423">                SwingUtilities.invokeLater(() -&gt; System.out.println(&quot;Playback started&quot;));</span>
+<span class="fc" id="L424">                preloadNextSong();</span>
+<span class="fc" id="L425">            } catch (Exception ex) {</span>
+<span class="fc" id="L426">                ex.printStackTrace();</span>
+<span class="fc" id="L427">                SwingUtilities.invokeLater(() -&gt; System.out.println(&quot;Playback failed&quot;));</span>
+<span class="fc" id="L428">                resetCurrentSongData();</span>
+<span class="fc" id="L429">            }</span>
+<span class="pc bpc" id="L430" title="1 of 2 branches missed.">        } else if (isPaused) {</span>
+<span class="nc" id="L431">            resume();</span>
         }
-<span class="fc" id="L432">    }</span>
+<span class="fc" id="L433">    }</span>
 
+    @Override
     public void pause() {
-<span class="pc bpc" id="L435" title="2 of 4 branches missed.">        if (sp != null &amp;&amp; isPlaying) {</span>
-<span class="fc" id="L436">            System.out.println(&quot;Pause pressed&quot;);</span>
-<span class="fc" id="L437">            pausePosition = sp.getPosition();  </span>
-<span class="fc" id="L438">            sp.pause(true);</span>
-<span class="fc" id="L439">            updateTimeTimer.stop(); </span>
-<span class="fc" id="L440">            isPaused = true;</span>
-<span class="fc" id="L441">            isPlaying = false;</span>
-<span class="fc" id="L442">            shouldRestorePausePosition = true;</span>
-<span class="fc" id="L443">            updatePlayPauseButtonLabel();</span>
+<span class="pc bpc" id="L437" title="2 of 4 branches missed.">        if (sp != null &amp;&amp; isPlaying) {</span>
+<span class="fc" id="L438">            System.out.println(&quot;Pause pressed&quot;);</span>
+<span class="fc" id="L439">            pausePosition = sp.getPosition();  </span>
+<span class="fc" id="L440">            sp.pause(true);</span>
+<span class="fc" id="L441">            updateTimeTimer.stop(); </span>
+<span class="fc" id="L442">            isPaused = true;</span>
+<span class="fc" id="L443">            isPlaying = false;</span>
+<span class="fc" id="L444">            shouldRestorePausePosition = true;</span>
+<span class="fc" id="L445">            updatePlayPauseButtonLabel();</span>
         }
-<span class="fc" id="L445">    }</span>
+<span class="fc" id="L447">    }</span>
 
-    private void resume() {
-<span class="nc bnc" id="L448" title="All 4 branches missed.">        if (sp != null &amp;&amp; isPaused) {</span>
-<span class="nc" id="L449">            sp.start();  </span>
-<span class="nc bnc" id="L450" title="All 2 branches missed.">            if (shouldRestorePausePosition) {</span>
-<span class="nc" id="L451">                sp.setPosition(pausePosition);</span>
+    public void resume() {
+<span class="nc bnc" id="L450" title="All 4 branches missed.">        if (sp != null &amp;&amp; isPaused) {</span>
+<span class="nc" id="L451">            sp.start();  </span>
+<span class="nc bnc" id="L452" title="All 2 branches missed.">            if (shouldRestorePausePosition) {</span>
+<span class="nc" id="L453">                sp.setPosition(pausePosition);</span>
             }
-<span class="nc" id="L453">            updateTimeTimer.start();  </span>
-<span class="nc" id="L454">            isPaused = false;</span>
-<span class="nc" id="L455">            isPlaying = true;</span>
-<span class="nc" id="L456">            shouldRestorePausePosition = false;</span>
-<span class="nc" id="L457">            updatePlayPauseButtonLabel();</span>
+<span class="nc" id="L455">            updateTimeTimer.start();  </span>
+<span class="nc" id="L456">            isPaused = false;</span>
+<span class="nc" id="L457">            isPlaying = true;</span>
+<span class="nc" id="L458">            shouldRestorePausePosition = false;</span>
+<span class="nc" id="L459">            updatePlayPauseButtonLabel();</span>
         }
-<span class="nc" id="L459">    }</span>
+<span class="nc" id="L461">    }</span>
 
-    private void skip() {
-<span class="fc bfc" id="L462" title="All 2 branches covered.">        if(songLoaded == false) return;</span>
-<span class="pc bpc" id="L463" title="1 of 2 branches missed.">        if (LoopSong.isSelected()) {</span>
-<span class="nc" id="L464">            seek(0);</span>
-<span class="nc" id="L465">            return;</span>
+    @Override
+    public void skip() {
+<span class="fc bfc" id="L465" title="All 2 branches covered.">        if(songLoaded == false) return;</span>
+<span class="pc bpc" id="L466" title="1 of 2 branches missed.">        if (LoopSong.isSelected()) {</span>
+<span class="nc" id="L467">            seek(0);</span>
+<span class="nc" id="L468">            return;</span>
         }
 
-<span class="fc" id="L468">        stopCurrentPlayback();</span>
+<span class="fc" id="L471">        stopCurrentPlayback();</span>
 
-<span class="pc bpc" id="L470" title="1 of 2 branches missed.">        if (Queue.size() &gt; 1) {</span>
-<span class="nc" id="L471">            Queue.dequeue();</span>
-<span class="nc" id="L472">            refreshQueueInJTree();</span>
+<span class="pc bpc" id="L473" title="1 of 2 branches missed.">        if (Queue.size() &gt; 1) {</span>
+<span class="nc" id="L474">            Queue.dequeue();</span>
+<span class="nc" id="L475">            refreshQueueInJTree();</span>
             try {
-<span class="nc" id="L474">                loadSong();</span>
-<span class="nc" id="L475">                play();</span>
-<span class="nc" id="L476">            } catch (Exception e) {</span>
-<span class="nc" id="L477">                System.err.println(&quot;Error loading next song: &quot; + e.getMessage());</span>
-<span class="nc" id="L478">                e.printStackTrace();</span>
-<span class="nc" id="L479">                handleSkipFailure();</span>
-<span class="nc" id="L480">            }</span>
-<span class="pc bpc" id="L481" title="1 of 2 branches missed.">        } else if (Queue.size() == 1) {</span>
-<span class="fc" id="L482">            Queue.dequeue();</span>
-<span class="pc bpc" id="L483" title="1 of 2 branches missed.">            if (LoopPlaylist.isSelected()) {</span>
-<span class="nc" id="L484">                java.util.List&lt;QueuedFile&gt; newUpcoming = new java.util.ArrayList&lt;&gt;(Queue.getHistory());</span>
-<span class="nc" id="L485">                Queue.empty();</span>
-<span class="nc" id="L486">                Queue.clearHistory();</span>
-<span class="nc bnc" id="L487" title="All 2 branches missed.">                for (QueuedFile qf : newUpcoming) Queue.enqueue(qf);</span>
-<span class="nc" id="L488">                refreshQueueInJTree();</span>
+<span class="nc" id="L477">                loadSong();</span>
+<span class="nc" id="L478">                play();</span>
+<span class="nc" id="L479">            } catch (Exception e) {</span>
+<span class="nc" id="L480">                System.err.println(&quot;Error loading next song: &quot; + e.getMessage());</span>
+<span class="nc" id="L481">                e.printStackTrace();</span>
+<span class="nc" id="L482">                handleSkipFailure();</span>
+<span class="nc" id="L483">            }</span>
+<span class="pc bpc" id="L484" title="1 of 2 branches missed.">        } else if (Queue.size() == 1) {</span>
+<span class="fc" id="L485">            Queue.dequeue();</span>
+<span class="pc bpc" id="L486" title="1 of 2 branches missed.">            if (LoopPlaylist.isSelected()) {</span>
+<span class="nc" id="L487">                java.util.List&lt;QueuedFile&gt; newUpcoming = new java.util.ArrayList&lt;&gt;(Queue.getHistory());</span>
+<span class="nc" id="L488">                Queue.empty();</span>
+<span class="nc" id="L489">                Queue.clearHistory();</span>
+<span class="nc bnc" id="L490" title="All 2 branches missed.">                for (QueuedFile qf : newUpcoming) Queue.enqueue(qf);</span>
+<span class="nc" id="L491">                refreshQueueInJTree();</span>
                 try {
-<span class="nc" id="L490">                    loadSong();</span>
-<span class="nc" id="L491">                    play();</span>
-<span class="nc" id="L492">                } catch (Exception e) {</span>
-<span class="nc" id="L493">                    System.err.println(&quot;Error restarting playlist after skip: &quot; + e.getMessage());</span>
-<span class="nc" id="L494">                    e.printStackTrace();</span>
-<span class="nc" id="L495">                    handleSkipFailure();</span>
-<span class="nc" id="L496">                }</span>
-<span class="nc" id="L497">            } else {</span>
-<span class="fc" id="L498">                refreshQueueInJTree();</span>
-<span class="fc" id="L499">                resetCurrentSongData();</span>
-<span class="fc" id="L500">                System.out.println(&quot;No more tracks in queue.&quot;);</span>
+<span class="nc" id="L493">                    loadSong();</span>
+<span class="nc" id="L494">                    play();</span>
+<span class="nc" id="L495">                } catch (Exception e) {</span>
+<span class="nc" id="L496">                    System.err.println(&quot;Error restarting playlist after skip: &quot; + e.getMessage());</span>
+<span class="nc" id="L497">                    e.printStackTrace();</span>
+<span class="nc" id="L498">                    handleSkipFailure();</span>
+<span class="nc" id="L499">                }</span>
+<span class="nc" id="L500">            } else {</span>
+<span class="fc" id="L501">                refreshQueueInJTree();</span>
+<span class="fc" id="L502">                resetCurrentSongData();</span>
+<span class="fc" id="L503">                System.out.println(&quot;No more tracks in queue.&quot;);</span>
             }
         } else {
             // Already empty
-<span class="nc" id="L504">            refreshQueueInJTree();</span>
-<span class="nc" id="L505">            resetCurrentSongData();</span>
-<span class="nc" id="L506">            System.out.println(&quot;No more tracks in queue.&quot;);</span>
+<span class="nc" id="L507">            refreshQueueInJTree();</span>
+<span class="nc" id="L508">            resetCurrentSongData();</span>
+<span class="nc" id="L509">            System.out.println(&quot;No more tracks in queue.&quot;);</span>
         }
-<span class="fc" id="L508">    }</span>
+<span class="fc" id="L511">    }</span>
 
-    private void clear() {
-<span class="fc" id="L511">        stopCurrentPlayback();</span>
+    @Override
+    public void clear() {
+<span class="fc" id="L515">        stopCurrentPlayback();</span>
 
-<span class="fc" id="L513">        Queue.empty();</span>
-<span class="fc" id="L514">        Queue.clearHistory();</span>
+<span class="fc" id="L517">        Queue.empty();</span>
+<span class="fc" id="L518">        Queue.clearHistory();</span>
 
-<span class="fc" id="L516">        resetCurrentSongData();</span>
-<span class="fc" id="L517">        refreshQueueInJTree();</span>
+<span class="fc" id="L520">        resetCurrentSongData();</span>
+<span class="fc" id="L521">        refreshQueueInJTree();</span>
         
-<span class="fc" id="L519">        System.out.println(&quot;Queue cleared&quot;);</span>
-<span class="fc" id="L520">    }</span>
+<span class="fc" id="L523">        System.out.println(&quot;Queue cleared&quot;);</span>
+<span class="fc" id="L524">    }</span>
 
-	private void shuffleQueue() {
-<span class="pc bpc" id="L523" title="1 of 2 branches missed.">		if (Queue.size() &lt;= 1) return;</span>
-<span class="fc" id="L524">		Queue.shuffle();</span>
-<span class="fc" id="L525">		refreshQueueInJTree();</span>
-<span class="pc bpc" id="L526" title="1 of 2 branches missed.">		if (isPlaying) {</span>
-<span class="nc" id="L527">			preloadNextSong();</span>
+    @Override
+    public void shuffleQueue() {
+<span class="pc bpc" id="L528" title="1 of 2 branches missed.">        if (Queue.size() &lt;= 1) return;</span>
+<span class="fc" id="L529">        Queue.shuffle();</span>
+<span class="fc" id="L530">        refreshQueueInJTree();</span>
+<span class="pc bpc" id="L531" title="1 of 2 branches missed.">        if (isPlaying) {</span>
+<span class="nc" id="L532">			preloadNextSong();</span>
 		}
-<span class="fc" id="L529">		System.out.println(&quot;Queue shuffled&quot;);</span>
-<span class="fc" id="L530">	}</span>
+<span class="fc" id="L534">		System.out.println(&quot;Queue shuffled&quot;);</span>
+<span class="fc" id="L535">	}</span>
 
-    private void stopCurrentPlayback() {
-<span class="fc bfc" id="L533" title="All 2 branches covered.">        if (sp != null) {</span>
-<span class="fc" id="L534">            sp.pause(true);</span>
-<span class="fc" id="L535">            ac.out.removeAllConnections(sp);</span>
+    public void stopCurrentPlayback() {
+<span class="fc bfc" id="L538" title="All 2 branches covered.">        if (sp != null) {</span>
+<span class="fc" id="L539">            sp.pause(true);</span>
+<span class="fc" id="L540">            ac.out.removeAllConnections(sp);</span>
         }
-<span class="fc" id="L537">        isPlaying = false;</span>
-<span class="fc" id="L538">        updateTimeTimer.stop();</span>
-<span class="fc" id="L539">        updatePlayPauseButtonLabel();</span>
-<span class="fc" id="L540">    }</span>
+<span class="fc" id="L542">        isPlaying = false;</span>
+<span class="fc" id="L543">        updateTimeTimer.stop();</span>
+<span class="fc" id="L544">        updatePlayPauseButtonLabel();</span>
+<span class="fc" id="L545">    }</span>
 
     private void handleSkipFailure() {
-<span class="nc" id="L543">        resetCurrentSongData();</span>
-<span class="nc bnc" id="L544" title="All 2 branches missed.">        if (!Queue.isEmpty()) {</span>
-<span class="nc" id="L545">			Queue.dequeue();</span>
-        }
-<span class="nc" id="L547">        refreshQueueInJTree();</span>
-<span class="nc" id="L548">        System.out.println(&quot;Failed to load next track. Skipping to the next one if available.&quot;);</span>
+<span class="nc" id="L548">        resetCurrentSongData();</span>
 <span class="nc bnc" id="L549" title="All 2 branches missed.">        if (!Queue.isEmpty()) {</span>
-<span class="nc" id="L550">            skip();</span>
+<span class="nc" id="L550">			Queue.dequeue();</span>
         }
-<span class="nc" id="L552">    }</span>
+<span class="nc" id="L552">        refreshQueueInJTree();</span>
+<span class="nc" id="L553">        System.out.println(&quot;Failed to load next track. Skipping to the next one if available.&quot;);</span>
+<span class="nc bnc" id="L554" title="All 2 branches missed.">        if (!Queue.isEmpty()) {</span>
+<span class="nc" id="L555">            skip();</span>
+        }
+<span class="nc" id="L557">    }</span>
 
-    
-    private void remove() {
-<span class="fc" id="L556">        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) queueTree.getLastSelectedPathComponent();</span>
-<span class="pc bpc" id="L557" title="1 of 4 branches missed.">        if (selectedNode != null &amp;&amp; selectedNode != root) {</span>
-<span class="fc" id="L558">            String selectedName = selectedNode.getUserObject().toString();</span>
-<span class="fc" id="L559">            int renderedIndex = -1;</span>
-<span class="pc bpc" id="L560" title="1 of 2 branches missed.">            for (int i = 0; i &lt; root.getChildCount(); i++) {</span>
-<span class="fc" id="L561">                DefaultMutableTreeNode node = (DefaultMutableTreeNode) root.getChildAt(i);</span>
-<span class="pc bpc" id="L562" title="1 of 2 branches missed.">                if (selectedName.equals(node.getUserObject().toString())) {</span>
-<span class="fc" id="L563">                    renderedIndex = i;</span>
-<span class="fc" id="L564">                    break;</span>
+    @Override
+    public void remove() {
+<span class="fc" id="L561">        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) queueTree.getLastSelectedPathComponent();</span>
+<span class="pc bpc" id="L562" title="1 of 4 branches missed.">        if (selectedNode != null &amp;&amp; selectedNode != root) {</span>
+<span class="fc" id="L563">            String selectedName = selectedNode.getUserObject().toString();</span>
+<span class="fc" id="L564">            int renderedIndex = -1;</span>
+<span class="pc bpc" id="L565" title="1 of 2 branches missed.">            for (int i = 0; i &lt; root.getChildCount(); i++) {</span>
+<span class="fc" id="L566">                DefaultMutableTreeNode node = (DefaultMutableTreeNode) root.getChildAt(i);</span>
+<span class="pc bpc" id="L567" title="1 of 2 branches missed.">                if (selectedName.equals(node.getUserObject().toString())) {</span>
+<span class="fc" id="L568">                    renderedIndex = i;</span>
+<span class="fc" id="L569">                    break;</span>
                 }
             }
-<span class="pc bpc" id="L567" title="1 of 2 branches missed.">            if (renderedIndex &gt;= 0) {</span>
-<span class="fc" id="L568">                int historyCount = Queue.getHistory().size();</span>
-<span class="pc bpc" id="L569" title="1 of 2 branches missed.">                if (renderedIndex &lt; historyCount) {</span>
-<span class="fc" id="L570">                    boolean ok = Queue.removeHistoryAt(renderedIndex);</span>
-<span class="pc bpc" id="L571" title="1 of 2 branches missed.">                    if (!ok) System.out.println(&quot;Failed to remove history entry at index &quot; + renderedIndex);</span>
-<span class="fc" id="L572">                } else {</span>
-<span class="nc" id="L573">                    int upcomingIndex = renderedIndex - historyCount;</span>
-<span class="nc bnc" id="L574" title="All 2 branches missed.">                    if (upcomingIndex == 0) {</span>
-<span class="nc" id="L575">                        System.out.println(&quot;Skipping removal of the first node in the queue.&quot;);</span>
-<span class="nc" id="L576">                        refreshQueueInJTree();</span>
-<span class="nc" id="L577">                        return;</span>
+<span class="pc bpc" id="L572" title="1 of 2 branches missed.">            if (renderedIndex &gt;= 0) {</span>
+<span class="fc" id="L573">                int historyCount = Queue.getHistory().size();</span>
+<span class="pc bpc" id="L574" title="1 of 2 branches missed.">                if (renderedIndex &lt; historyCount) {</span>
+<span class="fc" id="L575">                    boolean ok = Queue.removeHistoryAt(renderedIndex);</span>
+<span class="pc bpc" id="L576" title="1 of 2 branches missed.">                    if (!ok) System.out.println(&quot;Failed to remove history entry at index &quot; + renderedIndex);</span>
+<span class="fc" id="L577">                } else {</span>
+<span class="nc" id="L578">                    int upcomingIndex = renderedIndex - historyCount;</span>
+<span class="nc bnc" id="L579" title="All 2 branches missed.">                    if (upcomingIndex == 0) {</span>
+<span class="nc" id="L580">                        System.out.println(&quot;Skipping removal of the first node in the queue.&quot;);</span>
+<span class="nc" id="L581">                        refreshQueueInJTree();</span>
+<span class="nc" id="L582">                        return;</span>
                     }
-<span class="nc" id="L579">                    Iterator&lt;QueuedFile&gt; it = Queue.iterator();</span>
-<span class="nc" id="L580">                    int idx = 0;</span>
-<span class="nc bnc" id="L581" title="All 2 branches missed.">                    while (it.hasNext()) {</span>
-<span class="nc" id="L582">                        QueuedFile qf = it.next();</span>
-<span class="nc bnc" id="L583" title="All 2 branches missed.">                        if (idx == upcomingIndex) {</span>
-<span class="nc bnc" id="L584" title="All 2 branches missed.">                            if (getDisplayName(qf.getFile()).equals(selectedName)) {</span>
-<span class="nc" id="L585">                                Queue.remove(qf);</span>
+<span class="nc" id="L584">                    Iterator&lt;QueuedFile&gt; it = Queue.iterator();</span>
+<span class="nc" id="L585">                    int idx = 0;</span>
+<span class="nc bnc" id="L586" title="All 2 branches missed.">                    while (it.hasNext()) {</span>
+<span class="nc" id="L587">                        QueuedFile qf = it.next();</span>
+<span class="nc bnc" id="L588" title="All 2 branches missed.">                        if (idx == upcomingIndex) {</span>
+<span class="nc bnc" id="L589" title="All 2 branches missed.">                            if (getDisplayName(qf.getFile()).equals(selectedName)) {</span>
+<span class="nc" id="L590">                                Queue.remove(qf);</span>
                             }
                             break;
                         }
-<span class="nc" id="L589">                        idx++;</span>
-<span class="nc" id="L590">                    }</span>
+<span class="nc" id="L594">                        idx++;</span>
+<span class="nc" id="L595">                    }</span>
                 }
             }
         }
-<span class="fc" id="L594">        refreshQueueInJTree();</span>
-<span class="fc" id="L595">    }</span>
+<span class="fc" id="L599">        refreshQueueInJTree();</span>
+<span class="fc" id="L600">    }</span>
 
     // Other methods
 
     private void preloadNextSong() {
-<span class="pc bpc" id="L600" title="1 of 2 branches missed.">        if (Queue.size() &gt; 1) {</span>
-<span class="nc" id="L601">            new Thread(() -&gt; {</span>
+<span class="pc bpc" id="L605" title="1 of 2 branches missed.">        if (Queue.size() &gt; 1) {</span>
+<span class="nc" id="L606">            new Thread(() -&gt; {</span>
                 try {
-<span class="nc" id="L603">                    QueuedFile nextFile = Queue.get(1);</span>
-<span class="nc" id="L604">                    nextSample = SampleManager.sample(nextFile.getFile().getAbsolutePath());</span>
-<span class="nc" id="L605">                    nextSp = new SamplePlayer(ac, nextSample);</span>
-<span class="nc" id="L606">                    nextSp.setKillOnEnd(false);</span>
-<span class="nc bnc" id="L607" title="All 2 branches missed.">                    if (LoopSong.isSelected()) {</span>
-<span class="nc" id="L608">                        nextSp.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);</span>
+<span class="nc" id="L608">                    QueuedFile nextFile = Queue.get(1);</span>
+<span class="nc" id="L609">                    nextSample = SampleManager.sample(nextFile.getFile().getAbsolutePath());</span>
+<span class="nc" id="L610">                    nextSp = new SamplePlayer(ac, nextSample);</span>
+<span class="nc" id="L611">                    nextSp.setKillOnEnd(false);</span>
+<span class="nc bnc" id="L612" title="All 2 branches missed.">                    if (LoopSong.isSelected()) {</span>
+<span class="nc" id="L613">                        nextSp.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);</span>
                     } else {
-<span class="nc" id="L610">                        nextSp.setLoopType(SamplePlayer.LoopType.NO_LOOP_FORWARDS);</span>
+<span class="nc" id="L615">                        nextSp.setLoopType(SamplePlayer.LoopType.NO_LOOP_FORWARDS);</span>
                     }
                     
-<span class="nc bnc" id="L613" title="All 2 branches missed.">                    if (!ac.isRunning()) {</span>
-<span class="nc" id="L614">                        ac.start();</span>
+<span class="nc bnc" id="L618" title="All 2 branches missed.">                    if (!ac.isRunning()) {</span>
+<span class="nc" id="L619">                        ac.start();</span>
                     }
                     
-<span class="nc" id="L617">                    System.out.println(&quot;Next song preloaded: &quot; + nextFile.getFile().getName());</span>
-<span class="nc" id="L618">                } catch (Exception e) {</span>
-<span class="nc" id="L619">                    System.err.println(&quot;Error preloading next song: &quot; + e.getMessage());</span>
-<span class="nc" id="L620">                    e.printStackTrace();</span>
-<span class="nc" id="L621">                    nextSample = null;</span>
-<span class="nc" id="L622">                    nextSp = null;</span>
-<span class="nc" id="L623">                }</span>
-<span class="nc" id="L624">            }).start();</span>
+<span class="nc" id="L622">                    System.out.println(&quot;Next song preloaded: &quot; + nextFile.getFile().getName());</span>
+<span class="nc" id="L623">                } catch (Exception e) {</span>
+<span class="nc" id="L624">                    System.err.println(&quot;Error preloading next song: &quot; + e.getMessage());</span>
+<span class="nc" id="L625">                    e.printStackTrace();</span>
+<span class="nc" id="L626">                    nextSample = null;</span>
+<span class="nc" id="L627">                    nextSp = null;</span>
+<span class="nc" id="L628">                }</span>
+<span class="nc" id="L629">            }).start();</span>
         } else {
-<span class="fc" id="L626">            nextSample = null;</span>
-<span class="fc" id="L627">            nextSp = null;</span>
+<span class="fc" id="L631">            nextSample = null;</span>
+<span class="fc" id="L632">            nextSp = null;</span>
         }
-<span class="fc" id="L629">    }</span>
+<span class="fc" id="L634">    }</span>
 
     private void transitionToNextTrack() {
-<span class="nc bnc" id="L632" title="All 2 branches missed.">        if (LoopSong.isSelected()) {</span>
-<span class="nc" id="L633">            seek(0);</span>
-<span class="nc" id="L634">            return;</span>
+<span class="nc bnc" id="L637" title="All 2 branches missed.">        if (LoopSong.isSelected()) {</span>
+<span class="nc" id="L638">            seek(0);</span>
+<span class="nc" id="L639">            return;</span>
         }
 
-<span class="nc bnc" id="L637" title="All 2 branches missed.">        if (Queue.isEmpty()) {</span>
-<span class="nc" id="L638">            resetCurrentSongData();</span>
-<span class="nc" id="L639">            isPlaying = false;</span>
-<span class="nc" id="L640">            updateTimeTimer.stop();</span>
-<span class="nc" id="L641">            System.out.println(&quot;Playback finished. No more tracks in queue.&quot;);</span>
-<span class="nc" id="L642">            return;</span>
+<span class="nc bnc" id="L642" title="All 2 branches missed.">        if (Queue.isEmpty()) {</span>
+<span class="nc" id="L643">            resetCurrentSongData();</span>
+<span class="nc" id="L644">            isPlaying = false;</span>
+<span class="nc" id="L645">            updateTimeTimer.stop();</span>
+<span class="nc" id="L646">            System.out.println(&quot;Playback finished. No more tracks in queue.&quot;);</span>
+<span class="nc" id="L647">            return;</span>
         }
 
         try {
-<span class="nc bnc" id="L646" title="All 2 branches missed.">            if (sp != null) {</span>
-<span class="nc" id="L647">                ac.out.removeAllConnections(sp);</span>
-<span class="nc" id="L648">                sp.kill();</span>
+<span class="nc bnc" id="L651" title="All 2 branches missed.">            if (sp != null) {</span>
+<span class="nc" id="L652">                ac.out.removeAllConnections(sp);</span>
+<span class="nc" id="L653">                sp.kill();</span>
             }
 
-<span class="nc" id="L651">            Queue.dequeue();</span>
+<span class="nc" id="L656">            Queue.dequeue();</span>
 
-<span class="nc bnc" id="L653" title="All 2 branches missed.">            if (nextSp != null) {</span>
-<span class="nc" id="L654">                sp = nextSp;</span>
-<span class="nc" id="L655">                sample = nextSample;</span>
-<span class="nc" id="L656">                songLoaded = true;</span>
-<span class="nc" id="L657">                ac.out.addInput(sp);</span>
-<span class="nc" id="L658">                updateSongInfo();</span>
-<span class="nc bnc" id="L659" title="All 2 branches missed.">                if (!Queue.isEmpty()) {</span>
-<span class="nc" id="L660">                    QueuedFile currentFile = Queue.peek();</span>
-<span class="nc bnc" id="L661" title="All 2 branches missed.">                    if (currentFile != null) {</span>
-<span class="nc" id="L662">                        selectedFile = currentFile.getFile();</span>
-<span class="nc" id="L663">                        updateAlbumArt(selectedFile);</span>
+<span class="nc bnc" id="L658" title="All 2 branches missed.">            if (nextSp != null) {</span>
+<span class="nc" id="L659">                sp = nextSp;</span>
+<span class="nc" id="L660">                sample = nextSample;</span>
+<span class="nc" id="L661">                songLoaded = true;</span>
+<span class="nc" id="L662">                ac.out.addInput(sp);</span>
+<span class="nc" id="L663">                updateSongInfo();</span>
+<span class="nc bnc" id="L664" title="All 2 branches missed.">                if (!Queue.isEmpty()) {</span>
+<span class="nc" id="L665">                    QueuedFile currentFile = Queue.peek();</span>
+<span class="nc bnc" id="L666" title="All 2 branches missed.">                    if (currentFile != null) {</span>
+<span class="nc" id="L667">                        selectedFile = currentFile.getFile();</span>
+<span class="nc" id="L668">                        updateAlbumArt(selectedFile);</span>
                     }
                 }
-<span class="nc" id="L666">                sp.start();</span>
-<span class="nc" id="L667">                preloadNextSong();</span>
+<span class="nc" id="L671">                sp.start();</span>
+<span class="nc" id="L672">                preloadNextSong();</span>
             } else {
-<span class="nc" id="L669">                resetCurrentSongData();</span>
-<span class="nc" id="L670">                songLoaded = false;</span>
-<span class="nc" id="L671">                loadSong();</span>
-<span class="nc" id="L672">                play();</span>
+<span class="nc" id="L674">                resetCurrentSongData();</span>
+<span class="nc" id="L675">                songLoaded = false;</span>
+<span class="nc" id="L676">                loadSong();</span>
+<span class="nc" id="L677">                play();</span>
             }
 
-<span class="nc" id="L675">            refreshQueueInJTree();</span>
-<span class="nc" id="L676">            System.out.println(&quot;Transitioned to next track. Queue updated.&quot;);</span>
-<span class="nc" id="L677">        } catch (Exception e) {</span>
-<span class="nc" id="L678">            System.err.println(&quot;Error during track transition: &quot; + e.getMessage());</span>
-<span class="nc" id="L679">            e.printStackTrace();</span>
-<span class="nc" id="L680">            resetCurrentSongData();</span>
-<span class="nc" id="L681">        }</span>
-<span class="nc" id="L682">    }</span>
+<span class="nc" id="L680">            refreshQueueInJTree();</span>
+<span class="nc" id="L681">            System.out.println(&quot;Transitioned to next track. Queue updated.&quot;);</span>
+<span class="nc" id="L682">        } catch (Exception e) {</span>
+<span class="nc" id="L683">            System.err.println(&quot;Error during track transition: &quot; + e.getMessage());</span>
+<span class="nc" id="L684">            e.printStackTrace();</span>
+<span class="nc" id="L685">            resetCurrentSongData();</span>
+<span class="nc" id="L686">        }</span>
+<span class="nc" id="L687">    }</span>
 
     private void updateSongInfo() {
-<span class="nc bnc" id="L685" title="All 2 branches missed.">        if (sample != null) {</span>
-<span class="nc" id="L686">            sampleFrames = sample.getNumFrames();</span>
-<span class="nc" id="L687">            sampleRate = sample.getSampleRate();</span>
-<span class="nc" id="L688">            float duration = sampleFrames / sampleRate;</span>
-<span class="nc" id="L689">            minutes = (int) (duration / 60);</span>
-<span class="nc" id="L690">            seconds = (int) (duration % 60);</span>
-<span class="nc" id="L691">            updateTime();</span>
-<span class="nc" id="L692">            SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="nc" id="L693">                int totalDuration = minutes * 60 + seconds;</span>
-<span class="nc" id="L694">                ProgressBar.setMaximum(totalDuration);</span>
-<span class="nc" id="L695">                ProgressBar.setValue(0);</span>
-<span class="nc" id="L696">            });</span>
+<span class="nc bnc" id="L690" title="All 2 branches missed.">        if (sample != null) {</span>
+<span class="nc" id="L691">            sampleFrames = sample.getNumFrames();</span>
+<span class="nc" id="L692">            sampleRate = sample.getSampleRate();</span>
+<span class="nc" id="L693">            float duration = sampleFrames / sampleRate;</span>
+<span class="nc" id="L694">            minutes = (int) (duration / 60);</span>
+<span class="nc" id="L695">            seconds = (int) (duration % 60);</span>
+<span class="nc" id="L696">            updateTime();</span>
+<span class="nc" id="L697">            SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="nc" id="L698">                int totalDuration = minutes * 60 + seconds;</span>
+<span class="nc" id="L699">                ProgressBar.setMaximum(totalDuration);</span>
+<span class="nc" id="L700">                ProgressBar.setValue(0);</span>
+<span class="nc" id="L701">            });</span>
         }
-<span class="nc" id="L698">    }</span>
+<span class="nc" id="L703">    }</span>
 
     private void seek(int seconds) {
-<span class="nc" id="L701">        System.out.println(&quot;Seek method fired&quot;);</span>
-<span class="nc bnc" id="L702" title="All 2 branches missed.">        if (sp != null) {</span>
-<span class="nc" id="L703">            sp.setPosition(seconds * 1000); </span>
-<span class="nc" id="L704">            updateTime();</span>
+<span class="nc" id="L706">        System.out.println(&quot;Seek method fired&quot;);</span>
+<span class="nc bnc" id="L707" title="All 2 branches missed.">        if (sp != null) {</span>
+<span class="nc" id="L708">            sp.setPosition(seconds * 1000); </span>
+<span class="nc" id="L709">            updateTime();</span>
         }
-<span class="nc" id="L706">    }</span>
+<span class="nc" id="L711">    }</span>
 
     private void updateTime() {
-<span class="pc bpc" id="L709" title="2 of 4 branches missed.">        if (sp != null &amp;&amp; isPlaying) {</span>
-<span class="fc" id="L710">            double currentPositionInMilliseconds = sp.getPosition();</span>
-<span class="fc" id="L711">            int currentPositionInSeconds = (int) (currentPositionInMilliseconds / 1000.0);</span>
-<span class="fc" id="L712">            int currentMinutes = currentPositionInSeconds / 60;</span>
-<span class="fc" id="L713">            int currentSeconds = currentPositionInSeconds % 60;</span>
+<span class="pc bpc" id="L714" title="2 of 4 branches missed.">        if (sp != null &amp;&amp; isPlaying) {</span>
+<span class="fc" id="L715">            double currentPositionInMilliseconds = sp.getPosition();</span>
+<span class="fc" id="L716">            int currentPositionInSeconds = (int) (currentPositionInMilliseconds / 1000.0);</span>
+<span class="fc" id="L717">            int currentMinutes = currentPositionInSeconds / 60;</span>
+<span class="fc" id="L718">            int currentSeconds = currentPositionInSeconds % 60;</span>
     
-<span class="fc" id="L715">            System.out.println(&quot;updateTime() called. Current position: &quot; + currentPositionInSeconds + &quot; seconds.&quot;);</span>
+<span class="fc" id="L720">            System.out.println(&quot;updateTime() called. Current position: &quot; + currentPositionInSeconds + &quot; seconds.&quot;);</span>
     
-<span class="fc" id="L717">            SwingUtilities.invokeLater(() -&gt; { </span>
-<span class="fc" id="L718">                TimeLabel.setText(String.format(&quot;%d:%02d / %d:%02d&quot;, currentMinutes, currentSeconds, minutes, seconds));</span>
-<span class="fc" id="L719">                ProgressBar.setValue(currentPositionInSeconds);</span>
-<span class="fc" id="L720">            });</span>
+<span class="fc" id="L722">            SwingUtilities.invokeLater(() -&gt; { </span>
+<span class="fc" id="L723">                TimeLabel.setText(String.format(&quot;%d:%02d / %d:%02d&quot;, currentMinutes, currentSeconds, minutes, seconds));</span>
+<span class="fc" id="L724">                ProgressBar.setValue(currentPositionInSeconds);</span>
+<span class="fc" id="L725">            });</span>
     
-<span class="pc bpc" id="L722" title="1 of 2 branches missed.">            if (currentPositionInSeconds &gt;= ProgressBar.getMaximum()) {</span>
-<span class="nc" id="L723">                System.out.println(&quot;End of track reached. Transitioning to next.&quot;);</span>
-<span class="nc" id="L724">                handleEndOfPlayback();</span>
+<span class="pc bpc" id="L727" title="1 of 2 branches missed.">            if (currentPositionInSeconds &gt;= ProgressBar.getMaximum()) {</span>
+<span class="nc" id="L728">                System.out.println(&quot;End of track reached. Transitioning to next.&quot;);</span>
+<span class="nc" id="L729">                handleEndOfPlayback();</span>
             }
-<span class="fc" id="L726">        } else {</span>
-<span class="nc" id="L727">            System.out.println(&quot;updateTime() called but player is null or not playing.&quot;);</span>
+<span class="fc" id="L731">        } else {</span>
+<span class="nc" id="L732">            System.out.println(&quot;updateTime() called but player is null or not playing.&quot;);</span>
         }
-<span class="fc" id="L729">    }</span>
+<span class="fc" id="L734">    }</span>
 
     private void handleEndOfPlayback() {
-<span class="nc bnc" id="L732" title="All 2 branches missed.">        if (Queue.size() &gt; 1) {</span>
-<span class="nc" id="L733">            System.out.println(&quot;Transitioning to next track.&quot;);</span>
-<span class="nc" id="L734">            transitionToNextTrack();</span>
+<span class="nc bnc" id="L737" title="All 2 branches missed.">        if (Queue.size() &gt; 1) {</span>
+<span class="nc" id="L738">            System.out.println(&quot;Transitioning to next track.&quot;);</span>
+<span class="nc" id="L739">            transitionToNextTrack();</span>
         } else {
-<span class="nc bnc" id="L736" title="All 2 branches missed.">            if (LoopPlaylist.isSelected()) {</span>
-<span class="nc" id="L737">                stopCurrentPlayback();</span>
+<span class="nc bnc" id="L741" title="All 2 branches missed.">            if (LoopPlaylist.isSelected()) {</span>
+<span class="nc" id="L742">                stopCurrentPlayback();</span>
 
-<span class="nc" id="L739">                java.util.List&lt;QueuedFile&gt; newUpcoming = new java.util.ArrayList&lt;&gt;(Queue.getHistory());</span>
+<span class="nc" id="L744">                java.util.List&lt;QueuedFile&gt; newUpcoming = new java.util.ArrayList&lt;&gt;(Queue.getHistory());</span>
 
-<span class="nc" id="L741">                java.util.List&lt;QueuedFile&gt; remaining = new java.util.ArrayList&lt;&gt;();</span>
-<span class="nc" id="L742">                java.util.Iterator&lt;QueuedFile&gt; it = Queue.iterator();</span>
-<span class="nc bnc" id="L743" title="All 2 branches missed.">                while (it.hasNext()) remaining.add(it.next());</span>
+<span class="nc" id="L746">                java.util.List&lt;QueuedFile&gt; remaining = new java.util.ArrayList&lt;&gt;();</span>
+<span class="nc" id="L747">                java.util.Iterator&lt;QueuedFile&gt; it = Queue.iterator();</span>
+<span class="nc bnc" id="L748" title="All 2 branches missed.">                while (it.hasNext()) remaining.add(it.next());</span>
 
-<span class="nc" id="L745">                Queue.empty();</span>
-<span class="nc" id="L746">                Queue.clearHistory();</span>
+<span class="nc" id="L750">                Queue.empty();</span>
+<span class="nc" id="L751">                Queue.clearHistory();</span>
 
-<span class="nc bnc" id="L748" title="All 2 branches missed.">                for (QueuedFile qf : newUpcoming) Queue.enqueue(qf);</span>
-<span class="nc bnc" id="L749" title="All 2 branches missed.">                for (QueuedFile qf : remaining) Queue.enqueue(qf);</span>
+<span class="nc bnc" id="L753" title="All 2 branches missed.">                for (QueuedFile qf : newUpcoming) Queue.enqueue(qf);</span>
+<span class="nc bnc" id="L754" title="All 2 branches missed.">                for (QueuedFile qf : remaining) Queue.enqueue(qf);</span>
 
-<span class="nc" id="L751">                System.out.println(&quot;Loop Playlist: restarting from beginning.&quot;);</span>
+<span class="nc" id="L756">                System.out.println(&quot;Loop Playlist: restarting from beginning.&quot;);</span>
                 try {
-<span class="nc" id="L753">                    loadSong();</span>
-<span class="nc" id="L754">                    play();</span>
-<span class="nc" id="L755">                } catch (Exception e) {</span>
-<span class="nc" id="L756">                    e.printStackTrace();</span>
-<span class="nc" id="L757">                    handleSkipFailure();</span>
-<span class="nc" id="L758">                }</span>
-<span class="nc" id="L759">            } else {</span>
-<span class="nc" id="L760">                System.out.println(&quot;No more tracks in queue. Stopping playback.&quot;);</span>
-<span class="nc" id="L761">                resetCurrentSongData();</span>
-<span class="nc" id="L762">                isPlaying = false;</span>
-<span class="nc" id="L763">                updateTimeTimer.stop();</span>
-<span class="nc" id="L764">                SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="nc" id="L765">                    TimeLabel.setText(&quot;0:00 / 0:00&quot;);</span>
-<span class="nc" id="L766">                    ProgressBar.setValue(0);</span>
-<span class="nc" id="L767">                });</span>
-<span class="nc bnc" id="L768" title="All 2 branches missed.">                if (!Queue.isEmpty()) {</span>
-<span class="nc" id="L769">                    Queue.dequeue(); </span>
+<span class="nc" id="L758">                    loadSong();</span>
+<span class="nc" id="L759">                    play();</span>
+<span class="nc" id="L760">                } catch (Exception e) {</span>
+<span class="nc" id="L761">                    e.printStackTrace();</span>
+<span class="nc" id="L762">                    handleSkipFailure();</span>
+<span class="nc" id="L763">                }</span>
+<span class="nc" id="L764">            } else {</span>
+<span class="nc" id="L765">                System.out.println(&quot;No more tracks in queue. Stopping playback.&quot;);</span>
+<span class="nc" id="L766">                resetCurrentSongData();</span>
+<span class="nc" id="L767">                isPlaying = false;</span>
+<span class="nc" id="L768">                updateTimeTimer.stop();</span>
+<span class="nc" id="L769">                SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="nc" id="L770">                    TimeLabel.setText(&quot;0:00 / 0:00&quot;);</span>
+<span class="nc" id="L771">                    ProgressBar.setValue(0);</span>
+<span class="nc" id="L772">                });</span>
+<span class="nc bnc" id="L773" title="All 2 branches missed.">                if (!Queue.isEmpty()) {</span>
+<span class="nc" id="L774">                    Queue.dequeue(); </span>
                 }
-<span class="nc" id="L771">                refreshQueueInJTree();</span>
+<span class="nc" id="L776">                refreshQueueInJTree();</span>
             }
         }
-<span class="nc" id="L774">    }</span>
+<span class="nc" id="L779">    }</span>
 
     
     private void updateCurrentVolume(float currentVolume) {
-<span class="nc bnc" id="L778" title="All 2 branches missed.">        if (currentVolume == 1.0) {</span>
-<span class="nc" id="L779">            SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="nc" id="L780">                VolumeLabel.setText(&quot;Volume (&quot; + Math.round(currentVolume * 100) + &quot;)&quot;);</span>
-<span class="nc" id="L781">            });</span>
-<span class="nc bnc" id="L782" title="All 2 branches missed.">        } else if (currentVolume &lt; 0.1) {</span>
-<span class="nc" id="L783">            VolumeLabel.setText(&quot;Volume (&quot; + Math.round(currentVolume * 100) + &quot;)    &quot;);</span>
+<span class="nc bnc" id="L783" title="All 2 branches missed.">        if (currentVolume == 1.0) {</span>
+<span class="nc" id="L784">            SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="nc" id="L785">                VolumeLabel.setText(&quot;Volume (&quot; + Math.round(currentVolume * 100) + &quot;)&quot;);</span>
+<span class="nc" id="L786">            });</span>
+<span class="nc bnc" id="L787" title="All 2 branches missed.">        } else if (currentVolume &lt; 0.1) {</span>
+<span class="nc" id="L788">            VolumeLabel.setText(&quot;Volume (&quot; + Math.round(currentVolume * 100) + &quot;)    &quot;);</span>
         } else {
-<span class="nc" id="L785">            SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="nc" id="L786">                VolumeLabel.setText(&quot;Volume (&quot; + Math.round(currentVolume * 100) + &quot;)  &quot;);</span>
-<span class="nc" id="L787">            });</span>
+<span class="nc" id="L790">            SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="nc" id="L791">                VolumeLabel.setText(&quot;Volume (&quot; + Math.round(currentVolume * 100) + &quot;)  &quot;);</span>
+<span class="nc" id="L792">            });</span>
         }
-<span class="nc" id="L789">    }</span>
+<span class="nc" id="L794">    }</span>
 
     public void resetCurrentSongData() {
-<span class="pc bpc" id="L792" title="2 of 4 branches missed.">        if (isPlaying || isPaused) { //For me to keep track of</span>
-<span class="nc bnc" id="L793" title="All 2 branches missed.">            if (sp != null) {</span>
-<span class="nc" id="L794">                sp.pause(true);</span>
-<span class="nc" id="L795">                ac.out.removeAllConnections(sp);</span>
+<span class="pc bpc" id="L797" title="2 of 4 branches missed.">        if (isPlaying || isPaused) { //For me to keep track of</span>
+<span class="nc bnc" id="L798" title="All 2 branches missed.">            if (sp != null) {</span>
+<span class="nc" id="L799">                sp.pause(true);</span>
+<span class="nc" id="L800">                ac.out.removeAllConnections(sp);</span>
             }
-<span class="nc" id="L797">            updateTimeTimer.stop(); </span>
-<span class="nc" id="L798">            isPlaying = false;</span>
-<span class="nc" id="L799">            isPaused = false;</span>
+<span class="nc" id="L802">            updateTimeTimer.stop(); </span>
+<span class="nc" id="L803">            isPlaying = false;</span>
+<span class="nc" id="L804">            isPaused = false;</span>
         }
-<span class="fc" id="L801">        songLoaded = false; </span>
-<span class="fc" id="L802">        selectedFile = null; </span>
-<span class="fc" id="L803">        pausePosition = 0;  </span>
-<span class="fc" id="L804">        sample = null;  </span>
-<span class="fc" id="L805">        sp = null;  </span>
-<span class="fc" id="L806">        sampleFrames = 0;  </span>
-<span class="fc" id="L807">        sampleRate = 0; </span>
-<span class="fc" id="L808">        minutes = 0; </span>
-<span class="fc" id="L809">        seconds = 0; </span>
+<span class="fc" id="L806">        songLoaded = false; </span>
+<span class="fc" id="L807">        selectedFile = null; </span>
+<span class="fc" id="L808">        pausePosition = 0;  </span>
+<span class="fc" id="L809">        sample = null;  </span>
+<span class="fc" id="L810">        sp = null;  </span>
+<span class="fc" id="L811">        sampleFrames = 0;  </span>
+<span class="fc" id="L812">        sampleRate = 0; </span>
+<span class="fc" id="L813">        minutes = 0; </span>
+<span class="fc" id="L814">        seconds = 0; </span>
     
-<span class="fc" id="L811">        SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="fc" id="L812">            ProgressBar.setValue(0);</span>
-<span class="fc" id="L813">            ProgressBar.setMaximum(100);  </span>
-<span class="fc" id="L814">            TimeLabel.setText(&quot;0:00 / 0:00&quot;);</span>
-<span class="fc" id="L815">            VolumeLabel.setText(&quot;Volume (100)&quot;);</span>
-<span class="pc bpc" id="L816" title="1 of 2 branches missed.">            if (AlbumArtLabel != null) {</span>
-<span class="fc" id="L817">                setDefaultAlbumArt();</span>
+<span class="fc" id="L816">        SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="fc" id="L817">            ProgressBar.setValue(0);</span>
+<span class="fc" id="L818">            ProgressBar.setMaximum(100);  </span>
+<span class="fc" id="L819">            TimeLabel.setText(&quot;0:00 / 0:00&quot;);</span>
+<span class="fc" id="L820">            VolumeLabel.setText(&quot;Volume (100)&quot;);</span>
+<span class="pc bpc" id="L821" title="1 of 2 branches missed.">            if (AlbumArtLabel != null) {</span>
+<span class="fc" id="L822">                setDefaultAlbumArt();</span>
             }
-<span class="fc" id="L819">        });</span>
-<span class="fc" id="L820">        updatePlayPauseButtonLabel();</span>
-<span class="fc" id="L821">    }</span>
+<span class="fc" id="L824">        });</span>
+<span class="fc" id="L825">        updatePlayPauseButtonLabel();</span>
+<span class="fc" id="L826">    }</span>
 
     // Persistence helpers
     public java.util.List&lt;File&gt; getQueueFiles() {
-<span class="nc" id="L825">        java.util.List&lt;File&gt; files = new java.util.ArrayList&lt;&gt;();</span>
-<span class="nc" id="L826">        java.util.Iterator&lt;QueuedFile&gt; iterator = Queue.iterator();</span>
-<span class="nc bnc" id="L827" title="All 2 branches missed.">        while (iterator.hasNext()) {</span>
-<span class="nc" id="L828">            QueuedFile qf = iterator.next();</span>
-<span class="nc bnc" id="L829" title="All 4 branches missed.">            if (qf != null &amp;&amp; qf.getFile() != null) {</span>
-<span class="nc" id="L830">                files.add(qf.getFile());</span>
+<span class="nc" id="L830">        java.util.List&lt;File&gt; files = new java.util.ArrayList&lt;&gt;();</span>
+<span class="nc" id="L831">        java.util.Iterator&lt;QueuedFile&gt; iterator = Queue.iterator();</span>
+<span class="nc bnc" id="L832" title="All 2 branches missed.">        while (iterator.hasNext()) {</span>
+<span class="nc" id="L833">            QueuedFile qf = iterator.next();</span>
+<span class="nc bnc" id="L834" title="All 4 branches missed.">            if (qf != null &amp;&amp; qf.getFile() != null) {</span>
+<span class="nc" id="L835">                files.add(qf.getFile());</span>
             }
-<span class="nc" id="L832">        }</span>
-<span class="nc" id="L833">        return files;</span>
+<span class="nc" id="L837">        }</span>
+<span class="nc" id="L838">        return files;</span>
     }
 
     public void setQueueFromFiles(java.util.List&lt;File&gt; files) {
-<span class="fc" id="L837">        stopCurrentPlayback();</span>
-<span class="fc" id="L838">        Queue.empty();</span>
-<span class="fc" id="L839">        Queue.clearHistory();</span>
-<span class="pc bpc" id="L840" title="1 of 2 branches missed.">        if (files != null) {</span>
-<span class="fc bfc" id="L841" title="All 2 branches covered.">            for (File f : files) {</span>
-<span class="pc bpc" id="L842" title="3 of 6 branches missed.">                if (f != null &amp;&amp; f.exists() &amp;&amp; isAudioFile(f)) {</span>
-<span class="fc" id="L843">                    Queue.enqueue(new QueuedFile(f));</span>
+<span class="fc" id="L842">        stopCurrentPlayback();</span>
+<span class="fc" id="L843">        Queue.empty();</span>
+<span class="fc" id="L844">        Queue.clearHistory();</span>
+<span class="pc bpc" id="L845" title="1 of 2 branches missed.">        if (files != null) {</span>
+<span class="pc bpc" id="L846" title="1 of 2 branches missed.">            for (File f : files) {</span>
+<span class="nc bnc" id="L847" title="All 6 branches missed.">                if (f != null &amp;&amp; f.exists() &amp;&amp; isAudioFile(f)) {</span>
+<span class="nc" id="L848">                    Queue.enqueue(new QueuedFile(f));</span>
                 }
-<span class="fc" id="L845">            }</span>
+<span class="nc" id="L850">            }</span>
         }
-<span class="fc" id="L847">        refreshQueueInJTree();</span>
-<span class="fc" id="L848">        songLoaded = false;</span>
-<span class="pc bpc" id="L849" title="1 of 2 branches missed.">        if (!Queue.isEmpty()) {</span>
+<span class="fc" id="L852">        refreshQueueInJTree();</span>
+<span class="fc" id="L853">        songLoaded = false;</span>
+<span class="pc bpc" id="L854" title="1 of 2 branches missed.">        if (!Queue.isEmpty()) {</span>
             try {
-<span class="fc" id="L851">                loadSong();</span>
-<span class="nc" id="L852">            } catch (Exception e) {</span>
-<span class="nc" id="L853">                e.printStackTrace();</span>
-<span class="fc" id="L854">            }</span>
+<span class="nc" id="L856">                loadSong();</span>
+<span class="nc" id="L857">            } catch (Exception e) {</span>
+<span class="nc" id="L858">                e.printStackTrace();</span>
+<span class="nc" id="L859">            }</span>
         }
-<span class="fc" id="L856">    }</span>
+<span class="fc" id="L861">    }</span>
 
     public String getChannelName() {
-<span class="nc bnc" id="L859" title="All 2 branches missed.">        return (ChannelLabel != null) ? ChannelLabel.getText() : &quot;&quot;;</span>
+<span class="nc bnc" id="L864" title="All 2 branches missed.">        return (ChannelLabel != null) ? ChannelLabel.getText() : &quot;&quot;;</span>
     }
 
     private void updateAlbumArt(File audioFile) {
-<span class="pc bpc" id="L863" title="1 of 2 branches missed.">        if (audioFile == null) {</span>
-<span class="nc" id="L864">            return;</span>
+<span class="pc bpc" id="L868" title="1 of 2 branches missed.">        if (audioFile == null) {</span>
+<span class="nc" id="L869">            return;</span>
         }
-<span class="fc" id="L866">        new Thread(() -&gt; {</span>
+<span class="fc" id="L871">        new Thread(() -&gt; {</span>
             try {
-<span class="fc" id="L868">                AudioFile af = AudioFileIO.read(audioFile);</span>
-<span class="fc" id="L869">                Tag tag = af.getTag();</span>
-<span class="pc bpc" id="L870" title="1 of 2 branches missed.">                if (tag != null) {</span>
-<span class="nc" id="L871">                    Artwork artwork = tag.getFirstArtwork();</span>
-<span class="nc bnc" id="L872" title="All 2 branches missed.">                    if (artwork != null) {</span>
-<span class="nc" id="L873">                        byte[] imageData = artwork.getBinaryData();</span>
-<span class="nc bnc" id="L874" title="All 4 branches missed.">                        if (imageData != null &amp;&amp; imageData.length &gt; 0) {</span>
-<span class="nc" id="L875">                            ImageIcon icon = new ImageIcon(imageData);</span>
-<span class="nc" id="L876">                            Image scaled = icon.getImage().getScaledInstance(128, 128, Image.SCALE_SMOOTH);</span>
-<span class="nc" id="L877">                            SwingUtilities.invokeLater(() -&gt; AlbumArtLabel.setIcon(new ImageIcon(scaled)));</span>
-<span class="nc" id="L878">                            return;</span>
+<span class="fc" id="L873">                AudioFile af = AudioFileIO.read(audioFile);</span>
+<span class="fc" id="L874">                Tag tag = af.getTag();</span>
+<span class="pc bpc" id="L875" title="1 of 2 branches missed.">                if (tag != null) {</span>
+<span class="nc" id="L876">                    Artwork artwork = tag.getFirstArtwork();</span>
+<span class="nc bnc" id="L877" title="All 2 branches missed.">                    if (artwork != null) {</span>
+<span class="nc" id="L878">                        byte[] imageData = artwork.getBinaryData();</span>
+<span class="nc bnc" id="L879" title="All 4 branches missed.">                        if (imageData != null &amp;&amp; imageData.length &gt; 0) {</span>
+<span class="nc" id="L880">                            ImageIcon icon = new ImageIcon(imageData);</span>
+<span class="nc" id="L881">                            Image scaled = icon.getImage().getScaledInstance(128, 128, Image.SCALE_SMOOTH);</span>
+<span class="nc" id="L882">                            SwingUtilities.invokeLater(() -&gt; AlbumArtLabel.setIcon(new ImageIcon(scaled)));</span>
+<span class="nc" id="L883">                            return;</span>
                         }
                     }
                 }
-<span class="nc" id="L882">            } catch (Exception ignored) {</span>
-<span class="fc" id="L883">            }</span>
-<span class="fc" id="L884">            SwingUtilities.invokeLater(this::setDefaultAlbumArt);</span>
-<span class="fc" id="L885">        }).start();</span>
-<span class="fc" id="L886">    }</span>
+<span class="nc" id="L887">            } catch (Exception ignored) {</span>
+<span class="fc" id="L888">            }</span>
+<span class="fc" id="L889">            SwingUtilities.invokeLater(this::setDefaultAlbumArt);</span>
+<span class="fc" id="L890">        }).start();</span>
+<span class="fc" id="L891">    }</span>
 
     private void setDefaultAlbumArt() {
         try {
-<span class="fc" id="L890">            java.net.URL url = getClass().getResource(&quot;/icons/albumMissing.png&quot;);</span>
-<span class="pc bpc" id="L891" title="1 of 2 branches missed.">            if (url != null) {</span>
-<span class="fc" id="L892">                ImageIcon icon = new ImageIcon(url);</span>
-<span class="fc" id="L893">                Image scaled = icon.getImage().getScaledInstance(128, 128, Image.SCALE_SMOOTH);</span>
-<span class="fc" id="L894">                AlbumArtLabel.setIcon(new ImageIcon(scaled));</span>
-<span class="fc" id="L895">            } else {</span>
-<span class="nc" id="L896">                AlbumArtLabel.setIcon(null);</span>
+<span class="fc" id="L895">            java.net.URL url = getClass().getResource(&quot;/icons/albumMissing.png&quot;);</span>
+<span class="pc bpc" id="L896" title="1 of 2 branches missed.">            if (url != null) {</span>
+<span class="fc" id="L897">                ImageIcon icon = new ImageIcon(url);</span>
+<span class="fc" id="L898">                Image scaled = icon.getImage().getScaledInstance(128, 128, Image.SCALE_SMOOTH);</span>
+<span class="fc" id="L899">                AlbumArtLabel.setIcon(new ImageIcon(scaled));</span>
+<span class="fc" id="L900">            } else {</span>
+<span class="nc" id="L901">                AlbumArtLabel.setIcon(null);</span>
             }
-<span class="nc" id="L898">        } catch (Exception e) {</span>
-<span class="nc" id="L899">            AlbumArtLabel.setIcon(null);</span>
-<span class="fc" id="L900">        }</span>
-<span class="fc" id="L901">    }</span>
+<span class="nc" id="L903">        } catch (Exception e) {</span>
+<span class="nc" id="L904">            AlbumArtLabel.setIcon(null);</span>
+<span class="fc" id="L905">        }</span>
+<span class="fc" id="L906">    }</span>
 
     private void setVolume(float volume) {
-<span class="nc bnc" id="L904" title="All 2 branches missed.">        if (sp != null) {</span>
-<span class="nc" id="L905">            ac.out.setGain(volume);</span>
+<span class="nc bnc" id="L909" title="All 2 branches missed.">        if (sp != null) {</span>
+<span class="nc" id="L910">            ac.out.setGain(volume);</span>
         }
-<span class="nc" id="L907">    }</span>
+<span class="nc" id="L912">    }</span>
 
     public void addFilesToTree(java.util.List&lt;File&gt; files) {
-<span class="fc" id="L910">        boolean wasEmpty = Queue.isEmpty();</span>
-<span class="fc bfc" id="L911" title="All 2 branches covered.">        for (File file : files) {</span>
-<span class="pc bpc" id="L912" title="1 of 2 branches missed.">            if (file.isDirectory()) {</span>
-<span class="nc" id="L913">                addFilesFromDirectory(file);</span>
+<span class="fc" id="L915">        boolean wasEmpty = Queue.isEmpty();</span>
+<span class="fc bfc" id="L916" title="All 2 branches covered.">        for (File file : files) {</span>
+<span class="pc bpc" id="L917" title="1 of 2 branches missed.">            if (file.isDirectory()) {</span>
+<span class="nc" id="L918">                addFilesFromDirectory(file);</span>
             } else {
-<span class="pc bpc" id="L915" title="1 of 2 branches missed.">                if (isAudioFile(file)) {</span>
-<span class="fc" id="L916">                    Queue.enqueue(new QueuedFile(file));</span>
+<span class="pc bpc" id="L920" title="1 of 2 branches missed.">                if (isAudioFile(file)) {</span>
+<span class="fc" id="L921">                    Queue.enqueue(new QueuedFile(file));</span>
                 }
             }
-<span class="fc" id="L919">        }</span>
-<span class="fc" id="L920">        refreshQueueInJTree();</span>
+<span class="fc" id="L924">        }</span>
+<span class="fc" id="L925">        refreshQueueInJTree();</span>
         
-<span class="pc bpc" id="L922" title="2 of 6 branches missed.">        if (wasEmpty &amp;&amp; !Queue.isEmpty() &amp;&amp; !isPlaying) {</span>
+<span class="pc bpc" id="L927" title="2 of 6 branches missed.">        if (wasEmpty &amp;&amp; !Queue.isEmpty() &amp;&amp; !isPlaying) {</span>
             try {
-<span class="fc" id="L924">                loadSong();</span>
-<span class="fc" id="L925">            } catch (Exception e) {</span>
-<span class="fc" id="L926">                e.printStackTrace();</span>
-<span class="fc" id="L927">            }</span>
-<span class="pc bpc" id="L928" title="1 of 2 branches missed.">        } else if (isPlaying) {</span>
-<span class="nc" id="L929">            preloadNextSong();</span>
+<span class="fc" id="L929">                loadSong();</span>
+<span class="fc" id="L930">            } catch (Exception e) {</span>
+<span class="fc" id="L931">                e.printStackTrace();</span>
+<span class="fc" id="L932">            }</span>
+<span class="pc bpc" id="L933" title="1 of 2 branches missed.">        } else if (isPlaying) {</span>
+<span class="nc" id="L934">            preloadNextSong();</span>
         }
-<span class="fc" id="L931">    }</span>
+<span class="fc" id="L936">    }</span>
 
     private void addFilesFromDirectory(File directory) {
-<span class="nc" id="L934">        File[] files = directory.listFiles();</span>
-<span class="nc bnc" id="L935" title="All 2 branches missed.">        if (files != null) {</span>
-<span class="nc bnc" id="L936" title="All 2 branches missed.">            for (File file : files) {</span>
-<span class="nc bnc" id="L937" title="All 2 branches missed.">                if (file.isDirectory()) {</span>
-<span class="nc" id="L938">                    addFilesFromDirectory(file); </span>
+<span class="nc" id="L939">        File[] files = directory.listFiles();</span>
+<span class="nc bnc" id="L940" title="All 2 branches missed.">        if (files != null) {</span>
+<span class="nc bnc" id="L941" title="All 2 branches missed.">            for (File file : files) {</span>
+<span class="nc bnc" id="L942" title="All 2 branches missed.">                if (file.isDirectory()) {</span>
+<span class="nc" id="L943">                    addFilesFromDirectory(file); </span>
                 } else {
-<span class="nc bnc" id="L940" title="All 2 branches missed.">                    if (isAudioFile(file)) {</span>
-<span class="nc" id="L941">                        Queue.enqueue(new QueuedFile(file));</span>
+<span class="nc bnc" id="L945" title="All 2 branches missed.">                    if (isAudioFile(file)) {</span>
+<span class="nc" id="L946">                        Queue.enqueue(new QueuedFile(file));</span>
                     }
                 }
             }
         }
-<span class="nc" id="L946">    }</span>
+<span class="nc" id="L951">    }</span>
 
     //changed to public for testing
     public boolean isAudioFile(File file) {
-<span class="fc" id="L950">        String fileName = file.getName().toLowerCase();</span>
-<span class="pc bpc" id="L951" title="5 of 6 branches missed.">        return fileName.endsWith(&quot;.mp3&quot;) || fileName.endsWith(&quot;.wav&quot;) || fileName.endsWith(&quot;.flac&quot;);</span>
+<span class="fc" id="L955">        String fileName = file.getName().toLowerCase();</span>
+<span class="pc bpc" id="L956" title="5 of 6 branches missed.">        return fileName.endsWith(&quot;.mp3&quot;) || fileName.endsWith(&quot;.wav&quot;) || fileName.endsWith(&quot;.flac&quot;);</span>
     }
 
+    @Override
     public void stopAudio() {
-<span class="pc bpc" id="L955" title="2 of 4 branches missed.">    if (ac != null &amp;&amp; ac.isRunning()) {</span>
-<span class="fc" id="L956">        ac.stop();</span>
+<span class="pc bpc" id="L961" title="2 of 4 branches missed.">    if (ac != null &amp;&amp; ac.isRunning()) {</span>
+<span class="fc" id="L962">        ac.stop();</span>
     }
-<span class="fc" id="L958">}</span>
+<span class="fc" id="L964">}</span>
 
 	private String getDisplayName(File file) {
-<span class="fc" id="L961">		String name = file.getName();</span>
-<span class="fc" id="L962">		int lastDot = name.lastIndexOf('.')</span>
+<span class="fc" id="L967">		String name = file.getName();</span>
+<span class="fc" id="L968">		int lastDot = name.lastIndexOf('.')</span>
 			;
-<span class="pc bpc" id="L964" title="1 of 2 branches missed.">		return (lastDot &gt; 0) ? name.substring(0, lastDot) : name;</span>
+<span class="pc bpc" id="L970" title="1 of 2 branches missed.">		return (lastDot &gt; 0) ? name.substring(0, lastDot) : name;</span>
 	}
 
     public void refreshQueueInJTree() {
-<span class="fc" id="L968">        root.removeAllChildren();</span>
+<span class="fc" id="L974">        root.removeAllChildren();</span>
 
-<span class="fc" id="L970">        java.util.List&lt;QueuedFile&gt; history = Queue.getHistory();</span>
-<span class="fc bfc" id="L971" title="All 2 branches covered.">        for (QueuedFile qf : history) {</span>
-<span class="fc" id="L972">            root.add(new DefaultMutableTreeNode(getDisplayName(qf.getFile())));</span>
-<span class="fc" id="L973">        }</span>
+<span class="fc" id="L976">        java.util.List&lt;QueuedFile&gt; history = Queue.getHistory();</span>
+<span class="fc bfc" id="L977" title="All 2 branches covered.">        for (QueuedFile qf : history) {</span>
+<span class="fc" id="L978">            root.add(new DefaultMutableTreeNode(getDisplayName(qf.getFile())));</span>
+<span class="fc" id="L979">        }</span>
 
-<span class="fc" id="L975">        Iterator&lt;QueuedFile&gt; iterator = Queue.iterator();</span>
-<span class="fc" id="L976">        boolean isFirstUpcoming = true;</span>
-<span class="fc" id="L977">        String firstUpcomingName = null;</span>
-<span class="fc bfc" id="L978" title="All 2 branches covered.">        while (iterator.hasNext()) {</span>
-<span class="fc" id="L979">            QueuedFile file = iterator.next();</span>
-<span class="fc" id="L980">            String display = getDisplayName(file.getFile());</span>
-<span class="fc" id="L981">            DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(display);</span>
-<span class="fc" id="L982">            root.add(fileNode);</span>
-<span class="fc bfc" id="L983" title="All 2 branches covered.">            if (isFirstUpcoming) {</span>
-<span class="fc" id="L984">                firstUpcomingName = display;</span>
-<span class="fc" id="L985">                isFirstUpcoming = false;</span>
+<span class="fc" id="L981">        Iterator&lt;QueuedFile&gt; iterator = Queue.iterator();</span>
+<span class="fc" id="L982">        boolean isFirstUpcoming = true;</span>
+<span class="fc" id="L983">        String firstUpcomingName = null;</span>
+<span class="fc bfc" id="L984" title="All 2 branches covered.">        while (iterator.hasNext()) {</span>
+<span class="fc" id="L985">            QueuedFile file = iterator.next();</span>
+<span class="fc" id="L986">            String display = getDisplayName(file.getFile());</span>
+<span class="fc" id="L987">            DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(display);</span>
+<span class="fc" id="L988">            root.add(fileNode);</span>
+<span class="fc bfc" id="L989" title="All 2 branches covered.">            if (isFirstUpcoming) {</span>
+<span class="fc" id="L990">                firstUpcomingName = display;</span>
+<span class="fc" id="L991">                isFirstUpcoming = false;</span>
             }
-<span class="fc" id="L987">        }</span>
+<span class="fc" id="L993">        }</span>
 
-<span class="fc" id="L989">        final String highlightName = firstUpcomingName;</span>
-<span class="fc" id="L990">        queueTree.setCellRenderer(new DefaultTreeCellRenderer() {</span>
+<span class="fc" id="L995">        final String highlightName = firstUpcomingName;</span>
+<span class="fc" id="L996">        queueTree.setCellRenderer(new DefaultTreeCellRenderer() {</span>
             @Override
             public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
-<span class="fc" id="L993">                JLabel label = (JLabel) super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);</span>
-<span class="fc bfc" id="L994" title="All 4 branches covered.">                if (highlightName != null &amp;&amp; value.toString().equals(highlightName)) {</span>
-<span class="fc" id="L995">                    label.setFont(label.getFont().deriveFont(Font.BOLD));</span>
+<span class="fc" id="L999">                JLabel label = (JLabel) super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);</span>
+<span class="fc bfc" id="L1000" title="All 4 branches covered.">                if (highlightName != null &amp;&amp; value.toString().equals(highlightName)) {</span>
+<span class="fc" id="L1001">                    label.setFont(label.getFont().deriveFont(Font.BOLD));</span>
                 } else {
-<span class="fc" id="L997">                    label.setFont(label.getFont().deriveFont(Font.PLAIN));</span>
+<span class="fc" id="L1003">                    label.setFont(label.getFont().deriveFont(Font.PLAIN));</span>
                 }
-<span class="fc" id="L999">                return label;</span>
+<span class="fc" id="L1005">                return label;</span>
             }
         });
 
-<span class="fc" id="L1003">        ((DefaultTreeModel) queueTree.getModel()).reload();</span>
-<span class="fc" id="L1004">        queueTree.expandPath(new TreePath(root.getPath()));</span>
-<span class="fc" id="L1005">    }</span>
+<span class="fc" id="L1009">        ((DefaultTreeModel) queueTree.getModel()).reload();</span>
+<span class="fc" id="L1010">        queueTree.expandPath(new TreePath(root.getPath()));</span>
+<span class="fc" id="L1011">    }</span>
 
 
 	private void recenterQueueAtRenderedIndex(int renderedIndex) {
-<span class="nc" id="L1009">		java.util.List&lt;QueuedFile&gt; combined = new java.util.ArrayList&lt;&gt;();</span>
-<span class="nc" id="L1010">		combined.addAll(Queue.getHistory());</span>
-<span class="nc" id="L1011">		java.util.Iterator&lt;QueuedFile&gt; it = Queue.iterator();</span>
-<span class="nc bnc" id="L1012" title="All 2 branches missed.">		while (it.hasNext()) combined.add(it.next());</span>
+<span class="nc" id="L1015">		java.util.List&lt;QueuedFile&gt; combined = new java.util.ArrayList&lt;&gt;();</span>
+<span class="nc" id="L1016">		combined.addAll(Queue.getHistory());</span>
+<span class="nc" id="L1017">		java.util.Iterator&lt;QueuedFile&gt; it = Queue.iterator();</span>
+<span class="nc bnc" id="L1018" title="All 2 branches missed.">		while (it.hasNext()) combined.add(it.next());</span>
 
-<span class="nc bnc" id="L1014" title="All 4 branches missed.">		if (renderedIndex &lt; 0 || renderedIndex &gt;= combined.size()) return;</span>
+<span class="nc bnc" id="L1020" title="All 4 branches missed.">		if (renderedIndex &lt; 0 || renderedIndex &gt;= combined.size()) return;</span>
 
-<span class="nc" id="L1016">		stopCurrentPlayback();</span>
+<span class="nc" id="L1022">		stopCurrentPlayback();</span>
 
-<span class="nc" id="L1018">		Queue.empty();</span>
-<span class="nc" id="L1019">		Queue.clearHistory();</span>
-<span class="nc bnc" id="L1020" title="All 2 branches missed.">		for (QueuedFile qf : combined) {</span>
-<span class="nc bnc" id="L1021" title="All 6 branches missed.">			if (qf != null &amp;&amp; qf.getFile() != null &amp;&amp; qf.getFile().exists()) {</span>
-<span class="nc" id="L1022">				Queue.enqueue(qf);</span>
+<span class="nc" id="L1024">		Queue.empty();</span>
+<span class="nc" id="L1025">		Queue.clearHistory();</span>
+<span class="nc bnc" id="L1026" title="All 2 branches missed.">		for (QueuedFile qf : combined) {</span>
+<span class="nc bnc" id="L1027" title="All 6 branches missed.">			if (qf != null &amp;&amp; qf.getFile() != null &amp;&amp; qf.getFile().exists()) {</span>
+<span class="nc" id="L1028">				Queue.enqueue(qf);</span>
 			}
-<span class="nc" id="L1024">		}</span>
-<span class="nc bnc" id="L1025" title="All 2 branches missed.">		for (int i = 0; i &lt; renderedIndex; i++) {</span>
+<span class="nc" id="L1030">		}</span>
+<span class="nc bnc" id="L1031" title="All 2 branches missed.">		for (int i = 0; i &lt; renderedIndex; i++) {</span>
 			try {
-<span class="nc" id="L1027">				Queue.dequeue(); </span>
-<span class="nc" id="L1028">			} catch (Exception ignored) {</span>
-<span class="nc" id="L1029">				break;</span>
-<span class="nc" id="L1030">			}</span>
+<span class="nc" id="L1033">				Queue.dequeue(); </span>
+<span class="nc" id="L1034">			} catch (Exception ignored) {</span>
+<span class="nc" id="L1035">				break;</span>
+<span class="nc" id="L1036">			}</span>
 		}
 
-<span class="nc" id="L1033">		refreshQueueInJTree();</span>
+<span class="nc" id="L1039">		refreshQueueInJTree();</span>
 
-<span class="nc" id="L1035">		int historyCount = Queue.getHistory().size();</span>
+<span class="nc" id="L1041">		int historyCount = Queue.getHistory().size();</span>
 		try {
-<span class="nc" id="L1037">			DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode) root.getChildAt(historyCount);</span>
-<span class="nc" id="L1038">			TreePath rootPath = new TreePath(root.getPath());</span>
-<span class="nc" id="L1039">			TreePath currentPath = rootPath.pathByAddingChild(currentNode);</span>
-<span class="nc" id="L1040">			queueTree.setSelectionPath(currentPath);</span>
-<span class="nc" id="L1041">			queueTree.scrollPathToVisible(currentPath);</span>
-<span class="nc" id="L1042">		} catch (Exception ignored) {}</span>
+<span class="nc" id="L1043">			DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode) root.getChildAt(historyCount);</span>
+<span class="nc" id="L1044">			TreePath rootPath = new TreePath(root.getPath());</span>
+<span class="nc" id="L1045">			TreePath currentPath = rootPath.pathByAddingChild(currentNode);</span>
+<span class="nc" id="L1046">			queueTree.setSelectionPath(currentPath);</span>
+<span class="nc" id="L1047">			queueTree.scrollPathToVisible(currentPath);</span>
+<span class="nc" id="L1048">		} catch (Exception ignored) {}</span>
 
-<span class="nc" id="L1044">		songLoaded = false;</span>
+<span class="nc" id="L1050">		songLoaded = false;</span>
 		try {
-<span class="nc" id="L1046">			loadSong();</span>
-<span class="nc" id="L1047">			play();</span>
-<span class="nc" id="L1048">		} catch (Exception ex) {</span>
-<span class="nc" id="L1049">			ex.printStackTrace();</span>
-<span class="nc" id="L1050">		}</span>
-<span class="nc" id="L1051">	}</span>
+<span class="nc" id="L1052">			loadSong();</span>
+<span class="nc" id="L1053">			play();</span>
+<span class="nc" id="L1054">		} catch (Exception ex) {</span>
+<span class="nc" id="L1055">			ex.printStackTrace();</span>
+<span class="nc" id="L1056">		}</span>
+<span class="nc" id="L1057">	}</span>
 
     public void mute() {
-<span class="nc bnc" id="L1054" title="All 2 branches missed.">        if (sp != null) {</span>
-<span class="nc" id="L1055">            lastVolume = ac.out.getGain();</span>
-<span class="nc" id="L1056">            ac.out.setGain(0);</span>
-<span class="nc" id="L1057">            updateCurrentVolume(0);</span>
-<span class="nc" id="L1058">            SwingUtilities.invokeLater(() -&gt; VolumeSlider.setValue(0));</span>
+<span class="nc bnc" id="L1060" title="All 2 branches missed.">        if (sp != null) {</span>
+<span class="nc" id="L1061">            lastVolume = ac.out.getGain();</span>
+<span class="nc" id="L1062">            ac.out.setGain(0);</span>
+<span class="nc" id="L1063">            updateCurrentVolume(0);</span>
+<span class="nc" id="L1064">            SwingUtilities.invokeLater(() -&gt; VolumeSlider.setValue(0));</span>
 
         }
-<span class="nc" id="L1061">    }</span>
+<span class="nc" id="L1067">    }</span>
 
     public void unmute() {
-<span class="nc bnc" id="L1064" title="All 2 branches missed.">        if (sp != null) {</span>
-<span class="nc" id="L1065">            ac.out.setGain(lastVolume);</span>
-<span class="nc" id="L1066">            updateCurrentVolume(lastVolume);</span>
-<span class="nc" id="L1067">            SwingUtilities.invokeLater(() -&gt; VolumeSlider.setValue((int)(lastVolume * 100)));</span>
+<span class="nc bnc" id="L1070" title="All 2 branches missed.">        if (sp != null) {</span>
+<span class="nc" id="L1071">            ac.out.setGain(lastVolume);</span>
+<span class="nc" id="L1072">            updateCurrentVolume(lastVolume);</span>
+<span class="nc" id="L1073">            SwingUtilities.invokeLater(() -&gt; VolumeSlider.setValue((int)(lastVolume * 100)));</span>
         }
-<span class="nc" id="L1069">    }</span>
+<span class="nc" id="L1075">    }</span>
 
     public void updatePlayPauseButtonLabel() {
-<span class="fc" id="L1072">        SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="pc bpc" id="L1073" title="1 of 2 branches missed.">            if (PlayPause != null) {</span>
-<span class="fc bfc" id="L1074" title="All 2 branches covered.">                PlayPause.setText(isPlaying ? &quot;Pause&quot; : &quot;Play&quot;);</span>
+<span class="fc" id="L1078">        SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="pc bpc" id="L1079" title="1 of 2 branches missed.">            if (PlayPause != null) {</span>
+<span class="fc bfc" id="L1080" title="All 2 branches covered.">                PlayPause.setText(isPlaying ? &quot;Pause&quot; : &quot;Play&quot;);</span>
             }
-<span class="fc" id="L1076">        });</span>
-<span class="fc" id="L1077">    }</span>
+<span class="fc" id="L1082">        });</span>
+<span class="fc" id="L1083">    }</span>
+    public void refreshPlayPauseButton() {
+<span class="nc bnc" id="L1085" title="All 2 branches missed.">    if (PlayPause != null) {</span>
+        // Remove old listeners
+<span class="nc bnc" id="L1087" title="All 2 branches missed.">        for (ActionListener al : PlayPause.getActionListeners()) {</span>
+<span class="nc" id="L1088">            PlayPause.removeActionListener(al);</span>
+        }
+        // Add new one
+<span class="nc" id="L1091">        PlayPause.addActionListener(new PlayPauseListener());</span>
+    }
+<span class="nc" id="L1093">}</span>
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -8,6 +8,8 @@ com\gooseplayer2\MainFrame$3.class
 com\gooseplayer2\Packages\Queue$Node.class
 com\gooseplayer2\JPanels\MusicPlayer$ClearListener.class
 com\gooseplayer2\Packages\Queue.class
+com\gooseplayer2\JPanels\AudioPlayer.class
+com\gooseplayer2\JPanels\AudioPlayerSpy.class
 com\gooseplayer2\JPanels\MusicPlayer$ShuffleListener.class
 com\gooseplayer2\Packages\DropFileHandler.class
 com\gooseplayer2\Packages\FileTransferHandler.class
