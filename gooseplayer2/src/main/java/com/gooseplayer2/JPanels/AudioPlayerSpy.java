@@ -15,6 +15,7 @@ public class AudioPlayerSpy extends MusicPlayer {
     private final AtomicInteger clearCount  = new AtomicInteger();
     private final AtomicInteger shuffleCount = new AtomicInteger();
     private final AtomicInteger stopCount   = new AtomicInteger();
+    private boolean playing = false;
 
     public AudioPlayerSpy(JComponent filePanel, boolean isMultichannel, String channelName)
             throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -28,6 +29,8 @@ public class AudioPlayerSpy extends MusicPlayer {
     @Override public void clear()        { clearCount.incrementAndGet();  super.clear(); }
     @Override public void shuffleQueue() { shuffleCount.incrementAndGet();super.shuffleQueue(); }
     @Override public void stopAudio()    { stopCount.incrementAndGet();   super.stopAudio(); }
+    public boolean isPlaying() { return playing; }
+
 
     // Getters
     public int getPlayCount()   { return playCount.get(); }
