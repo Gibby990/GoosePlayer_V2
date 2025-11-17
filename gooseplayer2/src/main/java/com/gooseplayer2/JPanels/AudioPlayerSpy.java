@@ -2,6 +2,9 @@
 package com.gooseplayer2.JPanels;
 
 import javax.swing.*;
+
+import net.beadsproject.beads.ugens.SamplePlayer;
+
 import java.io.IOException;
 import javax.sound.sampled.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -40,4 +43,11 @@ public class AudioPlayerSpy extends MusicPlayer {
     public int getClearCount()  { return clearCount.get(); }
     public int getShuffleCount(){ return shuffleCount.get(); }
     public int getStopCount()   { return stopCount.get(); }
+
+public double getCurrentPosition() {
+    SamplePlayer player = getSamplePlayer();
+    return player != null ? player.getPosition() : 0.0;
+}
+
+    
 }

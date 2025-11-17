@@ -11,27 +11,20 @@ import org.assertj.swing.timing.Condition;
 import org.assertj.swing.timing.Pause;
 import org.assertj.swing.timing.Timeout;
 import org.junit.jupiter.api.AfterEach;
-//import org.assertj.swing.core.matcher.JButtonMatcher;
-//import org.assertj.swing.timing.Condition;
-//import org.assertj.swing.timing.Pause;
-//import org.assertj.swing.timing.Timeout;
-//import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
 import java.awt.*;
-//import java.lang.reflect.Field;
-//import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;  // ← MOCKITO
+import static org.mockito.Mockito.mock;  
 
 class MethodsTest {
 
     private FrameFixture window;
-    private AudioPlayerSpy spy;  // ← SPY REFERENCE
+    private AudioPlayerSpy spy;  // SPY REFERENCE
 
 
     //SETUP
@@ -83,15 +76,15 @@ class MethodsTest {
             try {
                 // 1. Stop audio on EDT
                 GuiActionRunner.execute(() -> {
-                    spy.stopAudio();  // ← CRITICAL
-                    spy.clear();      // ← Optional: clear queue
+                    spy.stopAudio();  
+                    spy.clear();      // clear queue
                 });
 
                 // 2. Wait for audio to stop (max 2 sec)
                 Pause.pause(new Condition("Audio stopped") {
                     @Override
                     public boolean test() {
-                        return !spy.isPlaying();  // ← You need this method
+                        return !spy.isPlaying(); 
                     }
                 }, Timeout.timeout(2, TimeUnit.SECONDS));
 
@@ -177,5 +170,71 @@ class MethodsTest {
         System.out.println("   Actual count: " + spy.getPlayCount());  // ← NOW PRINTS
         System.out.println("   Error: " + error.getMessage());
     }
+
+    //Pause test and ensure audio stops when stop button is clicked
+    @Test
+    void clickingStopButtonCallsPause() throws Exception {
+        // Wait for UI to rebuild
+        Thread.sleep(1000);
+
+        // Find the Stop button (from the spy)
+        window.button(JButtonMatcher.withText("Play")).click();
+        Thread.sleep(2900);
+        window.button(JButtonMatcher.withText("Pause")).click();
+
+        assertEquals(1, spy.getPauseCount(), "Pause button should call pause()");
+        System.out.println("Pause count: " + spy.getPauseCount());
+        assertEquals(false, spy.isPlaying(), "Audio should be paused");
+    }
+
+    //Check that the Pause method is called precisely once when Pause is clicked
+    @Test
+    void clickingPauseButtonCallsPauseExactlyOnce() throws Exception {
+        Thread.sleep(1000);
+        window.button(JButtonMatcher.withText("Play")).click();
+        Thread.sleep(800);
+        window.button(JButtonMatcher.withText("Pause")).click();
+        assertEquals(1, spy.getPauseCount(), "Pause button must call pause() once");
+        System.out.println("Pause count: " + spy.getPauseCount());
+    }
+
+    // Check that the Pause button disappears after clicking
+    @Test
+    void pauseButtonDisappearsAfterClicking() throws Exception {
+        Thread.sleep(1000);
+
+        window.button(JButtonMatcher.withText("Play")).click();
+        Thread.sleep(800);
+        window.button(JButtonMatcher.withText("Pause")).click();
+
+        // "Pause" button should be gone → "Play" button is back
+        ComponentLookupException ex = assertThrows(ComponentLookupException.class, () -> {
+            window.button(JButtonMatcher.withText("Pause")).requireVisible();
+        });
+
+        System.out.println("PASSED: Pause button correctly disappeared");
+        System.out.println("   Error: " + ex.getMessage());
+    }
+
+    //Pause then Skip test to ensure Pause is only called once
+    @Test
+    void pauseThenSkip_StillOnlyOnePauseCall() throws Exception {
+        Thread.sleep(1000);
+        window.button(JButtonMatcher.withText("Play")).click();
+        Thread.sleep(800);
+        window.button(JButtonMatcher.withText("Pause")).click();
+        Thread.sleep(500);
+        window.button(JButtonMatcher.withText("Skip")).click();
+
+        assertEquals(1, spy.getPauseCount(), "Skip should not add extra pause calls");
+        assertEquals(1, spy.getSkipCount(), "Skip should be counted");
+        System.out.println("Pause+Skip: Pause=" + spy.getPauseCount() + " Skip=" + spy.getSkipCount());
+    }
+
+    //
+
+
+
+
 
 }

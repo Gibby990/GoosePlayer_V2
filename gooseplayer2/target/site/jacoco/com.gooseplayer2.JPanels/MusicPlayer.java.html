@@ -387,7 +387,7 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
 
     @Override
     public void play() {
-<span class="pc bpc" id="L390" title="1 of 4 branches missed.">        if (!isPlaying &amp;&amp; !Queue.isEmpty()) {</span>
+<span class="pc bpc" id="L390" title="2 of 4 branches missed.">        if (!isPlaying &amp;&amp; !Queue.isEmpty()) {</span>
             try {
 <span class="fc bfc" id="L392" title="All 2 branches covered.">                if (!songLoaded) {</span>
 <span class="nc" id="L393">                    loadSong();</span>
@@ -427,7 +427,7 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
 <span class="fc" id="L427">                SwingUtilities.invokeLater(() -&gt; System.out.println(&quot;Playback failed&quot;));</span>
 <span class="fc" id="L428">                resetCurrentSongData();</span>
 <span class="fc" id="L429">            }</span>
-<span class="pc bpc" id="L430" title="1 of 2 branches missed.">        } else if (isPaused) {</span>
+<span class="nc bnc" id="L430" title="All 2 branches missed.">        } else if (isPaused) {</span>
 <span class="nc" id="L431">            resume();</span>
         }
 <span class="fc" id="L433">    }</span>
@@ -794,14 +794,14 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
 <span class="nc" id="L794">    }</span>
 
     public void resetCurrentSongData() {
-<span class="pc bpc" id="L797" title="2 of 4 branches missed.">        if (isPlaying || isPaused) { //For me to keep track of</span>
-<span class="nc bnc" id="L798" title="All 2 branches missed.">            if (sp != null) {</span>
-<span class="nc" id="L799">                sp.pause(true);</span>
-<span class="nc" id="L800">                ac.out.removeAllConnections(sp);</span>
+<span class="pc bpc" id="L797" title="1 of 4 branches missed.">        if (isPlaying || isPaused) { //For me to keep track of</span>
+<span class="pc bpc" id="L798" title="1 of 2 branches missed.">            if (sp != null) {</span>
+<span class="fc" id="L799">                sp.pause(true);</span>
+<span class="fc" id="L800">                ac.out.removeAllConnections(sp);</span>
             }
-<span class="nc" id="L802">            updateTimeTimer.stop(); </span>
-<span class="nc" id="L803">            isPlaying = false;</span>
-<span class="nc" id="L804">            isPaused = false;</span>
+<span class="fc" id="L802">            updateTimeTimer.stop(); </span>
+<span class="fc" id="L803">            isPlaying = false;</span>
+<span class="fc" id="L804">            isPaused = false;</span>
         }
 <span class="fc" id="L806">        songLoaded = false; </span>
 <span class="fc" id="L807">        selectedFile = null; </span>

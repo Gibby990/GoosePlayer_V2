@@ -1091,5 +1091,8 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
         PlayPause.addActionListener(new PlayPauseListener());
     }
 }
+    protected SamplePlayer getSamplePlayer() {
+    return sp;
+    }
 
 }

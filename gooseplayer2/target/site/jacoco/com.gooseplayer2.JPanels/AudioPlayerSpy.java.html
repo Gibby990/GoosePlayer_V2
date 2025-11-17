@@ -15,27 +15,32 @@ public class AudioPlayerSpy extends MusicPlayer {
 <span class="fc" id="L15">    private final AtomicInteger clearCount  = new AtomicInteger();</span>
 <span class="fc" id="L16">    private final AtomicInteger shuffleCount = new AtomicInteger();</span>
 <span class="fc" id="L17">    private final AtomicInteger stopCount   = new AtomicInteger();</span>
+<span class="fc" id="L18">    private boolean playing = false;</span>
 
     public AudioPlayerSpy(JComponent filePanel, boolean isMultichannel, String channelName)
             throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-<span class="fc" id="L21">        super(filePanel, isMultichannel, channelName);  // ← CALL SUPER</span>
-<span class="fc" id="L22">    }</span>
+<span class="fc" id="L22">        super(filePanel, isMultichannel, channelName);  // ← CALL SUPER</span>
+<span class="fc" id="L23">    }</span>
 
-<span class="fc" id="L24">    @Override public void play()         { playCount.incrementAndGet();   super.play(); }</span>
-<span class="nc" id="L25">    @Override public void pause()        { pauseCount.incrementAndGet();  super.pause(); }</span>
-<span class="nc" id="L26">    @Override public void skip()         { skipCount.incrementAndGet();   super.skip(); }</span>
-<span class="nc" id="L27">    @Override public void remove()       { removeCount.incrementAndGet(); super.remove(); }</span>
-<span class="nc" id="L28">    @Override public void clear()        { clearCount.incrementAndGet();  super.clear(); }</span>
-<span class="nc" id="L29">    @Override public void shuffleQueue() { shuffleCount.incrementAndGet();super.shuffleQueue(); }</span>
-<span class="nc" id="L30">    @Override public void stopAudio()    { stopCount.incrementAndGet();   super.stopAudio(); }</span>
+<span class="fc" id="L25">    @Override public void play()         { playCount.incrementAndGet();   super.play(); }</span>
+<span class="fc" id="L26">    @Override public void pause()        { pauseCount.incrementAndGet();  super.pause(); }</span>
+<span class="nc" id="L27">    @Override public void skip()         { skipCount.incrementAndGet();   super.skip(); }</span>
+<span class="nc" id="L28">    @Override public void remove()       { removeCount.incrementAndGet(); super.remove(); }</span>
+<span class="fc" id="L29">    @Override public void clear()        { clearCount.incrementAndGet();  super.clear(); }</span>
+<span class="nc" id="L30">    @Override public void shuffleQueue() { shuffleCount.incrementAndGet();super.shuffleQueue(); }</span>
+<span class="fc" id="L31">    @Override public void stopAudio()    { stopCount.incrementAndGet();   super.stopAudio(); }</span>
+<span class="fc" id="L32">    public boolean isPlaying() { return playing; }</span>
+
 
     // Getters
-<span class="fc" id="L33">    public int getPlayCount()   { return playCount.get(); }</span>
-<span class="nc" id="L34">    public int getPauseCount()  { return pauseCount.get(); }</span>
-<span class="nc" id="L35">    public int getSkipCount()   { return skipCount.get(); }</span>
-<span class="nc" id="L36">    public int getRemoveCount() { return removeCount.get(); }</span>
-<span class="nc" id="L37">    public int getClearCount()  { return clearCount.get(); }</span>
-<span class="nc" id="L38">    public int getShuffleCount(){ return shuffleCount.get(); }</span>
-<span class="nc" id="L39">    public int getStopCount()   { return stopCount.get(); }</span>
+<span class="fc" id="L36">    public int getPlayCount()   { return playCount.get(); }</span>
+<span class="fc" id="L37">    public int getPauseCount()  { return pauseCount.get(); }</span>
+<span class="nc" id="L38">    public int getSkipCount()   { return skipCount.get(); }</span>
+<span class="nc" id="L39">    public int getRemoveCount() { return removeCount.get(); }</span>
+<span class="nc" id="L40">    public int getClearCount()  { return clearCount.get(); }</span>
+<span class="nc" id="L41">    public int getShuffleCount(){ return shuffleCount.get(); }</span>
+<span class="nc" id="L42">    public int getStopCount()   { return stopCount.get(); }</span>
+
+    
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
