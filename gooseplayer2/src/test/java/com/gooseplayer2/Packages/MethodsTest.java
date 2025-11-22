@@ -285,6 +285,67 @@ class MethodsTest {
         System.out.println("Skip count (audio paused): " + spy.getSkipCount());
     }
 
+    //test remove button functionality
+    @Test
+    void clickingRemoveButtonCallsRemove() throws Exception {       
+        Thread.sleep(1000);
+        window.button(JButtonMatcher.withText("Remove")).click();
+
+        assertEquals(1, spy.getRemoveCount(), "Remove button should call remove()");
+        System.out.println("Remove count: " + spy.getRemoveCount());
+    }
+
+    //test remove button multiple times
+    @Test
+    void clickingRemoveButtonMultipleTimes() throws Exception {      
+        Thread.sleep(1000);
+        window.button(JButtonMatcher.withText("Remove")).click();
+        Thread.sleep(500);
+        window.button(JButtonMatcher.withText("Remove")).click();
+
+        assertEquals(2, spy.getRemoveCount(), "Remove button should call remove() two times");
+        System.out.println("Remove count: " + spy.getRemoveCount());
+    }
+
+    //test remove button when queue is empty
+    @Test
+    void clickingRemoveButtonWhenQueueEmpty() throws Exception {       
+        Thread.sleep(1000);
+        // First, clear the queue
+        GuiActionRunner.execute(() -> {
+            spy.clear();
+        });
+        Thread.sleep(2000);
+        // Now, click Remove
+        window.button(JButtonMatcher.withText("Remove")).click();
+
+        assertEquals(1, spy.getRemoveCount(), "Remove button should call remove() even when queue is empty");
+        System.out.println("Remove count (empty queue): " + spy.getRemoveCount());
+    }
+
+    //test that remove cannot remove currently playing song
+    @Test
+    void removeCurrentlyPlayingSong_CallsMethodButSkipsLogic() throws Exception {
+        Thread.sleep(1000);
+
+        window.button(JButtonMatcher.withText("Play")).click();
+        Thread.sleep(3000);
+
+        JTreeFixture queueTree = window.tree("queueTree");
+        queueTree.selectRow(1);
+
+        int before = spy.getRemoveCount();
+        window.button(JButtonMatcher.withText("Remove")).click();
+        Thread.sleep(1000);
+
+        assertEquals(before + 1, spy.getRemoveCount(), "remove() called, but should skip removal logic");
+        assertEquals("Pause", spy.PlayPause.getText());
+        assertEquals(2, queueTree.target().getRowCount(), "Song still there (not removed)");
+        System.out.println("PASSED: Method called, but removal blocked");
+    }
+
+
+
     
 
 }
