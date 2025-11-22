@@ -231,10 +231,60 @@ class MethodsTest {
         System.out.println("Pause+Skip: Pause=" + spy.getPauseCount() + " Skip=" + spy.getSkipCount());
     }
 
-    //
+    //Skip test to ensure Skip method is called when Skip button is clicked
+    @Test
+    void clickingSkipButtonCallsSkip() throws Exception {          
+        Thread.sleep(1000);
+        window.button(JButtonMatcher.withText("Skip")).click();
 
+        assertEquals(1, spy.getSkipCount(), "Skip button should call skip()");
+        System.out.println("Skip count: " + spy.getSkipCount());
+    }
 
+    //test skip button multiple times
+    @Test
+    void clickingSkipButtonMultipleTimes() throws Exception {       
+        Thread.sleep(1000);
+        window.button(JButtonMatcher.withText("Skip")).click();
+        Thread.sleep(500);
+        window.button(JButtonMatcher.withText("Skip")).click();
+        Thread.sleep(500);
+        window.button(JButtonMatcher.withText("Skip")).click();
 
+        assertEquals(3, spy.getSkipCount(), "Skip button should call skip() three times");
+        System.out.println("Skip count: " + spy.getSkipCount());
+    }
 
+    //test skip button functionality when queue is empty
+    @Test
+    void clickingSkipButtonWhenQueueEmpty() throws Exception {       
+        Thread.sleep(1000);
+        // First, clear the queue
+        GuiActionRunner.execute(() -> {
+            spy.clear();
+        });
+
+        // Now, click Skip
+        window.button(JButtonMatcher.withText("Skip")).click();
+
+        assertEquals(1, spy.getSkipCount(), "Skip button should call skip() even when queue is empty");
+        System.out.println("Skip count (empty queue): " + spy.getSkipCount());
+    }
+
+    //test skip button functionality when audio is paused
+    @Test
+    void clickingSkipButtonWhenAudioPaused() throws Exception {       
+        Thread.sleep(1000);
+        window.button(JButtonMatcher.withText("Play")).click();
+        Thread.sleep(800);
+        window.button(JButtonMatcher.withText("Pause")).click();
+        Thread.sleep(500);
+        window.button(JButtonMatcher.withText("Skip")).click();
+
+        assertEquals(1, spy.getSkipCount(), "Skip button should call skip() when audio is paused");
+        System.out.println("Skip count (audio paused): " + spy.getSkipCount());
+    }
+
+    
 
 }
