@@ -25,29 +25,63 @@ public class AudioPlayerSpy extends MusicPlayer {
         super(filePanel, isMultichannel, channelName);  // ← CALL SUPER
     }
 
-    @Override public void play()         { playCount.incrementAndGet();   super.play(); }
-    @Override public void pause()        { pauseCount.incrementAndGet();  super.pause(); }
-    @Override public void skip()         { skipCount.incrementAndGet();   super.skip(); }
-    @Override public void remove()       { removeCount.incrementAndGet(); super.remove(); }
-    @Override public void clear()        { clearCount.incrementAndGet();  super.clear(); }
-    @Override public void shuffleQueue() { shuffleCount.incrementAndGet();super.shuffleQueue(); }
-    @Override public void stopAudio()    { stopCount.incrementAndGet();   super.stopAudio(); }
-    public boolean isPlaying() { return playing; }
-
-
+    @Override public void play(){ 
+        playCount.incrementAndGet();
+        super.play(); 
+    }
+    @Override public void pause(){ 
+        pauseCount.incrementAndGet();
+        super.pause(); 
+    }
+    @Override public void skip(){ 
+        skipCount.incrementAndGet();
+        super.skip(); 
+    }
+    @Override public void remove(){ 
+        removeCount.incrementAndGet();
+        super.remove(); 
+    }
+    @Override public void clear(){ 
+        clearCount.incrementAndGet();  
+        super.clear(); 
+    }
+    @Override public void shuffleQueue(){
+        shuffleCount.incrementAndGet();
+        super.shuffleQueue(); 
+    }
+    @Override public void stopAudio(){
+        stopCount.incrementAndGet();   
+        super.stopAudio(); 
+    }
+    
     // Getters
-    public int getPlayCount()   { return playCount.get(); }
-    public int getPauseCount()  { return pauseCount.get(); }
-    public int getSkipCount()   { return skipCount.get(); }
-    public int getRemoveCount() { return removeCount.get(); }
-    public int getClearCount()  { return clearCount.get(); }
-    public int getShuffleCount(){ return shuffleCount.get(); }
-    public int getStopCount()   { return stopCount.get(); }
-
-public double getCurrentPosition() {
-    SamplePlayer player = getSamplePlayer();
-    return player != null ? player.getPosition() : 0.0;
-}
-
+    public boolean isPlaying() { 
+        return playing; 
+    }
+    public int getPlayCount(){ 
+        return playCount.get(); 
+    }
+    public int getPauseCount(){ 
+        return pauseCount.get(); 
+    }
+    public int getSkipCount(){ 
+        return skipCount.get(); 
+    }
+    public int getRemoveCount(){ 
+        return removeCount.get(); 
+    }
+    public int getClearCount(){ 
+        return clearCount.get(); 
+    }
+    public int getShuffleCount(){ 
+        return shuffleCount.get(); 
+    }
+    public int getStopCount(){ 
+        return stopCount.get(); 
+    }
+    public double getCurrentPosition() {
+        SamplePlayer player = getSamplePlayer();
+        return player != null ? player.getPosition() : 0.0;
+    }
     
 }
