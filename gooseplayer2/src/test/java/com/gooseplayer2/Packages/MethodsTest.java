@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import javax.swing.*;
 import java.awt.*;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;  
@@ -43,7 +44,7 @@ class MethodsTest {
         GuiActionRunner.execute(() -> {
             MusicPanel panel = frame.getMusicPanel();
             panel.setPlayerForTest(0, spy);
-            panel.rebuildPlayerUI(0);  // ← THIS IS KEY
+            panel.rebuildPlayerUI(0);  
         });
 
         window = new FrameFixture(frame);
@@ -51,7 +52,7 @@ class MethodsTest {
         window.resizeTo(new Dimension(1200, 800));
 
         //setup with a song in the queue
-                JTreeFixture queueTree = window.tree("queueTree");
+        JTreeFixture queueTree = window.tree("queueTree");
         JTreeFixture libraryTree = window.tree("libraryTree");
 
         // Wait for at least one song in library
@@ -343,9 +344,224 @@ class MethodsTest {
         assertEquals(2, queueTree.target().getRowCount(), "Song still there (not removed)");
         System.out.println("PASSED: Method called, but removal blocked");
     }
-
-
-
     
+    //test that remove can remove a non-playing song
+    @Test
+    void removeNonPlayingSong_RemovesSuccessfully() throws Exception {
+
+        // 1. Start playing the first song
+        window.button(JButtonMatcher.withText("Play")).click();
+        Thread.sleep(2500);
+
+        // 2. Add a SECOND song to the queue (the non-playing one)
+        JTreeFixture libraryTree = window.tree("libraryTree");
+        JTreeFixture queueTree = window.tree("queueTree");
+
+        // Drag the SECOND song from library to queue
+        String secondSongPath = libraryTree.target().getPathForRow(2).getLastPathComponent().toString();
+        libraryTree.drag("Library/" + secondSongPath);
+        queueTree.drop();
+        Thread.sleep(800);
+
+        // 3. Now queue has 2 songs: [0] = playing, [1] = next
+        // Select the SECOND song (index 1 in tree = row 2 because row 0 is root)
+        queueTree.selectRow(2);  // row 2 = second song
+
+        // 4. Click Remove
+        int before = spy.getRemoveCount();
+        window.button(JButtonMatcher.withText("Remove")).click();
+        Thread.sleep(3000);
+
+        // 5. Assert: remove() was called AND queue now has only 1 song
+        assertEquals(before + 1, spy.getRemoveCount(), 
+            "remove() should be called for non-playing song");
+
+        // Root + 1 song = 2 rows total since row 0 is root
+        assertEquals(2, queueTree.target().getRowCount(), 
+            "Only the playing song should remain (root + 1 song)");
+
+        System.out.println("PASSED: Non-playing song removed successfully");
+        System.out.println("   Queue now has " + (queueTree.target().getRowCount() - 1) + " song(s)");
+    }
+
+    //test clear button functionality
+    @Test
+    void clickingClearButtonCallsClear() throws Exception {       
+        Thread.sleep(1000);
+        window.button(JButtonMatcher.withText("Clear")).click();
+        Thread.sleep(2000);
+
+        assertEquals(1, spy.getClearCount(), "Clear button should call clear()");
+        System.out.println("Clear count: " + spy.getClearCount());
+    }
+
+    //test clear button multiple times
+    @Test
+    void clickingClearButtonMultipleTimes() throws Exception {      
+        Thread.sleep(1000);
+        window.button(JButtonMatcher.withText("Clear")).click();
+        Thread.sleep(1500);
+        window.button(JButtonMatcher.withText("Clear")).click();
+        Thread.sleep(1500);
+
+        assertEquals(2, spy.getClearCount(), "Clear button should call clear() two times");
+        System.out.println("Clear count: " + spy.getClearCount());
+    }
+
+    //test clear button when queue is already empty
+    @Test
+    void clickingClearButtonWhenQueueEmpty() throws Exception {      
+        Thread.sleep(1000);
+
+        GuiActionRunner.execute(() -> spy.clear());  // setup
+        Thread.sleep(1000);
+
+        // Reset counter so we only count the button click
+        GuiActionRunner.execute(() -> {
+            try {
+                java.lang.reflect.Field field = AudioPlayerSpy.class.getDeclaredField("clearCount");
+                field.setAccessible(true);
+                AtomicInteger counter = (AtomicInteger) field.get(spy);
+                counter.set(0);
+            } catch (Exception e) { throw new RuntimeException(e); }
+        });
+
+        window.button(JButtonMatcher.withText("Clear")).click();
+        Thread.sleep(1000);
+
+        assertEquals(1, spy.getClearCount());
+    }
+
+    //test clear button when audio is playing
+    @Test
+    void clickingClearButtonWhenAudioPlaying() throws Exception {      
+        Thread.sleep(1000);
+        window.button(JButtonMatcher.withText("Play")).click();
+        Thread.sleep(800);
+        window.button(JButtonMatcher.withText("Clear")).click();
+        Thread.sleep(2000);
+
+        assertEquals(1, spy.getClearCount(), "Clear button should call clear() when audio is playing");
+        System.out.println("Clear count (audio playing): " + spy.getClearCount());
+    }
+
+    //test clear button when audio is paused
+    @Test
+    void clickingClearButtonWhenAudioPaused() throws Exception {      
+        Thread.sleep(1000);
+        window.button(JButtonMatcher.withText("Play")).click();
+        Thread.sleep(800);
+        window.button(JButtonMatcher.withText("Pause")).click();
+        Thread.sleep(500);
+        window.button(JButtonMatcher.withText("Clear")).click();
+        Thread.sleep(2000);
+
+        assertEquals(1, spy.getClearCount(), "Clear button should call clear() when audio is paused");
+        System.out.println("Clear count (audio paused): " + spy.getClearCount());
+    }
+
+    //test shuffle button functionality
+    @Test
+    void clickingShuffleButtonCallsShuffle() throws Exception {      
+        Thread.sleep(1000);
+        window.button(JButtonMatcher.withText("Shuffle")).click();
+        Thread.sleep(2000);
+
+        assertEquals(1, spy.getShuffleCount(), "Shuffle button should call shuffle()");
+        System.out.println("Shuffle count: " + spy.getShuffleCount());
+    }
+
+    //test shuffle button multiple times
+    @Test
+    void clickingShuffleButtonMultipleTimes() throws Exception {      
+        Thread.sleep(1000);
+        // Add more songs to the queue
+        JTreeFixture libraryTree = window.tree("libraryTree");
+        JTreeFixture queueTree = window.tree("queueTree");
+
+        // Drag the SECOND and THIRD songs from library to queue
+        String secondSongPath = libraryTree.target().getPathForRow(2).getLastPathComponent().toString();
+        String thirdSongPath = libraryTree.target().getPathForRow(3).getLastPathComponent().toString();
+        libraryTree.drag("Library/" + secondSongPath);
+        queueTree.drop();
+
+        libraryTree.drag("Library/" + thirdSongPath);
+        queueTree.drop();
+
+        Thread.sleep(800);
+        window.button(JButtonMatcher.withText("Shuffle")).click();
+        Thread.sleep(1500);
+        window.button(JButtonMatcher.withText("Shuffle")).click();
+        Thread.sleep(2500);
+
+        assertEquals(2, spy.getShuffleCount(), "Shuffle button should call shuffle() two times");
+        System.out.println("Shuffle count: " + spy.getShuffleCount());
+    }
+
+    //test shuffle button when queue has only one song
+    @Test
+    void clickingShuffleButtonWhenQueueHasOneSong() throws Exception {      
+        Thread.sleep(1000);
+        JTreeFixture libraryTree = window.tree("libraryTree");
+        JTreeFixture queueTree = window.tree("queueTree");
+        String secondSongPath = libraryTree.target().getPathForRow(2).getLastPathComponent().toString();
+        // Cear the queue and add only one song
+        spy.clear();  
+        Thread.sleep(2000);
+        libraryTree.drag("Library/" + secondSongPath);
+        queueTree.drop();
+        Thread.sleep(2000);
+        // Now, click Shuffle
+        window.button(JButtonMatcher.withText("Shuffle")).click();
+        Thread.sleep(1000);
+
+        assertEquals(1, spy.getShuffleCount(), "Shuffle button should call shuffle() even with one song");
+        System.out.println("Shuffle count (one song): " + spy.getShuffleCount());
+    }
+
+    //test shuffle button when queue is empty
+    @Test
+    void clickingShuffleButtonWhenQueueEmpty() throws Exception {      
+        Thread.sleep(1000);
+        // First, clear the queue
+        GuiActionRunner.execute(() -> {
+            spy.clear();
+        });
+        Thread.sleep(2000);
+        // Now, click Shuffle
+        window.button(JButtonMatcher.withText("Shuffle")).click();
+        Thread.sleep(1000);
+
+        assertEquals(1, spy.getShuffleCount(), "Shuffle button should call shuffle() even when queue is empty");
+        System.out.println("Shuffle count (empty queue): " + spy.getShuffleCount());
+    }
+
+    //test shuffle button when audio is playing
+    @Test
+    void clickingShuffleButtonWhenAudioPlaying() throws Exception {      
+        Thread.sleep(1000);
+        window.button(JButtonMatcher.withText("Play")).click();
+        Thread.sleep(800);
+        window.button(JButtonMatcher.withText("Shuffle")).click();
+        Thread.sleep(2000);
+
+        assertEquals(1, spy.getShuffleCount(), "Shuffle button should call shuffle() when audio is playing");
+        System.out.println("Shuffle count (audio playing): " + spy.getShuffleCount());
+    }
+
+    //test shuffle button when audio is paused
+    @Test
+    void clickingShuffleButtonWhenAudioPaused() throws Exception {      
+        Thread.sleep(1000);
+        window.button(JButtonMatcher.withText("Play")).click();
+        Thread.sleep(800);
+        window.button(JButtonMatcher.withText("Pause")).click();
+        Thread.sleep(500);
+        window.button(JButtonMatcher.withText("Shuffle")).click();
+        Thread.sleep(2000);
+
+        assertEquals(1, spy.getShuffleCount(), "Shuffle button should call shuffle() when audio is paused");
+        System.out.println("Shuffle count (audio paused): " + spy.getShuffleCount());
+    }
 
 }
