@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.io.InputStream;
@@ -23,6 +24,7 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Properties;
 
 import javax.sound.sampled.*;
 import javazoom.jl.decoder.JavaLayerException;
@@ -43,6 +45,9 @@ public class MainFrame extends JFrame {
     private ImageIcon icon;
     private Image image;
     private Image scaledImage;
+    private Properties p;
+    private FileReader reader;
+    private String currentTheme;
     
     private Desktop desktop;
     private Slugcat Survivor;
@@ -50,8 +55,18 @@ public class MainFrame extends JFrame {
     public MainFrame() throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException {
         super("Music Player");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(950, 600);
 
+        reader = new FileReader(Config.SETTINGS_FILE_PATH);
+        p = new Properties();
+        p.load(reader);
+        currentTheme = p.getProperty("style");
+
+
+        if ("Radio".equalsIgnoreCase(currentTheme)) {
+            setSize(600, 300);
+        } else {
+            setSize(1050, 600); // Default
+        }
         Config.applySettings();
 
         try (InputStream iconStream = getClass().getResourceAsStream("/icons/Icon.png")) {

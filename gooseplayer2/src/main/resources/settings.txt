@@ -4,4 +4,4 @@ monochannelname=Player 1
 multichannel1name=Womp
 multichannel2name=Channel 2
 theme=Arc Dark Orange
-style=Multichannel
+style=Radio
