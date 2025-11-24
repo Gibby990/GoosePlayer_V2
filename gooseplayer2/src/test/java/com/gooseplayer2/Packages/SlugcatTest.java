@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SlugcatTest {
 
+    //Test for addObjects method 
     @Test
     void addObjects_addsComponent() {
         Slugcat s = new Slugcat();

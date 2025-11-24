@@ -71,7 +71,7 @@ public class Config extends JDialog {
 
         //Theme List
 <span class="nc" id="L73">        String[] themeList = {&quot;Light Flat&quot;, &quot;Solarized Light&quot;, &quot;Arc&quot;, &quot;Dark Flat&quot;, &quot;Arc Dark&quot;, &quot;Arc Dark Orange&quot;, &quot;Hiberbee Dark&quot;, &quot;Dark Purple&quot;, &quot;Nord&quot;};</span>
-<span class="nc" id="L74">        String[] styleList = {&quot;Monochannel&quot;, &quot;Multichannel&quot;};</span>
+<span class="nc" id="L74">        String[] styleList = {&quot;Monochannel&quot;, &quot;Multichannel&quot;, &quot;Radio&quot;};</span>
 
 <span class="nc" id="L76">        ThemeBox = new JComboBox&lt;&gt;(themeList);</span>
 <span class="nc" id="L77">        ThemeBox.setSelectedItem(currentTheme);</span>
@@ -222,21 +222,21 @@ public class Config extends JDialog {
 <span class="fc" id="L222">            Properties props = new Properties();</span>
 <span class="fc" id="L223">            props.load(new FileReader(SETTINGS_FILE_PATH));</span>
 <span class="fc" id="L224">            String configured = props.getProperty(&quot;librarypath&quot;);</span>
-<span class="pc bpc" id="L225" title="3 of 4 branches missed.">            if (configured != null &amp;&amp; !configured.isEmpty()) {</span>
-<span class="nc" id="L226">                File cfgDir = new File(configured);</span>
-<span class="nc bnc" id="L227" title="All 4 branches missed.">                if (cfgDir.exists() &amp;&amp; cfgDir.isDirectory()) {</span>
-<span class="nc" id="L228">                    return cfgDir.getAbsolutePath();</span>
+<span class="pc bpc" id="L225" title="2 of 4 branches missed.">            if (configured != null &amp;&amp; !configured.isEmpty()) {</span>
+<span class="fc" id="L226">                File cfgDir = new File(configured);</span>
+<span class="pc bpc" id="L227" title="2 of 4 branches missed.">                if (cfgDir.exists() &amp;&amp; cfgDir.isDirectory()) {</span>
+<span class="fc" id="L228">                    return cfgDir.getAbsolutePath();</span>
                 }
             }
-<span class="pc" id="L231">        } catch (Exception ignored) {}</span>
-<span class="fc" id="L232">        return computeDefaultLibraryPath();</span>
+<span class="nc" id="L231">        } catch (Exception ignored) {}</span>
+<span class="nc" id="L232">        return computeDefaultLibraryPath();</span>
     }
 
     private static String computeDefaultLibraryPath() {
-<span class="fc" id="L236">        String cwdLibrary = System.getProperty(&quot;user.dir&quot;) + File.separator + &quot;Library&quot;;</span>
-<span class="fc" id="L237">        File cwdDir = new File(cwdLibrary);</span>
-<span class="pc bpc" id="L238" title="2 of 4 branches missed.">        if (cwdDir.exists() &amp;&amp; cwdDir.isDirectory()) {</span>
-<span class="fc" id="L239">            return cwdDir.getAbsolutePath();</span>
+<span class="nc" id="L236">        String cwdLibrary = System.getProperty(&quot;user.dir&quot;) + File.separator + &quot;Library&quot;;</span>
+<span class="nc" id="L237">        File cwdDir = new File(cwdLibrary);</span>
+<span class="nc bnc" id="L238" title="All 4 branches missed.">        if (cwdDir.exists() &amp;&amp; cwdDir.isDirectory()) {</span>
+<span class="nc" id="L239">            return cwdDir.getAbsolutePath();</span>
         }
 
 <span class="nc" id="L242">        String devPath = System.getProperty(&quot;user.dir&quot;) + File.separator + &quot;gooseplayer2&quot; + File.separator + &quot;src&quot; + File.separator + &quot;Library&quot;;</span>

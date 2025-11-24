@@ -14,6 +14,7 @@ class SimpleMockTest {
     @Mock
     private Queue<QueuedFile> mockQueue; // Mock the Queue dependency
 
+    //Test for enqueue
     @Test
     void simpleEnqueueTest() {
         // Arrange: Create a mock QueuedFile
@@ -26,6 +27,7 @@ class SimpleMockTest {
         verify(mockQueue).enqueue(mockFile);
     }
 
+    //Test for dequeue
     @Test
     void simpleDequeueTest() {
         // Arrange: Mock a QueuedFile and stub dequeue
@@ -40,6 +42,7 @@ class SimpleMockTest {
         verify(mockQueue).dequeue();
     }
 
+    //Test for size
     @Test
     void simpleSizeTest() {
         // Arrange: Stub size

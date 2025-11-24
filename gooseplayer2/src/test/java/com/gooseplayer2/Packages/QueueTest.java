@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class QueueTest {
 
     @Test
-    //
+    //basic add and remove functionality for the Queue class
     void enqueueAndDequeue_basicBehavior() {
         Queue<String> q = new Queue<>();
         assertTrue(q.isEmpty(), "Queue should start empty");

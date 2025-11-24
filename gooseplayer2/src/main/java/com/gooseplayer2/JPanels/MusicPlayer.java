@@ -28,7 +28,7 @@ import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.images.Artwork;
 
 
-public class MusicPlayer extends JPanel {
+public class MusicPlayer extends JPanel implements AudioPlayer{
 
 	// UI Components
 	public JButton PlayPause;
@@ -334,7 +334,6 @@ public class MusicPlayer extends JPanel {
     }
 
     // Other methods
-    //changed to public for testing
     public void loadSong() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         System.out.println("loadSong ran");
         queuedFile = Queue.peek();
@@ -386,6 +385,7 @@ public class MusicPlayer extends JPanel {
         }
     }
 
+    @Override
     public void play() {
         if (!isPlaying && !Queue.isEmpty()) {
             try {
@@ -432,6 +432,7 @@ public class MusicPlayer extends JPanel {
         }
     }
 
+    @Override
     public void pause() {
         if (sp != null && isPlaying) {
             System.out.println("Pause pressed");
@@ -445,7 +446,7 @@ public class MusicPlayer extends JPanel {
         }
     }
 
-    private void resume() {
+    public void resume() {
         if (sp != null && isPaused) {
             sp.start();  
             if (shouldRestorePausePosition) {
@@ -459,7 +460,8 @@ public class MusicPlayer extends JPanel {
         }
     }
 
-    private void skip() {
+    @Override
+    public void skip() {
         if(songLoaded == false) return;
         if (LoopSong.isSelected()) {
             seek(0);
@@ -508,7 +510,8 @@ public class MusicPlayer extends JPanel {
         }
     }
 
-    private void clear() {
+    @Override
+    public void clear() {
         stopCurrentPlayback();
 
         Queue.empty();
@@ -520,17 +523,18 @@ public class MusicPlayer extends JPanel {
         System.out.println("Queue cleared");
     }
 
-	private void shuffleQueue() {
-		if (Queue.size() <= 1) return;
-		Queue.shuffle();
-		refreshQueueInJTree();
-		if (isPlaying) {
+    @Override
+    public void shuffleQueue() {
+        if (Queue.size() <= 1) return;
+        Queue.shuffle();
+        refreshQueueInJTree();
+        if (isPlaying) {
 			preloadNextSong();
 		}
 		System.out.println("Queue shuffled");
 	}
 
-    private void stopCurrentPlayback() {
+    public void stopCurrentPlayback() {
         if (sp != null) {
             sp.pause(true);
             ac.out.removeAllConnections(sp);
@@ -552,8 +556,8 @@ public class MusicPlayer extends JPanel {
         }
     }
 
-    
-    private void remove() {
+    @Override
+    public void remove() {
         DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) queueTree.getLastSelectedPathComponent();
         if (selectedNode != null && selectedNode != root) {
             String selectedName = selectedNode.getUserObject().toString();
@@ -952,6 +956,7 @@ public class MusicPlayer extends JPanel {
         return fileName.endsWith(".mp3") || fileName.endsWith(".wav") || fileName.endsWith(".flac");
     }
 
+    @Override
     public void stopAudio() {
     if (ac != null && ac.isRunning()) {
         ac.stop();
@@ -1076,4 +1081,18 @@ public class MusicPlayer extends JPanel {
             }
         });
     }
+    public void refreshPlayPauseButton() {
+    if (PlayPause != null) {
+        // Remove old listeners
+        for (ActionListener al : PlayPause.getActionListeners()) {
+            PlayPause.removeActionListener(al);
+        }
+        // Add new one
+        PlayPause.addActionListener(new PlayPauseListener());
+    }
+}
+    protected SamplePlayer getSamplePlayer() {
+    return sp;
+    }
+
 }
