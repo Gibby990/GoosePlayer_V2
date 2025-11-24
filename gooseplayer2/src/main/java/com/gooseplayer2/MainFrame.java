@@ -67,7 +67,7 @@ public class MainFrame extends JFrame {
         if ("Radio".equalsIgnoreCase(currentTheme)) {
             setSize(600, 300);
         } else {
-            setSize(1050, 600); // Default
+            setSize(1050, 650); // Default
         }
         Config.applySettings();
 
