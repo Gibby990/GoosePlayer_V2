@@ -206,69 +206,7 @@ public class MusicPanel extends JPanel {
             case 2 -> player3 = player;
         }
     }
-    // Fingers crossed this works
-// Add this method to MusicPanel class
-    /*public void replacePlayer(int index, MusicPlayer newPlayer) {
-        MusicPlayer oldPlayer = null;
-        switch (index) {
-            case 0 -> { oldPlayer = player1; player1 = newPlayer; }
-            case 1 -> { oldPlayer = player2; player2 = newPlayer; }
-            case 2 -> { oldPlayer = player3; player3 = newPlayer; }
-        }
-
-        if (oldPlayer != null) {
-            remove(oldPlayer);
-        }
-        if (newPlayer != null) {
-            newPlayer.setBorder(outline);
-            Slugcat Monk = new Slugcat();
-            gbc.fill = GridBagConstraints.BOTH;
-            gbc.weightx = 1.0;
-            gbc.weighty = 1.0;
-            switch (index) {
-                case 0 -> Monk.addObjects(newPlayer, this, layout, gbc, 0, 0, 1, 1);
-                case 1 -> Monk.addObjects(newPlayer, this, layout, gbc, 0, 1, 1, 1);
-                case 2 -> Monk.addObjects(newPlayer, this, layout, gbc, 0, 2, 1, 1);
-            }
-        }
-        revalidate();
-        repaint();
-    }
-    // In MusicPanel.java
-    public void rebuildPlayerUI(int index) {
-        MusicPlayer player = switch (index) {
-            case 0 -> player1;
-            case 1 -> player2;
-            case 2 -> player3;
-            default -> null;
-        };
-
-        if (player == null) return;
-
-        // Remove old UI
-        removeAll();
-
-        // Rebuild layout
-        Slugcat Monk = new Slugcat();
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-
-        switch (mode) {
-            case MULTI -> {
-                if (player1 != null) Monk.addObjects(player1, this, layout, gbc, 0, 0, 1, 1);
-                if (player2 != null) Monk.addObjects(player2, this, layout, gbc, 0, 1, 1, 1);
-                if (player3 != null) Monk.addObjects(player3, this, layout, gbc, 0, 2, 1, 1);
-            }
-            case MONO -> {
-                if (player1 != null) Monk.addObjects(player1, this, layout, gbc, 0, 0, 1, 1);
-            }
-        }
-
-        revalidate();
-        repaint();
-    }*/
-    // Add this method to MusicPanel
+    // Method to MusicPanel
 public void rebuildPlayerUI(int index) {
     MusicPlayer player = switch (index) {
         case 0 -> player1;
