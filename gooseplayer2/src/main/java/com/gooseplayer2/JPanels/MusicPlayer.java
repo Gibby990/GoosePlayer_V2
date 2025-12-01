@@ -13,6 +13,7 @@ import javax.sound.sampled.*;
 
 import com.gooseplayer2.Packages.DropFileHandler;
 import com.gooseplayer2.Packages.Queue;
+import com.gooseplayer2.Packages.AudioPlayer;
 import com.gooseplayer2.Packages.Cat;
 
 import net.beadsproject.beads.core.AudioContext;
@@ -821,7 +822,6 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
         updatePlayPauseButtonLabel();
     }
 
-    // Persistence helpers
     public java.util.List<File> getQueueFiles() {
         java.util.List<File> files = new java.util.ArrayList<>();
         java.util.Iterator<File> iterator = Queue.iterator();
@@ -946,7 +946,6 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
         }
     }
 
-    //changed to public for testing
     public boolean isAudioFile(File file) {
         String fileName = file.getName().toLowerCase();
         return fileName.endsWith(".mp3") || fileName.endsWith(".wav") || fileName.endsWith(".flac");
@@ -1077,13 +1076,12 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
             }
         });
     }
+
     public void refreshPlayPauseButton() {
     if (PlayPause != null) {
-        // Remove old listeners
         for (ActionListener al : PlayPause.getActionListeners()) {
             PlayPause.removeActionListener(al);
         }
-        // Add new one
         PlayPause.addActionListener(new PlayPauseListener());
     }
 }

@@ -283,7 +283,6 @@ public class Config extends JDialog {
 
             p.store(writer, null);
 
-            // Apply theme immediately; other changes may need restart
             applySettings();
 
             restartRequired = styleChanged || monoChanged || multi1Changed || multi2Changed || multi3Changed || libraryChanged;

@@ -204,7 +204,6 @@ public class MusicPanel extends JPanel {
             case 2 -> player3 = player;
         }
     }
-    // Method to MusicPanel
 public void rebuildPlayerUI(int index) {
     MusicPlayer player = switch (index) {
         case 0 -> player1;
@@ -214,10 +213,8 @@ public void rebuildPlayerUI(int index) {
     };
     if (player == null) return;
 
-    // Remove old player UI
     removeAll();
 
-    // Re-add all players
     Cat Monk = new Cat();
     gbc.fill = GridBagConstraints.BOTH;
     gbc.weightx = 1.0;
