@@ -1,4 +1,4 @@
-package com.gooseplayer2.Packages;
+package com.gooseplayer2;
 
 import javax.swing.*;
 import java.awt.datatransfer.*;

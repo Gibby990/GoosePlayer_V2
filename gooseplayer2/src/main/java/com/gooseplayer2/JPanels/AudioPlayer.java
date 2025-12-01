@@ -1,4 +1,4 @@
-package com.gooseplayer2.Packages;
+package com.gooseplayer2.JPanels;
 
 public interface AudioPlayer {
     void play();

@@ -1,12 +1,10 @@
 // src/test/java/com/gooseplayer2/JPanels/AudioPlayerSpy.java
-package com.gooseplayer2.Packages;
+package com.gooseplayer2.JPanels;
 
 import net.beadsproject.beads.ugens.SamplePlayer;
 
 import java.io.IOException;
 import javax.sound.sampled.*;
-
-import com.gooseplayer2.JPanels.MusicPlayer;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
