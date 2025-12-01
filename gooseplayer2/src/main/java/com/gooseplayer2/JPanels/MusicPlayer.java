@@ -11,9 +11,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.sound.sampled.*;
 
-import com.gooseplayer2.Packages.DropFileHandler;
 import com.gooseplayer2.Packages.Queue;
-import com.gooseplayer2.Packages.AudioPlayer;
+import com.gooseplayer2.DropFileHandler;
 import com.gooseplayer2.Packages.Cat;
 
 import net.beadsproject.beads.core.AudioContext;
