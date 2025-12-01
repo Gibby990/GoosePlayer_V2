@@ -99,7 +99,7 @@ class MethodsTest {
     @Test
     void clickingPlayButtonCallsPlaySuccess() throws Exception {
         // Wait for UI to rebuild
-        Thread.sleep(1000);
+        Thread.sleep(100);
 
         // Find the Play button (from the spy)
         window.button(JButtonMatcher.withText("Play")).click();
@@ -112,10 +112,10 @@ class MethodsTest {
 
     @Test
     void secondClickFailsToFindPlayButton_WhenAlreadyPlaying() throws Exception{
-        Thread.sleep(1000);
+        Thread.sleep(100);
         // First click: "Play" → becomes "Pause"
         window.button(JButtonMatcher.withText("Play")).click();
-        Thread.sleep(1000);
+        Thread.sleep(100);
 
         System.out.println("Now button is 'Pause' — trying to click 'Play' again...");
 
@@ -133,12 +133,12 @@ class MethodsTest {
     // test for play-pause-play sequence and make sure the calls are correctly happening
     @Test
     void playPausePlay_Counts() throws Exception {
-        Thread.sleep(1000);
+        Thread.sleep(100);
 
         window.button(JButtonMatcher.withText("Play")).click();
-        Thread.sleep(500);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Pause")).click();
-        Thread.sleep(500);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Play")).click();
         //Thread.sleep(1000);
 
@@ -150,12 +150,12 @@ class MethodsTest {
 
     @Test
     void AssertPlayButtonCallsNumber_Wrong() throws Exception {
-        Thread.sleep(1000);
+        Thread.sleep(100);
         // === ACT: Click Play → Pause → Play ===
         window.button(JButtonMatcher.withText("Play")).click();
-        Thread.sleep(1000);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Pause")).click();
-        Thread.sleep(1000);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Play")).click();
         //Thread.sleep(1000);
 
@@ -174,11 +174,11 @@ class MethodsTest {
     @Test
     void clickingStopButtonCallsPause() throws Exception {
         // Wait for UI to rebuild
-        Thread.sleep(1000);
+        Thread.sleep(100);
 
         // Find the Stop button (from the spy)
         window.button(JButtonMatcher.withText("Play")).click();
-        Thread.sleep(2900);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Pause")).click();
 
         assertEquals(1, spy.getPauseCount(), "Pause button should call pause()");
@@ -189,9 +189,9 @@ class MethodsTest {
     //Check that the Pause method is called precisely once when Pause is clicked
     @Test
     void clickingPauseButtonCallsPauseExactlyOnce() throws Exception {
-        Thread.sleep(1000);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Play")).click();
-        Thread.sleep(800);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Pause")).click();
         assertEquals(1, spy.getPauseCount(), "Pause button must call pause() once");
         System.out.println("Pause count: " + spy.getPauseCount());
@@ -200,10 +200,10 @@ class MethodsTest {
     // Check that the Pause button disappears after clicking
     @Test
     void pauseButtonDisappearsAfterClicking() throws Exception {
-        Thread.sleep(1000);
+        Thread.sleep(100);
 
         window.button(JButtonMatcher.withText("Play")).click();
-        Thread.sleep(800);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Pause")).click();
 
         // "Pause" button should be gone → "Play" button is back
@@ -218,11 +218,11 @@ class MethodsTest {
     //Pause then Skip test to ensure Pause is only called once
     @Test
     void pauseThenSkip_StillOnlyOnePauseCall() throws Exception {
-        Thread.sleep(1000);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Play")).click();
-        Thread.sleep(800);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Pause")).click();
-        Thread.sleep(500);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Skip")).click();
 
         assertEquals(1, spy.getPauseCount(), "Skip should not add extra pause calls");
@@ -233,7 +233,7 @@ class MethodsTest {
     //Skip test to ensure Skip method is called when Skip button is clicked
     @Test
     void clickingSkipButtonCallsSkip() throws Exception {          
-        Thread.sleep(1000);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Skip")).click();
 
         assertEquals(1, spy.getSkipCount(), "Skip button should call skip()");
@@ -243,11 +243,11 @@ class MethodsTest {
     //test skip button multiple times
     @Test
     void clickingSkipButtonMultipleTimes() throws Exception {       
-        Thread.sleep(1000);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Skip")).click();
-        Thread.sleep(500);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Skip")).click();
-        Thread.sleep(500);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Skip")).click();
 
         assertEquals(3, spy.getSkipCount(), "Skip button should call skip() three times");
@@ -257,7 +257,7 @@ class MethodsTest {
     //test skip button functionality when queue is empty
     @Test
     void clickingSkipButtonWhenQueueEmpty() throws Exception {       
-        Thread.sleep(1000);
+        Thread.sleep(100);
         // First, clear the queue
         GuiActionRunner.execute(() -> {
             spy.clear();
@@ -273,11 +273,11 @@ class MethodsTest {
     //test skip button functionality when audio is paused
     @Test
     void clickingSkipButtonWhenAudioPaused() throws Exception {       
-        Thread.sleep(1000);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Play")).click();
-        Thread.sleep(800);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Pause")).click();
-        Thread.sleep(500);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Skip")).click();
 
         assertEquals(1, spy.getSkipCount(), "Skip button should call skip() when audio is paused");
@@ -287,7 +287,7 @@ class MethodsTest {
     //test remove button functionality
     @Test
     void clickingRemoveButtonCallsRemove() throws Exception {       
-        Thread.sleep(1000);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Remove")).click();
 
         assertEquals(1, spy.getRemoveCount(), "Remove button should call remove()");
@@ -297,9 +297,9 @@ class MethodsTest {
     //test remove button multiple times
     @Test
     void clickingRemoveButtonMultipleTimes() throws Exception {      
-        Thread.sleep(1000);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Remove")).click();
-        Thread.sleep(500);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Remove")).click();
 
         assertEquals(2, spy.getRemoveCount(), "Remove button should call remove() two times");
@@ -309,12 +309,12 @@ class MethodsTest {
     //test remove button when queue is empty
     @Test
     void clickingRemoveButtonWhenQueueEmpty() throws Exception {       
-        Thread.sleep(1000);
+        Thread.sleep(100);
         // First, clear the queue
         GuiActionRunner.execute(() -> {
             spy.clear();
         });
-        Thread.sleep(2000);
+        Thread.sleep(100);
         // Now, click Remove
         window.button(JButtonMatcher.withText("Remove")).click();
 
@@ -325,10 +325,10 @@ class MethodsTest {
     //test that remove cannot remove currently playing song
     @Test
     void removeCurrentlyPlayingSong_CallsMethodButSkipsLogic() throws Exception {
-        Thread.sleep(1000);
+        Thread.sleep(100);
 
         window.button(JButtonMatcher.withText("Play")).click();
-        Thread.sleep(3000);
+        Thread.sleep(100);
 
         JTreeFixture queueTree = window.tree("queueTree");
         queueTree.selectRow(1);
@@ -349,7 +349,7 @@ class MethodsTest {
 
         // 1. Start playing the first song
         window.button(JButtonMatcher.withText("Play")).click();
-        Thread.sleep(2500);
+        Thread.sleep(100);
 
         // 2. Add a SECOND song to the queue (the non-playing one)
         JTreeFixture libraryTree = window.tree("libraryTree");
@@ -359,7 +359,7 @@ class MethodsTest {
         String secondSongPath = libraryTree.target().getPathForRow(2).getLastPathComponent().toString();
         libraryTree.drag("Library/" + secondSongPath);
         queueTree.drop();
-        Thread.sleep(800);
+        Thread.sleep(100);
 
         // 3. Now queue has 2 songs: [0] = playing, [1] = next
         // Select the SECOND song (index 1 in tree = row 2 because row 0 is root)
@@ -368,7 +368,7 @@ class MethodsTest {
         // 4. Click Remove
         int before = spy.getRemoveCount();
         window.button(JButtonMatcher.withText("Remove")).click();
-        Thread.sleep(3000);
+        Thread.sleep(100);
 
         // 5. Assert: remove() was called AND queue now has only 1 song
         assertEquals(before + 1, spy.getRemoveCount(), 
@@ -385,9 +385,9 @@ class MethodsTest {
     //test clear button functionality
     @Test
     void clickingClearButtonCallsClear() throws Exception {       
-        Thread.sleep(1000);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Clear")).click();
-        Thread.sleep(2000);
+        Thread.sleep(100);
 
         assertEquals(1, spy.getClearCount(), "Clear button should call clear()");
         System.out.println("Clear count: " + spy.getClearCount());
@@ -396,11 +396,11 @@ class MethodsTest {
     //test clear button multiple times
     @Test
     void clickingClearButtonMultipleTimes() throws Exception {      
-        Thread.sleep(1000);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Clear")).click();
-        Thread.sleep(1500);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Clear")).click();
-        Thread.sleep(1500);
+        Thread.sleep(100);
 
         assertEquals(2, spy.getClearCount(), "Clear button should call clear() two times");
         System.out.println("Clear count: " + spy.getClearCount());
@@ -409,10 +409,10 @@ class MethodsTest {
     //test clear button when queue is already empty
     @Test
     void clickingClearButtonWhenQueueEmpty() throws Exception {      
-        Thread.sleep(1000);
+        Thread.sleep(100);
 
         GuiActionRunner.execute(() -> spy.clear());  // setup
-        Thread.sleep(1000);
+        Thread.sleep(100);
 
         // Reset counter so we only count the button click
         GuiActionRunner.execute(() -> {
@@ -425,7 +425,7 @@ class MethodsTest {
         });
 
         window.button(JButtonMatcher.withText("Clear")).click();
-        Thread.sleep(1000);
+        Thread.sleep(100);
 
         assertEquals(1, spy.getClearCount());
     }
@@ -433,11 +433,11 @@ class MethodsTest {
     //test clear button when audio is playing
     @Test
     void clickingClearButtonWhenAudioPlaying() throws Exception {      
-        Thread.sleep(1000);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Play")).click();
-        Thread.sleep(800);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Clear")).click();
-        Thread.sleep(2000);
+        Thread.sleep(100);
 
         assertEquals(1, spy.getClearCount(), "Clear button should call clear() when audio is playing");
         System.out.println("Clear count (audio playing): " + spy.getClearCount());
@@ -446,13 +446,13 @@ class MethodsTest {
     //test clear button when audio is paused
     @Test
     void clickingClearButtonWhenAudioPaused() throws Exception {      
-        Thread.sleep(1000);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Play")).click();
         Thread.sleep(800);
         window.button(JButtonMatcher.withText("Pause")).click();
-        Thread.sleep(500);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Clear")).click();
-        Thread.sleep(2000);
+        Thread.sleep(100);
 
         assertEquals(1, spy.getClearCount(), "Clear button should call clear() when audio is paused");
         System.out.println("Clear count (audio paused): " + spy.getClearCount());
@@ -461,9 +461,9 @@ class MethodsTest {
     //test shuffle button functionality
     @Test
     void clickingShuffleButtonCallsShuffle() throws Exception {      
-        Thread.sleep(1000);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Shuffle")).click();
-        Thread.sleep(2000);
+        Thread.sleep(100);
 
         assertEquals(1, spy.getShuffleCount(), "Shuffle button should call shuffle()");
         System.out.println("Shuffle count: " + spy.getShuffleCount());
@@ -472,7 +472,7 @@ class MethodsTest {
     //test shuffle button multiple times
     @Test
     void clickingShuffleButtonMultipleTimes() throws Exception {      
-        Thread.sleep(1000);
+        Thread.sleep(100);
         // Add more songs to the queue
         JTreeFixture libraryTree = window.tree("libraryTree");
         JTreeFixture queueTree = window.tree("queueTree");
@@ -486,11 +486,11 @@ class MethodsTest {
         libraryTree.drag("Library/" + thirdSongPath);
         queueTree.drop();
 
-        Thread.sleep(800);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Shuffle")).click();
-        Thread.sleep(1500);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Shuffle")).click();
-        Thread.sleep(2500);
+        Thread.sleep(100);
 
         assertEquals(2, spy.getShuffleCount(), "Shuffle button should call shuffle() two times");
         System.out.println("Shuffle count: " + spy.getShuffleCount());
@@ -499,19 +499,19 @@ class MethodsTest {
     //test shuffle button when queue has only one song
     @Test
     void clickingShuffleButtonWhenQueueHasOneSong() throws Exception {      
-        Thread.sleep(1000);
+        Thread.sleep(100);
         JTreeFixture libraryTree = window.tree("libraryTree");
         JTreeFixture queueTree = window.tree("queueTree");
         String secondSongPath = libraryTree.target().getPathForRow(2).getLastPathComponent().toString();
         // Cear the queue and add only one song
         spy.clear();  
-        Thread.sleep(2000);
+        Thread.sleep(100);
         libraryTree.drag("Library/" + secondSongPath);
         queueTree.drop();
-        Thread.sleep(2000);
+        Thread.sleep(100);
         // Now, click Shuffle
         window.button(JButtonMatcher.withText("Shuffle")).click();
-        Thread.sleep(1000);
+        Thread.sleep(100);
 
         assertEquals(1, spy.getShuffleCount(), "Shuffle button should call shuffle() even with one song");
         System.out.println("Shuffle count (one song): " + spy.getShuffleCount());
@@ -520,15 +520,15 @@ class MethodsTest {
     //test shuffle button when queue is empty
     @Test
     void clickingShuffleButtonWhenQueueEmpty() throws Exception {      
-        Thread.sleep(1000);
+        Thread.sleep(100);
         // First, clear the queue
         GuiActionRunner.execute(() -> {
             spy.clear();
         });
-        Thread.sleep(2000);
+        Thread.sleep(100);
         // Now, click Shuffle
         window.button(JButtonMatcher.withText("Shuffle")).click();
-        Thread.sleep(1000);
+        Thread.sleep(100);
 
         assertEquals(1, spy.getShuffleCount(), "Shuffle button should call shuffle() even when queue is empty");
         System.out.println("Shuffle count (empty queue): " + spy.getShuffleCount());
@@ -537,11 +537,11 @@ class MethodsTest {
     //test shuffle button when audio is playing
     @Test
     void clickingShuffleButtonWhenAudioPlaying() throws Exception {      
-        Thread.sleep(1000);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Play")).click();
-        Thread.sleep(800);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Shuffle")).click();
-        Thread.sleep(2000);
+        Thread.sleep(100);
 
         assertEquals(1, spy.getShuffleCount(), "Shuffle button should call shuffle() when audio is playing");
         System.out.println("Shuffle count (audio playing): " + spy.getShuffleCount());
@@ -550,13 +550,13 @@ class MethodsTest {
     //test shuffle button when audio is paused
     @Test
     void clickingShuffleButtonWhenAudioPaused() throws Exception {      
-        Thread.sleep(1000);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Play")).click();
-        Thread.sleep(800);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Pause")).click();
-        Thread.sleep(500);
+        Thread.sleep(100);
         window.button(JButtonMatcher.withText("Shuffle")).click();
-        Thread.sleep(2000);
+        Thread.sleep(100);
 
         assertEquals(1, spy.getShuffleCount(), "Shuffle button should call shuffle() when audio is paused");
         System.out.println("Shuffle count (audio paused): " + spy.getShuffleCount());
