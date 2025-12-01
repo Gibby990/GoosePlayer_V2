@@ -31,7 +31,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
-import com.gooseplayer2.Packages.Slugcat;
+import com.gooseplayer2.Packages.Cat;
 
 import net.beadsproject.beads.core.AudioContext;
 import net.beadsproject.beads.core.UGen;
@@ -68,7 +68,7 @@ public class RadioPlayer extends JPanel {
         gbc = new GridBagConstraints();
         setLayout(layout);
 
-        Slugcat Watcher = new Slugcat();
+        Cat Watcher = new Cat();
 
         playPauseButton = new JButton("Play");
         playPauseButton.addActionListener(e -> {

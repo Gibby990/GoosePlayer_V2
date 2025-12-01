@@ -28,7 +28,6 @@ import javazoom.jl.decoder.JavaLayerException;
  *      Removed n variable that was used to identify a player for debug logs. I never used it and took up code space.
  *      Removed newValue variable.
  * 
-
  */
 
 public class Main {

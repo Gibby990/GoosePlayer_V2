@@ -43,7 +43,7 @@ class UITesting2Test {
             });
 
             // Create real instance first to avoid Mockito interference with Swing
-            player = execute(() -> new MusicPlayer(null, false, "TestChannel"));
+            player = execute(() -> new MusicPlayer(false, "TestChannel"));
             execute(() -> {
                 frame.getContentPane().add(player, BorderLayout.CENTER);
                 frame.validate();

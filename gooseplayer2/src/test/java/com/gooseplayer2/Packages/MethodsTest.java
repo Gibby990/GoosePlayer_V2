@@ -14,13 +14,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;  
 
 class MethodsTest {
 
@@ -35,7 +33,7 @@ class MethodsTest {
 
         spy = GuiActionRunner.execute(() -> {
             try {
-                return new AudioPlayerSpy(mock(JComponent.class), false, "TestChannel");
+                return new AudioPlayerSpy(false, "TestChannel");
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

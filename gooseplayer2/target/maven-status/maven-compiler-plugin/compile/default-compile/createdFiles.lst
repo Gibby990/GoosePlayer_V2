@@ -29,6 +29,7 @@ com\gooseplayer2\Packages\QueuedFile.class
 com\gooseplayer2\JPanels\MusicPlayer$LoopListener.class
 com\gooseplayer2\JPanels\MusicPlayer$2.class
 com\gooseplayer2\JPanels\MusicPlayer$RemoveListener.class
+com\gooseplayer2\JPanels\RadioPlayer$IcyMetadataInputStream.class
 com\gooseplayer2\JPanels\MusicPlayer$3.class
 com\gooseplayer2\JPanels\MusicPlayer$SkipListener.class
 com\gooseplayer2\JPanels\RadioPlayer$StreamingUGen.class

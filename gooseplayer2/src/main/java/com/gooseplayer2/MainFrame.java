@@ -1,7 +1,7 @@
 package com.gooseplayer2;
 
 import com.gooseplayer2.JPanels.*;
-import com.gooseplayer2.Packages.Slugcat;
+import com.gooseplayer2.Packages.Cat;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -50,7 +50,7 @@ public class MainFrame extends JFrame {
     private String currentTheme;
     
     private Desktop desktop;
-    private Slugcat Survivor;
+    private Cat Survivor;
     //testing
     private MusicPanel musicPanel;
 
@@ -152,9 +152,8 @@ public class MainFrame extends JFrame {
         gbc = new GridBagConstraints();
         getContentPane().setLayout(mainLayout);
 
-        Survivor = new Slugcat();
+        Survivor = new Cat();
 
-        //MusicPanel musicPanel = new MusicPanel();
         this.musicPanel = new MusicPanel();
         if (!musicPanel.isRadioMode()) {
             filePanel = new FilePanel();

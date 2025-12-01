@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 
 import com.gooseplayer2.Config;
 import com.gooseplayer2.Packages.FileTransferHandler;
-import com.gooseplayer2.Packages.Slugcat;
+import com.gooseplayer2.Packages.Cat;
 
 public class FilePanel extends JPanel {
     private JLabel label;
@@ -39,7 +39,7 @@ public class FilePanel extends JPanel {
 
         layout = new GridBagLayout();
         gbc = new GridBagConstraints();
-        Slugcat Hunter = new Slugcat();
+        Cat Hunter = new Cat();
 
         setLayout(layout);
 

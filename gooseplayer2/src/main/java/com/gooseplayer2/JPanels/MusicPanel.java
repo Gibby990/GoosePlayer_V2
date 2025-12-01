@@ -10,7 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-import com.gooseplayer2.Packages.Slugcat;
+import com.gooseplayer2.Packages.Cat;
 import com.gooseplayer2.Config;
 
 public class MusicPanel extends JPanel {
@@ -18,7 +18,6 @@ public class MusicPanel extends JPanel {
     private GridBagConstraints gbc;
     private Border outline;
     private String loadedStyle, monoChannelName, multiChannel1Name, multiChannel2Name, multiChannel3Name;
-    private FilePanel filePanel;
     private Properties p;
     private FileReader reader;
     private MusicPlayer player1, player2, player3;
@@ -33,11 +32,10 @@ public class MusicPanel extends JPanel {
         gbc = new GridBagConstraints();
         setLayout(layout);
 
-        filePanel = new FilePanel();
         this.setName("musicPanel");  // to identify in tests
 
         outline = BorderFactory.createLineBorder(Color.BLACK);
-        Slugcat Monk = new Slugcat();
+        Cat Monk = new Cat();
 
         // Importing Settings
 
@@ -67,9 +65,9 @@ public class MusicPanel extends JPanel {
             }
             case MULTI: {
                 try {
-                    player1 = new MusicPlayer(filePanel, true, multiChannel1Name);
-                    player2 = new MusicPlayer(filePanel, true, multiChannel2Name);
-                    player3 = new MusicPlayer(filePanel, true, multiChannel3Name);
+                    player1 = new MusicPlayer(true, multiChannel1Name);
+                    player2 = new MusicPlayer(true, multiChannel2Name);
+                    player3 = new MusicPlayer(true, multiChannel3Name);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -85,7 +83,7 @@ public class MusicPanel extends JPanel {
             case MONO:
             default: {
                 try {
-                    player1 = new MusicPlayer(filePanel, false, monoChannelName);
+                    player1 = new MusicPlayer(false, monoChannelName);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -282,7 +280,7 @@ public void rebuildPlayerUI(int index) {
     removeAll();
 
     // Re-add all players
-    Slugcat Monk = new Slugcat();
+    Cat Monk = new Cat();
     gbc.fill = GridBagConstraints.BOTH;
     gbc.weightx = 1.0;
     gbc.weighty = 1.0;

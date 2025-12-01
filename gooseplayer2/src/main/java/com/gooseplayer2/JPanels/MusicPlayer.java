@@ -13,8 +13,7 @@ import javax.sound.sampled.*;
 
 import com.gooseplayer2.Packages.DropFileHandler;
 import com.gooseplayer2.Packages.Queue;
-import com.gooseplayer2.Packages.Slugcat;
-import com.gooseplayer2.Packages.QueuedFile;
+import com.gooseplayer2.Packages.Cat;
 
 import net.beadsproject.beads.core.AudioContext;
 import net.beadsproject.beads.core.io.JavaSoundAudioIO;
@@ -63,10 +62,9 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
 
     // File Management
     private File selectedFile;
-    private Queue<QueuedFile> Queue = new Queue<>();
-    private QueuedFile queuedFile; 
+    private Queue<File> Queue = new Queue<>(); 
 
-    public MusicPlayer(JComponent FilePanel, boolean isMultichannel, String channelName) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public MusicPlayer(boolean isMultichannel, String channelName) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         //JTree Stuff 
         
@@ -114,7 +112,7 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
             }
         });
 
-        Slugcat Rivulet = new Slugcat();
+        Cat Rivulet = new Cat();
 
         //JComponents
 
@@ -275,7 +273,7 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
             Rivulet.addObjects(queueTreePane, this, layout, gbc, 0, 4, 6, 1);
         }
 
-        queueTree.setTransferHandler(new DropFileHandler(this, FilePanel));
+        queueTree.setTransferHandler(new DropFileHandler(this));
 
     }
 
@@ -336,10 +334,8 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
     // Other methods
     public void loadSong() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         System.out.println("loadSong ran");
-        queuedFile = Queue.peek();
-        if (queuedFile == null) return;
-    
-        selectedFile = queuedFile.getFile();
+        selectedFile = Queue.peek();
+        if (selectedFile == null) return;
     
         if (!selectedFile.exists() || !selectedFile.canRead()) {
             throw new IOException("File not found or cannot be read: " + selectedFile.getAbsolutePath());
@@ -484,10 +480,10 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
         } else if (Queue.size() == 1) {
             Queue.dequeue();
             if (LoopPlaylist.isSelected()) {
-                java.util.List<QueuedFile> newUpcoming = new java.util.ArrayList<>(Queue.getHistory());
+                java.util.List<File> newUpcoming = new java.util.ArrayList<>(Queue.getHistory());
                 Queue.empty();
                 Queue.clearHistory();
-                for (QueuedFile qf : newUpcoming) Queue.enqueue(qf);
+                for (File f : newUpcoming) Queue.enqueue(f);
                 refreshQueueInJTree();
                 try {
                     loadSong();
@@ -581,13 +577,13 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
                         refreshQueueInJTree();
                         return;
                     }
-                    Iterator<QueuedFile> it = Queue.iterator();
+                    Iterator<File> it = Queue.iterator();
                     int idx = 0;
                     while (it.hasNext()) {
-                        QueuedFile qf = it.next();
+                        File f = it.next();
                         if (idx == upcomingIndex) {
-                            if (getDisplayName(qf.getFile()).equals(selectedName)) {
-                                Queue.remove(qf);
+                            if (getDisplayName(f).equals(selectedName)) {
+                                Queue.remove(f);
                             }
                             break;
                         }
@@ -605,8 +601,8 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
         if (Queue.size() > 1) {
             new Thread(() -> {
                 try {
-                    QueuedFile nextFile = Queue.get(1);
-                    nextSample = SampleManager.sample(nextFile.getFile().getAbsolutePath());
+                    File nextFile = Queue.get(1);
+                    nextSample = SampleManager.sample(nextFile.getAbsolutePath());
                     nextSp = new SamplePlayer(ac, nextSample);
                     nextSp.setKillOnEnd(false);
                     if (LoopSong.isSelected()) {
@@ -619,7 +615,7 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
                         ac.start();
                     }
                     
-                    System.out.println("Next song preloaded: " + nextFile.getFile().getName());
+                    System.out.println("Next song preloaded: " + nextFile.getName());
                 } catch (Exception e) {
                     System.err.println("Error preloading next song: " + e.getMessage());
                     e.printStackTrace();
@@ -662,9 +658,9 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
                 ac.out.addInput(sp);
                 updateSongInfo();
                 if (!Queue.isEmpty()) {
-                    QueuedFile currentFile = Queue.peek();
+                    File currentFile = Queue.peek();
                     if (currentFile != null) {
-                        selectedFile = currentFile.getFile();
+                        selectedFile = currentFile;
                         updateAlbumArt(selectedFile);
                     }
                 }
@@ -741,17 +737,17 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
             if (LoopPlaylist.isSelected()) {
                 stopCurrentPlayback();
 
-                java.util.List<QueuedFile> newUpcoming = new java.util.ArrayList<>(Queue.getHistory());
+                java.util.List<File> newUpcoming = new java.util.ArrayList<>(Queue.getHistory());
 
-                java.util.List<QueuedFile> remaining = new java.util.ArrayList<>();
-                java.util.Iterator<QueuedFile> it = Queue.iterator();
+                java.util.List<File> remaining = new java.util.ArrayList<>();
+                java.util.Iterator<File> it = Queue.iterator();
                 while (it.hasNext()) remaining.add(it.next());
 
                 Queue.empty();
                 Queue.clearHistory();
 
-                for (QueuedFile qf : newUpcoming) Queue.enqueue(qf);
-                for (QueuedFile qf : remaining) Queue.enqueue(qf);
+                for (File f : newUpcoming) Queue.enqueue(f);
+                for (File f : remaining) Queue.enqueue(f);
 
                 System.out.println("Loop Playlist: restarting from beginning.");
                 try {
@@ -828,11 +824,11 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
     // Persistence helpers
     public java.util.List<File> getQueueFiles() {
         java.util.List<File> files = new java.util.ArrayList<>();
-        java.util.Iterator<QueuedFile> iterator = Queue.iterator();
+        java.util.Iterator<File> iterator = Queue.iterator();
         while (iterator.hasNext()) {
-            QueuedFile qf = iterator.next();
-            if (qf != null && qf.getFile() != null) {
-                files.add(qf.getFile());
+            File f = iterator.next();
+            if (f != null) {
+                files.add(f);
             }
         }
         return files;
@@ -845,7 +841,7 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
         if (files != null) {
             for (File f : files) {
                 if (f != null && f.exists() && isAudioFile(f)) {
-                    Queue.enqueue(new QueuedFile(f));
+                    Queue.enqueue(f);
                 }
             }
         }
@@ -918,7 +914,7 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
                 addFilesFromDirectory(file);
             } else {
                 if (isAudioFile(file)) {
-                    Queue.enqueue(new QueuedFile(file));
+                    Queue.enqueue(file);
                 }
             }
         }
@@ -943,7 +939,7 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
                     addFilesFromDirectory(file); 
                 } else {
                     if (isAudioFile(file)) {
-                        Queue.enqueue(new QueuedFile(file));
+                        Queue.enqueue(file);
                     }
                 }
             }
@@ -973,17 +969,17 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
     public void refreshQueueInJTree() {
         root.removeAllChildren();
 
-        java.util.List<QueuedFile> history = Queue.getHistory();
-        for (QueuedFile qf : history) {
-            root.add(new DefaultMutableTreeNode(getDisplayName(qf.getFile())));
+        java.util.List<File> history = Queue.getHistory();
+        for (File f : history) {
+            root.add(new DefaultMutableTreeNode(getDisplayName(f)));
         }
 
-        Iterator<QueuedFile> iterator = Queue.iterator();
+        Iterator<File> iterator = Queue.iterator();
         boolean isFirstUpcoming = true;
         String firstUpcomingName = null;
         while (iterator.hasNext()) {
-            QueuedFile file = iterator.next();
-            String display = getDisplayName(file.getFile());
+            File file = iterator.next();
+            String display = getDisplayName(file);
             DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(display);
             root.add(fileNode);
             if (isFirstUpcoming) {
@@ -1012,9 +1008,9 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
 
 
 	private void recenterQueueAtRenderedIndex(int renderedIndex) {
-		java.util.List<QueuedFile> combined = new java.util.ArrayList<>();
+		java.util.List<File> combined = new java.util.ArrayList<>();
 		combined.addAll(Queue.getHistory());
-		java.util.Iterator<QueuedFile> it = Queue.iterator();
+		java.util.Iterator<File> it = Queue.iterator();
 		while (it.hasNext()) combined.add(it.next());
 
 		if (renderedIndex < 0 || renderedIndex >= combined.size()) return;
@@ -1023,9 +1019,9 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
 
 		Queue.empty();
 		Queue.clearHistory();
-		for (QueuedFile qf : combined) {
-			if (qf != null && qf.getFile() != null && qf.getFile().exists()) {
-				Queue.enqueue(qf);
+		for (File f : combined) {
+			if (f != null && f.exists()) {
+				Queue.enqueue(f);
 			}
 		}
 		for (int i = 0; i < renderedIndex; i++) {

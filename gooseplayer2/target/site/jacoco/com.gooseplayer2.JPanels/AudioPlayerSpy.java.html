@@ -2,45 +2,87 @@
 package com.gooseplayer2.JPanels;
 
 import javax.swing.*;
+
+import net.beadsproject.beads.ugens.SamplePlayer;
+
 import java.io.IOException;
 import javax.sound.sampled.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class AudioPlayerSpy extends MusicPlayer {
 
-<span class="fc" id="L11">    private final AtomicInteger playCount   = new AtomicInteger();</span>
-<span class="fc" id="L12">    private final AtomicInteger pauseCount  = new AtomicInteger();</span>
-<span class="fc" id="L13">    private final AtomicInteger skipCount   = new AtomicInteger();</span>
-<span class="fc" id="L14">    private final AtomicInteger removeCount = new AtomicInteger();</span>
-<span class="fc" id="L15">    private final AtomicInteger clearCount  = new AtomicInteger();</span>
-<span class="fc" id="L16">    private final AtomicInteger shuffleCount = new AtomicInteger();</span>
-<span class="fc" id="L17">    private final AtomicInteger stopCount   = new AtomicInteger();</span>
-<span class="fc" id="L18">    private boolean playing = false;</span>
+<span class="fc" id="L14">    private final AtomicInteger playCount   = new AtomicInteger();</span>
+<span class="fc" id="L15">    private final AtomicInteger pauseCount  = new AtomicInteger();</span>
+<span class="fc" id="L16">    private final AtomicInteger skipCount   = new AtomicInteger();</span>
+<span class="fc" id="L17">    private final AtomicInteger removeCount = new AtomicInteger();</span>
+<span class="fc" id="L18">    private final AtomicInteger clearCount  = new AtomicInteger();</span>
+<span class="fc" id="L19">    private final AtomicInteger shuffleCount = new AtomicInteger();</span>
+<span class="fc" id="L20">    private final AtomicInteger stopCount   = new AtomicInteger();</span>
+<span class="fc" id="L21">    private boolean playing = false;</span>
 
     public AudioPlayerSpy(JComponent filePanel, boolean isMultichannel, String channelName)
             throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-<span class="fc" id="L22">        super(filePanel, isMultichannel, channelName);  // ← CALL SUPER</span>
-<span class="fc" id="L23">    }</span>
+<span class="fc" id="L25">        super(filePanel, isMultichannel, channelName);  // ← CALL SUPER</span>
+<span class="fc" id="L26">    }</span>
 
-<span class="fc" id="L25">    @Override public void play()         { playCount.incrementAndGet();   super.play(); }</span>
-<span class="fc" id="L26">    @Override public void pause()        { pauseCount.incrementAndGet();  super.pause(); }</span>
-<span class="nc" id="L27">    @Override public void skip()         { skipCount.incrementAndGet();   super.skip(); }</span>
-<span class="nc" id="L28">    @Override public void remove()       { removeCount.incrementAndGet(); super.remove(); }</span>
-<span class="fc" id="L29">    @Override public void clear()        { clearCount.incrementAndGet();  super.clear(); }</span>
-<span class="nc" id="L30">    @Override public void shuffleQueue() { shuffleCount.incrementAndGet();super.shuffleQueue(); }</span>
-<span class="fc" id="L31">    @Override public void stopAudio()    { stopCount.incrementAndGet();   super.stopAudio(); }</span>
-<span class="fc" id="L32">    public boolean isPlaying() { return playing; }</span>
-
-
+    @Override public void play(){ 
+<span class="fc" id="L29">        playCount.incrementAndGet();</span>
+<span class="fc" id="L30">        super.play(); </span>
+<span class="fc" id="L31">    }</span>
+    @Override public void pause(){ 
+<span class="fc" id="L33">        pauseCount.incrementAndGet();</span>
+<span class="fc" id="L34">        super.pause(); </span>
+<span class="fc" id="L35">    }</span>
+    @Override public void skip(){ 
+<span class="fc" id="L37">        skipCount.incrementAndGet();</span>
+<span class="fc" id="L38">        super.skip(); </span>
+<span class="fc" id="L39">    }</span>
+    @Override public void remove(){ 
+<span class="fc" id="L41">        removeCount.incrementAndGet();</span>
+<span class="fc" id="L42">        super.remove(); </span>
+<span class="fc" id="L43">    }</span>
+    @Override public void clear(){ 
+<span class="fc" id="L45">        clearCount.incrementAndGet();  </span>
+<span class="fc" id="L46">        super.clear(); </span>
+<span class="fc" id="L47">    }</span>
+    @Override public void shuffleQueue(){
+<span class="fc" id="L49">        shuffleCount.incrementAndGet();</span>
+<span class="fc" id="L50">        super.shuffleQueue(); </span>
+<span class="fc" id="L51">    }</span>
+    @Override public void stopAudio(){
+<span class="fc" id="L53">        stopCount.incrementAndGet();   </span>
+<span class="fc" id="L54">        super.stopAudio(); </span>
+<span class="fc" id="L55">    }</span>
+    
     // Getters
-<span class="fc" id="L36">    public int getPlayCount()   { return playCount.get(); }</span>
-<span class="fc" id="L37">    public int getPauseCount()  { return pauseCount.get(); }</span>
-<span class="nc" id="L38">    public int getSkipCount()   { return skipCount.get(); }</span>
-<span class="nc" id="L39">    public int getRemoveCount() { return removeCount.get(); }</span>
-<span class="nc" id="L40">    public int getClearCount()  { return clearCount.get(); }</span>
-<span class="nc" id="L41">    public int getShuffleCount(){ return shuffleCount.get(); }</span>
-<span class="nc" id="L42">    public int getStopCount()   { return stopCount.get(); }</span>
-
+    public boolean isPlaying() { 
+<span class="fc" id="L59">        return playing; </span>
+    }
+    public int getPlayCount(){ 
+<span class="fc" id="L62">        return playCount.get(); </span>
+    }
+    public int getPauseCount(){ 
+<span class="fc" id="L65">        return pauseCount.get(); </span>
+    }
+    public int getSkipCount(){ 
+<span class="fc" id="L68">        return skipCount.get(); </span>
+    }
+    public int getRemoveCount(){ 
+<span class="fc" id="L71">        return removeCount.get(); </span>
+    }
+    public int getClearCount(){ 
+<span class="fc" id="L74">        return clearCount.get(); </span>
+    }
+    public int getShuffleCount(){ 
+<span class="fc" id="L77">        return shuffleCount.get(); </span>
+    }
+    public int getStopCount(){ 
+<span class="nc" id="L80">        return stopCount.get(); </span>
+    }
+    public double getCurrentPosition() {
+<span class="nc" id="L83">        SamplePlayer player = getSamplePlayer();</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        return player != null ? player.getPosition() : 0.0;</span>
+    }
     
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

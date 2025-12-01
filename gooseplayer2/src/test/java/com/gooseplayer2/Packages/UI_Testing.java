@@ -12,13 +12,13 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class SimpleMockTest {
     @Mock
-    private Queue<QueuedFile> mockQueue; // Mock the Queue dependency
+    private Queue<java.io.File> mockQueue; // Mock the Queue dependency
 
     //Test for enqueue
     @Test
     void simpleEnqueueTest() {
-        // Arrange: Create a mock QueuedFile
-        QueuedFile mockFile = new QueuedFile(new java.io.File("test.mp3"));
+        // Arrange: Create a mock File
+        java.io.File mockFile = new java.io.File("test.mp3");
 
         // Act: Call enqueue (real code, but with mock)
         mockQueue.enqueue(mockFile);
@@ -30,12 +30,12 @@ class SimpleMockTest {
     //Test for dequeue
     @Test
     void simpleDequeueTest() {
-        // Arrange: Mock a QueuedFile and stub dequeue
-        QueuedFile mockFile = new QueuedFile(new java.io.File("test.mp3"));
+        // Arrange: Mock a File and stub dequeue
+        java.io.File mockFile = new java.io.File("test.mp3");
         when(mockQueue.dequeue()).thenReturn(mockFile);
 
         // Act: Call dequeue
-        QueuedFile dequeued = mockQueue.dequeue();
+        java.io.File dequeued = mockQueue.dequeue();
 
         // Assert: Verify return value
         assertEquals(mockFile, dequeued);

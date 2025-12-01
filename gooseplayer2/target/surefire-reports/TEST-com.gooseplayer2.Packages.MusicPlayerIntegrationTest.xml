@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.gooseplayer2.Packages.MusicPlayerIntegrationTest" time="29.568" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.gooseplayer2.Packages.MusicPlayerIntegrationTest" time="28.449" tests="1" errors="0" skipped="0" failures="0">
   <properties>
-    <property name="java.specification.version" value="18"/>
+    <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
     <property name="sun.awt.enableExtraMouseButtons" value="true"/>
-    <property name="java.class.path" value="C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\target\test-classes;C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\target\classes;C:\Users\Cam\.m2\repository\net\beadsproject\beads\3.2\beads-3.2.jar;C:\Users\Cam\.m2\repository\javazoom\jlayer\1.0.1\jlayer-1.0.1.jar;C:\Users\Cam\.m2\repository\org\clojars\automata\tritonus-aos\1.0.0\tritonus-aos-1.0.0.jar;C:\Users\Cam\.m2\repository\org\clojars\automata\tritonus-share\1.0.0\tritonus-share-1.0.0.jar;C:\Users\Cam\.m2\repository\org\jaudiolibs\audioservers-javasound\2.0.0\audioservers-javasound-2.0.0.jar;C:\Users\Cam\.m2\repository\org\jaudiolibs\audioservers-api\2.0.0\audioservers-api-2.0.0.jar;C:\Users\Cam\.m2\repository\org\jaudiolibs\audioservers-jack\2.0.0\audioservers-jack-2.0.0.jar;C:\Users\Cam\.m2\repository\org\jaudiolibs\jnajack\1.4.0\jnajack-1.4.0.jar;C:\Users\Cam\.m2\repository\net\java\dev\jna\jna\5.18.1\jna-5.18.1.jar;C:\Users\Cam\.m2\repository\com\googlecode\soundlibs\mp3spi\1.9.5.4\mp3spi-1.9.5.4.jar;C:\Users\Cam\.m2\repository\com\googlecode\soundlibs\jlayer\1.0.1.4\jlayer-1.0.1.4.jar;C:\Users\Cam\.m2\repository\junit\junit\3.8.2\junit-3.8.2.jar;C:\Users\Cam\.m2\repository\org\jflac\jflac-codec\1.5.2\jflac-codec-1.5.2.jar;C:\Users\Cam\.m2\repository\com\googlecode\soundlibs\tritonus-share\0.3.7.4\tritonus-share-0.3.7.4.jar;C:\Users\Cam\.m2\repository\com\formdev\flatlaf\3.5.1\flatlaf-3.5.1.jar;C:\Users\Cam\.m2\repository\com\formdev\flatlaf-intellij-themes\3.5.1\flatlaf-intellij-themes-3.5.1.jar;C:\Users\Cam\.m2\repository\net\jthink\jaudiotagger\3.0.1\jaudiotagger-3.0.1.jar;C:\Users\Cam\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.2\junit-jupiter-5.10.2.jar;C:\Users\Cam\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.2\junit-jupiter-api-5.10.2.jar;C:\Users\Cam\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Cam\.m2\repository\org\junit\platform\junit-platform-commons\1.10.2\junit-platform-commons-1.10.2.jar;C:\Users\Cam\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Cam\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.2\junit-jupiter-params-5.10.2.jar;C:\Users\Cam\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.2\junit-jupiter-engine-5.10.2.jar;C:\Users\Cam\.m2\repository\org\junit\platform\junit-platform-engine\1.10.2\junit-platform-engine-1.10.2.jar;C:\Users\Cam\.m2\repository\org\mockito\mockito-core\5.12.0\mockito-core-5.12.0.jar;C:\Users\Cam\.m2\repository\net\bytebuddy\byte-buddy\1.14.15\byte-buddy-1.14.15.jar;C:\Users\Cam\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.15\byte-buddy-agent-1.14.15.jar;C:\Users\Cam\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\Cam\.m2\repository\org\mockito\mockito-junit-jupiter\5.12.0\mockito-junit-jupiter-5.12.0.jar;C:\Users\Cam\.m2\repository\org\mockito\mockito-inline\5.2.0\mockito-inline-5.2.0.jar;C:\Users\Cam\.m2\repository\org\assertj\assertj-core\3.27.4\assertj-core-3.27.4.jar;C:\Users\Cam\.m2\repository\tokyo\northside\assertj-swing\4.0.0-beta-3\assertj-swing-4.0.0-beta-3.jar;C:\Users\Cam\.m2\repository\tokyo\northside\fest-reflect\4.0.0-beta-3\fest-reflect-4.0.0-beta-3.jar;C:\Users\Cam\.m2\repository\org\jetbrains\annotations\23.1.0\annotations-23.1.0.jar;C:\Users\Cam\.m2\repository\tokyo\northside\assertj-swing-junit-jupiter\4.0.0-beta-3\assertj-swing-junit-jupiter-4.0.0-beta-3.jar;C:\Users\Cam\.m2\repository\tokyo\northside\assertj-swing-junit\4.0.0-beta-3\assertj-swing-junit-4.0.0-beta-3.jar;C:\Users\Cam\.m2\repository\commons-codec\commons-codec\1.17.1\commons-codec-1.17.1.jar;C:\Users\Cam\.m2\repository\commons-io\commons-io\2.19.0\commons-io-2.19.0.jar;C:\Users\Cam\.m2\repository\org\awaitility\awaitility\4.2.1\awaitility-4.2.1.jar;C:\Users\Cam\.m2\repository\org\hamcrest\hamcrest\2.1\hamcrest-2.1.jar;"/>
+    <property name="java.class.path" value="C:\Users\Jawsh\Desktop\GoosePlayer_V2\gooseplayer2\target\test-classes;C:\Users\Jawsh\Desktop\GoosePlayer_V2\gooseplayer2\target\classes;C:\Users\Jawsh\.m2\repository\net\beadsproject\beads\3.2\beads-3.2.jar;C:\Users\Jawsh\.m2\repository\javazoom\jlayer\1.0.1\jlayer-1.0.1.jar;C:\Users\Jawsh\.m2\repository\org\clojars\automata\tritonus-aos\1.0.0\tritonus-aos-1.0.0.jar;C:\Users\Jawsh\.m2\repository\org\clojars\automata\tritonus-share\1.0.0\tritonus-share-1.0.0.jar;C:\Users\Jawsh\.m2\repository\org\jaudiolibs\audioservers-javasound\2.0.0\audioservers-javasound-2.0.0.jar;C:\Users\Jawsh\.m2\repository\org\jaudiolibs\audioservers-api\2.0.0\audioservers-api-2.0.0.jar;C:\Users\Jawsh\.m2\repository\org\jaudiolibs\audioservers-jack\2.0.0\audioservers-jack-2.0.0.jar;C:\Users\Jawsh\.m2\repository\org\jaudiolibs\jnajack\1.4.0\jnajack-1.4.0.jar;C:\Users\Jawsh\.m2\repository\net\java\dev\jna\jna\5.18.1\jna-5.18.1.jar;C:\Users\Jawsh\.m2\repository\com\googlecode\soundlibs\mp3spi\1.9.5.4\mp3spi-1.9.5.4.jar;C:\Users\Jawsh\.m2\repository\com\googlecode\soundlibs\jlayer\1.0.1.4\jlayer-1.0.1.4.jar;C:\Users\Jawsh\.m2\repository\junit\junit\3.8.2\junit-3.8.2.jar;C:\Users\Jawsh\.m2\repository\org\jflac\jflac-codec\1.5.2\jflac-codec-1.5.2.jar;C:\Users\Jawsh\.m2\repository\com\googlecode\soundlibs\tritonus-share\0.3.7.4\tritonus-share-0.3.7.4.jar;C:\Users\Jawsh\.m2\repository\com\formdev\flatlaf\3.5.1\flatlaf-3.5.1.jar;C:\Users\Jawsh\.m2\repository\com\formdev\flatlaf-intellij-themes\3.5.1\flatlaf-intellij-themes-3.5.1.jar;C:\Users\Jawsh\.m2\repository\net\jthink\jaudiotagger\3.0.1\jaudiotagger-3.0.1.jar;C:\Users\Jawsh\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.2\junit-jupiter-5.10.2.jar;C:\Users\Jawsh\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.2\junit-jupiter-api-5.10.2.jar;C:\Users\Jawsh\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Jawsh\.m2\repository\org\junit\platform\junit-platform-commons\1.10.2\junit-platform-commons-1.10.2.jar;C:\Users\Jawsh\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Jawsh\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.2\junit-jupiter-params-5.10.2.jar;C:\Users\Jawsh\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.2\junit-jupiter-engine-5.10.2.jar;C:\Users\Jawsh\.m2\repository\org\junit\platform\junit-platform-engine\1.10.2\junit-platform-engine-1.10.2.jar;C:\Users\Jawsh\.m2\repository\org\mockito\mockito-core\5.12.0\mockito-core-5.12.0.jar;C:\Users\Jawsh\.m2\repository\net\bytebuddy\byte-buddy\1.14.15\byte-buddy-1.14.15.jar;C:\Users\Jawsh\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.15\byte-buddy-agent-1.14.15.jar;C:\Users\Jawsh\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\Jawsh\.m2\repository\org\mockito\mockito-junit-jupiter\5.12.0\mockito-junit-jupiter-5.12.0.jar;C:\Users\Jawsh\.m2\repository\org\mockito\mockito-inline\5.2.0\mockito-inline-5.2.0.jar;C:\Users\Jawsh\.m2\repository\org\assertj\assertj-core\3.27.4\assertj-core-3.27.4.jar;C:\Users\Jawsh\.m2\repository\tokyo\northside\assertj-swing\4.0.0-beta-3\assertj-swing-4.0.0-beta-3.jar;C:\Users\Jawsh\.m2\repository\tokyo\northside\fest-reflect\4.0.0-beta-3\fest-reflect-4.0.0-beta-3.jar;C:\Users\Jawsh\.m2\repository\org\jetbrains\annotations\23.1.0\annotations-23.1.0.jar;C:\Users\Jawsh\.m2\repository\tokyo\northside\assertj-swing-junit-jupiter\4.0.0-beta-3\assertj-swing-junit-jupiter-4.0.0-beta-3.jar;C:\Users\Jawsh\.m2\repository\tokyo\northside\assertj-swing-junit\4.0.0-beta-3\assertj-swing-junit-4.0.0-beta-3.jar;C:\Users\Jawsh\.m2\repository\commons-codec\commons-codec\1.17.1\commons-codec-1.17.1.jar;C:\Users\Jawsh\.m2\repository\commons-io\commons-io\2.19.0\commons-io-2.19.0.jar;C:\Users\Jawsh\.m2\repository\org\awaitility\awaitility\4.2.1\awaitility-4.2.1.jar;C:\Users\Jawsh\.m2\repository\org\hamcrest\hamcrest\2.1\hamcrest-2.1.jar;"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="user.variant" value=""/>
     <property name="java.vendor.url" value="https://java.oracle.com/"/>
     <property name="user.timezone" value="America/Chicago"/>
-    <property name="os.name" value="Windows 11"/>
-    <property name="java.vm.specification.version" value="18"/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="java.vm.specification.version" value="17"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
-    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-18\bin"/>
-    <property name="sun.java.command" value="C:\Users\Cam\AppData\Local\Temp\surefire2156236105366366950\surefirebooter-20251117081837471_3.jar C:\Users\Cam\AppData\Local\Temp\surefire2156236105366366950 2025-11-17T08-18-36_922-jvmRun1 surefire-20251117081837471_1tmp surefire_0-20251117081837471_2tmp"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17\bin"/>
+    <property name="sun.java.command" value="C:\Users\Jawsh\AppData\Local\Temp\surefire1507625798959942066\surefirebooter-20251124010238255_3.jar C:\Users\Jawsh\AppData\Local\Temp\surefire1507625798959942066 2025-11-24T01-02-38_129-jvmRun1 surefire-20251124010238255_1tmp surefire_0-20251124010238255_2tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="surefire.test.class.path" value="C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\target\test-classes;C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\target\classes;C:\Users\Cam\.m2\repository\net\beadsproject\beads\3.2\beads-3.2.jar;C:\Users\Cam\.m2\repository\javazoom\jlayer\1.0.1\jlayer-1.0.1.jar;C:\Users\Cam\.m2\repository\org\clojars\automata\tritonus-aos\1.0.0\tritonus-aos-1.0.0.jar;C:\Users\Cam\.m2\repository\org\clojars\automata\tritonus-share\1.0.0\tritonus-share-1.0.0.jar;C:\Users\Cam\.m2\repository\org\jaudiolibs\audioservers-javasound\2.0.0\audioservers-javasound-2.0.0.jar;C:\Users\Cam\.m2\repository\org\jaudiolibs\audioservers-api\2.0.0\audioservers-api-2.0.0.jar;C:\Users\Cam\.m2\repository\org\jaudiolibs\audioservers-jack\2.0.0\audioservers-jack-2.0.0.jar;C:\Users\Cam\.m2\repository\org\jaudiolibs\jnajack\1.4.0\jnajack-1.4.0.jar;C:\Users\Cam\.m2\repository\net\java\dev\jna\jna\5.18.1\jna-5.18.1.jar;C:\Users\Cam\.m2\repository\com\googlecode\soundlibs\mp3spi\1.9.5.4\mp3spi-1.9.5.4.jar;C:\Users\Cam\.m2\repository\com\googlecode\soundlibs\jlayer\1.0.1.4\jlayer-1.0.1.4.jar;C:\Users\Cam\.m2\repository\junit\junit\3.8.2\junit-3.8.2.jar;C:\Users\Cam\.m2\repository\org\jflac\jflac-codec\1.5.2\jflac-codec-1.5.2.jar;C:\Users\Cam\.m2\repository\com\googlecode\soundlibs\tritonus-share\0.3.7.4\tritonus-share-0.3.7.4.jar;C:\Users\Cam\.m2\repository\com\formdev\flatlaf\3.5.1\flatlaf-3.5.1.jar;C:\Users\Cam\.m2\repository\com\formdev\flatlaf-intellij-themes\3.5.1\flatlaf-intellij-themes-3.5.1.jar;C:\Users\Cam\.m2\repository\net\jthink\jaudiotagger\3.0.1\jaudiotagger-3.0.1.jar;C:\Users\Cam\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.2\junit-jupiter-5.10.2.jar;C:\Users\Cam\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.2\junit-jupiter-api-5.10.2.jar;C:\Users\Cam\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Cam\.m2\repository\org\junit\platform\junit-platform-commons\1.10.2\junit-platform-commons-1.10.2.jar;C:\Users\Cam\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Cam\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.2\junit-jupiter-params-5.10.2.jar;C:\Users\Cam\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.2\junit-jupiter-engine-5.10.2.jar;C:\Users\Cam\.m2\repository\org\junit\platform\junit-platform-engine\1.10.2\junit-platform-engine-1.10.2.jar;C:\Users\Cam\.m2\repository\org\mockito\mockito-core\5.12.0\mockito-core-5.12.0.jar;C:\Users\Cam\.m2\repository\net\bytebuddy\byte-buddy\1.14.15\byte-buddy-1.14.15.jar;C:\Users\Cam\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.15\byte-buddy-agent-1.14.15.jar;C:\Users\Cam\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\Cam\.m2\repository\org\mockito\mockito-junit-jupiter\5.12.0\mockito-junit-jupiter-5.12.0.jar;C:\Users\Cam\.m2\repository\org\mockito\mockito-inline\5.2.0\mockito-inline-5.2.0.jar;C:\Users\Cam\.m2\repository\org\assertj\assertj-core\3.27.4\assertj-core-3.27.4.jar;C:\Users\Cam\.m2\repository\tokyo\northside\assertj-swing\4.0.0-beta-3\assertj-swing-4.0.0-beta-3.jar;C:\Users\Cam\.m2\repository\tokyo\northside\fest-reflect\4.0.0-beta-3\fest-reflect-4.0.0-beta-3.jar;C:\Users\Cam\.m2\repository\org\jetbrains\annotations\23.1.0\annotations-23.1.0.jar;C:\Users\Cam\.m2\repository\tokyo\northside\assertj-swing-junit-jupiter\4.0.0-beta-3\assertj-swing-junit-jupiter-4.0.0-beta-3.jar;C:\Users\Cam\.m2\repository\tokyo\northside\assertj-swing-junit\4.0.0-beta-3\assertj-swing-junit-4.0.0-beta-3.jar;C:\Users\Cam\.m2\repository\commons-codec\commons-codec\1.17.1\commons-codec-1.17.1.jar;C:\Users\Cam\.m2\repository\commons-io\commons-io\2.19.0\commons-io-2.19.0.jar;C:\Users\Cam\.m2\repository\org\awaitility\awaitility\4.2.1\awaitility-4.2.1.jar;C:\Users\Cam\.m2\repository\org\hamcrest\hamcrest\2.1\hamcrest-2.1.jar;"/>
+    <property name="surefire.test.class.path" value="C:\Users\Jawsh\Desktop\GoosePlayer_V2\gooseplayer2\target\test-classes;C:\Users\Jawsh\Desktop\GoosePlayer_V2\gooseplayer2\target\classes;C:\Users\Jawsh\.m2\repository\net\beadsproject\beads\3.2\beads-3.2.jar;C:\Users\Jawsh\.m2\repository\javazoom\jlayer\1.0.1\jlayer-1.0.1.jar;C:\Users\Jawsh\.m2\repository\org\clojars\automata\tritonus-aos\1.0.0\tritonus-aos-1.0.0.jar;C:\Users\Jawsh\.m2\repository\org\clojars\automata\tritonus-share\1.0.0\tritonus-share-1.0.0.jar;C:\Users\Jawsh\.m2\repository\org\jaudiolibs\audioservers-javasound\2.0.0\audioservers-javasound-2.0.0.jar;C:\Users\Jawsh\.m2\repository\org\jaudiolibs\audioservers-api\2.0.0\audioservers-api-2.0.0.jar;C:\Users\Jawsh\.m2\repository\org\jaudiolibs\audioservers-jack\2.0.0\audioservers-jack-2.0.0.jar;C:\Users\Jawsh\.m2\repository\org\jaudiolibs\jnajack\1.4.0\jnajack-1.4.0.jar;C:\Users\Jawsh\.m2\repository\net\java\dev\jna\jna\5.18.1\jna-5.18.1.jar;C:\Users\Jawsh\.m2\repository\com\googlecode\soundlibs\mp3spi\1.9.5.4\mp3spi-1.9.5.4.jar;C:\Users\Jawsh\.m2\repository\com\googlecode\soundlibs\jlayer\1.0.1.4\jlayer-1.0.1.4.jar;C:\Users\Jawsh\.m2\repository\junit\junit\3.8.2\junit-3.8.2.jar;C:\Users\Jawsh\.m2\repository\org\jflac\jflac-codec\1.5.2\jflac-codec-1.5.2.jar;C:\Users\Jawsh\.m2\repository\com\googlecode\soundlibs\tritonus-share\0.3.7.4\tritonus-share-0.3.7.4.jar;C:\Users\Jawsh\.m2\repository\com\formdev\flatlaf\3.5.1\flatlaf-3.5.1.jar;C:\Users\Jawsh\.m2\repository\com\formdev\flatlaf-intellij-themes\3.5.1\flatlaf-intellij-themes-3.5.1.jar;C:\Users\Jawsh\.m2\repository\net\jthink\jaudiotagger\3.0.1\jaudiotagger-3.0.1.jar;C:\Users\Jawsh\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.2\junit-jupiter-5.10.2.jar;C:\Users\Jawsh\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.2\junit-jupiter-api-5.10.2.jar;C:\Users\Jawsh\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Jawsh\.m2\repository\org\junit\platform\junit-platform-commons\1.10.2\junit-platform-commons-1.10.2.jar;C:\Users\Jawsh\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Jawsh\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.2\junit-jupiter-params-5.10.2.jar;C:\Users\Jawsh\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.2\junit-jupiter-engine-5.10.2.jar;C:\Users\Jawsh\.m2\repository\org\junit\platform\junit-platform-engine\1.10.2\junit-platform-engine-1.10.2.jar;C:\Users\Jawsh\.m2\repository\org\mockito\mockito-core\5.12.0\mockito-core-5.12.0.jar;C:\Users\Jawsh\.m2\repository\net\bytebuddy\byte-buddy\1.14.15\byte-buddy-1.14.15.jar;C:\Users\Jawsh\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.15\byte-buddy-agent-1.14.15.jar;C:\Users\Jawsh\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\Jawsh\.m2\repository\org\mockito\mockito-junit-jupiter\5.12.0\mockito-junit-jupiter-5.12.0.jar;C:\Users\Jawsh\.m2\repository\org\mockito\mockito-inline\5.2.0\mockito-inline-5.2.0.jar;C:\Users\Jawsh\.m2\repository\org\assertj\assertj-core\3.27.4\assertj-core-3.27.4.jar;C:\Users\Jawsh\.m2\repository\tokyo\northside\assertj-swing\4.0.0-beta-3\assertj-swing-4.0.0-beta-3.jar;C:\Users\Jawsh\.m2\repository\tokyo\northside\fest-reflect\4.0.0-beta-3\fest-reflect-4.0.0-beta-3.jar;C:\Users\Jawsh\.m2\repository\org\jetbrains\annotations\23.1.0\annotations-23.1.0.jar;C:\Users\Jawsh\.m2\repository\tokyo\northside\assertj-swing-junit-jupiter\4.0.0-beta-3\assertj-swing-junit-jupiter-4.0.0-beta-3.jar;C:\Users\Jawsh\.m2\repository\tokyo\northside\assertj-swing-junit\4.0.0-beta-3\assertj-swing-junit-4.0.0-beta-3.jar;C:\Users\Jawsh\.m2\repository\commons-codec\commons-codec\1.17.1\commons-codec-1.17.1.jar;C:\Users\Jawsh\.m2\repository\commons-io\commons-io\2.19.0\commons-io-2.19.0.jar;C:\Users\Jawsh\.m2\repository\org\awaitility\awaitility\4.2.1\awaitility-4.2.1.jar;C:\Users\Jawsh\.m2\repository\org\hamcrest\hamcrest\2.1\hamcrest-2.1.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
-    <property name="user.home" value="C:\Users\Cam"/>
+    <property name="user.home" value="C:\Users\Jawsh"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
-    <property name="java.version.date" value="2022-03-22"/>
-    <property name="java.home" value="C:\Program Files\Java\jdk-18"/>
+    <property name="java.version.date" value="2024-04-16"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk-17"/>
     <property name="file.separator" value="\"/>
-    <property name="basedir" value="C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2"/>
+    <property name="basedir" value="C:\Users\Jawsh\Desktop\GoosePlayer_V2\gooseplayer2"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\Cam\AppData\Local\Temp\surefire2156236105366366950\surefirebooter-20251117081837471_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Jawsh\AppData\Local\Temp\surefire1507625798959942066\surefirebooter-20251124010238255_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
-    <property name="java.runtime.version" value="18+36-2087"/>
-    <property name="user.name" value="Cam"/>
+    <property name="java.runtime.version" value="17.0.11+7-LTS-207"/>
+    <property name="user.name" value="Jawsh"/>
     <property name="path.separator" value=";"/>
     <property name="os.version" value="10.0"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
-    <property name="file.encoding" value="UTF-8"/>
+    <property name="file.encoding" value="Cp1252"/>
     <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
-    <property name="localRepository" value="C:\Users\Cam\.m2\repository"/>
+    <property name="localRepository" value="C:\Users\Jawsh\.m2\repository"/>
     <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
-    <property name="java.io.tmpdir" value="C:\Users\Cam\AppData\Local\Temp\"/>
-    <property name="java.version" value="18"/>
-    <property name="user.dir" value="C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2"/>
+    <property name="java.io.tmpdir" value="C:\Users\Jawsh\AppData\Local\Temp\"/>
+    <property name="java.version" value="17.0.11"/>
+    <property name="user.dir" value="C:\Users\Jawsh\Desktop\GoosePlayer_V2\gooseplayer2"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="sun.os.patch.level" value=""/>
     <property name="native.encoding" value="Cp1252"/>
-    <property name="java.library.path" value="C:\Program Files\Java\jdk-18\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\PowerShell\7;c:\Users\Cam\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\copilotCli;c:\Users\Cam\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\debugCommand;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\Program Files (x86)\Razer\ChromaBroadcast\bin;C:\Program Files\Razer\ChromaBroadcast\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\WINDOWS\system32\config\systemprofile\AppData\Local\Microsoft\WindowsApps;C:\Program Files\dotnet\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\PuTTY\;C:\Program Files\Java\jdk-18\bin;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\Program Files\Git\cmd;C:\Program Files\PowerShell\7\;C:\Users\Cam\scoop\apps\maven\current\bin;C:\Users\Cam\scoop\shims;C:\Users\Cam\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\Cam\AppData\Local\Programs\Python\Python311\;C:\Users\Cam\AppData\Local\Microsoft\WindowsApps;C:\xampp\mysql\bin;C:\xampp\php;C:\Program Files (x86)\Nmap;C:\Users\Cam\AppData\Local\GitHubDesktop\bin;C:\Users\Cam\AppData\Local\Programs\Microsoft VS Code\bin;c:\Users\Cam\.vscode\extensions\vscjava.vscode-java-debug-0.58.3\bundled\scripts\noConfigScripts;."/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-17\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Git\cmd;C:\Program Files\PuTTY\;C:\Program Files\FileBot\;C:\Users\Jawsh\AppData\Local\Microsoft\WindowsApps;C:\Users\Jawsh\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Jawsh\AppData\Local\Muse Hub\lib;C:\Users\Jawsh\AppData\Local\Programs\cursor\resources\app\bin;C:\Users\Jawsh\AppData\Local\GitHubDesktop\bin;C:\Program Files\apache-maven-3.9.11\bin;c:\Users\Jawsh\.cursor\extensions\vscjava.vscode-java-debug-0.58.3-universal\bundled\scripts\noConfigScripts;."/>
     <property name="java.vm.info" value="mixed mode, sharing"/>
     <property name="java.vendor" value="Oracle Corporation"/>
-    <property name="java.vm.version" value="18+36-2087"/>
+    <property name="java.vm.version" value="17.0.11+7-LTS-207"/>
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
-    <property name="java.class.version" value="62.0"/>
+    <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="clearQueueThenDragSongFromLibraryToQueue" classname="com.gooseplayer2.Packages.MusicPlayerIntegrationTest" time="29.56">
+  <testcase name="clearQueueThenDragSongFromLibraryToQueue" classname="com.gooseplayer2.Packages.MusicPlayerIntegrationTest" time="28.448">
     <system-out><![CDATA[Beads System Buffer size=5000
 Player is up: FrameFixture initialized [SUCCESS]
 Player is up: Window is visible [SUCCESS]
@@ -66,15 +66,15 @@ Player is up: Window size is 1200x800 [SUCCESS]
 Queue cleared
 Clear button clicked
 Queue cleared: only root node remains
-Dragging: Library/1 Believe (Janes Theme).mp3
+Dragging: Library/Eve - Avant (Instrumental).flac
 loadSong ran
-Song loaded: 1 Believe (Janes Theme).mp3
+Song loaded: Eve - Avant (Instrumental).flac
 Playback started
 Beads Output buffer size=40000
 Play button clicked
-updateTime() called. Current position: 0 seconds.
 updateTime() called. Current position: 1 seconds.
 updateTime() called. Current position: 2 seconds.
+updateTime() called. Current position: 3 seconds.
 Pause pressed
 Pause button clicked
 Playback started
@@ -83,17 +83,17 @@ updateTime() called. Current position: 4 seconds.
 updateTime() called. Current position: 5 seconds.
 No more tracks in queue.
 Skip button clicked
-Selecting song in queue: Queue/1 Believe (Janes Theme)
+Selecting song in queue: Queue/Eve - Avant (Instrumental)
 Remove button clicked
 SUCCESSFUL Test!. Window closes in 5s...
 ]]></system-out>
-    <system-err><![CDATA[Nov 17, 2025 8:19:27 AM org.assertj.swing.monitor.ProtectingTimerTask handleException
+    <system-err><![CDATA[Nov 24, 2025 1:05:48 AM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
-java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
+java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @7fc229ab
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:297)
-	at java.base/java.lang.reflect.Field.checkCanSetAccessible(Field.java:180)
-	at java.base/java.lang.reflect.Field.setAccessible(Field.java:174)
+	at java.base/java.lang.reflect.Field.checkCanSetAccessible(Field.java:178)
+	at java.base/java.lang.reflect.Field.setAccessible(Field.java:172)
 	at org.fest.reflect.util.Accessibles$SetAccessibleAction.run(Accessibles.java:70)
 	at org.fest.reflect.util.Accessibles$SetAccessibleAction.run(Accessibles.java:60)
 	at java.base/java.security.AccessController.doPrivileged(AccessController.java:318)
@@ -108,13 +108,17 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
-Nov 17, 2025 8:19:34 AM org.assertj.swing.monitor.ProtectingTimerTask handleException
+Nov 24, 2025 1:05:49 AM org.jaudiotagger.audio.flac.FlacInfoReader read
+INFO: C:\Users\Jawsh\Desktop\GoosePlayer_V2\gooseplayer2\src\Library\Eve - Avant (Instrumental).flac StartByte:4 BlockType:STREAMINFO DataLength:34 isLastBlock:false
+Nov 24, 2025 1:05:49 AM org.jaudiotagger.audio.flac.FlacInfoReader read
+INFO: C:\Users\Jawsh\Desktop\GoosePlayer_V2\gooseplayer2\src\Library\Eve - Avant (Instrumental).flac StartByte:42 BlockType:VORBIS_COMMENT DataLength:40 isLastBlock:true
+Nov 24, 2025 1:05:54 AM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
-java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
+java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @7fc229ab
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:297)
-	at java.base/java.lang.reflect.Field.checkCanSetAccessible(Field.java:180)
-	at java.base/java.lang.reflect.Field.setAccessible(Field.java:174)
+	at java.base/java.lang.reflect.Field.checkCanSetAccessible(Field.java:178)
+	at java.base/java.lang.reflect.Field.setAccessible(Field.java:172)
 	at org.fest.reflect.util.Accessibles$SetAccessibleAction.run(Accessibles.java:70)
 	at org.fest.reflect.util.Accessibles$SetAccessibleAction.run(Accessibles.java:60)
 	at java.base/java.security.AccessController.doPrivileged(AccessController.java:318)

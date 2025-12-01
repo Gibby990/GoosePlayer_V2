@@ -14,7 +14,7 @@ import com.formdev.flatlaf.intellijthemes.*;
 
 import javax.swing.*;
 
-import com.gooseplayer2.Packages.Slugcat;
+import com.gooseplayer2.Packages.Cat;
 
 public class Config extends JDialog {
     public static final String SETTINGS_FILE_PATH = initSettingsPath();
@@ -25,7 +25,7 @@ public class Config extends JDialog {
     private GridBagLayout layout;
     private Properties p;
     private FileReader reader;
-    private Slugcat Artificer; 
+    private Cat Artificer; 
 
     private String currentTheme, currentStyle, currentMonoChannelName, currentMultiChannel1Name, currentMultiChannel2Name, currentMultiChannel3Name;
 
@@ -49,7 +49,7 @@ public class Config extends JDialog {
         Seperator = new JSeparator();
         Seperator.setOrientation(SwingConstants.HORIZONTAL); 
 
-        Artificer = new Slugcat();
+        Artificer = new Cat();
 
         reader = new FileReader(SETTINGS_FILE_PATH);
         p = new Properties();

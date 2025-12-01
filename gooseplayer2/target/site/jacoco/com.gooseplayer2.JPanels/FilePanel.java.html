@@ -60,7 +60,7 @@ public class FilePanel extends JPanel {
     private void createNodes(DefaultMutableTreeNode node, Path folderPath) {
 <span class="fc" id="L61">        try (DirectoryStream&lt;Path&gt; stream = Files.newDirectoryStream(folderPath)) {</span>
 <span class="fc bfc" id="L62" title="All 2 branches covered.">            for (Path entry : stream) {</span>
-<span class="pc bpc" id="L63" title="1 of 2 branches missed.">                if (!entry.getFileName().toString().equals(&quot;.gitkeep&quot;)) {</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">                if (!entry.getFileName().toString().equals(&quot;.gitkeep&quot;)) {</span>
 <span class="fc" id="L64">                    DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(entry.getFileName().toString());</span>
 <span class="fc" id="L65">                    node.add(newNode);</span>
 <span class="pc bpc" id="L66" title="1 of 2 branches missed.">                    if (Files.isDirectory(entry)) {</span>

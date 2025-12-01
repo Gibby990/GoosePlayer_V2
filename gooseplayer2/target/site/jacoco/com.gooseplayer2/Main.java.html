@@ -28,18 +28,17 @@ import javazoom.jl.decoder.JavaLayerException;
  *      Removed n variable that was used to identify a player for debug logs. I never used it and took up code space.
  *      Removed newValue variable.
  * 
-
  */
 
-<span class="nc" id="L34">public class Main {</span>
+<span class="nc" id="L33">public class Main {</span>
     public static void main(String[] args) {
-<span class="nc" id="L36">        SwingUtilities.invokeLater(() -&gt; { </span>
+<span class="nc" id="L35">        SwingUtilities.invokeLater(() -&gt; { </span>
             try {
-<span class="nc" id="L38">                new MainFrame(); </span>
-<span class="nc" id="L39">            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException | JavaLayerException e) {</span>
-<span class="nc" id="L40">                e.printStackTrace();</span>
-<span class="nc" id="L41">            }</span>
-<span class="nc" id="L42">        });</span>
-<span class="nc" id="L43">    }</span>
+<span class="nc" id="L37">                new MainFrame(); </span>
+<span class="nc" id="L38">            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException | JavaLayerException e) {</span>
+<span class="nc" id="L39">                e.printStackTrace();</span>
+<span class="nc" id="L40">            }</span>
+<span class="nc" id="L41">        });</span>
+<span class="nc" id="L42">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

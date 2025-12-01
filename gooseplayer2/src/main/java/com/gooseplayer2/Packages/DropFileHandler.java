@@ -9,11 +9,9 @@ import com.gooseplayer2.JPanels.*;
 
 public class DropFileHandler extends TransferHandler {
     MusicPlayer player;
-    JComponent filePanel;
 
-    public DropFileHandler(MusicPlayer player, JComponent filePanel) {
+    public DropFileHandler(MusicPlayer player) {
         this.player = player;
-        this.filePanel = filePanel;
     }
 
     @Override
@@ -23,9 +21,6 @@ public class DropFileHandler extends TransferHandler {
         }
 
         support.setDropAction(COPY); 
-
-        if (support.getComponent() == filePanel) {
-        }
 
         return support.isDataFlavorSupported(DataFlavor.javaFileListFlavor);
     }

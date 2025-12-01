@@ -1,8 +1,6 @@
 // src/test/java/com/gooseplayer2/JPanels/AudioPlayerSpy.java
 package com.gooseplayer2.JPanels;
 
-import javax.swing.*;
-
 import net.beadsproject.beads.ugens.SamplePlayer;
 
 import java.io.IOException;
@@ -20,9 +18,9 @@ public class AudioPlayerSpy extends MusicPlayer {
     private final AtomicInteger stopCount   = new AtomicInteger();
     private boolean playing = false;
 
-    public AudioPlayerSpy(JComponent filePanel, boolean isMultichannel, String channelName)
+    public AudioPlayerSpy(boolean isMultichannel, String channelName)
             throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        super(filePanel, isMultichannel, channelName);  // ← CALL SUPER
+        super(isMultichannel, channelName);  // ← CALL SUPER
     }
 
     @Override public void play(){ 
