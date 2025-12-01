@@ -6,6 +6,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.SwingUtilities;
 import javazoom.jl.decoder.JavaLayerException;
 
+<<<<<<< HEAD
 /* Report for 9/8
 
  * Features:
@@ -29,6 +30,8 @@ import javazoom.jl.decoder.JavaLayerException;
  *      Removed newValue variable.
  * 
  */
+=======
+>>>>>>> a62df01127ee385f49f8b9e50bc4c094ea75a8e8
 
 public class Main {
     public static void main(String[] args) {
