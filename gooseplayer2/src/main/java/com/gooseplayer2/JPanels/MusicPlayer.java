@@ -112,7 +112,7 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
             }
         });
 
-        Cat Rivulet = new Cat();
+        Cat Maxwell = new Cat();
 
         //JComponents
 
@@ -198,16 +198,16 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
 
             gbc.fill = GridBagConstraints.CENTER;
 
-            Rivulet.addObjects(ChannelLabel, this, layout, gbc, 0, 0, 4, 1);
+            Maxwell.addObjects(ChannelLabel, this, layout, gbc, 0, 0, 4, 1);
 
             // JButtons
 
             gbc.fill = GridBagConstraints.NONE;
 
-            Rivulet.addObjects(PlayPause, this, layout, gbc, 4, 0, 1, 1);
-            Rivulet.addObjects(Skip, this, layout, gbc, 4, 1, 1, 1);
-			Rivulet.addObjects(Remove, this, layout, gbc, 4, 2, 1, 1);
-			Rivulet.addObjects(loopPanel, this, layout, gbc,4, 4, 1, 1);
+            Maxwell.addObjects(PlayPause, this, layout, gbc, 4, 0, 1, 1);
+            Maxwell.addObjects(Skip, this, layout, gbc, 4, 1, 1, 1);
+			Maxwell.addObjects(Remove, this, layout, gbc, 4, 2, 1, 1);
+			Maxwell.addObjects(loopPanel, this, layout, gbc, 4, 4, 1, 1);
 
             // Bars
 
@@ -215,10 +215,10 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
 
             gbc.insets = new Insets(0, 25, 0, 0);
 
-            Rivulet.addObjects(ProgressBar, this, layout, gbc, 0, 0, 4, 4);
-            Rivulet.addObjects(TimeLabel, this, layout, gbc, 0, 1, 2, 1);
-            Rivulet.addObjects(VolumeLabel, this, layout, gbc, 0, 3, 2, 1);
-            Rivulet.addObjects(VolumeSlider, this, layout, gbc, 0, 4, 1, 1);
+            Maxwell.addObjects(ProgressBar, this, layout, gbc, 0, 0, 4, 4);
+            Maxwell.addObjects(TimeLabel, this, layout, gbc, 0, 1, 2, 1);
+            Maxwell.addObjects(VolumeLabel, this, layout, gbc, 0, 3, 2, 1);
+            Maxwell.addObjects(VolumeSlider, this, layout, gbc, 0, 4, 1, 1);
         
             gbc.insets = new Insets(0, 0, 0, 0);
 
@@ -226,7 +226,7 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
 
             gbc.fill = GridBagConstraints.BOTH;
 
-            Rivulet.addObjects(queueTreePane, this, layout, gbc, 5, 0, 1,6);
+            Maxwell.addObjects(queueTreePane, this, layout, gbc, 5, 0, 1, 6);
         } else {
             gbc.gridheight = 3;
             gbc.gridwidth = 6;
@@ -235,42 +235,42 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
 
             // Title
             gbc.fill = GridBagConstraints.CENTER;
-            Rivulet.addObjects(ChannelLabel, this, layout, gbc, 0, 0, 4, 1);
+            Maxwell.addObjects(ChannelLabel, this, layout, gbc, 0, 0, 4, 1);
 
             // Progress and Time
             gbc.fill = GridBagConstraints.HORIZONTAL;
             gbc.insets = new Insets(0, 20, 0, 0); 
-            Rivulet.addObjects(ProgressBar, this, layout, gbc, 0, 1, 4, 1);
-            Rivulet.addObjects(TimeLabel, this, layout, gbc, 4, 1, 1, 1);
+            Maxwell.addObjects(ProgressBar, this, layout, gbc, 0, 1, 4, 1);
+            Maxwell.addObjects(TimeLabel, this, layout, gbc, 4, 1, 1, 1);
 
             // Volume Control
-            Rivulet.addObjects(VolumeSlider, this, layout, gbc, 0, 2, 2, 1);
+            Maxwell.addObjects(VolumeSlider, this, layout, gbc, 0, 2, 2, 1);
 
             // Album Art
             gbc.fill = GridBagConstraints.NONE;
-            Rivulet.addObjects(AlbumArtLabel, this, layout, gbc, 5, 0, 1, 3);
+            Maxwell.addObjects(AlbumArtLabel, this, layout, gbc, 5, 0, 1, 3);
 
             // Control Buttons
             gbc.fill = GridBagConstraints.HORIZONTAL;
             gbc.anchor = GridBagConstraints.WEST;
             gbc.weightx = 1.0;
             gbc.insets = new Insets(0, 20, 0, 5);
-            Rivulet.addObjects(PlayPause, this, layout, gbc, 0, 3, 1, 1);
+            Maxwell.addObjects(PlayPause, this, layout, gbc, 0, 3, 1, 1);
             
             gbc.anchor = GridBagConstraints.EAST;
-            Rivulet.addObjects(Skip, this, layout, gbc, 1, 3, 1, 1);
+            Maxwell.addObjects(Skip, this, layout, gbc, 1, 3, 1, 1);
 
 			gbc.fill = GridBagConstraints.NONE;
 			gbc.anchor = GridBagConstraints.CENTER;
-			Rivulet.addObjects(Shuffle, this, layout, gbc, 2, 3, 1, 1);
-			Rivulet.addObjects(Remove, this, layout, gbc, 3, 3, 1, 1);
-			Rivulet.addObjects(Clear, this, layout, gbc, 4, 3, 1, 1);
-			Rivulet.addObjects(loopPanel, this, layout, gbc, 5, 3, 1, 1);
+			Maxwell.addObjects(Shuffle, this, layout, gbc, 2, 3, 1, 1);
+			Maxwell.addObjects(Remove, this, layout, gbc, 3, 3, 1, 1);
+			Maxwell.addObjects(Clear, this, layout, gbc, 4, 3, 1, 1);
+			Maxwell.addObjects(loopPanel, this, layout, gbc, 5, 3, 1, 1);
 
             // Queue
             gbc.fill = GridBagConstraints.BOTH;
             gbc.insets = new Insets(0, 0, 0, 0);
-            Rivulet.addObjects(queueTreePane, this, layout, gbc, 0, 4, 6, 1);
+            Maxwell.addObjects(queueTreePane, this, layout, gbc, 0, 4, 6, 1);
         }
 
         queueTree.setTransferHandler(new DropFileHandler(this));
