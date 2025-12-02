@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd xmlns="http://pmd.sourceforge.net/report/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pmd.sourceforge.net/report/2.0.0 https://pmd.github.io/schema/report_2_0_0.xsd" version="7.17.0" timestamp="2025-12-02T16:44:23.593">
+<file name="C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\src\main\java\com\gooseplayer2\Config.java">
+<violation beginline="308" endline="308" begincolumn="34" endcolumn="40" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="com.gooseplayer2" class="Config" method="applySettings" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'Window': 'getWindows' is already in scope
+</violation>
+</file>
+<file name="C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\src\main\java\com\gooseplayer2\JPanels\MusicPlayer.java">
+<violation beginline="745" endline="745" begincolumn="17" endcolumn="41" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="com.gooseplayer2.JPanels" class="MusicPlayer" method="handleEndOfPlayback" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'java.util': 'Iterator' is already in scope because it is imported in this file
+</violation>
+<violation beginline="828" endline="828" begincolumn="9" endcolumn="33" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="com.gooseplayer2.JPanels" class="MusicPlayer" method="getQueueFiles" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'java.util': 'Iterator' is already in scope because it is imported in this file
+</violation>
+<violation beginline="996" endline="996" begincolumn="46" endcolumn="84" rule="UnusedNullCheckInEquals" ruleset="Error Prone" package="com.gooseplayer2.JPanels" method="getTreeCellRendererComponent" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#unusednullcheckinequals" priority="3">
+Invoke equals() on the object you've already ensured is not null
+</violation>
+<violation beginline="1013" endline="1013" begincolumn="3" endcolumn="27" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="com.gooseplayer2.JPanels" class="MusicPlayer" method="recenterQueueAtRenderedIndex" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'java.util': 'Iterator' is already in scope because it is imported in this file
+</violation>
+</file>
+<file name="C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\src\main\java\com\gooseplayer2\JPanels\RadioPlayer.java">
+<violation beginline="272" endline="272" begincolumn="63" endcolumn="92" rule="UselessParentheses" ruleset="Code Style" package="com.gooseplayer2.JPanels" class="RadioPlayer" method="updatePlayPauseLabel" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isPaused ? "Play" : "Pause"`.
+</violation>
+<violation beginline="360" endline="361" begincolumn="23" endcolumn="22" rule="EmptyCatchBlock" ruleset="Error Prone" package="com.gooseplayer2.JPanels" class="RadioPlayer" method="decodeLoop" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+<violation beginline="368" endline="369" begincolumn="23" endcolumn="22" rule="EmptyCatchBlock" ruleset="Error Prone" package="com.gooseplayer2.JPanels" class="RadioPlayer" method="decodeLoop" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+<violation beginline="372" endline="372" begincolumn="30" endcolumn="40" rule="UselessParentheses" ruleset="Code Style" package="com.gooseplayer2.JPanels" class="RadioPlayer" method="decodeLoop" variable="frames" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `read / 4`.
+</violation>
+<violation beginline="730" endline="731" begincolumn="11" endcolumn="10" rule="EmptyCatchBlock" ruleset="Error Prone" package="com.gooseplayer2.JPanels" class="RadioPlayer" method="saveLastRadioUrl" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\src\main\java\com\gooseplayer2\MainFrame.java">
+<violation beginline="59" endline="59" begincolumn="34" endcolumn="40" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="com.gooseplayer2" class="MainFrame" method="MainFrame" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'JFrame': 'WindowConstants::EXIT_ON_CLOSE' is already in scope because it is inherited by an enclosing type
+</violation>
+<violation beginline="219" endline="221" begincolumn="25" endcolumn="26" rule="CollapsibleIfStatements" ruleset="Design" package="com.gooseplayer2" class="MainFrame" method="watchDirectoryPath" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_design.html#collapsibleifstatements" priority="3">
+This if statement could be combined with its parent
+</violation>
+<violation beginline="265" endline="265" begincolumn="18" endcolumn="54" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="com.gooseplayer2" class="MainFrame" method="saveQueues" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'com.gooseplayer2.JPanels': 'MusicPlayer' is already in scope because it is imported in this file
+</violation>
+<violation beginline="266" endline="266" begincolumn="32" endcolumn="44" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="com.gooseplayer2" class="MainFrame" method="saveQueues" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'java.io': 'File' is already in scope because it is imported in this file
+</violation>
+<violation beginline="269" endline="269" begincolumn="26" endcolumn="38" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="com.gooseplayer2" class="MainFrame" method="saveQueues" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'java.io': 'File' is already in scope because it is imported in this file
+</violation>
+<violation beginline="284" endline="284" begincolumn="18" endcolumn="54" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="com.gooseplayer2" class="MainFrame" method="restoreQueuesIfPresent" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'com.gooseplayer2.JPanels': 'MusicPlayer' is already in scope because it is imported in this file
+</violation>
+<violation beginline="287" endline="287" begincolumn="36" endcolumn="48" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="com.gooseplayer2" class="MainFrame" method="restoreQueuesIfPresent" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'java.io': 'File' is already in scope because it is imported in this file
+</violation>
+<violation beginline="288" endline="288" begincolumn="52" endcolumn="71" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="com.gooseplayer2" class="MainFrame" method="restoreQueuesIfPresent" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'java.nio.file': 'Files' is already in scope because it is imported in this file
+</violation>
+<violation beginline="291" endline="291" begincolumn="43" endcolumn="55" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="com.gooseplayer2" class="MainFrame" method="restoreQueuesIfPresent" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'java.io': 'File' is already in scope because it is imported in this file
+</violation>
+</file>
+<file name="C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\src\main\java\com\gooseplayer2\Packages\Queue.java">
+<violation beginline="7" endline="7" begincolumn="1" endcolumn="44" rule="UnnecessaryImport" ruleset="Code Style" package="com.gooseplayer2.Packages" class="Queue" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unnecessary import from the java.lang package 'java.lang.IndexOutOfBoundsException'
+</violation>
+</file>
+</pmd>

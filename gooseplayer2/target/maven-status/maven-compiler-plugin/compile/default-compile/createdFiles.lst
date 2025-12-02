@@ -6,12 +6,12 @@ com\gooseplayer2\JPanels\MusicPanel$1.class
 com\gooseplayer2\JPanels\MusicPlayer$1.class
 com\gooseplayer2\MainFrame$3.class
 com\gooseplayer2\Packages\Queue$Node.class
+com\gooseplayer2\DropFileHandler.class
 com\gooseplayer2\JPanels\MusicPlayer$ClearListener.class
 com\gooseplayer2\Packages\Queue.class
 com\gooseplayer2\JPanels\AudioPlayer.class
 com\gooseplayer2\JPanels\AudioPlayerSpy.class
 com\gooseplayer2\JPanels\MusicPlayer$ShuffleListener.class
-com\gooseplayer2\Packages\DropFileHandler.class
 com\gooseplayer2\Packages\FileTransferHandler.class
 com\gooseplayer2\JPanels\MusicPanel.class
 com\gooseplayer2\Packages\Queue$1.class
@@ -24,12 +24,11 @@ com\gooseplayer2\Packages\FileTransferHandler$FileTransferable.class
 com\gooseplayer2\Main.class
 com\gooseplayer2\JPanels\MusicPanel$2.class
 com\gooseplayer2\JPanels\MusicPanel$Mode.class
-com\gooseplayer2\Packages\Slugcat.class
-com\gooseplayer2\Packages\QueuedFile.class
 com\gooseplayer2\JPanels\MusicPlayer$LoopListener.class
 com\gooseplayer2\JPanels\MusicPlayer$2.class
 com\gooseplayer2\JPanels\MusicPlayer$RemoveListener.class
 com\gooseplayer2\JPanels\RadioPlayer$IcyMetadataInputStream.class
+com\gooseplayer2\Packages\Cat.class
 com\gooseplayer2\JPanels\MusicPlayer$3.class
 com\gooseplayer2\JPanels\MusicPlayer$SkipListener.class
 com\gooseplayer2\JPanels\RadioPlayer$StreamingUGen.class

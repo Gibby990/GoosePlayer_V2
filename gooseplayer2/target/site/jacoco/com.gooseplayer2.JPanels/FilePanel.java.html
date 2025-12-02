@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 
 import com.gooseplayer2.Config;
 import com.gooseplayer2.Packages.FileTransferHandler;
-import com.gooseplayer2.Packages.Slugcat;
+import com.gooseplayer2.Packages.Cat;
 
 public class FilePanel extends JPanel {
     private JLabel label;
@@ -39,7 +39,7 @@ public class FilePanel extends JPanel {
 
 <span class="fc" id="L40">        layout = new GridBagLayout();</span>
 <span class="fc" id="L41">        gbc = new GridBagConstraints();</span>
-<span class="fc" id="L42">        Slugcat Hunter = new Slugcat();</span>
+<span class="fc" id="L42">        Cat Hunter = new Cat();</span>
 
 <span class="fc" id="L44">        setLayout(layout);</span>
 
@@ -60,7 +60,7 @@ public class FilePanel extends JPanel {
     private void createNodes(DefaultMutableTreeNode node, Path folderPath) {
 <span class="fc" id="L61">        try (DirectoryStream&lt;Path&gt; stream = Files.newDirectoryStream(folderPath)) {</span>
 <span class="fc bfc" id="L62" title="All 2 branches covered.">            for (Path entry : stream) {</span>
-<span class="fc bfc" id="L63" title="All 2 branches covered.">                if (!entry.getFileName().toString().equals(&quot;.gitkeep&quot;)) {</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">                if (!entry.getFileName().toString().equals(&quot;.gitkeep&quot;)) {</span>
 <span class="fc" id="L64">                    DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(entry.getFileName().toString());</span>
 <span class="fc" id="L65">                    node.add(newNode);</span>
 <span class="pc bpc" id="L66" title="1 of 2 branches missed.">                    if (Files.isDirectory(entry)) {</span>

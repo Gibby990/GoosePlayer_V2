@@ -14,7 +14,7 @@ import com.formdev.flatlaf.intellijthemes.*;
 
 import javax.swing.*;
 
-import com.gooseplayer2.Packages.Slugcat;
+import com.gooseplayer2.Packages.Cat;
 
 public class Config extends JDialog {
 <span class="fc" id="L20">    public static final String SETTINGS_FILE_PATH = initSettingsPath();</span>
@@ -25,7 +25,7 @@ public class Config extends JDialog {
     private GridBagLayout layout;
     private Properties p;
     private FileReader reader;
-    private Slugcat Artificer; 
+    private Cat Artificer; 
 
     private String currentTheme, currentStyle, currentMonoChannelName, currentMultiChannel1Name, currentMultiChannel2Name, currentMultiChannel3Name;
 
@@ -49,7 +49,7 @@ public class Config extends JDialog {
 <span class="nc" id="L49">        Seperator = new JSeparator();</span>
 <span class="nc" id="L50">        Seperator.setOrientation(SwingConstants.HORIZONTAL); </span>
 
-<span class="nc" id="L52">        Artificer = new Slugcat();</span>
+<span class="nc" id="L52">        Artificer = new Cat();</span>
 
 <span class="nc" id="L54">        reader = new FileReader(SETTINGS_FILE_PATH);</span>
 <span class="nc" id="L55">        p = new Properties();</span>
@@ -283,128 +283,127 @@ public class Config extends JDialog {
 
 <span class="nc" id="L284">            p.store(writer, null);</span>
 
-            // Apply theme immediately; other changes may need restart
-<span class="nc" id="L287">            applySettings();</span>
+<span class="nc" id="L286">            applySettings();</span>
 
-<span class="nc bnc" id="L289" title="All 12 branches missed.">            restartRequired = styleChanged || monoChanged || multi1Changed || multi2Changed || multi3Changed || libraryChanged;</span>
-<span class="nc" id="L290">        } catch (IOException e) {</span>
-<span class="nc" id="L291">            e.printStackTrace();</span>
-<span class="nc" id="L292">        }</span>
-<span class="nc" id="L293">        return restartRequired;</span>
+<span class="nc bnc" id="L288" title="All 12 branches missed.">            restartRequired = styleChanged || monoChanged || multi1Changed || multi2Changed || multi3Changed || libraryChanged;</span>
+<span class="nc" id="L289">        } catch (IOException e) {</span>
+<span class="nc" id="L290">            e.printStackTrace();</span>
+<span class="nc" id="L291">        }</span>
+<span class="nc" id="L292">        return restartRequired;</span>
     }
 
     public static void applySettings() {
-<span class="fc" id="L297">        SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="fc" id="L296">        SwingUtilities.invokeLater(() -&gt; {</span>
             try {
-<span class="fc" id="L299">                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());</span>
-<span class="fc" id="L300">                Properties p = new Properties();</span>
-<span class="fc" id="L301">                p.load(new FileReader(SETTINGS_FILE_PATH));</span>
+<span class="fc" id="L298">                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());</span>
+<span class="fc" id="L299">                Properties p = new Properties();</span>
+<span class="fc" id="L300">                p.load(new FileReader(SETTINGS_FILE_PATH));</span>
 
-<span class="fc" id="L303">                applyTheme(p.getProperty(&quot;theme&quot;, &quot;&quot;));</span>
+<span class="fc" id="L302">                applyTheme(p.getProperty(&quot;theme&quot;, &quot;&quot;));</span>
 
-<span class="nc" id="L305">            } catch (Exception e) {</span>
-<span class="nc" id="L306">                e.printStackTrace();</span>
-<span class="fc" id="L307">            }</span>
-<span class="fc" id="L308">            SwingUtilities.updateComponentTreeUI(JFrame.getFrames()[0]);</span>
-<span class="fc bfc" id="L309" title="All 2 branches covered.">            for (Window window : Window.getWindows()) {</span>
-<span class="fc" id="L310">                SwingUtilities.updateComponentTreeUI(window);</span>
+<span class="nc" id="L304">            } catch (Exception e) {</span>
+<span class="nc" id="L305">                e.printStackTrace();</span>
+<span class="fc" id="L306">            }</span>
+<span class="fc" id="L307">            SwingUtilities.updateComponentTreeUI(JFrame.getFrames()[0]);</span>
+<span class="fc bfc" id="L308" title="All 2 branches covered.">            for (Window window : Window.getWindows()) {</span>
+<span class="fc" id="L309">                SwingUtilities.updateComponentTreeUI(window);</span>
             }
-<span class="fc" id="L312">        });</span>
-<span class="fc" id="L313">    }</span>
+<span class="fc" id="L311">        });</span>
+<span class="fc" id="L312">    }</span>
 
     public static void applyTheme(String theme) {
-<span class="pc bpc" id="L316" title="9 of 10 branches missed.">        switch (theme) {</span>
+<span class="pc bpc" id="L315" title="9 of 10 branches missed.">        switch (theme) {</span>
             case &quot;Light Flat&quot;:
-<span class="nc" id="L318">                FlatLightFlatIJTheme.setup();</span>
-<span class="nc" id="L319">                break;</span>
+<span class="nc" id="L317">                FlatLightFlatIJTheme.setup();</span>
+<span class="nc" id="L318">                break;</span>
             case &quot;Solarized Light&quot;:
-<span class="nc" id="L321">                FlatSolarizedLightIJTheme.setup();</span>
-<span class="nc" id="L322">                break;</span>
+<span class="nc" id="L320">                FlatSolarizedLightIJTheme.setup();</span>
+<span class="nc" id="L321">                break;</span>
             case &quot;Arc&quot; :
-<span class="nc" id="L324">                FlatArcIJTheme.setup();</span>
-<span class="nc" id="L325">                break;</span>
+<span class="nc" id="L323">                FlatArcIJTheme.setup();</span>
+<span class="nc" id="L324">                break;</span>
             case &quot;Dark Flat&quot;:
-<span class="nc" id="L327">                FlatDarkFlatIJTheme.setup();</span>
-<span class="nc" id="L328">                break;</span>
+<span class="nc" id="L326">                FlatDarkFlatIJTheme.setup();</span>
+<span class="nc" id="L327">                break;</span>
             case &quot;Arc Dark&quot;: 
-<span class="nc" id="L330">                FlatArcDarkIJTheme.setup();</span>
-<span class="nc" id="L331">                break;</span>
+<span class="nc" id="L329">                FlatArcDarkIJTheme.setup();</span>
+<span class="nc" id="L330">                break;</span>
             case &quot;Arc Dark Orange&quot;:
-<span class="nc" id="L333">                FlatArcDarkOrangeIJTheme.setup();</span>
-<span class="nc" id="L334">                break;</span>
+<span class="fc" id="L332">                FlatArcDarkOrangeIJTheme.setup();</span>
+<span class="fc" id="L333">                break;</span>
             case &quot;Hiberbee Dark&quot;:
-<span class="nc" id="L336">                FlatHiberbeeDarkIJTheme.setup();</span>
-<span class="nc" id="L337">                break;</span>
+<span class="nc" id="L335">                FlatHiberbeeDarkIJTheme.setup();</span>
+<span class="nc" id="L336">                break;</span>
             case &quot;Dark Purple&quot;:
-<span class="fc" id="L339">                FlatDarkPurpleIJTheme.setup();</span>
-<span class="fc" id="L340">                break;</span>
+<span class="nc" id="L338">                FlatDarkPurpleIJTheme.setup();</span>
+<span class="nc" id="L339">                break;</span>
             case &quot;Nord&quot;:
-<span class="nc" id="L342">                FlatNordIJTheme.setup();</span>
-<span class="nc" id="L343">                break;</span>
+<span class="nc" id="L341">                FlatNordIJTheme.setup();</span>
+<span class="nc" id="L342">                break;</span>
             default:
-<span class="nc" id="L345">                FlatLightFlatIJTheme.setup();</span>
+<span class="nc" id="L344">                FlatLightFlatIJTheme.setup();</span>
                 break;
         }
-<span class="fc" id="L348">    }</span>
+<span class="fc" id="L347">    }</span>
 
     private static String initSettingsPath() {
-<span class="fc" id="L351">        String appData = System.getenv(&quot;APPDATA&quot;);</span>
+<span class="fc" id="L350">        String appData = System.getenv(&quot;APPDATA&quot;);</span>
         String targetPath;
-<span class="pc bpc" id="L353" title="2 of 4 branches missed.">        if (appData != null &amp;&amp; !appData.isEmpty()) {</span>
-<span class="fc" id="L354">            targetPath = appData + File.separator + &quot;GoosePlayer2&quot; + File.separator + &quot;settings.txt&quot;;</span>
+<span class="pc bpc" id="L352" title="2 of 4 branches missed.">        if (appData != null &amp;&amp; !appData.isEmpty()) {</span>
+<span class="fc" id="L353">            targetPath = appData + File.separator + &quot;GoosePlayer2&quot; + File.separator + &quot;settings.txt&quot;;</span>
         } else {
-<span class="nc" id="L356">            targetPath = System.getProperty(&quot;user.dir&quot;) + File.separator + &quot;settings.txt&quot;;</span>
+<span class="nc" id="L355">            targetPath = System.getProperty(&quot;user.dir&quot;) + File.separator + &quot;settings.txt&quot;;</span>
         }
 
-<span class="fc" id="L359">        File settingsFile = new File(targetPath);</span>
-<span class="fc" id="L360">        File parentDir = settingsFile.getParentFile();</span>
-<span class="pc bpc" id="L361" title="2 of 4 branches missed.">        if (parentDir != null &amp;&amp; !parentDir.exists()) {</span>
-<span class="nc" id="L362">            parentDir.mkdirs();</span>
+<span class="fc" id="L358">        File settingsFile = new File(targetPath);</span>
+<span class="fc" id="L359">        File parentDir = settingsFile.getParentFile();</span>
+<span class="pc bpc" id="L360" title="2 of 4 branches missed.">        if (parentDir != null &amp;&amp; !parentDir.exists()) {</span>
+<span class="nc" id="L361">            parentDir.mkdirs();</span>
         }
 
-<span class="pc bpc" id="L365" title="1 of 2 branches missed.">        if (!settingsFile.exists()) {</span>
-<span class="nc" id="L366">            try (InputStream in = Config.class.getResourceAsStream(&quot;/settings.txt&quot;)) {</span>
-<span class="nc bnc" id="L367" title="All 2 branches missed.">                if (in != null) {</span>
-<span class="nc" id="L368">                    try (FileOutputStream out = new FileOutputStream(settingsFile)) {</span>
-<span class="nc" id="L369">                        byte[] buffer = new byte[8192];</span>
+<span class="pc bpc" id="L364" title="1 of 2 branches missed.">        if (!settingsFile.exists()) {</span>
+<span class="nc" id="L365">            try (InputStream in = Config.class.getResourceAsStream(&quot;/settings.txt&quot;)) {</span>
+<span class="nc bnc" id="L366" title="All 2 branches missed.">                if (in != null) {</span>
+<span class="nc" id="L367">                    try (FileOutputStream out = new FileOutputStream(settingsFile)) {</span>
+<span class="nc" id="L368">                        byte[] buffer = new byte[8192];</span>
                         int read;
-<span class="nc bnc" id="L371" title="All 2 branches missed.">                        while ((read = in.read(buffer)) != -1) {</span>
-<span class="nc" id="L372">                            out.write(buffer, 0, read);</span>
+<span class="nc bnc" id="L370" title="All 2 branches missed.">                        while ((read = in.read(buffer)) != -1) {</span>
+<span class="nc" id="L371">                            out.write(buffer, 0, read);</span>
                         }
                     }
                 } else {
-<span class="nc" id="L376">                    settingsFile.createNewFile();</span>
+<span class="nc" id="L375">                    settingsFile.createNewFile();</span>
                 }
-<span class="nc" id="L378">            } catch (IOException e) {</span>
-<span class="nc" id="L379">                e.printStackTrace();</span>
-<span class="nc" id="L380">            }</span>
+<span class="nc" id="L377">            } catch (IOException e) {</span>
+<span class="nc" id="L378">                e.printStackTrace();</span>
+<span class="nc" id="L379">            }</span>
         }
 
-<span class="fc" id="L383">        return settingsFile.getAbsolutePath();</span>
+<span class="fc" id="L382">        return settingsFile.getAbsolutePath();</span>
     }
 
     private static void restartApplication() {
         try {
-<span class="nc" id="L388">            String javaBinBase = System.getProperty(&quot;java.home&quot;) + File.separator + &quot;bin&quot; + File.separator + &quot;java&quot;;</span>
-<span class="nc" id="L389">            String javaBin = javaBinBase;</span>
-<span class="nc bnc" id="L390" title="All 2 branches missed.">            if (System.getProperty(&quot;os.name&quot;).toLowerCase().contains(&quot;win&quot;)) {</span>
-<span class="nc" id="L391">                File javaExe = new File(javaBinBase + &quot;.exe&quot;);</span>
-<span class="nc bnc" id="L392" title="All 2 branches missed.">                if (javaExe.exists()) {</span>
-<span class="nc" id="L393">                    javaBin = javaExe.getAbsolutePath();</span>
+<span class="nc" id="L387">            String javaBinBase = System.getProperty(&quot;java.home&quot;) + File.separator + &quot;bin&quot; + File.separator + &quot;java&quot;;</span>
+<span class="nc" id="L388">            String javaBin = javaBinBase;</span>
+<span class="nc bnc" id="L389" title="All 2 branches missed.">            if (System.getProperty(&quot;os.name&quot;).toLowerCase().contains(&quot;win&quot;)) {</span>
+<span class="nc" id="L390">                File javaExe = new File(javaBinBase + &quot;.exe&quot;);</span>
+<span class="nc bnc" id="L391" title="All 2 branches missed.">                if (javaExe.exists()) {</span>
+<span class="nc" id="L392">                    javaBin = javaExe.getAbsolutePath();</span>
                 }
             }
 
-<span class="nc" id="L397">            String classPath = System.getProperty(&quot;java.class.path&quot;);</span>
-<span class="nc" id="L398">            String mainClass = &quot;com.gooseplayer2.Main&quot;;</span>
+<span class="nc" id="L396">            String classPath = System.getProperty(&quot;java.class.path&quot;);</span>
+<span class="nc" id="L397">            String mainClass = &quot;com.gooseplayer2.Main&quot;;</span>
 
-<span class="nc" id="L400">            ProcessBuilder builder = new ProcessBuilder(javaBin, &quot;-cp&quot;, classPath, mainClass);</span>
-<span class="nc" id="L401">            builder.directory(new File(System.getProperty(&quot;user.dir&quot;)));</span>
-<span class="nc" id="L402">            builder.start();</span>
-<span class="nc" id="L403">        } catch (IOException ex) {</span>
-<span class="nc" id="L404">            ex.printStackTrace();</span>
-<span class="nc" id="L405">            return;</span>
-<span class="nc" id="L406">        }</span>
-<span class="nc" id="L407">        System.exit(0);</span>
-<span class="nc" id="L408">    }</span>
+<span class="nc" id="L399">            ProcessBuilder builder = new ProcessBuilder(javaBin, &quot;-cp&quot;, classPath, mainClass);</span>
+<span class="nc" id="L400">            builder.directory(new File(System.getProperty(&quot;user.dir&quot;)));</span>
+<span class="nc" id="L401">            builder.start();</span>
+<span class="nc" id="L402">        } catch (IOException ex) {</span>
+<span class="nc" id="L403">            ex.printStackTrace();</span>
+<span class="nc" id="L404">            return;</span>
+<span class="nc" id="L405">        }</span>
+<span class="nc" id="L406">        System.exit(0);</span>
+<span class="nc" id="L407">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
