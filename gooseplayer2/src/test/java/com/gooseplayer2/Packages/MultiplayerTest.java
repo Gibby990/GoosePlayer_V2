@@ -474,8 +474,106 @@ private MainFrame frame;  // Keep reference to frame so we can access it later
 
     }
 
-  
-}
+    @Test
+    void skip_on_all_3_Channels() throws Exception {
+        // === 1. Set up spy on Channel 1 ===
+        String channel1Name = "Channel 1";
+        AudioPlayerSpy spyChannel1 = GuiActionRunner.execute(() -> {
+            try {
+                return new AudioPlayerSpy(true, channel1Name);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
 
+        // === 2. Set up spy on Channel 2 ===
+        String channel2Name = "Channel 2";
+        AudioPlayerSpy spyChannel2 = GuiActionRunner.execute(() -> {
+            try {
+                return new AudioPlayerSpy(true, channel2Name);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        // === 3. Set up spy on Channel 3 ===
+        String channel3Name = "Channel 3";
+        AudioPlayerSpy spyChannel3 = GuiActionRunner.execute(() -> {
+            try {
+                return new AudioPlayerSpy(true, channel3Name);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+        // === 3. Inject all spies ===
+        GuiActionRunner.execute(() -> {
+            MusicPanel panel = ((MainFrame) window.target()).getMusicPanel();
+
+            for (int i = 0; i < panel.getPlayers().size(); i++) {
+                MusicPlayer p = panel.getPlayers().get(i);
+                if (channel1Name.equals(p.getChannelName())) {
+                    panel.setPlayerForTest(i, spyChannel1);
+                    panel.rebuildPlayerUI(i);
+                } else if (channel2Name.equals(p.getChannelName())) {
+                    panel.setPlayerForTest(i, spyChannel2);
+                    panel.rebuildPlayerUI(i);
+                } else if (channel3Name.equals(p.getChannelName())) {
+                    panel.setPlayerForTest(i, spyChannel3);
+                    panel.rebuildPlayerUI(i);
+                }
+            }
+        }); 
+        // === 4. Get fixtures for Channels 1, 2, and 3 ===
+        JPanelFixture channel1Panel = window.panel("playerPanel_" + channel1Name.replaceAll
+            ("\\s+", "_"));
+        JPanelFixture channel2Panel = window.panel("playerPanel_" + channel2Name.replaceAll
+            ("\\s+", "_"));
+        JPanelFixture channel3Panel = window.panel("playerPanel_" + channel3Name.replaceAll
+            ("\\s+", "_")); 
+        JButtonFixture skipButtonCh1 = channel1Panel.button(JButtonMatcher.withText("Skip"));
+        JButtonFixture skipButtonCh2 = channel2Panel.button(JButtonMatcher.withText("Skip"));
+        JButtonFixture skipButtonCh3 = channel3Panel.button(JButtonMatcher.withText("Skip"));
+        // Add a song to each channel's queue
+        JTreeFixture libraryTree = window.tree("libraryTree");
+        JTreeFixture queueTreeCh1 = channel1Panel.tree("queueTree");
+        JTreeFixture queueTreeCh2 = channel2Panel.tree("queueTree");
+        JTreeFixture queueTreeCh3 = channel3Panel.tree("queueTree");
+        Pause.pause(new Condition("Library loaded") {
+            @Override public boolean test() { return libraryTree.target().getRowCount() > 1; }
+        }, Timeout.timeout(10, TimeUnit.SECONDS));
+        libraryTree.drag(5);
+        queueTreeCh1.drop();
+        libraryTree.drag(2);
+        queueTreeCh2.drop();
+        libraryTree.drag(3);
+        queueTreeCh3.drop();
+        // Start playback so Skip has something to skip
+        JButtonFixture playButtonCh1 = channel1Panel.button(JButtonMatcher.withText("Play"));
+        JButtonFixture playButtonCh2 = channel2Panel.button(JButtonMatcher.withText("Play"));
+        JButtonFixture playButtonCh3 = channel3Panel.button(JButtonMatcher.withText("Play"));
+        playButtonCh1.click();
+        playButtonCh2.click();
+        playButtonCh3.click();  
+        Pause.pause(1000); // Give audio system a moment to react
+        // === 5. ACT: Skip on ALL Channels ===
+        skipButtonCh1.click();
+        skipButtonCh2.click();
+        skipButtonCh3.click();
+        Pause.pause(1000); // Give audio system a moment to react
+        // === 6. ASSERT: All Channels skipped ===
+        assertEquals(1, spyChannel1.getSkipCount(), "Channel 1 should have been skipped");
+        assertEquals(1, spyChannel2.getSkipCount(), "Channel 2 should have been skipped");
+        assertEquals(1, spyChannel3.getSkipCount(), "Channel 3 should have been skipped");
+        assertEquals(1, spyChannel1.getPlayCount(), "Channel 1 should have been played");
+        assertEquals(1, spyChannel2.getPlayCount(), "Channel 2 should have been played");
+        assertEquals(1, spyChannel3.getPlayCount(), "Channel 3 should have been played");       
+        System.out.println("PASSED: Skipping all 3 Channels worked!");      
+    }
+
+
+  
+
+
+}
 
 
