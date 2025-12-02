@@ -1,5 +1,6 @@
 package com.gooseplayer2.Packages;
 
+import com.gooseplayer2.Config;
 import com.gooseplayer2.MainFrame;
 import com.gooseplayer2.JPanels.*;
 
@@ -15,6 +16,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -29,6 +34,28 @@ class MethodsTest {
     //SETUP
     @BeforeEach
     void setUp() throws Exception {
+                // === 1. Force MONO mode by overwriting settings file ===
+        GuiActionRunner.execute(() -> {
+            try {
+                File settingsFile = new File(Config.SETTINGS_FILE_PATH);
+                Properties p = new Properties();
+                if (settingsFile.exists()) {
+                    try (FileReader r = new FileReader(settingsFile)) {
+                        p.load(r);
+                    }
+                }
+
+                // FORCE MONO MODE
+                p.setProperty("style", "mono");
+                p.setProperty("monochannelname", "Player 1");  // or "Channel 1" if you prefer
+
+                try (FileWriter w = new FileWriter(settingsFile)) {
+                    p.store(w, "Forced by tests - MONO MODE");
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to force mono mode", e);
+            }
+        });
         MainFrame frame = GuiActionRunner.execute(() -> new MainFrame());
 
         spy = GuiActionRunner.execute(() -> {

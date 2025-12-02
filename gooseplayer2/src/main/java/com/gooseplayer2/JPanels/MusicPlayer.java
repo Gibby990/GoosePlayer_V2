@@ -66,8 +66,10 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
 
     public MusicPlayer(boolean isMultichannel, String channelName) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
-        //JTree Stuff 
+        // ←←← Testing for Multiplayer←←←
+        setName("playerPanel_" + channelName.replaceAll("[^a-zA-Z0-9_-]", "_"));
         
+        //JTree Stuff 
         layout = new GridBagLayout();
         gbc = new GridBagConstraints();
 

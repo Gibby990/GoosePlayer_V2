@@ -16,8 +16,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.awt.Dimension;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.*;
+import com.gooseplayer2.Config;           // ← fixes "Config cannot be resolved"
+import java.util.Properties;              // ← fixes "Properties cannot be resolved"
 
 class MusicPlayerIntegrationTest {
 
@@ -31,6 +36,30 @@ class MusicPlayerIntegrationTest {
 
     @BeforeEach
     void setUp() {
+        // === 1. Force MONO mode by overwriting settings file ===
+        GuiActionRunner.execute(() -> {
+            try {
+                File settingsFile = new File(Config.SETTINGS_FILE_PATH);
+                Properties p = new Properties();
+                if (settingsFile.exists()) {
+                    try (FileReader r = new FileReader(settingsFile)) {
+                        p.load(r);
+                    }
+                }
+
+                // FORCE MONO MODE
+                p.setProperty("style", "mono");
+                p.setProperty("monochannelname", "Player 1");  // or "Channel 1" if you prefer
+
+                try (FileWriter w = new FileWriter(settingsFile)) {
+                    p.store(w, "Forced by tests - MONO MODE");
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to force mono mode", e);
+            }
+        });
+
+        // === 2. Now create the frame — it will read the forced settings ===
         MainFrame frame = GuiActionRunner.execute(() -> {
             try {
                 return new MainFrame();
@@ -41,10 +70,22 @@ class MusicPlayerIntegrationTest {
 
         window = new FrameFixture(frame);
         window.show();
+        window.show();
         window.resizeTo(new Dimension(1200, 800));
+
+        // wait
+        Pause.pause(new Condition("Main window is visible and sized") {
+            @Override
+            public boolean test() {
+                return window.target().isShowing() &&
+                    window.target().getWidth() >= 1180 &&   // a little tolerance
+                    window.target().getHeight() >= 780;
+            }
+        }, Timeout.timeout(5, TimeUnit.SECONDS));
+
+        assertAndLog(true, "Player is up: Window is visible and correctly sized");
+        //window.resizeTo(new Dimension(1200, 800));  // bigger = easier to see
     }
-
-
 
     @Test
     void clearQueueThenDragSongFromLibraryToQueue() throws InterruptedException {
