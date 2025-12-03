@@ -614,7 +614,7 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
                     }
                     
 <span class="pc bpc" id="L616" title="1 of 2 branches missed.">                    if (!ac.isRunning()) {</span>
-<span class="nc" id="L617">                        ac.start();</span>
+<span class="fc" id="L617">                        ac.start();</span>
                     }
                     
 <span class="fc" id="L620">                    System.out.println(&quot;Next song preloaded: &quot; + nextFile.getName());</span>
@@ -848,7 +848,7 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
         }
 <span class="fc" id="L849">        refreshQueueInJTree();</span>
 <span class="fc" id="L850">        songLoaded = false;</span>
-<span class="pc bpc" id="L851" title="1 of 2 branches missed.">        if (!Queue.isEmpty()) {</span>
+<span class="fc bfc" id="L851" title="All 2 branches covered.">        if (!Queue.isEmpty()) {</span>
             try {
 <span class="fc" id="L853">                loadSong();</span>
 <span class="nc" id="L854">            } catch (Exception e) {</span>

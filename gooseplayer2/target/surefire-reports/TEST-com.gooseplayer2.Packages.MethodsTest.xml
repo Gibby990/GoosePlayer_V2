@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.gooseplayer2.Packages.MethodsTest" time="108.22" tests="28" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.gooseplayer2.Packages.MethodsTest" time="127.047" tests="28" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="18"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -16,7 +16,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-18\bin"/>
-    <property name="sun.java.command" value="C:\Users\Cam\AppData\Local\Temp\surefire428305760328658511\surefirebooter-20251202163327928_3.jar C:\Users\Cam\AppData\Local\Temp\surefire428305760328658511 2025-12-02T16-33-27_696-jvmRun1 surefire-20251202163327928_1tmp surefire_0-20251202163327928_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\Cam\AppData\Local\Temp\surefire6097257601083158808\surefirebooter-20251202194458998_3.jar C:\Users\Cam\AppData\Local\Temp\surefire6097257601083158808 2025-12-02T19-44-58_520-jvmRun1 surefire-20251202194458998_1tmp surefire_0-20251202194458998_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\target\test-classes;C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\target\classes;C:\Users\Cam\.m2\repository\net\beadsproject\beads\3.2\beads-3.2.jar;C:\Users\Cam\.m2\repository\javazoom\jlayer\1.0.1\jlayer-1.0.1.jar;C:\Users\Cam\.m2\repository\org\clojars\automata\tritonus-aos\1.0.0\tritonus-aos-1.0.0.jar;C:\Users\Cam\.m2\repository\org\clojars\automata\tritonus-share\1.0.0\tritonus-share-1.0.0.jar;C:\Users\Cam\.m2\repository\org\jaudiolibs\audioservers-javasound\2.0.0\audioservers-javasound-2.0.0.jar;C:\Users\Cam\.m2\repository\org\jaudiolibs\audioservers-api\2.0.0\audioservers-api-2.0.0.jar;C:\Users\Cam\.m2\repository\org\jaudiolibs\audioservers-jack\2.0.0\audioservers-jack-2.0.0.jar;C:\Users\Cam\.m2\repository\org\jaudiolibs\jnajack\1.4.0\jnajack-1.4.0.jar;C:\Users\Cam\.m2\repository\net\java\dev\jna\jna\5.18.1\jna-5.18.1.jar;C:\Users\Cam\.m2\repository\com\googlecode\soundlibs\mp3spi\1.9.5.4\mp3spi-1.9.5.4.jar;C:\Users\Cam\.m2\repository\com\googlecode\soundlibs\jlayer\1.0.1.4\jlayer-1.0.1.4.jar;C:\Users\Cam\.m2\repository\junit\junit\3.8.2\junit-3.8.2.jar;C:\Users\Cam\.m2\repository\org\jflac\jflac-codec\1.5.2\jflac-codec-1.5.2.jar;C:\Users\Cam\.m2\repository\com\googlecode\soundlibs\tritonus-share\0.3.7.4\tritonus-share-0.3.7.4.jar;C:\Users\Cam\.m2\repository\com\formdev\flatlaf\3.5.1\flatlaf-3.5.1.jar;C:\Users\Cam\.m2\repository\com\formdev\flatlaf-intellij-themes\3.5.1\flatlaf-intellij-themes-3.5.1.jar;C:\Users\Cam\.m2\repository\net\jthink\jaudiotagger\3.0.1\jaudiotagger-3.0.1.jar;C:\Users\Cam\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.2\junit-jupiter-5.10.2.jar;C:\Users\Cam\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.2\junit-jupiter-api-5.10.2.jar;C:\Users\Cam\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Cam\.m2\repository\org\junit\platform\junit-platform-commons\1.10.2\junit-platform-commons-1.10.2.jar;C:\Users\Cam\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Cam\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.2\junit-jupiter-params-5.10.2.jar;C:\Users\Cam\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.2\junit-jupiter-engine-5.10.2.jar;C:\Users\Cam\.m2\repository\org\junit\platform\junit-platform-engine\1.10.2\junit-platform-engine-1.10.2.jar;C:\Users\Cam\.m2\repository\org\mockito\mockito-core\5.12.0\mockito-core-5.12.0.jar;C:\Users\Cam\.m2\repository\net\bytebuddy\byte-buddy\1.14.15\byte-buddy-1.14.15.jar;C:\Users\Cam\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.15\byte-buddy-agent-1.14.15.jar;C:\Users\Cam\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\Cam\.m2\repository\org\mockito\mockito-junit-jupiter\5.12.0\mockito-junit-jupiter-5.12.0.jar;C:\Users\Cam\.m2\repository\org\mockito\mockito-inline\5.2.0\mockito-inline-5.2.0.jar;C:\Users\Cam\.m2\repository\org\assertj\assertj-core\3.27.4\assertj-core-3.27.4.jar;C:\Users\Cam\.m2\repository\tokyo\northside\assertj-swing\4.0.0-beta-3\assertj-swing-4.0.0-beta-3.jar;C:\Users\Cam\.m2\repository\tokyo\northside\fest-reflect\4.0.0-beta-3\fest-reflect-4.0.0-beta-3.jar;C:\Users\Cam\.m2\repository\org\jetbrains\annotations\23.1.0\annotations-23.1.0.jar;C:\Users\Cam\.m2\repository\tokyo\northside\assertj-swing-junit-jupiter\4.0.0-beta-3\assertj-swing-junit-jupiter-4.0.0-beta-3.jar;C:\Users\Cam\.m2\repository\tokyo\northside\assertj-swing-junit\4.0.0-beta-3\assertj-swing-junit-4.0.0-beta-3.jar;C:\Users\Cam\.m2\repository\commons-codec\commons-codec\1.17.1\commons-codec-1.17.1.jar;C:\Users\Cam\.m2\repository\commons-io\commons-io\2.19.0\commons-io-2.19.0.jar;C:\Users\Cam\.m2\repository\org\awaitility\awaitility\4.2.1\awaitility-4.2.1.jar;C:\Users\Cam\.m2\repository\org\hamcrest\hamcrest\2.1\hamcrest-2.1.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -31,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\Cam\AppData\Local\Temp\surefire428305760328658511\surefirebooter-20251202163327928_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Cam\AppData\Local\Temp\surefire6097257601083158808\surefirebooter-20251202194458998_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="18+36-2087"/>
@@ -57,36 +57,31 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="62.0"/>
   </properties>
-  <testcase name="removeNonPlayingSong_RemovesSuccessfully" classname="com.gooseplayer2.Packages.MethodsTest" time="8.49">
+  <testcase name="removeNonPlayingSong_RemovesSuccessfully" classname="com.gooseplayer2.Packages.MethodsTest" time="13.022">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Sample loaded C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\Library\01 - After You [feat. Calle Lehmann].mp3
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
+Sample loaded C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\Library\01 - After You [feat. Calle Lehmann].mp3
 Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Playback started
 Beads Output buffer size=40000
 updateTime() called. Current position: 0 seconds.
 updateTime() called. Current position: 1 seconds.
-Sample loaded C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\Library\calming-rain.mp3
-Next song preloaded: calming-rain.mp3
 PASSED: Non-playing song removed successfully
    Queue now has 1 song(s)
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:33:32 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:33:35 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+    <system-err><![CDATA[Dec 02, 2025 7:45:13 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
 INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
 ]]></system-err>
   </testcase>
-  <testcase name="clickingClearButtonWhenAudioPaused" classname="com.gooseplayer2.Packages.MethodsTest" time="4.839">
+  <testcase name="clickingClearButtonWhenAudioPaused" classname="com.gooseplayer2.Packages.MethodsTest" time="5.045">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
+Sample loaded C:\Users\Cam\Documents\GitHub\GoosePlayer_V2\gooseplayer2\Library\calming-rain.mp3
+Next song preloaded: calming-rain.mp3
+Beads Output buffer size=40000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
 Song loaded: 01 - After You [feat. Calle Lehmann].mp3
@@ -98,16 +93,12 @@ Queue cleared
 Clear count (audio paused): 1
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:33:38 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:33:40 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+    <system-err><![CDATA[Dec 02, 2025 7:45:18 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
 INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
 ]]></system-err>
   </testcase>
-  <testcase name="clickingShuffleButtonWhenAudioPaused" classname="com.gooseplayer2.Packages.MethodsTest" time="4.06">
+  <testcase name="clickingShuffleButtonWhenAudioPaused" classname="com.gooseplayer2.Packages.MethodsTest" time="4.664">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -118,16 +109,12 @@ Pause pressed
 Shuffle count (audio paused): 1
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:33:42 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:33:45 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+    <system-err><![CDATA[Dec 02, 2025 7:45:23 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
 INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
 ]]></system-err>
   </testcase>
-  <testcase name="clickingSkipButtonWhenQueueEmpty" classname="com.gooseplayer2.Packages.MethodsTest" time="3.109">
+  <testcase name="clickingSkipButtonWhenQueueEmpty" classname="com.gooseplayer2.Packages.MethodsTest" time="3.569">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -136,9 +123,7 @@ Queue cleared
 Skip count (empty queue): 1
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:33:46 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:33:48 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+    <system-err><![CDATA[Dec 02, 2025 7:45:26 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -159,14 +144,12 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
-Dec 02, 2025 4:33:49 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+Dec 02, 2025 7:45:28 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
 INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
 ]]></system-err>
   </testcase>
-  <testcase name="playPausePlay_Counts" classname="com.gooseplayer2.Packages.MethodsTest" time="3.937">
+  <testcase name="playPausePlay_Counts" classname="com.gooseplayer2.Packages.MethodsTest" time="4.259">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -179,11 +162,7 @@ Play count: 2
 Pause count: 1
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:33:50 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:33:52 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:33:52 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+    <system-err><![CDATA[Dec 02, 2025 7:45:31 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -204,12 +183,12 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
+Dec 02, 2025 7:45:32 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
 ]]></system-err>
   </testcase>
-  <testcase name="clickingStopButtonCallsPause" classname="com.gooseplayer2.Packages.MethodsTest" time="3.382">
+  <testcase name="clickingStopButtonCallsPause" classname="com.gooseplayer2.Packages.MethodsTest" time="3.847">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -220,11 +199,7 @@ Pause pressed
 Pause count: 1
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:33:53 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:33:56 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:33:56 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+    <system-err><![CDATA[Dec 02, 2025 7:45:35 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -245,12 +220,12 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
+Dec 02, 2025 7:45:36 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
 ]]></system-err>
   </testcase>
-  <testcase name="clickingSkipButtonCallsSkip" classname="com.gooseplayer2.Packages.MethodsTest" time="3.02">
+  <testcase name="clickingSkipButtonCallsSkip" classname="com.gooseplayer2.Packages.MethodsTest" time="3.519">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -259,11 +234,7 @@ No more tracks in queue.
 Skip count: 1
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:33:57 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:33:59 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:00 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+    <system-err><![CDATA[Dec 02, 2025 7:45:39 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -284,12 +255,12 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
+Dec 02, 2025 7:45:40 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
 ]]></system-err>
   </testcase>
-  <testcase name="clickingClearButtonWhenAudioPlaying" classname="com.gooseplayer2.Packages.MethodsTest" time="3.442">
+  <testcase name="clickingClearButtonWhenAudioPlaying" classname="com.gooseplayer2.Packages.MethodsTest" time="3.937">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -300,16 +271,33 @@ Queue cleared
 Clear count (audio playing): 1
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:34:00 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+    <system-err><![CDATA[Dec 02, 2025 7:45:43 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
 INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:02 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
+Dec 02, 2025 7:45:43 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+WARNING: Exception thrown by a TimerTask
+java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:297)
+	at java.base/java.lang.reflect.Field.checkCanSetAccessible(Field.java:180)
+	at java.base/java.lang.reflect.Field.setAccessible(Field.java:174)
+	at org.fest.reflect.util.Accessibles$SetAccessibleAction.run(Accessibles.java:70)
+	at org.fest.reflect.util.Accessibles$SetAccessibleAction.run(Accessibles.java:60)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:318)
+	at org.fest.reflect.util.Accessibles.setAccessible(Accessibles.java:57)
+	at org.fest.reflect.util.Accessibles.makeAccessible(Accessibles.java:46)
+	at org.fest.reflect.field.Invoker.verifyCorrectType(Invoker.java:100)
+	at org.fest.reflect.field.Invoker.createInvoker(Invoker.java:76)
+	at org.fest.reflect.field.Invoker.newInvoker(Invoker.java:70)
+	at org.fest.reflect.field.FieldType.in(FieldType.java:74)
+	at org.assertj.swing.monitor.ProtectingTimerTask.isCanceled(ProtectingTimerTask.java:54)
+	at org.assertj.swing.monitor.ProtectingTimerTask.run(ProtectingTimerTask.java:41)
+	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
+	at java.base/java.util.TimerThread.run(Timer.java:516)
+
 ]]></system-err>
   </testcase>
-  <testcase name="removeCurrentlyPlayingSong_CallsMethodButSkipsLogic" classname="com.gooseplayer2.Packages.MethodsTest" time="4.634">
+  <testcase name="removeCurrentlyPlayingSong_CallsMethodButSkipsLogic" classname="com.gooseplayer2.Packages.MethodsTest" time="5.181">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -317,13 +305,11 @@ Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Playback started
 Beads Output buffer size=40000
 Skipping removal of the first node in the queue.
-updateTime() called. Current position: 1 seconds.
+updateTime() called. Current position: 0 seconds.
 PASSED: Method called, but removal blocked
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:34:03 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:03 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+    <system-err><![CDATA[Dec 02, 2025 7:45:47 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -344,35 +330,12 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
-Dec 02, 2025 4:34:06 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+Dec 02, 2025 7:45:47 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
 INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:07 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
-WARNING: Exception thrown by a TimerTask
-java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
-	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
-	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:297)
-	at java.base/java.lang.reflect.Field.checkCanSetAccessible(Field.java:180)
-	at java.base/java.lang.reflect.Field.setAccessible(Field.java:174)
-	at org.fest.reflect.util.Accessibles$SetAccessibleAction.run(Accessibles.java:70)
-	at org.fest.reflect.util.Accessibles$SetAccessibleAction.run(Accessibles.java:60)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:318)
-	at org.fest.reflect.util.Accessibles.setAccessible(Accessibles.java:57)
-	at org.fest.reflect.util.Accessibles.makeAccessible(Accessibles.java:46)
-	at org.fest.reflect.field.Invoker.verifyCorrectType(Invoker.java:100)
-	at org.fest.reflect.field.Invoker.createInvoker(Invoker.java:76)
-	at org.fest.reflect.field.Invoker.newInvoker(Invoker.java:70)
-	at org.fest.reflect.field.FieldType.in(FieldType.java:74)
-	at org.assertj.swing.monitor.ProtectingTimerTask.isCanceled(ProtectingTimerTask.java:54)
-	at org.assertj.swing.monitor.ProtectingTimerTask.run(ProtectingTimerTask.java:41)
-	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
-	at java.base/java.util.TimerThread.run(Timer.java:516)
-
 ]]></system-err>
   </testcase>
-  <testcase name="clickingClearButtonMultipleTimes" classname="com.gooseplayer2.Packages.MethodsTest" time="3.426">
+  <testcase name="clickingClearButtonMultipleTimes" classname="com.gooseplayer2.Packages.MethodsTest" time="4.066">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -382,9 +345,7 @@ Queue cleared
 Clear count: 2
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:34:08 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:10 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+    <system-err><![CDATA[Dec 02, 2025 7:45:51 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -405,14 +366,12 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
-Dec 02, 2025 4:34:10 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+Dec 02, 2025 7:45:52 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
 INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
 ]]></system-err>
   </testcase>
-  <testcase name="clickingSkipButtonMultipleTimes" classname="com.gooseplayer2.Packages.MethodsTest" time="3.696">
+  <testcase name="clickingSkipButtonMultipleTimes" classname="com.gooseplayer2.Packages.MethodsTest" time="4.677">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -421,9 +380,7 @@ No more tracks in queue.
 Skip count: 3
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:34:11 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:13 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+    <system-err><![CDATA[Dec 02, 2025 7:45:55 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -444,14 +401,12 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
-Dec 02, 2025 4:34:14 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+Dec 02, 2025 7:45:57 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
 INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
 ]]></system-err>
   </testcase>
-  <testcase name="clickingRemoveButtonMultipleTimes" classname="com.gooseplayer2.Packages.MethodsTest" time="3.334">
+  <testcase name="clickingRemoveButtonMultipleTimes" classname="com.gooseplayer2.Packages.MethodsTest" time="3.943">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -459,11 +414,7 @@ Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Remove count: 2
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:34:15 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:17 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:18 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+    <system-err><![CDATA[Dec 02, 2025 7:46:00 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -484,12 +435,12 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
+Dec 02, 2025 7:46:01 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
 ]]></system-err>
   </testcase>
-  <testcase name="clickingShuffleButtonWhenQueueHasOneSong" classname="com.gooseplayer2.Packages.MethodsTest" time="5.013">
+  <testcase name="clickingShuffleButtonWhenQueueHasOneSong" classname="com.gooseplayer2.Packages.MethodsTest" time="5.55">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -500,11 +451,7 @@ Song loaded: calming-rain.mp3
 Shuffle count (one song): 1
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:34:18 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:21 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:21 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+    <system-err><![CDATA[Dec 02, 2025 7:46:04 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -525,12 +472,12 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
+Dec 02, 2025 7:46:05 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
 ]]></system-err>
   </testcase>
-  <testcase name="clickingRemoveButtonWhenQueueEmpty" classname="com.gooseplayer2.Packages.MethodsTest" time="3.096">
+  <testcase name="clickingRemoveButtonWhenQueueEmpty" classname="com.gooseplayer2.Packages.MethodsTest" time="3.519">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -539,9 +486,7 @@ Queue cleared
 Remove count (empty queue): 1
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:34:23 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:25 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+    <system-err><![CDATA[Dec 02, 2025 7:46:08 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -562,14 +507,12 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
-Dec 02, 2025 4:34:26 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+Dec 02, 2025 7:46:10 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
 INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
 ]]></system-err>
   </testcase>
-  <testcase name="clickingClearButtonCallsClear" classname="com.gooseplayer2.Packages.MethodsTest" time="3.114">
+  <testcase name="clickingClearButtonCallsClear" classname="com.gooseplayer2.Packages.MethodsTest" time="3.81">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -578,9 +521,7 @@ Queue cleared
 Clear count: 1
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:34:27 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:28 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+    <system-err><![CDATA[Dec 02, 2025 7:46:12 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -601,14 +542,12 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
-Dec 02, 2025 4:34:29 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+Dec 02, 2025 7:46:14 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
 INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
 ]]></system-err>
   </testcase>
-  <testcase name="clickingPlayButtonCallsPlaySuccess" classname="com.gooseplayer2.Packages.MethodsTest" time="3.007">
+  <testcase name="clickingPlayButtonCallsPlaySuccess" classname="com.gooseplayer2.Packages.MethodsTest" time="3.481">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -618,16 +557,33 @@ Beads Output buffer size=40000
 Play count: 1
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:34:30 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+    <system-err><![CDATA[Dec 02, 2025 7:46:18 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
 INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:32 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
+Dec 02, 2025 7:46:18 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+WARNING: Exception thrown by a TimerTask
+java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:297)
+	at java.base/java.lang.reflect.Field.checkCanSetAccessible(Field.java:180)
+	at java.base/java.lang.reflect.Field.setAccessible(Field.java:174)
+	at org.fest.reflect.util.Accessibles$SetAccessibleAction.run(Accessibles.java:70)
+	at org.fest.reflect.util.Accessibles$SetAccessibleAction.run(Accessibles.java:60)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:318)
+	at org.fest.reflect.util.Accessibles.setAccessible(Accessibles.java:57)
+	at org.fest.reflect.util.Accessibles.makeAccessible(Accessibles.java:46)
+	at org.fest.reflect.field.Invoker.verifyCorrectType(Invoker.java:100)
+	at org.fest.reflect.field.Invoker.createInvoker(Invoker.java:76)
+	at org.fest.reflect.field.Invoker.newInvoker(Invoker.java:70)
+	at org.fest.reflect.field.FieldType.in(FieldType.java:74)
+	at org.assertj.swing.monitor.ProtectingTimerTask.isCanceled(ProtectingTimerTask.java:54)
+	at org.assertj.swing.monitor.ProtectingTimerTask.run(ProtectingTimerTask.java:41)
+	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
+	at java.base/java.util.TimerThread.run(Timer.java:516)
+
 ]]></system-err>
   </testcase>
-  <testcase name="pauseButtonDisappearsAfterClicking" classname="com.gooseplayer2.Packages.MethodsTest" time="3.621">
+  <testcase name="pauseButtonDisappearsAfterClicking" classname="com.gooseplayer2.Packages.MethodsTest" time="4.656">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -685,7 +641,7 @@ com.gooseplayer2.MainFrame[name='frame16', title='Music Player', enabled=true, v
             javax.swing.JScrollPane$ScrollBar[name=null, value=0, blockIncrement=10, minimum=0, maximum=333, enabled=true, visible=false, showing=false]
               com.formdev.flatlaf.ui.FlatScrollBarUI$FlatScrollBarButton[name=null, text='', enabled=true, visible=true, showing=false]
               com.formdev.flatlaf.ui.FlatScrollBarUI$FlatScrollBarButton[name=null, text='', enabled=true, visible=true, showing=false]
-      com.formdev.flatlaf.ui.FlatTitlePane[,0,0,1184x30,layout=com.formdev.flatlaf.ui.FlatTitlePane$3,alignmentX=0.0,alignmentY=0.0,border=com.formdev.flatlaf.ui.FlatTitlePane$FlatTitlePaneBorder@6e1a5122,flags=0,maximumSize=,minimumSize=,preferredSize=]
+      com.formdev.flatlaf.ui.FlatTitlePane[,0,0,1184x30,layout=com.formdev.flatlaf.ui.FlatTitlePane$3,alignmentX=0.0,alignmentY=0.0,border=com.formdev.flatlaf.ui.FlatTitlePane$FlatTitlePaneBorder@c3fe10b,flags=0,maximumSize=,minimumSize=,preferredSize=]
         javax.swing.JPanel[name=null]
           javax.swing.JLabel[name=null, text='', enabled=true, visible=true, showing=true]
           com.formdev.flatlaf.ui.FlatTitlePane$2[,32,0,0x30,alignmentX=0.0,alignmentY=0.0,border=,flags=0,maximumSize=,minimumSize=,preferredSize=]
@@ -699,9 +655,9 @@ com.gooseplayer2.MainFrame[name='frame16', title='Music Player', enabled=true, v
 
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:34:33 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+    <system-err><![CDATA[Dec 02, 2025 7:46:21 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
 INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:33 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+Dec 02, 2025 7:46:22 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -722,14 +678,10 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
-Dec 02, 2025 4:34:35 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
 ]]></system-err>
   </testcase>
-  <testcase name="clickingRemoveButtonCallsRemove" classname="com.gooseplayer2.Packages.MethodsTest" time="3.408">
+  <testcase name="clickingRemoveButtonCallsRemove" classname="com.gooseplayer2.Packages.MethodsTest" time="3.636">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -737,9 +689,7 @@ Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Remove count: 1
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:34:36 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:37 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+    <system-err><![CDATA[Dec 02, 2025 7:46:25 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -760,14 +710,12 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
-Dec 02, 2025 4:34:39 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+Dec 02, 2025 7:46:26 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
 INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
 ]]></system-err>
   </testcase>
-  <testcase name="clickingShuffleButtonWhenQueueEmpty" classname="com.gooseplayer2.Packages.MethodsTest" time="3.251">
+  <testcase name="clickingShuffleButtonWhenQueueEmpty" classname="com.gooseplayer2.Packages.MethodsTest" time="3.636">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -776,7 +724,7 @@ Queue cleared
 Shuffle count (empty queue): 1
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:34:40 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+    <system-err><![CDATA[Dec 02, 2025 7:46:29 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -797,37 +745,12 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
-Dec 02, 2025 4:34:40 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+Dec 02, 2025 7:46:29 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
 INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:42 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:43 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
-WARNING: Exception thrown by a TimerTask
-java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
-	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
-	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:297)
-	at java.base/java.lang.reflect.Field.checkCanSetAccessible(Field.java:180)
-	at java.base/java.lang.reflect.Field.setAccessible(Field.java:174)
-	at org.fest.reflect.util.Accessibles$SetAccessibleAction.run(Accessibles.java:70)
-	at org.fest.reflect.util.Accessibles$SetAccessibleAction.run(Accessibles.java:60)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:318)
-	at org.fest.reflect.util.Accessibles.setAccessible(Accessibles.java:57)
-	at org.fest.reflect.util.Accessibles.makeAccessible(Accessibles.java:46)
-	at org.fest.reflect.field.Invoker.verifyCorrectType(Invoker.java:100)
-	at org.fest.reflect.field.Invoker.createInvoker(Invoker.java:76)
-	at org.fest.reflect.field.Invoker.newInvoker(Invoker.java:70)
-	at org.fest.reflect.field.FieldType.in(FieldType.java:74)
-	at org.assertj.swing.monitor.ProtectingTimerTask.isCanceled(ProtectingTimerTask.java:54)
-	at org.assertj.swing.monitor.ProtectingTimerTask.run(ProtectingTimerTask.java:41)
-	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
-	at java.base/java.util.TimerThread.run(Timer.java:516)
-
 ]]></system-err>
   </testcase>
-  <testcase name="clickingSkipButtonWhenAudioPaused" classname="com.gooseplayer2.Packages.MethodsTest" time="3.706">
+  <testcase name="clickingSkipButtonWhenAudioPaused" classname="com.gooseplayer2.Packages.MethodsTest" time="4.173">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -839,11 +762,9 @@ No more tracks in queue.
 Skip count (audio paused): 1
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:34:43 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+    <system-err><![CDATA[Dec 02, 2025 7:46:33 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
 INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:45 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:46 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+Dec 02, 2025 7:46:33 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -866,10 +787,8 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 
 ]]></system-err>
   </testcase>
-  <testcase name="pauseThenSkip_StillOnlyOnePauseCall" classname="com.gooseplayer2.Packages.MethodsTest" time="3.729">
+  <testcase name="pauseThenSkip_StillOnlyOnePauseCall" classname="com.gooseplayer2.Packages.MethodsTest" time="4.24">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -881,11 +800,7 @@ No more tracks in queue.
 Pause+Skip: Pause=1 Skip=1
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:34:47 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:49 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:50 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+    <system-err><![CDATA[Dec 02, 2025 7:46:37 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -906,12 +821,12 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
+Dec 02, 2025 7:46:37 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
 ]]></system-err>
   </testcase>
-  <testcase name="clickingPauseButtonCallsPauseExactlyOnce" classname="com.gooseplayer2.Packages.MethodsTest" time="3.343">
+  <testcase name="clickingPauseButtonCallsPauseExactlyOnce" classname="com.gooseplayer2.Packages.MethodsTest" time="3.822">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -922,11 +837,7 @@ Pause pressed
 Pause count: 1
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:34:50 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:53 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:53 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+    <system-err><![CDATA[Dec 02, 2025 7:46:41 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -947,12 +858,12 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
+Dec 02, 2025 7:46:42 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
 ]]></system-err>
   </testcase>
-  <testcase name="clickingShuffleButtonWhenAudioPlaying" classname="com.gooseplayer2.Packages.MethodsTest" time="3.445">
+  <testcase name="clickingShuffleButtonWhenAudioPlaying" classname="com.gooseplayer2.Packages.MethodsTest" time="3.842">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -962,11 +873,7 @@ Beads Output buffer size=40000
 Shuffle count (audio playing): 1
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:34:54 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:56 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:34:57 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+    <system-err><![CDATA[Dec 02, 2025 7:46:45 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -987,12 +894,12 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
+Dec 02, 2025 7:46:45 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
 ]]></system-err>
   </testcase>
-  <testcase name="AssertPlayButtonCallsNumber_Wrong" classname="com.gooseplayer2.Packages.MethodsTest" time="3.712">
+  <testcase name="AssertPlayButtonCallsNumber_Wrong" classname="com.gooseplayer2.Packages.MethodsTest" time="4.246">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -1006,11 +913,7 @@ TEST PASSED: Expected failure (count != 3) was detected!
    Error: Play button should call play() 3 times ==> expected: <3> but was: <2>
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:34:57 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:35:00 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:35:00 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+    <system-err><![CDATA[Dec 02, 2025 7:46:49 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -1031,12 +934,12 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
+Dec 02, 2025 7:46:49 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
 ]]></system-err>
   </testcase>
-  <testcase name="clickingShuffleButtonMultipleTimes" classname="com.gooseplayer2.Packages.MethodsTest" time="6.904">
+  <testcase name="clickingShuffleButtonMultipleTimes" classname="com.gooseplayer2.Packages.MethodsTest" time="7.6">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -1046,11 +949,7 @@ Queue shuffled
 Shuffle count: 2
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:35:01 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:35:03 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:35:04 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+    <system-err><![CDATA[Dec 02, 2025 7:46:53 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -1071,7 +970,9 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
-Dec 02, 2025 4:35:07 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+Dec 02, 2025 7:46:53 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
+Dec 02, 2025 7:46:57 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -1094,10 +995,8 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 
 ]]></system-err>
   </testcase>
-  <testcase name="secondClickFailsToFindPlayButton_WhenAlreadyPlaying" classname="com.gooseplayer2.Packages.MethodsTest" time="3.107">
+  <testcase name="secondClickFailsToFindPlayButton_WhenAlreadyPlaying" classname="com.gooseplayer2.Packages.MethodsTest" time="3.818">
     <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -1155,7 +1054,7 @@ com.gooseplayer2.MainFrame[name='frame25', title='Music Player', enabled=true, v
             javax.swing.JScrollPane$ScrollBar[name=null, value=0, blockIncrement=10, minimum=0, maximum=333, enabled=true, visible=false, showing=false]
               com.formdev.flatlaf.ui.FlatScrollBarUI$FlatScrollBarButton[name=null, text='', enabled=true, visible=true, showing=false]
               com.formdev.flatlaf.ui.FlatScrollBarUI$FlatScrollBarButton[name=null, text='', enabled=true, visible=true, showing=false]
-      com.formdev.flatlaf.ui.FlatTitlePane[,0,0,1184x30,layout=com.formdev.flatlaf.ui.FlatTitlePane$3,alignmentX=0.0,alignmentY=0.0,border=com.formdev.flatlaf.ui.FlatTitlePane$FlatTitlePaneBorder@7843df11,flags=0,maximumSize=,minimumSize=,preferredSize=]
+      com.formdev.flatlaf.ui.FlatTitlePane[,0,0,1184x30,layout=com.formdev.flatlaf.ui.FlatTitlePane$3,alignmentX=0.0,alignmentY=0.0,border=com.formdev.flatlaf.ui.FlatTitlePane$FlatTitlePaneBorder@7006baa1,flags=0,maximumSize=,minimumSize=,preferredSize=]
         javax.swing.JPanel[name=null]
           javax.swing.JLabel[name=null, text='', enabled=true, visible=true, showing=true]
           com.formdev.flatlaf.ui.FlatTitlePane$2[,32,0,0x30,alignmentX=0.0,alignmentY=0.0,border=,flags=0,maximumSize=,minimumSize=,preferredSize=]
@@ -1170,25 +1069,7 @@ com.gooseplayer2.MainFrame[name='frame25', title='Music Player', enabled=true, v
    Actual play count: 1
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:35:08 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:35:10 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-]]></system-err>
-  </testcase>
-  <testcase name="clickingClearButtonWhenQueueEmpty" classname="com.gooseplayer2.Packages.MethodsTest" time="3.238">
-    <system-out><![CDATA[Beads System Buffer size=5000
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
-Beads System Buffer size=5000
-Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
-loadSong ran
-Song loaded: 01 - After You [feat. Calle Lehmann].mp3
-Queue cleared
-Queue cleared
-Queue cleared
-]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:35:11 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+    <system-err><![CDATA[Dec 02, 2025 7:47:01 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
 WARNING: Exception thrown by a TimerTask
 java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
 	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
@@ -1209,16 +1090,26 @@ java.lang.reflect.InaccessibleObjectException: Unable to make field int java.uti
 	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
 	at java.base/java.util.TimerThread.run(Timer.java:516)
 
-Dec 02, 2025 4:35:11 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:35:13 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+Dec 02, 2025 7:47:01 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
 INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
 ]]></system-err>
   </testcase>
-  <testcase name="clickingShuffleButtonCallsShuffle" classname="com.gooseplayer2.Packages.MethodsTest" time="3.119">
+  <testcase name="clickingClearButtonWhenQueueEmpty" classname="com.gooseplayer2.Packages.MethodsTest" time="3.642">
     <system-out><![CDATA[Beads System Buffer size=5000
+Beads System Buffer size=5000
+Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
 Song loaded: 01 - After You [feat. Calle Lehmann].mp3
+Queue cleared
+Queue cleared
+Queue cleared
+]]></system-out>
+    <system-err><![CDATA[Dec 02, 2025 7:47:05 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
+]]></system-err>
+  </testcase>
+  <testcase name="clickingShuffleButtonCallsShuffle" classname="com.gooseplayer2.Packages.MethodsTest" time="3.567">
+    <system-out><![CDATA[Beads System Buffer size=5000
 Beads System Buffer size=5000
 Dragging: Library/01 - After You [feat. Calle Lehmann].mp3
 loadSong ran
@@ -1226,10 +1117,29 @@ Song loaded: 01 - After You [feat. Calle Lehmann].mp3
 Shuffle count: 1
 Queue cleared
 ]]></system-out>
-    <system-err><![CDATA[Dec 02, 2025 4:35:14 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
+    <system-err><![CDATA[Dec 02, 2025 7:47:09 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
 INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
-Dec 02, 2025 4:35:16 PM org.jaudiotagger.tag.id3.ID3v23Tag readFrames
-INFO: 01 - After You [feat. Calle Lehmann].mp3:Found padding starting at:31639
+Dec 02, 2025 7:47:09 PM org.assertj.swing.monitor.ProtectingTimerTask handleException
+WARNING: Exception thrown by a TimerTask
+java.lang.reflect.InaccessibleObjectException: Unable to make field int java.util.TimerTask.state accessible: module java.base does not "opens java.util" to unnamed module @3d121db3
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:354)
+	at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:297)
+	at java.base/java.lang.reflect.Field.checkCanSetAccessible(Field.java:180)
+	at java.base/java.lang.reflect.Field.setAccessible(Field.java:174)
+	at org.fest.reflect.util.Accessibles$SetAccessibleAction.run(Accessibles.java:70)
+	at org.fest.reflect.util.Accessibles$SetAccessibleAction.run(Accessibles.java:60)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:318)
+	at org.fest.reflect.util.Accessibles.setAccessible(Accessibles.java:57)
+	at org.fest.reflect.util.Accessibles.makeAccessible(Accessibles.java:46)
+	at org.fest.reflect.field.Invoker.verifyCorrectType(Invoker.java:100)
+	at org.fest.reflect.field.Invoker.createInvoker(Invoker.java:76)
+	at org.fest.reflect.field.Invoker.newInvoker(Invoker.java:70)
+	at org.fest.reflect.field.FieldType.in(FieldType.java:74)
+	at org.assertj.swing.monitor.ProtectingTimerTask.isCanceled(ProtectingTimerTask.java:54)
+	at org.assertj.swing.monitor.ProtectingTimerTask.run(ProtectingTimerTask.java:41)
+	at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
+	at java.base/java.util.TimerThread.run(Timer.java:516)
+
 ]]></system-err>
   </testcase>
 </testsuite>
