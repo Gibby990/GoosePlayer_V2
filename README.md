@@ -100,6 +100,12 @@ Known Issues:
 - No playlist save/load yet (future feature).
 - Azuracast support for internet streaming of radio players is still a work in progress
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Tips & Tricks:
+- Remove is not ment to work on a track while it is playing in the queue 
+- For gapless playback: Add tracks in order so the next song preloads automatically.
+- Offline use: All features work without internet (internet Radio streaming).
+- Performance: On lower RAM, limit the number of channels playing for smoother experience.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Licence:
 Copyright 2025 Gibby990
 
