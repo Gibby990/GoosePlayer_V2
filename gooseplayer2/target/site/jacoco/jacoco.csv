@@ -14,7 +14,7 @@ gooseplayer2,com.gooseplayer2.JPanels,MusicPlayer.SkipListener,0,10,0,0,0,3,0,2,
 gooseplayer2,com.gooseplayer2.JPanels,MusicPlayer.ClearListener,0,10,0,0,0,3,0,2,0,2
 gooseplayer2,com.gooseplayer2.JPanels,MusicPlayer.PlayPauseListener,0,18,0,2,0,5,0,3,0,2
 gooseplayer2,com.gooseplayer2.JPanels,MusicPlayer.RemoveListener,0,10,0,0,0,3,0,2,0,2
-gooseplayer2,com.gooseplayer2.JPanels,MusicPlayer,923,1787,135,109,252,389,113,64,21,34
+gooseplayer2,com.gooseplayer2.JPanels,MusicPlayer,944,1766,140,104,257,384,115,62,21,34
 gooseplayer2,com.gooseplayer2.JPanels,MusicPanel.new KeyEventDispatcher() {...},12,6,2,0,4,1,2,1,1,1
 gooseplayer2,com.gooseplayer2.JPanels,FilePanel,25,160,2,4,7,33,3,3,1,2
 gooseplayer2,com.gooseplayer2.JPanels,MusicPanel,149,412,39,30,45,77,35,16,5,7
@@ -23,7 +23,7 @@ gooseplayer2,com.gooseplayer2.JPanels,MusicPanel.Mode,0,21,0,0,0,1,0,1,0,1
 gooseplayer2,com.gooseplayer2.JPanels,RadioPlayer.IcyMetadataInputStream,166,0,20,0,41,0,15,0,5,0
 gooseplayer2,com.gooseplayer2.JPanels,MusicPlayer.LoopListener,16,11,3,1,3,3,2,2,0,2
 gooseplayer2,com.gooseplayer2.JPanels,RadioPlayer,1543,0,190,0,368,0,127,0,32,0
-gooseplayer2,com.gooseplayer2,MainFrame,303,388,34,12,80,79,29,8,8,6
+gooseplayer2,com.gooseplayer2,MainFrame,322,369,37,9,83,76,30,7,8,6
 gooseplayer2,com.gooseplayer2,Config,1085,135,78,12,196,33,55,7,7,6
 gooseplayer2,com.gooseplayer2,DropFileHandler,9,34,2,2,5,11,2,3,0,3
 gooseplayer2,com.gooseplayer2,MainFrame.new WindowAdapter() {...},7,6,0,0,2,1,1,1,1,1

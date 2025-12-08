@@ -840,20 +840,20 @@ public class MusicPlayer extends JPanel implements AudioPlayer{
 <span class="fc" id="L840">        Queue.empty();</span>
 <span class="fc" id="L841">        Queue.clearHistory();</span>
 <span class="pc bpc" id="L842" title="1 of 2 branches missed.">        if (files != null) {</span>
-<span class="fc bfc" id="L843" title="All 2 branches covered.">            for (File f : files) {</span>
-<span class="pc bpc" id="L844" title="3 of 6 branches missed.">                if (f != null &amp;&amp; f.exists() &amp;&amp; isAudioFile(f)) {</span>
-<span class="fc" id="L845">                    Queue.enqueue(f);</span>
+<span class="pc bpc" id="L843" title="1 of 2 branches missed.">            for (File f : files) {</span>
+<span class="nc bnc" id="L844" title="All 6 branches missed.">                if (f != null &amp;&amp; f.exists() &amp;&amp; isAudioFile(f)) {</span>
+<span class="nc" id="L845">                    Queue.enqueue(f);</span>
                 }
-<span class="fc" id="L847">            }</span>
+<span class="nc" id="L847">            }</span>
         }
 <span class="fc" id="L849">        refreshQueueInJTree();</span>
 <span class="fc" id="L850">        songLoaded = false;</span>
-<span class="fc bfc" id="L851" title="All 2 branches covered.">        if (!Queue.isEmpty()) {</span>
+<span class="pc bpc" id="L851" title="1 of 2 branches missed.">        if (!Queue.isEmpty()) {</span>
             try {
-<span class="fc" id="L853">                loadSong();</span>
+<span class="nc" id="L853">                loadSong();</span>
 <span class="nc" id="L854">            } catch (Exception e) {</span>
 <span class="nc" id="L855">                e.printStackTrace();</span>
-<span class="fc" id="L856">            }</span>
+<span class="nc" id="L856">            }</span>
         }
 <span class="fc" id="L858">    }</span>
 

@@ -286,11 +286,11 @@ public class MainFrame extends JFrame {
 <span class="pc bpc" id="L286" title="1 of 2 branches missed.">                if (in.exists()) {</span>
 <span class="fc" id="L287">                    java.util.List&lt;java.io.File&gt; files = new java.util.ArrayList&lt;&gt;();</span>
 <span class="fc" id="L288">                    java.util.List&lt;String&gt; lines = java.nio.file.Files.readAllLines(in.toPath(), java.nio.charset.StandardCharsets.UTF_8);</span>
-<span class="fc bfc" id="L289" title="All 2 branches covered.">                    for (String line : lines) {</span>
-<span class="pc bpc" id="L290" title="2 of 4 branches missed.">                        if (line != null &amp;&amp; !line.trim().isEmpty()) {</span>
-<span class="fc" id="L291">                            files.add(new java.io.File(line.trim()));</span>
+<span class="pc bpc" id="L289" title="1 of 2 branches missed.">                    for (String line : lines) {</span>
+<span class="nc bnc" id="L290" title="All 4 branches missed.">                        if (line != null &amp;&amp; !line.trim().isEmpty()) {</span>
+<span class="nc" id="L291">                            files.add(new java.io.File(line.trim()));</span>
                         }
-<span class="fc" id="L293">                    }</span>
+<span class="nc" id="L293">                    }</span>
 <span class="fc" id="L294">                    player.setQueueFromFiles(files);</span>
                 }
 <span class="fc" id="L296">                idx++;</span>

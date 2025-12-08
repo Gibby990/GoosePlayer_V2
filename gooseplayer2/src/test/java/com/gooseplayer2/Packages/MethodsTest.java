@@ -362,7 +362,7 @@ class MethodsTest {
 
         int before = spy.getRemoveCount();
         window.button(JButtonMatcher.withText("Remove")).click();
-        Thread.sleep(1000);
+        Thread.sleep(100);
 
         assertEquals(before + 1, spy.getRemoveCount(), "remove() called, but should skip removal logic");
         assertEquals("Pause", spy.PlayPause.getText());
